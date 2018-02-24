@@ -1,0 +1,207 @@
+%%%%% --------------------------------------------------------------------------------
+%%
+%%                               Document Template
+%%
+%%%%% --------------------------------------------------------------------------------
+%% Copyright (C) Huangrui Mo <huangrui.mo@gmail.com> 
+%% This is free software: you can redistribute it and/or modify it
+%% under the terms of the GNU General Public License as published by
+%% the Free Software Foundation, either version 3 of the License, or
+%% (at your option) any later version.
+%%%%% --------------------------------------------------------------------------------
+%%
+%%%%************************ Document Class Declaration ******************************
+%%
+\documentclass[doublesided]{Style/ucasthesis}% thesis template of UCAS
+%% Multiple optional arguments:
+%% [scheme = plain] % for thesis writing of international students
+%% [<singlesided|doublesided|printcopy>] % single-sided, double-sided, or print layout
+%% [draftversion] % show draft version information, default is no show
+%% [fontset = <adobe|...>] % specify font set, default is automatic detection
+%% [standard options for ctex class]
+%%%%% --------------------------------------------------------------------------------
+%%
+%%%%************************* Command Define and Settings ****************************
+%%
+\usepackage[myhdr,math]{Style/commons}% common settings
+%% usage: \usepackage[option1,option2,...,optionN]{commons}
+%% Multiple optional arguments:
+%% [<numbered|authoryear|alpha>] % citation and reference style
+%% <numbered>: textual: Jones [1]; parenthetical: [1]. default style
+%% <authoryear>: textual: Jones (1995); parenthetical: (Jones, 1995)
+%% <alpha>: textual: not available; parenthetical: [Jon95]
+%% [myhdr] % one available header and footer style, will enable fancyhdr
+%% [lscape] % provide landscape layout environment
+%% [geometry] % configure page layout by geometry package
+%% [list] % enable enhanced list environments, useful for Algorithm and Coding
+%% [color] % enable color package to use color, default package is xcolor
+%% [background] % enable page background, will auto enable color package
+%% [tikz] % enable tikz for complex diagrams, will auto enbale color package
+%% [table] % enable a table package for complex tables, default is ctable
+%% [math] % enable some extra math packages
+\usepackage{Style/custom}% user defined commands
+
+% packages from the SCTL paper.
+\usepackage{amsthm,amsmath,amsfonts,amssymb}
+\usepackage{times}
+\usepackage{helvet}
+\usepackage{courier}
+\usepackage{etex}
+\usepackage{bussproofs}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage{subfigure}
+\usepackage{url}
+\usepackage{qtree}
+\usepackage{multirow}
+\usepackage{proof}
+\usepackage{color}
+\usepackage{framed}
+\usepackage{pgf,tikz}
+\usepackage{tikz}
+\usepackage{makecell}
+\usepackage{inputenc}
+\usepackage{pgfplots}
+%\usepackage{algorithmic}
+\usepackage{algpseudocode}
+%\usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+%\bibliographystyle{plainurl}
+
+\usetikzlibrary{positioning}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{arrows,automata,snakes}
+
+%\usepackage{algorithmic}
+%\usepackage{algorithm}
+%\usepackage{algpseudocode}
+\newcommand\nextstate[1]{\textsf{Next}({#1})}
+\newcommand\lra{\longrightarrow}
+\newcommand\A{\Rightarrow}
+\newcommand\tool[1]{\textsf{#1}}
+\newcommand\sctl{\tool{SCTLProV}}
+\newcommand\sctlprov{\tool{S{CTL}ProV}}
+\newcommand\sctlprovr{\textsf{SCTLProV$_R$}} 
+\newcommand\sctlm{\textsf{SCTL($\cal M$)}}
+\newcommand\verds{\tool{Verds}}
+\newcommand\nusmv{\tool{NuSMV}}
+\newcommand\nuxmv{\tool{NuXMV}}
+\newcommand{\CADP}{\tool{CADP}}
+%\newcommand\nusmv{\textsf{NuSMV}}
+%\newcommand\verds{\textsf{Verds}}
+%\newcommand\sctl{\textsf{S{\scriptsize CTL}ProV}}
+\newcommand\couic[1]{}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand\rsa{\rightsquigarrow}
+\newcommand\la{\leftarrow}
+\renewcommand\a{\rightarrow}
+\newcommand\mdl{\EuScript{M}}
+
+%\newcommand\T{\rule{0pt}{2.6ex}}       % Top strut
+%\newcommand\B{\rule[-1.2ex]{0pt}{0pt}} % Bottom strut
+
+\usetikzlibrary{shapes.symbols,shapes.geometric,shadows}
+\tikzset{
+	inputfile/.style={
+		shape=tape,
+		draw,
+		fill=white,
+		tape bend top=none}}
+
+\newcommand{\CTLP}{\textsf{CTL$_P$}}
+
+\newcommand\CTL{\textsf{CTL}}
+\newcommand\SCTL{\textsf{SCTL}}
+\newcommand\SCTLP[1]{\textsf{SCTLS}({#1})}
+\newcommand{\ctlpm}{\CTLP$(\cal M)$}
+\newcommand\BMC{\textsf{BMC}}
+\newcommand\QBF{\textsf{QBF}}
+\newcommand\OCaml{\textsf{OCaml}}
+\newcommand\BDD{\textsf{BDD}}
+\newcommand{\CPT}{\textsf{CPT}}
+
+\def\pprec{\mathrel{\scalebox{1.0}[1]{$\prec$}\mkern-5mu%
+		\scalebox{.5}[1]{$\prec$}\mkern-5.5mu\scalebox{.4}[1]{$\prec$}}}
+
+\def\ssucc{\mathrel{
+		\scalebox{.6}[1.0]{$\succ$}\mkern-4.5mu\scalebox{.8}[1.0]{$\succ$}}}
+
+\newtheorem{theorem}{\bf 定理}[section]
+\newtheorem{lemma}{\bf 引理}[section]
+\newtheorem{proposition}{\bf 命题}[section]
+\newtheorem{example}{\bf 例子}[section]
+\newtheorem{definition}{\bf 定义}[section]
+
+\makeatletter
+\newcommand{\figcaption}{\def\@captype{figure}\caption}
+\newcommand{\tabcaption}{\def\@captype{table}\caption}
+\makeatother
+
+%\newenvironment{proof}[1][证明]{\begin{trivlist}
+%		\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+%%%%% --------------------------------------------------------------------------------
+%%
+%%%%******************************** Content *****************************************
+%%
+\begin{document}
+%%
+%%%%% --------------------------------------------------------------------------------
+%%
+%%%%******************************** Frontmatter *************************************
+%%
+%% Frontmatter of Title page, Table of contents, Preface chapter.
+\frontmatter
+%%
+%% >>> Frontpages
+%%
+\input{Tex/Frontpages}
+%%
+%%% >>> List of Content
+%%
+\intotoc{\contentsname}% add a corresponding item to the contents table and bookmark
+\tableofcontents% contents catalog
+\intotoc{\listfigurename}% add a corresponding item to the contents table and bookmark
+\listoffigures% figures catalog
+\intotoc{\listtablename}% add a corresponding item to the contents table and bookmark
+\listoftables% tables catalog
+%%
+%% >>> prematter
+%%
+\input{Tex/Prematter}% list of symbols, preface of books
+%%
+%%%%% --------------------------------------------------------------------------------
+%%
+%%%%******************************** Mainmatter **************************************
+%%
+%% Main topics.
+\mainmatter
+%%
+%%% >>> Main Contents
+%%
+\input{Tex/Main_Content}%
+%%%%% --------------------------------------------------------------------------------
+%%
+%%%%******************************** Appendix ****************************************
+%%
+%% Some subordinate chapters.
+%\cleardoublepage
+%\appendix%
+%\input{Tex/Appendix}%
+%%%%% --------------------------------------------------------------------------------
+%%
+%%%%******************************* Backmatter ***************************************
+%%
+%% Matters of Bibliography, Glossary, Index.
+\backmatter
+%%
+%%% >>> Bibliography
+%%
+\intotoc{\bibname}% add a corresponding item to the contents table and bookmark
+\bibliography{Biblio/thesis_references}%
+%%
+%%% >>> Other contents
+%%
+\input{Tex/Backmatter}
+%%
+\end{document}
+%%%%% --------------------------------------------------------------------------------

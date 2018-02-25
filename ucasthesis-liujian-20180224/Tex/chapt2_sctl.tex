@@ -1,5 +1,5 @@
 \chapter{定理证明与模型检测的结合}\label{chapt:sctl}
-本章首先介绍的逻辑系统\CTLP{}，\CTLP{}是计算树逻辑\CTL{}的一个扩展；然后介绍的是针对\CTLP{}的一个证明系统\SCTL{}; 之后介绍的是对证明系统\SCTL{}的一个实现\sctlprov，最后介绍的是案例分析，以及相关实验结果。
+本章首先介绍逻辑系统\CTLP{}，\CTLP{}是计算树逻辑\CTL{}的一个扩展；然后介绍针对\CTLP{}的一个证明系统\SCTL{}; 之后介绍对证明系统\SCTL{}的一个实现\sctlprov，最后介绍案例分析以及相关实验结果的对比。
 
 \section{\CTLP{}}\label{sec:ctlp}
 我们用逻辑 \CTLP{($\cal M$)} 来刻画要验证的系统 $\cal M$ 的性质，其中 $\cal M$ 通常指的是一个 Kripke 结构，其定义如下。
@@ -72,7 +72,7 @@
 	
 	在本例子中，除了\CTL{}所能表示的时序性质之外，我们考虑一种“空间”性质，即表示状态之间的关系。
 	
-	假定有一个无人车正在一个星球表面行走，这个星球的表面已经被分成了有穷个小的区域。无人车一次能从一个区域行走到另一个区域，那么我们将无人车的位置看作成一个状态，无人车所有的可能的所在位置则可看作为状态空间，而且无人车从一个位置到另一个位置的移动规律则可看作成迁移关系。无人车的设计需要满足一个基本的性质，即无人车不能永远在一个很小的范围内移动。准确地说，对于给定的距离 $\sigma$，在任意状态 $s$，随着无人车的移动会到达状态 $s'$，使得 $s$ 和 $s'$ 的位置之间的距离大于 $\sigma$。该性质可以由公式 $AG_x(AF_y(D_\sigma(x,y))(x))(s_0)$ 来刻画，其中 $s_0$ 是初始状态，即无人车的降落点；原子公式 $D_\sigma(x,y)$ 则刻画了一种空间性质，即状态 $x$ 和 $y$ 的位置的距离大于 $\sigma$。
+	假定有一个无人车正在一个星球表面行驶，这个星球的表面已经被分成了有穷个小的区域。无人车一次能从一个区域行走到另一个区域，那么我们将无人车的位置看作成一个状态，无人车所有的可能的所在位置则可看作为状态空间，而且无人车从一个位置到另一个位置的移动规律则可看作成迁移关系。无人车的设计需要满足一个基本的性质，即无人车不能永远在一个很小的范围内移动。准确地说，对于给定的距离 $\sigma$，在任意状态 $s$，随着无人车的移动会到达状态 $s'$，使得 $s$ 和 $s'$ 的位置之间的距离大于 $\sigma$。该性质可以由公式 $AG_x(AF_y(D_\sigma(x,y))(x))(s_0)$ 来刻画，其中 $s_0$ 是初始状态，即无人车的降落点；原子公式 $D_\sigma(x,y)$ 则刻画了一种空间性质，即状态 $x$ 和 $y$ 的位置的距离大于 $\sigma$。
 	
 	\begin{figure}[h]
 		\centering
@@ -776,14 +776,18 @@ only.
 
 \section{案例分析与实验结果}\label{sec:case_exp}
 
-To illustrate the feasibility and the efficiency of \sctl{}, we first use an example (Subsection~\ref{subsec:example}) to show an application of \sctl{}, and then evaluate several benchmarks (benchmark \#1, \#2 and \#3 in Subsection~\ref{subsec:random}, benchmark \#4 in Subsection~\ref{subsec:fair}, and benchmark \#5 in Subsection \ref{subsc:vlts}) to show the efficiency of \sctl{}, and compare the experimental results with five other verification tools: the Resolution-based
+在本节中，我们首先讨论\sctlprov{}的两个应用案例：一个进程互斥问题和一个针对NASA提出的小型飞机场控制系统的形式化验证问题；然后，分别对比\sctlprov{}和其他5个工具在5个测试集上的实验结果。本节所有工具的运行环境均为：Linux操作系统，内存3.0GB，2.93GHz$\times$4 CPU；每个测试用例的最大运行时间限制为20分钟。本节所有的测试用例均可在因特网\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}下载。
+
+
+
+\couic{To illustrate the feasibility and the efficiency of \sctl{}, we first use an example (Subsection~\ref{subsec:example}) to show an application of \sctl{}, and then evaluate several benchmarks (benchmark \#1, \#2 and \#3 in Subsection~\ref{subsec:random}, benchmark \#4 in Subsection~\ref{subsec:fair}, and benchmark \#5 in Subsection \ref{subsc:vlts}) to show the efficiency of \sctl{}, and compare the experimental results with five other verification tools: the Resolution-based
 theorem prover \tool{iProver Modulo} \cite{Burel11}, the \QBF{}-based
 bounded model checker \verds{} version 1.49, the
 \BDD-based unbounded model checker \nusmv{} version 2.6.0 and
 its extension \nuxmv{} version 1.0.0, and the formal verification toolbox \tool{CADP}.
 All examples and benchmarks are tested on a Linux
 platform with 3.0 GB memory and a 2.93GHz $\times$ 4 CPU, and the time limit is 20 minutes.
-
+}
 All benchmarks used in this paper are available online\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}.
 
 \subsection{An illustrative example}\label{subsec:example}

@@ -776,7 +776,9 @@ only.
 
 \section{案例分析与实验结果}\label{sec:case_exp}
 
-在本节中，我们首先讨论\sctlprov{}的两个应用案例：一个进程互斥问题和一个针对NASA提出的小型飞机场控制系统的形式化验证问题；然后，分别对比\sctlprov{}和其他5个工具在5个测试集上的实验结果。本节所有工具的运行环境均为：Linux操作系统，内存3.0GB，2.93GHz$\times$4 CPU；每个测试用例的最大运行时间限制为20分钟。本节所有的测试用例均可在因特网\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}下载。
+在本节中，我们首先讨论\sctlprov{}的两个应用案例：一个进程互斥问题和一个针对NASA提出的小型飞机场控制系统的形式化验证问题；然后，分别对比\sctlprov{}和其他5个工具在5个测试集上的实验结果。
+被用于与\sctlprov{}对比的5个工具分别为：基于\BDD{}的符号模型检测工具\nusmv{}及\nuxmv，基于\QBF{}的限界模型检测工具\verds{}，基于消解（Resolution）的定理证明工具\tool{iProver Modulo}，以及形式验证工具包\CADP{}。
+本节所有工具的运行环境均为：Linux操作系统，内存3.0GB，2.93GHz$\times$4 CPU；每个测试用例的最大运行时间限制为20分钟。本节所有的测试用例均可在因特网\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}下载。
 
 
 
@@ -790,15 +792,17 @@ platform with 3.0 GB memory and a 2.93GHz $\times$ 4 CPU, and the time limit is 
 }
 All benchmarks used in this paper are available online\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}.
 
-\subsection{An illustrative example}\label{subsec:example}
-\begin{example}[A Mutual Exclusion Problem \cite{Peterson81}]
+\subsection{案例一：进程互斥问题}\label{subsec:example}
+\begin{example}[进程互斥问题\cite{Peterson81}]
 	
-	This example is a mutual exclusion algorithm of two concurrent
-	processes (process $A$ and process $B$). \textit{Mutual Exclusion} means that at any time, the number of processes in the critical section is at most one. A scratch of the algorithm is depicted in Figure \ref{illustrative:mutual}, where $flag$ indicates whether there exist a process running at the moment, and $mutex$ (has the initial value $0$) is the number of processes that have entered the critical section. A violation of \textit{Mutual Exclusion} means that in some state of the program, more than one process have entered the critical section, i.e., the value of $mutex$ is $2$.
+	本例讲的是关于两个进程（进程$A$和进程$B$）的互斥问题。进程的互斥指的是在程序执行的任意时刻，最多只有一个进程在临界区内。一个关于此类问题的算法描述如图\ref{illustrative:mutual}所示，其中$flag$是一个布尔变量，指的是当前是否有进程在运行，而$mutex$是一个整型变量，指的是当前进入临界区的进程个数（初始值为$0$）。如果在程序执行的某个时刻有多于$1$个进程进入临界区（即$mutex=2$），那么则称该程序违反了进程互斥性质。
+	
+	\couic{This example is a mutual exclusion algorithm of two concurrent
+	processes (process $A$ and process $B$). \textit{Mutual Exclusion} means that at any time, the number of processes in the critical section is at most one. A scratch of the algorithm is depicted in Figure \ref{illustrative:mutual}, where $flag$ indicates whether there exist a process running at the moment, and $mutex$ (has the initial value $0$) is the number of processes that have entered the critical section. A violation of \textit{Mutual Exclusion} means that in some state of the program, more than one process have entered the critical section, i.e., the value of $mutex$ is $2$.}
 	
 	\begin{figure}[h]
 		\centering
-		
+		\scriptsize
 		\begin{tabular}{p{4.0cm}p{3.8cm}}
 			\begin{verbatim}
 			/* Process A */
@@ -821,11 +825,12 @@ All benchmarks used in this paper are available online\footnote{\url{https://git
 			\end{verbatim}
 		\end{tabular}
 		\label{illustrative:mutual}
-		\caption{A scratch of process A and process B.}
+		\caption{进程$A$和进程$B$的一个简单描述。}
 	\end{figure}
 	
 	\begin{figure}[!h]
 		\centering
+		\scriptsize
 %		\framebox{
 		\begin{verbatim}
 Model mutual()
@@ -859,21 +864,22 @@ Model mutual()
 }
 		\end{verbatim}
 %	}
-		\caption{The input file ``mutual.model".}
+		\caption{输入文件“mutual.model”。}
 		\label{fig:mutual}
 	\end{figure}
-	
-	In the input file (Figure \ref{fig:mutual}), two additional variables $a$ and $b$ are used to indicate the program counters of the two processes, respectively, and $ini$ stands for the initial state. The property to be checked is that whether both processes are in the critical section at the the same time. We check this property in \sctl{} using the following command.
+	如图\ref{fig:mutual}所示，输入文件"mutual.model"中变量$a$和变量$b$分别指代进程$A$和进程$B$的程序计数器（Program Counter），变量$ini$指代初始状态。本例中要验证的性质为：是否存在程序执行的某个时刻使得两个进程同时进入临界区。利用\sctlprov{}，我们可以在计算机的命令行中输入以下命令来验证该性质。
+	\couic{In the input file (Figure \ref{fig:mutual}), two additional variables $a$ and $b$ are used to indicate the program counters of the two processes, respectively, and $ini$ stands for the initial state. The property to be checked is that whether both processes are in the critical section at the the same time. We check this property in \sctl{} using the following command.}
 	\begin{center}
-		
+		\scriptsize
 		\begin{verbatim}
               sctl -output output.out mutual.model
 		\end{verbatim}
 	\end{center}
 	
-	The result is as follows, which indicates that there is a bug in the mutual exclusion problem, i.e., the mutual exclusion property is violated.
+%	The result is as follows, which indicates that there is a bug in the mutual exclusion problem, i.e., the mutual exclusion property is violated.
+	\sctlprov{}的运行结果如下所示：该程序存在漏洞，即该程序违反了进程互斥性质。
 	\begin{center}
-		
+		\scriptsize
 		\begin{verbatim}
               verifying on the model mutual...
               find_bug: EU(x,y, TRUE, bug(y), ini)
@@ -881,9 +887,10 @@ Model mutual()
 		\end{verbatim}
 	\end{center}
 	
-	The proof tree of the property is output to the file ``output.out", which is listed as follows. In the output of the proof tree, each node is shown as the form $${id: seqt ~ [id_1, ..., id_n]}$$ where ${seqt}$ is the sequent, ${id}$ the identity number of the sequent, and ${id_1,...,id_n}$ the identity numbers of the hypothesis of the sequent. 
+		\couic{The proof tree of the property is output to the file ``output.out", which is listed as follows. In the output of the proof tree, each node is shown as the form $${id: seqt ~ [id_1, ..., id_n]}$$ where ${seqt}$ is the sequent, ${id}$ the identity number of the sequent, and ${id_1,...,id_n}$ the identity numbers of the hypothesis of the sequent. }
+	该性质的证明树输出在文件"output.out"中，如下图所示。证明树的每个节点被输出为${id: seqt ~ [id_1, ..., id_n]}$形式，其中$id$是该节点的ID，$seqt$是当前的相继式，而${id_1,...,id_n}$则是当前的相继式的所有的前提的ID。
 	\begin{center}
-		
+		\scriptsize
 		\begin{verbatim}
 		0: |- EU(x,y,TRUE,bug(y),{flag:=false;mutex:=0;a:=1;b:=1})	[4, 1]
 		4: {flag:=false;mutex:=0;a:=1;b:=1}
@@ -922,11 +929,12 @@ Model mutual()
 		37: |- bug({flag:=true;mutex:=2;a:=4;b:=4})	[]
 		\end{verbatim}
 	\end{center}
-	According to the output above, we can find that after process $A$ has entered the critical section, process $B$ can also enter the critical section.
+	由以上的证明树输出可知，当进程$A$进入临界区之后，进程$B$同样进入临界区。
 	
-	The output can be visualized by a visualization tool \textsf{VMDV}\footnote{\url{https://github.com/terminatorlxj/VMDV}} (Visualization for Modeling, Demonstration, and Verification), where both the proof tree and the Kripke model can be visualized in 3D space, as depicted in Figure \ref{fig:visualize:illustrative}.
+	如图\ref{fig:visualize:illustrative}所示，\sctlprov{}验证该例子时的输出（证明树和Kripke模型）可由可视化工具\tool{VMDV}（Visualization for Modeling, Demonstration, and Verification）实现三维可视化显示。
+	\couic{According to the output above, we can find that after process $A$ has entered the critical section, process $B$ can also enter the critical section.
 	
-	
+	The output can be visualized by a visualization tool \textsf{VMDV}\footnote{\url{https://github.com/terminatorlxj/VMDV}} (Visualization for Modeling, Demonstration, and Verification), where both the proof tree and the Kripke model can be visualized in 3D space, as depicted in Figure \ref{fig:visualize:illustrative}.}
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=10cm]{./illustrative_example2.png}
@@ -934,11 +942,12 @@ Model mutual()
 		\label{fig:visualize:illustrative}
 	\end{figure}
 	
-	
-	Note that the violation of the mutual exclusion property can be avoided if the the algorithm of the two processes is modified \cite{Peterson81} as in Figure \ref{illustrative:mutual:solution}. The Kripke model built for this algorithm is depicted in Figure \ref{fig:mutual:solution}. Variable $x$ and $y$ are used to to indicate whether process A and B are running, respectively; $turn$ is the variable indicating it is whose turn to enter the critical section.
+	通过对原程序进行修改\cite{Peterson81}，可以使程序满足进程互斥性质，修改后的程序如图\ref{illustrative:mutual:solution}所示。修改后的程序可形式化描述为图\ref{fig:mutual:solution}所示的输入文件。在此输入文件中，变量$x$和变量$y$均为布尔变量，分别指代当前状态下进程$A$和进程$B$是否在运行，而$turn$则表示进程$A$和进程$B$轮流处在临界区内。
+	\couic{Note that the violation of the mutual exclusion property can be avoided if the the algorithm of the two processes is modified \cite{Peterson81} as in Figure \ref{illustrative:mutual:solution}. The Kripke model built for this algorithm is depicted in Figure \ref{fig:mutual:solution}. Variable $x$ and $y$ are used to to indicate whether process A and B are running, respectively; $turn$ is the variable indicating it is whose turn to enter the critical section.}
 	
 	\begin{figure}[!h]
 		\centering
+		\scriptsize
 		\begin{tabular}{p{5.8cm}p{4.8cm}}
 			\begin{verbatim}
 			/* Process A */
@@ -963,13 +972,13 @@ Model mutual()
 			\end{verbatim}
 		\end{tabular}
 		
-		\caption{A simple solution of the mutual exclusion problem.}
+		\caption{修改后的进程互斥程序。}
 		\label{illustrative:mutual:solution}	
 	\end{figure}
 	
 	\begin{figure}[h!]
 		\centering
-		
+		\scriptsize
 		\begin{verbatim}
 		Model mutual()
 		{
@@ -1004,13 +1013,15 @@ Model mutual()
 		}
 		
 		\end{verbatim}
-		\caption{The input file ``mutual\_solution.model" indicating the solution.}
+		\caption{输入文件“mutual\_solution.model”。}
 		\label{fig:mutual:solution}
 	\end{figure}
 	
 	%	The verification result of this model would be as follows.
-	When applying this solution, the mutual exclusion exclusion property will not be violated, which is indicated by the following result.
+%	When applying this solution, the mutual exclusion exclusion property will not be violated, which is indicated by the following result.
+	如下所示，修改后的程序满足进程互斥性质。
 	\begin{center}
+		\scriptsize
 		\begin{verbatim}
              verifying on the model mutual...
              find_bug: EU(x, y, TRUE, bug(y), ini)
@@ -1019,13 +1030,13 @@ Model mutual()
 	\end{center}
 \end{example}
 
-\subsection{An application to the analysis of Air traffic control protocols}
-
-As an application to an engineering problem, we present
+\subsection{案例二：小型飞机场控制协议}
+在本小节中，我们介绍对于一个工程问题的形式化验证：由美国国家航空与航天局（National Aeronautics and Space Administration，简称NASA）提出的小型飞机场运输系统（Small Aircraft Transportation System，简称SATS）\cite{MunozDC04,nasasats04}。在\sctlprov{}中，我们对SATS系统进行形式化描述\footnote{\url{https://github.com/terminatorlxj/SATS-model}}，并验证该系统的安全性。
+\couic{As an application to an engineering problem, we present
 a concept of operations for the {\em Small Aircraft Transportation System} 
 (\textsf{SATS}) 
 \cite{MunozDC04,nasasats04}
-in \sctl{}\footnote{\url{https://github.com/terminatorlxj/SATS-model}}.
+in \sctl{}\footnote{\url{https://github.com/terminatorlxj/SATS-model}}.}
 
 In this concept of operation, the airspace volume surrounding an
 airport facility, called {\em the self controlled area}, is divided into
@@ -1532,6 +1543,7 @@ For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1146 (39.
 	\end{figure}
 	
 	\begin{figure}[h!]\centering
+		\scriptsize
 %	\begin{subfigure}\centering
 		\begin{tabular}{c}
 			

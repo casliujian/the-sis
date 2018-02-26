@@ -1,33 +1,33 @@
-\begin{thebibliography}{22}
-\bibpunct{[}{]}{,}{s}{,}{,}
+\begin{thebibliography}{21}
 \providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{DOI: #1}\else
-  \providecommand{\doi}{DOI: \begingroup \urlstyle{rm}\Url}\fi
+\providecommand{\url}[1]{#1}
+\providecommand{\href}[2]{\url{#2}}
+\providecommand{\doi}[1]{DOI: \href{http://dx.doi.org/#1}{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax\relax\else
+  \urlstyle{same}\fi
 
 \bibitem[Mu{\~{n}}oz\ et~al.(2004)Mu{\~{n}}oz, Dowek, and
   Carre{\~{n}}o]{MunozDC04}
-MU{\~{N}}OZ C A, DOWEK G, CARRE{\~{N}}O V.
+MU{\~{N}}OZ C~A, DOWEK G, CARRE{\~{N}}O V.
 \newblock Modeling and verification of an air traffic concept of
   operations\allowbreak[C]//\allowbreak{}Proceedings of the {ACM/SIGSOFT}
   International Symposium on Software Testing and Analysis, {ISSTA} 2004.
 \newblock Boston, Massachusetts, USA: ACM, USA, 2004: 175--182.
 
 \bibitem[Emerson\ et~al.(1982)Emerson and Clarke]{EmersonC82}
-EMERSON E A, CLARKE E M.
+EMERSON E~A, CLARKE E~M.
 \newblock Using branching time temporal logic to synthesize synchronization
   skeletons\allowbreak[J].
 \newblock Sci. Comput. Program., 1982, 2\penalty0 (3): 241--266.
 
 \bibitem[Emerson\ et~al.(1985)Emerson and Halpern]{EmersonH85}
-EMERSON E A, HALPERN J Y.
+EMERSON E~A, HALPERN J~Y.
 \newblock Decision procedures and expressiveness in the temporal logic of
   branching time\allowbreak[J].
 \newblock J. Comput. Syst. Sci., 1985, 30\penalty0 (1): 1--24.
 
 \bibitem[Craig(1989)]{Craig89}
-CRAIG J J.
+CRAIG J~J.
 \newblock Introduction to robotics - mechanics and control {(2.}
   ed.)\allowbreak[M].
 \newblock USA: Prentice Hall, 1989.
@@ -40,7 +40,7 @@ PARTOVI A, LIN H.
 \newblock USA: IEEE, USA, 2014: 2053--2058.
 
 \bibitem[Appel(2006)]{Appel06}
-APPEL A W.
+APPEL A~W.
 \newblock Compiling with continuations (corr. version)\allowbreak[M].
 \newblock UK: Cambridge University Press, 2006.
 
@@ -64,13 +64,13 @@ SARNAT J, SCH{\"{U}}RMANN C.
 \newblock Brasilia, Brazil: Springer, Berlin, 2009: 279--293.
 
 \bibitem[McMillan(1993)]{mcmillan93}
-MCMILLAN K L.
+MCMILLAN K~L.
 \newblock Symbolic model checking\allowbreak[M].
 \newblock USA: Springer, 1993.
 
 \bibitem[Cimatti\ et~al.(1999)Cimatti, Clarke, Giunchiglia, and
   Roveri]{CimattiCGR99}
-CIMATTI A, CLARKE E M, GIUNCHIGLIA F, et~al.
+CIMATTI A, CLARKE E~M, GIUNCHIGLIA F, et~al.
 \newblock Nusmv: A new symbolic model
   verifier\allowbreak[C]//\allowbreak{}Proceedings of CAV'99.
 \newblock Trento, Italy: Springer-Verlag, Berlin, 1999: 495--499.
@@ -99,26 +99,19 @@ BHAT G, CLEAVELAND R, GRUMBERG O.
   388--397.
 
 \bibitem[Reynolds(1993)]{Reynolds93}
-REYNOLDS J C.
+REYNOLDS J~C.
 \newblock The discoveries of continuations\allowbreak[J].
 \newblock Lisp and Symbolic Computation, 1993, 6\penalty0 (3-4): 233--248.
 
 \bibitem[Biere\ et~al.(1999)Biere, Cimatti, Clarke, and Zhu]{BCCZ99}
 BIERE A, CIMATTI A, CLARKE E, et~al.
 \newblock Symbolic model checking without
-  {BDD}s\allowbreak[C]//\allowbreak{}CLEAVELAND W R.
+  {BDD}s\allowbreak[C]//\allowbreak{}CLEAVELAND W~R.
 \newblock LNCS: volume 1579\quad Proceedings of TACAS'99.
 \newblock Amsterdam, the Netherlands: Springer, USA, 1999: 193--207.
 
-\bibitem[Burel(2011)]{Burel11}
-BUREL G.
-\newblock Experimenting with deduction
-  modulo\allowbreak[C]//\allowbreak{}SOFRONIE-STOKKERMANS V, BJ{\O}RNER N.
-\newblock Proceedings of CADE 2011.
-\newblock Wroclaw, Poland: Springer-Verlag, Berlin, 2011: 162--176.
-
 \bibitem[Peterson(1981)]{Peterson81}
-PETERSON G L.
+PETERSON G~L.
 \newblock Myths about the mutual exclusion problem\allowbreak[J].
 \newblock Inf. Process. Lett., 1981, 12\penalty0 (3): 115--116.
 

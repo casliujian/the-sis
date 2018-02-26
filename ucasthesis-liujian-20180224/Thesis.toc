@@ -4,40 +4,40 @@
 \contentsline {chapter}{图形列表}{xiii}{section*.5}
 \contentsline {chapter}{表格列表}{xv}{section*.7}
 \contentsline {chapter}{符号列表}{xvii}{chapter*.9}
-\contentsline {chapter}{\numberline {第一章\hspace {0.3em}}引言}{1}{chapter.1}
-\contentsline {chapter}{\numberline {第二章\hspace {0.3em}}定理证明与模型检测的结合}{3}{chapter.2}
+\contentsline {chapter}{\numberline {第1章\hspace {.3em}}引言}{1}{chapter.1}
+\contentsline {chapter}{\numberline {第2章\hspace {.3em}}定理证明与模型检测的结合}{3}{chapter.2}
 \contentsline {section}{\numberline {2.1}\textsf {CTL$_P$}{}}{3}{section.2.1}
-\contentsline {paragraph}{语法。}{3}{section*.13}
-\contentsline {paragraph}{语义。}{4}{section*.14}
-\contentsline {paragraph}{\textsf {CTL}{} vs. \textsf {CTL$_P$}{}。}{5}{section*.15}
+\contentsline {paragraph}{语法。}{3}{paragraph*.13}
+\contentsline {paragraph}{语义。}{4}{paragraph*.14}
+\contentsline {paragraph}{\textsf {CTL}{} vs. \textsf {CTL$_P$}{}。}{5}{paragraph*.15}
 \contentsline {section}{\numberline {2.2}\textsf {SCTL}{}}{6}{section.2.2}
-\contentsline {paragraph}{有效性与完备性。}{8}{section*.18}
+\contentsline {paragraph}{有效性与完备性。}{8}{paragraph*.18}
 \contentsline {section}{\numberline {2.3}\textsf {S{CTL}ProV}{}}{14}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}证明搜索}{15}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.1}证明搜索}{14}{subsection.2.3.1}
 \contentsline {subsubsection}{\numberline {2.3.1.1}连续传递树}{15}{subsubsection.2.3.1.1}
 \contentsline {subsection}{\numberline {2.3.2}证明搜索的可终止性}{16}{subsection.2.3.2}
-\contentsline {subsection}{\numberline {2.3.3}证明搜索算法的正确性}{19}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.3}证明搜索算法的正确性}{18}{subsection.2.3.3}
 \contentsline {subsection}{\numberline {2.3.4}证明搜索算法的优化}{19}{subsection.2.3.4}
 \contentsline {subsection}{\numberline {2.3.5}其他\textsf {CTL$_P$}{}模型检测方法的对比}{19}{subsection.2.3.5}
 \contentsline {subsubsection}{\numberline {2.3.5.1}基于\textsf {BDD}{}的符号模型检测}{19}{subsubsection.2.3.5.1}
-\contentsline {subsubsection}{\numberline {2.3.5.2}动态（On-the-fly）模型检测}{20}{subsubsection.2.3.5.2}
+\contentsline {subsubsection}{\numberline {2.3.5.2}动态（On-the-fly）模型检测}{19}{subsubsection.2.3.5.2}
 \contentsline {subsubsection}{\numberline {2.3.5.3}限界模型检测}{20}{subsubsection.2.3.5.3}
-\contentsline {section}{\numberline {2.4}案例分析与实验结果}{21}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}An illustrative example}{21}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}An application to the analysis of Air traffic control protocols}{27}{subsection.2.4.2}
-\contentsline {subsection}{\numberline {2.4.3}Randomly generated programs}{28}{subsection.2.4.3}
-\contentsline {subsubsection}{\numberline {2.4.3.1}Benchmark \#1}{29}{subsubsection.2.4.3.1}
-\contentsline {subsubsection}{\numberline {2.4.3.2}Benchmark \#2 and \#3}{30}{subsubsection.2.4.3.2}
-\contentsline {subsubsection}{\numberline {2.4.3.3}Experimental data}{30}{subsubsection.2.4.3.3}
-\contentsline {paragraph}{Experimental data for benchmark \#1.}{30}{section*.28}
-\contentsline {paragraph}{Experimental data for benchmark \#2.}{31}{section*.29}
-\contentsline {paragraph}{Experimental data for benchmark \#3.}{31}{section*.30}
-\contentsline {subsubsection}{\numberline {2.4.3.4}Continuation vs. recursion.}{31}{subsubsection.2.4.3.4}
-\contentsline {subsection}{\numberline {2.4.4}Programs with fairness constraints}{33}{subsection.2.4.4}
-\contentsline {paragraph}{Mutual exclusion and ring algorithms.}{33}{section*.37}
-\contentsline {subsection}{\numberline {2.4.5}The VLTS benchmark}{35}{subsection.2.4.5}
-\contentsline {subsection}{\numberline {2.4.6}Discussion of the experimental results}{36}{subsection.2.4.6}
-\contentsline {chapter}{参考文献}{37}{section*.41}
-\contentsline {chapter}{发表学术论文}{39}{chapter*.43}
-\contentsline {chapter}{简历}{41}{chapter*.46}
-\contentsline {chapter}{致\hskip 1em\relax 谢}{43}{chapter*.50}
+\contentsline {section}{\numberline {2.4}案例分析与实验结果}{20}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}案例一：进程互斥问题}{21}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}案例二：小型飞机场控制协议}{24}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}Randomly generated programs}{26}{subsection.2.4.3}
+\contentsline {subsubsection}{\numberline {2.4.3.1}Benchmark \#1}{27}{subsubsection.2.4.3.1}
+\contentsline {subsubsection}{\numberline {2.4.3.2}Benchmark \#2 and \#3}{28}{subsubsection.2.4.3.2}
+\contentsline {subsubsection}{\numberline {2.4.3.3}Experimental data}{28}{subsubsection.2.4.3.3}
+\contentsline {paragraph}{Experimental data for benchmark \#1.}{28}{paragraph*.28}
+\contentsline {paragraph}{Experimental data for benchmark \#2.}{29}{paragraph*.29}
+\contentsline {paragraph}{Experimental data for benchmark \#3.}{29}{paragraph*.30}
+\contentsline {subsubsection}{\numberline {2.4.3.4}Continuation vs. recursion.}{29}{subsubsection.2.4.3.4}
+\contentsline {subsection}{\numberline {2.4.4}Programs with fairness constraints}{31}{subsection.2.4.4}
+\contentsline {paragraph}{Mutual exclusion and ring algorithms.}{31}{paragraph*.37}
+\contentsline {subsection}{\numberline {2.4.5}The VLTS benchmark}{33}{subsection.2.4.5}
+\contentsline {subsection}{\numberline {2.4.6}Discussion of the experimental results}{34}{subsection.2.4.6}
+\contentsline {chapter}{参考文献}{35}{section*.41}
+\contentsline {chapter}{发表学术论文}{37}{chapter*.43}
+\contentsline {chapter}{简历}{39}{chapter*.46}
+\contentsline {chapter}{致\hskip 1em\relax 谢}{41}{chapter*.50}

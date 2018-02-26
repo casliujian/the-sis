@@ -1,54 +1,56 @@
-%%%%% --------------------------------------------------------------------------------
-%%
-%%                               Document Template
-%%
-%%%%% --------------------------------------------------------------------------------
-%% Copyright (C) Huangrui Mo <huangrui.mo@gmail.com> 
-%% This is free software: you can redistribute it and/or modify it
-%% under the terms of the GNU General Public License as published by
-%% the Free Software Foundation, either version 3 of the License, or
-%% (at your option) any later version.
-%%%%% --------------------------------------------------------------------------------
-%%
-%%%%************************ Document Class Declaration ******************************
-%%
-\documentclass[doublesided]{Style/ucasthesis}% thesis template of UCAS
-%% Multiple optional arguments:
-%% [scheme = plain] % for thesis writing of international students
-%% [<singlesided|doublesided|printcopy>] % single-sided, double-sided, or print layout
-%% [draftversion] % show draft version information, default is no show
-%% [fontset = <adobe|...>] % specify font set, default is automatic detection
-%% [standard options for ctex class]
-%%%%% --------------------------------------------------------------------------------
-%%
-%%%%************************* Command Define and Settings ****************************
-%%
-\usepackage[myhdr,math]{Style/commons}% common settings
-%% usage: \usepackage[option1,option2,...,optionN]{commons}
-%% Multiple optional arguments:
-%% [<numbered|authoryear|alpha>] % citation and reference style
-%% <numbered>: textual: Jones [1]; parenthetical: [1]. default style
-%% <authoryear>: textual: Jones (1995); parenthetical: (Jones, 1995)
-%% <alpha>: textual: not available; parenthetical: [Jon95]
-%% [myhdr] % one available header and footer style, will enable fancyhdr
-%% [lscape] % provide landscape layout environment
-%% [geometry] % configure page layout by geometry package
-%% [list] % enable enhanced list environments, useful for Algorithm and Coding
-%% [color] % enable color package to use color, default package is xcolor
-%% [background] % enable page background, will auto enable color package
-%% [tikz] % enable tikz for complex diagrams, will auto enbale color package
-%% [table] % enable a table package for complex tables, default is ctable
-%% [math] % enable some extra math packages
-\usepackage{Style/custom}% user defined commands
+%---------------------------------------------------------------------------%
+%-                                                                         -%
+%-                           LaTeX Template                                -%
+%-                                                                         -%
+%---------------------------------------------------------------------------%
+%- Copyright (C) Huangrui Mo <huangrui.mo@gmail.com> 
+%- This is free software: you can redistribute it and/or modify it
+%- under the terms of the GNU General Public License as published by
+%- the Free Software Foundation, either version 3 of the License, or
+%- (at your option) any later version.
+%---------------------------------------------------------------------------%
+%->> Document class declaration
+%---------------------------------------------------------------------------%
+\documentclass[doublesided]{Style/ucasthesis}%
+%- Multiple optional arguments:
+%- [<singlesided|doublesided|printcopy>]% set one or two sided eprint or print
+%- [showmj]% show confidential information
+%- [draftversion]% show draft version information
+%- [fontset=<fandol|...>]% specify font set to replace automatic detection
+%- [scheme=plain]% thesis writing of international students
+%- [standard options for ctex book class: draft|paper size|font size|...]%
+%---------------------------------------------------------------------------%
+%->> Document settings
+%---------------------------------------------------------------------------%
+\usepackage[super,myhdr,tikz,math,numbers]{Style/artratex}% document settings
+%- usage: \usepackage[option1,option2,...,optionN]{artratex}
+%- Multiple optional arguments:
+%- [bibtex|biber]% set bibliography processor and package
+%- [<numbers|super|authoryear|alpha>]% set citation and reference style
+%- <numbers>: textual: Jones [1]; parenthetical: [1]
+%- <super>: textual: Jones superscript [1]; parenthetical: superscript [1]
+%- <authoryear>: textual: Jones (1995); parenthetical: (Jones, 1995)
+%- <alpha>: textual: not available; parenthetical: [Jon95]
+%- [geometry]% reconfigure page layout via geometry package
+%- [lscape]% provide landscape layout environment
+%- [myhdr]% enable header and footer via fancyhdr package
+%- [color]% provide color support via xcolor package
+%- [background]% enable page background
+%- [tikz]% provide complex diagrams via tikz package
+%- [table]% provide complex tables via ctable package
+%- [list]% provide enhanced list environments for algorithm and coding
+%- [math]% enable some extra math packages
+\usepackage{Style/artracom}% user defined commands
 
 % packages from the SCTL paper.
-\usepackage{amsthm,amsmath,amsfonts,amssymb}
-\usepackage{times}
-\usepackage{helvet}
-\usepackage{courier}
-\usepackage{etex}
+%\usepackage{amsthm,amsmath,amsfonts,amssymb}
+\usepackage{amsthm}
+%\usepackage{times}
+%\usepackage{helvet}
+%\usepackage{courier}
+%\usepackage{etex}
 \usepackage{bussproofs}
-\usepackage{amssymb}
+%\usepackage{amssymb}
 \usepackage{graphicx}
 %\usepackage{subfigure}
 \usepackage{url}
@@ -57,67 +59,66 @@
 \usepackage{proof}
 \usepackage{color}
 \usepackage{framed}
-\usepackage{pgf,tikz}
-\usepackage{tikz}
+\usepackage{pgf}
+%\usepackage{tikz}
 \usepackage{makecell}
-\usepackage{inputenc}
+%\usepackage{inputenc}
 \usepackage{pgfplots}
 %\usepackage{algorithmic}
 \usepackage{algpseudocode}
 %\usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
 %\bibliographystyle{plainurl}
 
-\usetikzlibrary{positioning}
-\usetikzlibrary{backgrounds}
-\usetikzlibrary{arrows,automata,snakes}
-
 %\usepackage{algorithmic}
 %\usepackage{algorithm}
 %\usepackage{algpseudocode}
-\newcommand\nextstate[1]{\textsf{Next}({#1})}
-\newcommand\lra{\longrightarrow}
-\newcommand\A{\Rightarrow}
-\newcommand\tool[1]{\textsf{#1}}
-\newcommand\sctl{\tool{SCTLProV}}
-\newcommand\sctlprov{\tool{S{CTL}ProV}}
-\newcommand\sctlprovr{\textsf{SCTLProV$_R$}} 
-\newcommand\sctlm{\textsf{SCTL($\cal M$)}}
-\newcommand\verds{\tool{Verds}}
-\newcommand\nusmv{\tool{NuSMV}}
-\newcommand\nuxmv{\tool{NuXMV}}
+\newcommand{\nextstate}[1]{\textsf{Next}({#1})}
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\A}{\Rightarrow}
+\newcommand{\tool}[1]{\textsf{#1}}
+\newcommand{\sctl}{\tool{SCTLProV}}
+\newcommand{\sctlprov}{\tool{S{CTL}ProV}}
+\newcommand{\sctlprovr}{\textsf{SCTLProV$_R$}} 
+\newcommand{\sctlm}{\textsf{SCTL($\cal M$)}}
+\newcommand{\verds}{\tool{Verds}}
+\newcommand{\nusmv}{\tool{NuSMV}}
+\newcommand{\nuxmv}{\tool{NuXMV}}
 \newcommand{\CADP}{\tool{CADP}}
 %\newcommand\nusmv{\textsf{NuSMV}}
 %\newcommand\verds{\textsf{Verds}}
 %\newcommand\sctl{\textsf{S{\scriptsize CTL}ProV}}
-\newcommand\couic[1]{}
+\newcommand{\couic}[1]{}
 \newcommand{\code}[1]{\texttt{#1}}
-\newcommand\rsa{\rightsquigarrow}
-\newcommand\la{\leftarrow}
-\renewcommand\a{\rightarrow}
-\newcommand\mdl{\EuScript{M}}
+\newcommand{\rsa}{\rightsquigarrow}
+\newcommand{\la}{\leftarrow}
+%\renewcommand\a{\rightarrow}
+%\newcommand{\mdl}{\EuScript{M}}
+\newcommand{\CTLP}{\textsf{CTL$_P$}}
+\newcommand{\CTL}{\textsf{CTL}}
+\newcommand{\SCTL}{\textsf{SCTL}}
+\newcommand{\SCTLP}[1]{\textsf{SCTLS}({#1})}
+\newcommand{\ctlpm}{\CTLP$(\cal M)$}
+\newcommand{\BMC}{\textsf{BMC}}
+\newcommand{\QBF}{\textsf{QBF}}
+\newcommand{\OCaml}{\textsf{OCaml}}
+\newcommand{\BDD}{\textsf{BDD}}
+\newcommand{\CPT}{\textsf{CPT}}
+
+	\usetikzlibrary{positioning}
+	\usetikzlibrary{backgrounds}
+	\usetikzlibrary{arrows,automata,snakes}
+	\usetikzlibrary{shapes.symbols,shapes.geometric,shadows}
+
 
 %\newcommand\T{\rule{0pt}{2.6ex}}       % Top strut
 %\newcommand\B{\rule[-1.2ex]{0pt}{0pt}} % Bottom strut
 
-\usetikzlibrary{shapes.symbols,shapes.geometric,shadows}
 \tikzset{
 	inputfile/.style={
 		shape=tape,
 		draw,
 		fill=white,
 		tape bend top=none}}
-
-\newcommand{\CTLP}{\textsf{CTL$_P$}}
-
-\newcommand\CTL{\textsf{CTL}}
-\newcommand\SCTL{\textsf{SCTL}}
-\newcommand\SCTLP[1]{\textsf{SCTLS}({#1})}
-\newcommand{\ctlpm}{\CTLP$(\cal M)$}
-\newcommand\BMC{\textsf{BMC}}
-\newcommand\QBF{\textsf{QBF}}
-\newcommand\OCaml{\textsf{OCaml}}
-\newcommand\BDD{\textsf{BDD}}
-\newcommand{\CPT}{\textsf{CPT}}
 
 \def\pprec{\mathrel{\scalebox{1.0}[1]{$\prec$}\mkern-5mu%
 		\scalebox{.5}[1]{$\prec$}\mkern-5.5mu\scalebox{.4}[1]{$\prec$}}}
@@ -167,6 +168,8 @@
 %%
 %% >>> prematter
 %%
+
+%$\mathsf{Next}$,Next,\textsf{Next}
 \input{Tex/Prematter}% list of symbols, preface of books
 %%
 %%%%% --------------------------------------------------------------------------------

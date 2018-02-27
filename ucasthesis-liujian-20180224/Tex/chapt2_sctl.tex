@@ -84,7 +84,7 @@
 
 例子\ref{example:unmanned}中的性质可以很容易由 \CTLP{} 中的公式进行刻画，然而很难用传统的时序逻辑的公式进行表示。原因是在传统的时序逻辑的语法中通常没有表述一个特定的状态或者多个状态之间的关系的机制，即使在语义中，传统的时序逻辑通常只考虑当前的状态，而无法考虑多个状态之间的关系。
 
-\section{\SCTL{}}\label{sec:sctl}
+\section{\CTLP{}的证明系统：\SCTL{}}\label{sec:sctl}
 在本节，我们针对逻辑 \CTLP$(\cal M)$ 给出一个证明系统 \sctlm{} （Sequent-calculus-like proof system for \CTLP{}）。在通常意义下的证明系统中，一个公式是可证的当且仅当该公式在所有的模型中都成立，而在 \sctlm{} 中，一个公式是可证的当且仅当该公式在模型 $\cal M$ 中是可证的。
 
 首先，让我们考虑一个\ctlpm{}公式 $AF_x(P(x))(s)$。该公式在模型 $\cal M$ 中成立当且仅当存在一个路径树 $T$，$T$ 的根节点由 $s$ 标记，而且 $T$ 上的每个叶子节点都满足 $P$。\couic{这样的路径树 $T$ 可被用来验证公式 $AF_x(P(x))(s)$ 的成立。}
@@ -488,7 +488,7 @@ only.
 \end{proof}
 
 
-\section{\sctlprov{}}\label{sec:sctlprov}
+\section{\SCTL{}的工具实现：\sctlprov{}}\label{sec:sctlprov}
 本节介绍\SCTL{}的一个实现---\sctlprov{}（图\ref{workflow}）以及该工具与其他模型检测工具的对比。
 \sctlprov{}的工作方式如下：首先，\sctlprov{}读入一个输入文件，并将该输入文件解析到一个Kripke模型以及若干个\SCTL{}公式；然后，对于每个公式，\sctlprov{}搜索该公式的证明，如果该公式可证，则并输出该证明（或者只输出True），如果该公式不可正，则输出该公式的非的证明（或者只输出False）。
 
@@ -789,8 +789,8 @@ bounded model checker \verds{} version 1.49, the
 its extension \nuxmv{} version 1.0.0, and the formal verification toolbox \tool{CADP}.
 All examples and benchmarks are tested on a Linux
 platform with 3.0 GB memory and a 2.93GHz $\times$ 4 CPU, and the time limit is 20 minutes.
-}
-All benchmarks used in this paper are available online\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}.
+
+All benchmarks used in this paper are available online\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}.}
 
 \subsection{案例一：进程互斥问题}\label{subsec:example}
 \begin{example}[进程互斥问题\cite{Peterson81}]
@@ -800,10 +800,10 @@ All benchmarks used in this paper are available online\footnote{\url{https://git
 	\couic{This example is a mutual exclusion algorithm of two concurrent
 	processes (process $A$ and process $B$). \textit{Mutual Exclusion} means that at any time, the number of processes in the critical section is at most one. A scratch of the algorithm is depicted in Figure \ref{illustrative:mutual}, where $flag$ indicates whether there exist a process running at the moment, and $mutex$ (has the initial value $0$) is the number of processes that have entered the critical section. A violation of \textit{Mutual Exclusion} means that in some state of the program, more than one process have entered the critical section, i.e., the value of $mutex$ is $2$.}
 	
-	\begin{figure}[h]
+	\begin{figure}[h!]
 		\centering
-		\scriptsize
-		\begin{tabular}{p{4.0cm}p{3.8cm}}
+		\small
+		\begin{tabular}{p{4.3cm}p{3.8cm}}
 			\begin{verbatim}
 			/* Process A */
 			1: while(flag);/*wait*/
@@ -832,7 +832,7 @@ All benchmarks used in this paper are available online\footnote{\url{https://git
 		\centering
 		\scriptsize
 %		\framebox{
-		\begin{verbatim}
+		\begin{boxedverbatim}
 Model mutual()
 {
   Var {
@@ -862,7 +862,7 @@ Model mutual()
     find_bug := EU(x, y, TRUE, bug(y), ini);
   }
 }
-		\end{verbatim}
+		\end{boxedverbatim}
 %	}
 		\caption{输入文件“mutual.model”。}
 		\label{fig:mutual}
@@ -870,7 +870,7 @@ Model mutual()
 	如图\ref{fig:mutual}所示，输入文件"mutual.model"中变量$a$和变量$b$分别指代进程$A$和进程$B$的程序计数器（Program Counter），变量$ini$指代初始状态。本例中要验证的性质为：是否存在程序执行的某个时刻使得两个进程同时进入临界区。利用\sctlprov{}，我们可以在计算机的命令行中输入以下命令来验证该性质。
 	\couic{In the input file (Figure \ref{fig:mutual}), two additional variables $a$ and $b$ are used to indicate the program counters of the two processes, respectively, and $ini$ stands for the initial state. The property to be checked is that whether both processes are in the critical section at the the same time. We check this property in \sctl{} using the following command.}
 	\begin{center}
-		\scriptsize
+		\small
 		\begin{verbatim}
               sctl -output output.out mutual.model
 		\end{verbatim}
@@ -879,7 +879,7 @@ Model mutual()
 %	The result is as follows, which indicates that there is a bug in the mutual exclusion problem, i.e., the mutual exclusion property is violated.
 	\sctlprov{}的运行结果如下所示：该程序存在漏洞，即该程序违反了进程互斥性质。
 	\begin{center}
-		\scriptsize
+		\small
 		\begin{verbatim}
               verifying on the model mutual...
               find_bug: EU(x,y, TRUE, bug(y), ini)
@@ -890,7 +890,7 @@ Model mutual()
 		\couic{The proof tree of the property is output to the file ``output.out", which is listed as follows. In the output of the proof tree, each node is shown as the form $${id: seqt ~ [id_1, ..., id_n]}$$ where ${seqt}$ is the sequent, ${id}$ the identity number of the sequent, and ${id_1,...,id_n}$ the identity numbers of the hypothesis of the sequent. }
 	该性质的证明树输出在文件"output.out"中，如下图所示。证明树的每个节点被输出为${id: seqt ~ [id_1, ..., id_n]}$形式，其中$id$是该节点的ID，$seqt$是当前的相继式，而${id_1,...,id_n}$则是当前的相继式的所有的前提的ID。
 	\begin{center}
-		\scriptsize
+		\small
 		\begin{verbatim}
 		0: |- EU(x,y,TRUE,bug(y),{flag:=false;mutex:=0;a:=1;b:=1})	[4, 1]
 		4: {flag:=false;mutex:=0;a:=1;b:=1}
@@ -938,7 +938,8 @@ Model mutual()
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=10cm]{./illustrative_example2.png}
-		\caption{Visualization of the proof tree and the Kripke model in the illustrative example.}
+		\caption{进程互斥问题的验证中证明树和模型的可视化}
+%		\caption{Visualization of the proof tree and the Kripke model in the illustrative example.}
 		\label{fig:visualize:illustrative}
 	\end{figure}
 	
@@ -947,7 +948,7 @@ Model mutual()
 	
 	\begin{figure}[!h]
 		\centering
-		\scriptsize
+		\small
 		\begin{tabular}{p{5.8cm}p{4.8cm}}
 			\begin{verbatim}
 			/* Process A */
@@ -979,7 +980,10 @@ Model mutual()
 	\begin{figure}[h!]
 		\centering
 		\scriptsize
-		\begin{verbatim}
+%		\begin{tabular}{|c|}
+			
+%		\begin{minipage}{10cm}
+		\begin{boxedverbatim}
 		Model mutual()
 		{
 		  Var {
@@ -992,16 +996,21 @@ Model mutual()
 		    a = 1 : {a := 2; x := true;};
 		    a = 2 : {a := 3; turn := 1;};
 		    a = 3 && (y = false || turn = 2): {a := 4;}; 
-		    a = 4 : {a := 5; mutex := mutex + 1;}; /*A has entered the critical section*/
-		    a = 5 : {a := 6; mutex := mutex - 1;}; /*A has left the critical section*/
+		    /*A has entered the critical section*/
+		    a = 4 : {a := 5; mutex := mutex + 1;}; 
+		    /*A has left the critical section*/
+		    a = 5 : {a := 6; mutex := mutex - 1;}; 
 		    a = 6 : {x := false;};
 		    b = 1 : {b := 2; y := true;};
 		    b = 2 : {b := 3; turn := 2;};
 		    b = 3 && (x = false || turn = 1): {b := 4;}; 
-		    b = 4 : {b := 5; mutex := mutex + 1;}; /*B has entered the critical section*/
-		    b = 5 : {b := 6; mutex := mutex - 1;}; /*B has left the critical section*/
+		    /*B has entered the critical section*/
+		    b = 4 : {b := 5; mutex := mutex + 1;}; 
+		    /*B has left the critical section*/
+		    b = 5 : {b := 6; mutex := mutex - 1;}; 
 		    b = 6 : {y := false;};
-		    /*If none of the conditions above are satisfied, then the current state goes to itself.*/
+		    /*If none of the conditions above are satisfied, 
+		    then the current state goes to itself.*/
 		    (a != 3 && (y = true && turn = 1)) || (b != 3 && (x = true && turn = 2)) : {};
 		  }
 		  Atomic {
@@ -1012,8 +1021,10 @@ Model mutual()
 		  }
 		}
 		
-		\end{verbatim}
-		\caption{输入文件“mutual\_solution.model”。}
+		\end{boxedverbatim}
+%	\end{minipage}
+%	\end{tabular}
+		\caption{输入文件“mutual\_solution.model”}
 		\label{fig:mutual:solution}
 	\end{figure}
 	
@@ -1021,7 +1032,7 @@ Model mutual()
 %	When applying this solution, the mutual exclusion exclusion property will not be violated, which is indicated by the following result.
 	如下所示，修改后的程序满足进程互斥性质。
 	\begin{center}
-		\scriptsize
+		\small
 		\begin{verbatim}
              verifying on the model mutual...
              find_bug: EU(x, y, TRUE, bug(y), ini)
@@ -1030,32 +1041,72 @@ Model mutual()
 	\end{center}
 \end{example}
 
-\subsection{案例二：小型飞机场控制协议}
-在本小节中，我们介绍对于一个工程问题的形式化验证：由美国国家航空与航天局（National Aeronautics and Space Administration，简称NASA）提出的小型飞机场运输系统（Small Aircraft Transportation System，简称SATS）\cite{MunozDC04,nasasats04}。在\sctlprov{}中，我们对SATS系统进行形式化描述\footnote{\url{https://github.com/terminatorlxj/SATS-model}}，并验证该系统的安全性。
+\subsection{案例二：小型飞机场运输系统}
+在本小节中，我们介绍对于一个工程问题的形式化验证：由美国国家航空与航天局（National Aeronautics and Space Administration，简称NASA）为主导提出的小型飞机场运输系统（Small Aircraft Transportation System，简称SATS）\cite{MunozDC04,nasasats04}。在\sctlprov{}中，我们对SATS系统进行形式化描述，并验证该系统的安全性。
 \couic{As an application to an engineering problem, we present
 a concept of operations for the {\em Small Aircraft Transportation System} 
 (\textsf{SATS}) 
 \cite{MunozDC04,nasasats04}
 in \sctl{}\footnote{\url{https://github.com/terminatorlxj/SATS-model}}.}
 
-In this concept of operation, the airspace volume surrounding an
-airport facility, called {\em the self controlled area}, is divided into
-15 zones (Figure \ref{fig:example:sats:sca}).
+
+
 \begin{figure}
 	\centering
 	\includegraphics[width=9cm]{./sca.jpg}
-	\caption{SCA zones, where right and left are relative to the pilot facing the runway, i.e., opposite from the reader point of view \cite{MunozDC04}.}
+	\caption{飞机场自我控制区域的划分（以飞行员视角区分左右）}
+	%	\caption{SCA zones, where right and left are relative to the pilot facing the runway, i.e., opposite from the reader point of view \cite{MunozDC04}.}
 	\label{fig:example:sats:sca}
 \end{figure}
-For instance, the zone {\tt holding3(right)} is a holding pattern at
-3000 feet on the right of the self controlled area.
-Each zone contains a list of aircraft and 24 transition rules
-specify different SATS-procedures.
-For instance, the rule \textbf{Vertical Entry (right)}
-specifies the vertical entry of an aircraft in the zone
-{\tt holding3(right)}. 
 
-The model is
+在SATS系统中，整个飞机场区域被称为自我控制区（Self Control Area，简称SCA）。如图\ref{fig:example:sats:sca}所示，该模型将SCA被分为15个子区域：
+\begin{itemize}
+	\item \textbf{holding3(right/left)}：等待航线，高度3000英尺（右/左）；
+	\item \textbf{holding2(right/left)}：等待航线，高度2000英尺（右/左）；
+	\item \textbf{lez(right/left)}：水平降落航线（右/左）；
+	\item \textbf{base(right/left)}：基地航线（右/左）；
+	\item \textbf{intermediate}：中间航线；
+	\item \textbf{final}：最终航线；
+	\item \textbf{runway}：机场跑道；
+	\item \textbf{maz(right/left)}：重新降落航线（右/左）；
+	\item \textbf{departure(right/left)}：起飞航线（右/左）。
+\end{itemize}
+在任意时刻，SCA的每个子区域内都有若干架飞机，每个子区域内的飞机遵循先进先出的顺序依次进出。在整个SCA中，飞机的进出子区域的方式有24种，分别如下：
+\begin{itemize}
+	\item 进入3000英尺高度等待航线（右/左）；
+	\item 进入水平降落航线（右/左）；
+	\item 从3000英尺等待航线进入2000英尺等待航线（右/左）；
+	\item 从2000英尺等待航线进入基地航线（右/左）；
+	\item 从水平降落航线进入基地航线（右/左）；
+	\item 从基地航线（右/左）进入中间航线；
+	\item 从中间航线进入重新降落航线（右/左）；
+	\item 从中间航线进入最终航线；
+	\item 准备降落，从最终航线进入机场跑道；
+	\item 降落成功，飞机驶离机场跑道；
+	\item 降落失败，从最终航线进入重新降落航线（右/左）；
+	\item 从重新降落航线进入高度最低，而且可以进入（当前等待航线中没有飞机）的等待航线；
+	\item 进入机场跑道并准备起飞；
+	\item 从机场跑道进入起飞航线；
+	\item 从起飞航线（右/左）离开，最终离开SCA。
+\end{itemize}
+在任意时刻，飞机进出SCA的子区域的方式必须是安全的，即SATS系统必须满足8个性质：
+\begin{itemize}
+	\item SCA中不超过4架飞机同时准备降落：即等待航线，水平降落航线，重新降落航线，基地航线，中间航线，以及最终航线上飞机的总数不超过4;
+	\item SCA中左右两侧的航线（等待航线，水平降落航线，以及重新降落航线）中，同侧的飞机数总和不超过2，同时SCA中不超过2架飞机准备从同侧重新降落航线重新降落；
+	\item 进入SCA的航线（等待航线和水平进入航线）中，每个航线每侧的飞机数不超过2，同时基地航线的飞机数总和不超过3；
+	\item 在每侧的水平进入航线中最多只有一架飞机，同时如果某侧水平进入航线中有飞机，则SCA的同侧其他航线（水平降落航线以及重新降落航线）中没有飞机；
+	\item SCA中的飞机按照事先给定的顺序依次进入SCA；
+	\item 最先进入SCA中飞机一定最先降落；
+	\item 机场跑道上最多只有一架飞机；
+	\item 起飞航线上的飞机彼此必须相隔足够远的距离。
+\end{itemize}
+在\sctlprov{}中，我们针对SCA建立一个Kripke模型：模型中的状态用15个状态变量来表示，分别代表SCA中15个子区域，每个状态变量都是列表类型，代表该子区域内的若干架飞机；模型中包含24条迁移规则，分别指代SCA中的所有飞机在每个子区域间的24种进出方式；要验证的性质是一个\ctlpm{}公式，即在每个状态上，SCA都满足安全性质。该模型的输入文件可在因特网\footnote{\url{https://github.com/terminatorlxj/SATS-model}}上下载。
+
+\sctlprov{}验证该模型用时26秒左右，运行环境为：Linux操作系统，内存3.0GB，2.93GHz$\times$4 CPU。验证过程中共访问54221个状态（Dowek，Mu\~noz和Carre\~no提出了的对SATS系统的一个简化版的PVS建模\cite{MunozDC04}中，该模型中可访问的状态数为2811）。
+经\sctlprov{}验证，该模型满足安全性性质。
+
+
+\couic{The model is
 non-deterministic, that is, for a given state, several transitions are
 possible and all must be considered.  As there are no a
 priori bounds on the number of aircraft in each zone, the number of
@@ -1079,69 +1130,89 @@ property holds on every reachable state from the initial state (the
 state where there are no aircraft on each zone of the self controlled
 area), so the formula to be checked is $AG_x(\phi)(e)$ where $\phi$ is 
 the conjunction of the eight properties and $e$ is the initial state.
+}
 
-This is a typical model checking problem, but this problem
+值得注意的是，虽然这是一个典型的模型检测问题，但是传统的模型检测工具均无法验证该模型\cite{MunozDC04}，理由如下：
+\couic{This is a typical model checking problem, but this problem
 is known to be cumbersome for traditional model checkers
-\cite{MunozDC04} because:
-\begin{itemize}
-	\item Each state of the model is represented by a complex data
+\cite{MunozDC04} because:}
+\begin{enumerate}
+	\couic{\item Each state of the model is represented by a complex data
 	structure. For instance, a number of state variables are
-	represented by lists of aircraft with unbounded length.
-	\item The transition rules of the model are 
+	represented by lists of aircraft with unbounded length.}
+	\item 模型的状态由复杂的数据结构所表示：每个状态变量的值均为列表类型，而且列表的长度可能为无穷。
+	\couic{\item The transition rules of the model are 
 	complex algorithms. For instance, some transitions rules
-	involve recursive operations on lists of aircraft.
-	\item The
+	involve recursive operations on lists of aircraft.}
+	\item 状态的迁移规则必须由复杂的算法所描述：在某些状态迁移的过程中需要对飞机列表进行递归操作。
+	\couic{\item The
 	properties to be verified in the model are also represented
 	by complex algorithms. For instance, some of the properties
-	are inductively defined over lists of aircraft.
-\end{itemize}
+	are inductively defined over lists of aircraft.}
+	\item 模型的性质必须由复杂的算法所描述：某些原子命题的定义需要对飞机列表进行递归操作。
+\end{enumerate}
+\sctlprov{}的输入语言表达能力强于绝大多数模型检测工具，并能完整的表示该模型，同时成功进行验证。
 
-However, this example fits well in \sctl{} that provides a
+\couic{However, this example fits well in \sctl{} that provides a
 more expressive input language than most traditional model
 checkers. Indeed, \sctl{} provides both readable notations for the
 definition of data structures such as records or lists with unbounded
 length, and arbitrary algorithms for the definitions of transition
 rules and of properties.  So we have been able to check in
 \sctl{} that the safety property holds on the model, and the
-verification was executed in less than 30 seconds on the same machine as which the benchmarks are evaluated.
+verification was executed in less than 30 seconds on the same machine as which the benchmarks are evaluated.}
 
-\subsection{Randomly generated programs}\label{subsec:random}
-We consider three benchmarks in this part. 
+\subsection{随机生成的布尔程序的验证}\label{subsec:random}
+本小节包含三个测试集：测试用例集一在首次提出\cite{Zhang14}时被用作对比限界模型检测工具\verds{}和符号模型检测工具\nusmv{}的性能；并紧接着被用作对比定理证明器\tool{iProver Modulo}与\verds{}的性能；在测试集一的基础上，我们通过增大模型中的状态变量的个数而得到测试集二与测试集三。每个测试集中均包含2880个测试用例，每个测试用例的Kripke模型都是随机生成的，每个模型中的状态变量绝大多数为布尔类型。大量的随机的测试用例对于\sctlprov{}与不同的工具来说都是相对公平的，而且通过对比不同工具的实验结果数据，我们可以清晰的得出有关各个工具在验证不同的模型以及不同的性质时的优势与劣势的结论。
+
+以下分别介绍这三个测试集。
+
+\couic{We consider three benchmarks in this part. 
 The original description of benchmark \#1 \cite{Zhang14} is restated here.
 Based on benchmark \#1, we extend the number of variables to tens, hundreds, and even thousands in benchmark \#2 and benchmark \#3.
-The randomness of the test cases in three benchmarks makes it rather fair for different \CTL{} model checking approaches, and helps us recognize the strengths and weaknesses of each tool. 
+The randomness of the test cases in three benchmarks makes it rather fair for different \CTL{} model checking approaches, and helps us recognize the strengths and weaknesses of each tool. }
 
-\subsubsection{Benchmark \#1}
+\subsubsection{测试集一}
 Benchmark \#1 chosen in this subsection is originally introduced by Zhang \cite{Zhang14} in the evaluation of model checkers \verds{} and \nusmv{}. Later, Ji \cite{Ji15} also uses this benchmark in the evaluation of the theorem prover \tool{iProver Modulo} and the model checker \verds{}. This benchmark consists of 2880 randomly generated test cases where two types of random Boolean programs are considered---Concurrent Processes and Concurrent Sequential Processes. 
 In programs with Concurrent Processes,
 the parameters of the first set of random Boolean programs are as
 follows.
+
+测试集一中包含两类测试用例：并发进程（Concurrent Processes，简称CP）和并发顺序进程（Concurrent Sequential Processes，简称CSP）。
+\paragraph{并发进程}
+在描述并发进程需要用到以下4个变量：
+
 \begin{center}
 	\begin{tabular}{|l|}
 		\hline
-		$a$: number of processes \\
-		$b$: number of all variables \\
-		$c$: number of shared variables \\
-		$d$: number of local variables in a process \\
+		$a$: 进程个数 \\
+		$b$: 所有进程的共享变量和局部变量的个数 \\
+		$c$: 进程间共享变量的个数 \\
+		$d$: 每个进程的局部变量的个数 \\
 		\hline
 	\end{tabular}
 \end{center}
-The shared variables are initially set to a random value in $\{0,1\}$,
+进程间的共享变量的初始值均为$\{0,1\}$中的随机值，而每个进程的局部变量的初始值均为$0$。每个进程的共享变量和局部变量的每次赋值均为随机选择的某个变量的值的逻辑非。我们令进程个数为3，即$a=3$；令$b$在$\{12,24,36\}$中取值；同时令$c=b/2$，以及$d=c/a$。对于每个$b$的取值有20个Kripke模型，然后在每个Kripke模型分别验证24个\CTL{}性质。因此，此测试集中共有$3\times20\times24=1440$个并发进程测试用例。
+
+\couic{The shared variables are initially set to a random value in $\{0,1\}$,
 and the local variables are initially set to $0$. For each process,
 the shared variables and the local variables are assigned the negation
 of a variable randomly chosen from these variables. We test different
 sizes of the programs with 3 processes ($a=3$), and let $b$ vary over
 the set of values $\{12,24,36\}$, then set $c=b/2, d=c/a$. Each of the
-24 properties is tested on 20 test cases for each value of $b$.
+24 properties is tested on 20 test cases for each value of $b$.}
 
-In programs with Concurrent Sequential Processes,
+\paragraph{并发顺序进程} 
+在并发顺序进程测试用例中，除了以上定义的$a,b,c,d$变量之外，描述该类型测试用例还需用到以2个变量：
+
+\couic{In programs with Concurrent Sequential Processes,
 in addition to $a,b,c,d$ specified above, the parameters of the second set of random Boolean programs are as
-follows.
+follows.}
 \begin{center}
 	\begin{tabular}{|l|}
 		\hline
-		$t$: number of transitions in a process \\
-		$p$: number of parallel assignments in each transition \\
+		$t$: 每个进程的迁移的个数 \\
+		$p$: 在每个迁移过程中同时进行的赋值的个数\\
 		\hline
 	\end{tabular}
 \end{center}
@@ -1202,11 +1273,11 @@ $\bigwedge$, respectively.
 			\hline
 		\end{tabular}
 	}
-	\caption{Properties $P_{01}, P_{02}, \ldots, P_{12}$ to be checked in benchmark \#1, \#2, and \#3.}
+	\caption{测试集一、二、三中需要验证的性质$P_{01}, P_{02}, \ldots, P_{12}$}
 	\label{fig:properties}
 \end{figure}
 
-\subsubsection{Benchmark \#2 and \#3}
+\subsubsection{测试集二、三}
 In benchmark {\#}2, we increase the number of state variables in benchmark \#1 to $48$, $60$, or $72$ for Concurrent Processes, and $24$,
 $28$, or $32$ for Concurrent Sequential Processes. The 2880 test cases are also randomly generated.
 The properties to be checked are the same as in benchmark \#1.
@@ -1214,7 +1285,7 @@ The properties to be checked are the same as in benchmark \#1.
 In benchmark {\#}3, we increase the number of state variables in benchmark \#1 to $252$, $504$
 and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, and check the same properties as benchmark \#1 and \#2.
 
-\subsubsection{Experimental data}
+\subsubsection{实验数据}
 The experimental results are shown below, and the detailed data is in \ref{app:detail:data}.
 
 \paragraph{Experimental data for benchmark \#1.}
@@ -1667,7 +1738,7 @@ For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1146 (39.
 
 
 
-\subsubsection{Continuation vs. recursion.}
+\subsubsection{连续 vs. 递归}
 To show the importance of using continuation-passing style,
 we have implemented a recursive version of our tool and compared the time
 efficiency. In benchmark {\#}1, {\#}2, and {\#}3, \sctl{} solves about 10\% more test cases than \sctlprovr{}, and it outperforms \sctlprovr{} in almost
@@ -1782,7 +1853,7 @@ all solvable cases (Table~\ref{tabl:cont_vs_rec}). \sctlprovr{} is more sensitiv
 	In the comparison of average verification time of \sctl{} and \sctlprovr, we extend the number of variables in Concurrent Sequential Processes to 52 and 72, on the basis of benchmark \#2.
 %\end{remark}
 
-\subsection{Programs with fairness constraints}\label{subsec:fair}
+\subsection{带有公平性性质的程序的验证}\label{subsec:fair}
 %	We evaluate two benchmarks in this part: benchmark \#4 models the alternating bit protocol, and
 In this part, we evaluate benchmark \#4, which models mutual exclusion
 algorithms and ring
@@ -1793,7 +1864,7 @@ because \tool{iProver Modulo} cannot handle \CTL{} properties with
 fairness constraints \cite{Ji15}.
 
 
-\paragraph{Mutual exclusion and ring algorithms.}
+\paragraph{互斥算法和环算法 Mutual exclusion and ring algorithms.}
 
 This benchmark consists of two sets of concurrent programs: the mutual
 exclusion algorithms and the ring algorithms. Both kinds of algorithms
@@ -1910,7 +1981,7 @@ The detailed experimental data is shown in ~\ref{bench4:data:detail}.
 \end{table}
 
 
-\subsection{The VLTS benchmark}	\label{subsc:vlts}
+\subsection{工业级测试用例的验证}	\label{subsc:vlts}
 In this part, we evaluate benchmark \#5, also called the \textsf{VLTS} (Very Large Transition Systems) benchmark\footnote{\url{http://cadp.inria.fr/resources/vlts/}}, which was originally proposed as a part of the \CADP{}\footnote{\url{http://cadp.inria.fr/}} (Construction and Analysis of Distributed Processes) toolbox \cite{GaravelLMS13}.
 As a formal verification toolbox, \CADP{} focuses on action-based models, for instance, \textsf{LTS}s and Markov Chains.
 As pointed out by the authors of \textsf{CADP}: \textit{this benchmark has been obtained from the modeling of various communication protocols and concurrent systems, many of which corresponds to real life and industrial systems}. 
@@ -1943,7 +2014,7 @@ For brevity's sake, more details about the experiment on benchmark \#5 are expla
 
 
 
-\subsection{Discussion of the experimental results}
+\subsection{关于实验结果的讨论}
 In the evaluation of benchmark \#1 to benchmark \#4 in this paper, the performances of \nusmv{}, \nuxmv{}, \verds{}, \tool{iProver Modulo}, and \sctl{} in the comparisons are affected by two factors: the number of state variables, and the type of the property to be checked. The performances of \nusmv{} and \nuxmv{} are mainly affected by the number of state variables, while the performances of \tool{iProver Modulo}, \verds{}, and \sctl{} are mainly affected by the type of the property to be checked. When the number of state variables is rather small (such as test cases in benchmark \#1), \nusmv{} and \nuxmv{} solves more test cases than \tool{iProver Modulo}, \verds{} and \sctl{}, but when the number of state variables becomes larger (such as test cases in benchmark \#2 and \#3), they performs worse than the other three tools.  When checking properties where nearly all states must be searched (such as $AG$ properties), \nusmv{} and \nuxmv{} usually perform better than \tool{iProver Modulo}, \verds{} and \sctl{}. However, for most properties, \tool{iProver Modulo}, \verds{} and \sctl{} usually search much less states than \nusmv{} and \nuxmv{} to check them, and are more time and space efficiency. Thus, \tool{iProver Modulo}, \verds{} and \sctl{} scale up better than \nusmv{} and \nuxmv{} when checking these properties. Moreover, \sctl{} scales up better than both \tool{iProver Modulo} and \verds{}, and outperforms these two tools in most solvable cases.
 
 

@@ -3,10 +3,10 @@
 \addvspace {10.0pt}
 \addvspace {10.0pt}
 \addvspace {10.0pt}
-\contentsline {table}{\numberline {2.1}{\ignorespaces \textsf {SCTLProV}{} vs. \textsf {SCTLProV$_R$}{}\relax }}{31}{table.caption.35}
-\contentsline {table}{\numberline {2.2}{\ignorespaces Solvable cases in \textsf {Verds}{}, \textsf {NuSMV}{}, \textsf {NuXMV}{}, and \textsf {SCTLProV}{}.\relax }}{33}{table.caption.39}
-\contentsline {table}{\numberline {2.3}{\ignorespaces Cases where \textsf {SCTLProV}{} both runs faster and uses less memory.\relax }}{33}{table.caption.39}
-\contentsline {table}{\numberline {2.4}{\ignorespaces Test cases where \textsf {S{CTL}ProV}{} uses less time and less memory, respectively.\relax }}{34}{figure.caption.40}
+\contentsline {table}{\numberline {2.1}{\ignorespaces \textsf {SCTLProV}{} vs. \textsf {SCTLProV$_R$}{}\relax }}{32}{table.caption.37}
+\contentsline {table}{\numberline {2.2}{\ignorespaces Solvable cases in \textsf {Verds}{}, \textsf {NuSMV}{}, \textsf {NuXMV}{}, and \textsf {SCTLProV}{}.\relax }}{35}{table.caption.41}
+\contentsline {table}{\numberline {2.3}{\ignorespaces Cases where \textsf {SCTLProV}{} both runs faster and uses less memory.\relax }}{35}{table.caption.41}
+\contentsline {table}{\numberline {2.4}{\ignorespaces Test cases where \textsf {S{CTL}ProV}{} uses less time and less memory, respectively.\relax }}{36}{figure.caption.42}
 \addvspace {10.0pt}
 \addvspace {10.0pt}
 \addvspace {10.0pt}

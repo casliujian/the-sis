@@ -9,17 +9,17 @@
 \contentsline {figure}{\numberline {2.4}{\ignorespaces \textsf {CPT}的重写规则.\relax }}{16}{figure.caption.20}
 \contentsline {figure}{\numberline {2.5}{\ignorespaces 进程$A$和进程$B$的一个简单描述。\relax }}{21}{figure.caption.21}
 \contentsline {figure}{\numberline {2.6}{\ignorespaces 输入文件“mutual.model”。\relax }}{22}{figure.caption.22}
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Visualization of the proof tree and the Kripke model in the illustrative example.\relax }}{23}{figure.caption.23}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces 进程互斥问题的验证中证明树和模型的可视化\relax }}{24}{figure.caption.23}
 \contentsline {figure}{\numberline {2.8}{\ignorespaces 修改后的进程互斥程序。\relax }}{24}{figure.caption.24}
-\contentsline {figure}{\numberline {2.9}{\ignorespaces 输入文件“mutual\_solution.model”。\relax }}{24}{figure.caption.25}
-\contentsline {figure}{\numberline {2.10}{\ignorespaces SCA zones, where right and left are relative to the pilot facing the runway, i.e., opposite from the reader point of view \cite {MunozDC04}.\relax }}{25}{figure.caption.26}
-\contentsline {figure}{\numberline {2.11}{\ignorespaces Properties $P_{01}, P_{02}, \ldots , P_{12}$ to be checked in benchmark \#1, \#2, and \#3.\relax }}{28}{figure.caption.27}
-\contentsline {figure}{\numberline {2.12}{\ignorespaces Average verification time in benchmark {\#}1.\relax }}{29}{figure.caption.31}
-\contentsline {figure}{\numberline {2.13}{\ignorespaces Average memory usage in benchmark {\#}1.\relax }}{30}{figure.caption.32}
-\contentsline {figure}{\numberline {2.14}{\ignorespaces Average verification time in benchmark \#1 and {\#}2.\relax }}{30}{figure.caption.33}
-\contentsline {figure}{\numberline {2.15}{\ignorespaces Average memory usage in benchmark \#1 and {\#}2.\relax }}{30}{figure.caption.34}
-\contentsline {figure}{\numberline {2.16}{\ignorespaces Average verification time in \textsf {SCTLProV}{} vs. \textsf {SCTLProV$_R$}.\relax }}{31}{figure.caption.36}
-\contentsline {figure}{\numberline {2.17}{\ignorespaces Properties to be verified in benchmark \#4.\relax }}{32}{table.caption.38}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces 输入文件“mutual\_solution.model”\relax }}{25}{figure.caption.25}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces 飞机场自我控制区域的划分（以飞行员视角区分左右）\relax }}{26}{figure.caption.26}
+\contentsline {figure}{\numberline {2.11}{\ignorespaces 测试集一、二、三中需要验证的性质$P_{01}, P_{02}, \ldots , P_{12}$\relax }}{30}{figure.caption.29}
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Average verification time in benchmark {\#}1.\relax }}{31}{figure.caption.33}
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Average memory usage in benchmark {\#}1.\relax }}{31}{figure.caption.34}
+\contentsline {figure}{\numberline {2.14}{\ignorespaces Average verification time in benchmark \#1 and {\#}2.\relax }}{32}{figure.caption.35}
+\contentsline {figure}{\numberline {2.15}{\ignorespaces Average memory usage in benchmark \#1 and {\#}2.\relax }}{32}{figure.caption.36}
+\contentsline {figure}{\numberline {2.16}{\ignorespaces Average verification time in \textsf {SCTLProV}{} vs. \textsf {SCTLProV$_R$}.\relax }}{33}{figure.caption.38}
+\contentsline {figure}{\numberline {2.17}{\ignorespaces Properties to be verified in benchmark \#4.\relax }}{34}{table.caption.40}
 \addvspace {10.0pt}
 \addvspace {10.0pt}
 \addvspace {10.0pt}

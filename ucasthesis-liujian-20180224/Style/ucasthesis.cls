@@ -247,13 +247,15 @@
 
         \vspace*{\stretch{2}}
 
-        {\UCAS@label@englishstatement}
-
         {By}
 
         {\UCAS@value@englishauthor}
 
-        {\UCAS@value@englishadvisor}
+        \vspace*{\stretch{2}}
+        
+        {\UCAS@label@englishstatement}
+
+%        {\UCAS@value@englishadvisor}
 
         \vspace*{\stretch{3}}
 
@@ -291,8 +293,7 @@
         \vspace*{3ex}
 
         {\hfill{} {\UCAS@value@declare@s \hspace*{14em}}}
-
-        {\hfill{} {\UCAS@value@declare@d \hspace*{14em}}}
+        {\hfill{} {\UCAS@value@declare@d \hspace*{7em}}}
 
         \vspace*{6ex}
 
@@ -306,9 +307,9 @@
 
         \vspace*{3ex}
 
-        {\hfill{} {\UCAS@value@declare@s \hspace*{10em} \UCAS@value@declare@t \hspace*{9em}}}
+        {\hfill{} {\UCAS@value@declare@s \hspace*{5em} \UCAS@value@declare@t \hspace*{6em}} \UCAS@value@declare@d \hspace*{6em}}
 
-        {\hfill{} {\UCAS@value@declare@d \hspace*{10em} \UCAS@value@declare@d \hspace*{9em}}}
+%        {\hfill{} {\UCAS@value@declare@d \hspace*{10em} \UCAS@value@declare@d \hspace*{9em}}}
 
         \vspace*{3ex}
     }

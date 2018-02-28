@@ -1323,6 +1323,7 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 		\hline
 	\end{tabular}
 	\tabcaption{测试集一中5个工具能成功验证的测试用例个数}
+	\label{tabl:solvable}
 	\vspace{0.5cm}
 	\end{table}
 	\begin{table}[!h]\small
@@ -1450,7 +1451,7 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 	\end{tabular}
 	%		\end{subfigure}
 	
-	\caption{Average verification time in benchmark {\#}1.}
+	\caption{在测试集一上各个工具的平均占用时间}
 	\label{fig:average_time}
 \end{figure}
 
@@ -1548,7 +1549,7 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 	\end{tabular}
 	%	\end{subfigure}
 	
-	\caption{Average memory usage in benchmark {\#}1.}
+	\caption{在测试集一上各个工具的平均占用内存}
 	\label{fig:average_memory}
 \end{figure}
 
@@ -1744,7 +1745,7 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 	\end{tabular}
 	%	\end{subfigure}
 	
-	\caption{Average verification time in benchmark \#1 and {\#}2.}
+	\caption{在测试集一、二上各个工具的平均占用时间}
 	\label{fig:average_time:extended}
 \end{figure}
 
@@ -1867,7 +1868,7 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 	\end{tabular}
 	%	\end{subfigure}
 	
-	\caption{Average memory usage in benchmark \#1 and {\#}2.}
+	\caption{在测试集一、二上各个工具的平均占用内存}
 	\label{fig:average_memory:extended}
 \end{figure}
 
@@ -1908,10 +1909,17 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 
 
 \subsubsection{连续 vs. 递归}
-To show the importance of using continuation-passing style,
+传统的动态模型检测工具通常使用递归算法来进行公式的证明和状态空间的搜索。不同于递归算法，\sctlprov{}的验证算法是连续传递风格（Continuation-Passing Style，简称CPS），CPS的应用可以大大减少栈的操作，从而节省验证所需的时间。为了对比使用连续传递风格的算法和递归算法的效率，我们对比了\sctlprov{}和\sctlprovr{}分别在测试集一、二、三上的实验数据。其中\sctlprovr{}与\sctlprov{}的唯一不同是使用递归算法来证明公式和搜索状态空间。如表\ref{tabl:cont_vs_rec}所示，\sctlprov{}能成功验证的测试用例个数比\sctlprovr{}多10\%，而且\sctlprov{}在绝大多数能成功运行的测试用例中比\sctlprovr{}所用时间短。如图\ref{fig:average_time:recursive:vs:continuation}所示，随着状态变量数的增加，\sctlprovr{}的平均运行时间多于\sctlprov{}，而且时间的变化幅度更大。
+
+\couic{To show the importance of using continuation-passing style,
 we have implemented a recursive version of our tool and compared the time
 efficiency. In benchmark {\#}1, {\#}2, and {\#}3, \sctl{} solves about 10\% more test cases than \sctlprovr{}, and it outperforms \sctlprovr{} in almost
 all solvable cases (Table~\ref{tabl:cont_vs_rec}). \sctlprovr{} is more sensitive to the number of variables than \sctl{} (Figure \ref{fig:average_time:recursive:vs:continuation}).
+
+%\begin{remark}
+In the comparison of average verification time of \sctl{} and \sctlprovr, we extend the number of variables in Concurrent Sequential Processes to 52 and 72, on the basis of benchmark \#2.
+%\end{remark}
+}
 
 {
 	\begin{table}\small
@@ -1920,21 +1928,21 @@ all solvable cases (Table~\ref{tabl:cont_vs_rec}). \sctlprovr{} is more sensitiv
 			\begin{tabular}{| l | r | r | r |}
 				
 				\hline
-				\textbf{Bench} & \sctl{} solvable & \sctlprovr{} solvable & t(\sctlprov) $<$ t(\sctlprovr{})  \\
+				\textbf{测试集} & \sctl{} solvable & \sctlprovr{} solvable & t(\sctlprov) $<$ t(\sctlprovr{})  \\
 				\hline
 				%\code{CP} & 1430(99.3\%) & 1354(94.0\%) \\
 				%\hline
 				%\code{CSP} & 1432(99.4\%) & 1328(92.2\%) \\
 				%\hline
-				\textbf{\#1} & 2862(99.4\%) & 2682(93.1\%) & 2598(90.2\%)\\
+				\textbf{一} & 2862(99.4\%) & 2682(93.1\%) & 2598(90.2\%)\\
 				\hline
-				\textbf{\#2} & 2597(90.2\%) & 2306(80.1\%) & 2406(83.5\%)\\
+				\textbf{二} & 2597(90.2\%) & 2306(80.1\%) & 2406(83.5\%)\\
 				\hline
-				\textbf{\#3} & 1849(64.2\%) & 1520(52.8\%) & 1735(60.2\%)\\
+				\textbf{三} & 1849(64.2\%) & 1520(52.8\%) & 1735(60.2\%)\\
 				\hline
 			\end{tabular}
 		\end{center}
-		\caption{\sctl{} vs. \sctlprovr{}}
+		\caption{在测试集一、二、三上\sctl{}和\sctlprovr{}的实验数据对比}
 		\label{tabl:cont_vs_rec}
 	\end{table}
 }
@@ -2013,29 +2021,88 @@ all solvable cases (Table~\ref{tabl:cont_vs_rec}). \sctlprovr{} is more sensitiv
 		\end{tabular}
 %	\end{subfigure}
 	
-	\caption{Average verification time in \sctl{} vs. \sctlprovr.}
+	\caption{\sctl{}和\sctlprovr{}平均运行时间}
 	\label{fig:average_time:recursive:vs:continuation}
 \end{figure}
 
 
-%\begin{remark}
-	In the comparison of average verification time of \sctl{} and \sctlprovr, we extend the number of variables in Concurrent Sequential Processes to 52 and 72, on the basis of benchmark \#2.
-%\end{remark}
+\subsection{公平性性质的验证}\label{subsec:fair}
+在本小节，我们来对比\sctlprov{}和\verds{}、\nusmv{}、\nuxmv{}在验证公平性性质时的效率。此次对比没有考虑\tool{iProver Modulo}，这是因为\tool{iProver Modulo}无法验证公平性性质。此次对比所用的所有测试用例（测试集四）同样分为两种：互斥算法和环算法\footnote{\url{http://lcs.ios.ac.cn/~zwh/verds/verds_code/bp12.rar}}。下面我们介绍这两种测试用例。
 
-\subsection{带有公平性性质的程序的验证}\label{subsec:fair}
-%	We evaluate two benchmarks in this part: benchmark \#4 models the alternating bit protocol, and
-In this part, we evaluate benchmark \#4, which models mutual exclusion
+
+\couic{In this part, we evaluate benchmark \#4, which models mutual exclusion
 algorithms and ring
 algorithms\footnote{\url{http://lcs.ios.ac.cn/~zwh/verds/verds_code/bp12.rar}}.
 Then, we compare the evaluation results of \sctl{}, \verds{},
 \nusmv{}, and \nuxmv{}, and we do not consider \tool{iProver Modulo}
 because \tool{iProver Modulo} cannot handle \CTL{} properties with
-fairness constraints \cite{Ji15}.
+fairness constraints \cite{Ji15}.}
 
 
-\paragraph{互斥算法和环算法 Mutual exclusion and ring algorithms.}
+\subsubsection{测试集四}
+测试集四种包含两类测试用例：互斥算法和环算法。
 
-This benchmark consists of two sets of concurrent programs: the mutual
+每个互斥算法包含$n$个进程，$n$个进程的调度方式如下：对于$0\le i\le n-2$，进程$i+1$的迁移在进程$i$之后，进程$0$的迁移在进程$n-1$之后。
+互斥算法中$n$的取值范围为$\{6,...,51\}$。
+要验证的性质如表\ref{tabl:mutual:properties}所示，其中$non_i$，$try_i$以及$cri_i$分别表示进程$i$的内部状态为\textsf{noncritical}，\textsf{trying}以及\textsf{critical}。
+所有的性质必须在公平性的前提下进行验证，即在互斥算法的执行过程中没有进程饿死（永远处在等待状态）。
+
+\begin{table}[h!]
+	\small
+	%\setlength{\tabcolsep}{3pt}
+	%\renewcommand{\arraystretch}{1.0}
+	\begin{center}
+		\begin{tabular}{| l | l |}
+			\hline
+			\textbf{Prop} & \textbf{Mutual Exclusion Algorithms}\\
+			\hline
+			{$P_1$} & $EF (cri_0 \wedge cri_1)$  \\
+			\hline
+			{$P_2$} &  $AG (try_0 \Rightarrow AF (cri_0))$\\
+			\hline
+			{$P_3$} &  $AG (try_1 \Rightarrow AF (cri_1))$\\
+			
+			\hline
+			{$P_4$} &  $AG (cri_0 \Rightarrow A cri_0 U (\neg cri_0 \wedge A \neg cri_0 U cri_1))$  \\
+			\hline
+			{$P_5$} &  $AG (cri_1 \Rightarrow A cri_1 U (\neg cri_1 \wedge A \neg cri_1 U cri_0))$\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\figcaption{互斥算法的性质}
+	\label{tabl:mutual:properties}
+\end{table}
+
+每个环算法包含$n$个进程，$n$个进程的调度方式如下：对于$1\le i\le n-1$，进程$i$的内部状态由进程$i-1$的输出决定，进程$0$的内部状态由进程$n-1$的输出决定；每个进程的输出取决于它的内部状态；每个进程的内部状态由5个布尔变量的值表示；每个进程的输出由1个布尔变量表示。
+环算法中$n$的取值范围为$\{3,...,10\}$。
+要验证的性质如表\ref{tabl:ring:properties}所示，其中$out_i$表示进程$i$的输出为布尔值\textsf{true}。
+所有的性质必须在公平性的前提下进行验证，即在环算法的执行过程中没有进程饿死（永远处在等待状态）。
+
+\begin{table}[h!]
+	\small
+	%\setlength{\tabcolsep}{3pt}
+	%\renewcommand{\arraystretch}{1.0}
+	\begin{center}
+		\begin{tabular}{| l | l |}
+			\hline
+			\textbf{Prop} & \textbf{Ring Algorithms}\\
+			\hline
+			{$P_1$} & $AGAF out_0 \wedge AGAF \neg out_0$ \\
+			\hline
+			{$P_2$} &  $AGEF out_0 \wedge AGEF \neg out_0$ \\
+			\hline
+			{$P_3$} &  $EGAF out_0 \wedge EGAF \neg out_0$\\
+			
+			\hline
+			{$P_4$} &  $EGEF out_0 \wedge EGEF \neg out_0$ \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\figcaption{环算法的性质}
+	\label{tabl:ring:properties}
+\end{table}
+
+\couic{This benchmark consists of two sets of concurrent programs: the mutual
 exclusion algorithms and the ring algorithms. Both kinds of algorithms
 consist of a set of concurrent processes running in parallel. 
 
@@ -2058,55 +2125,22 @@ processes $0$ and $1$ are not symmetric, as exemplified by the
 difference in performance between the properties $P_4$ and $P_5$.
 
 Each process in the ring algorithms consists of $5$ Boolean internal variables indicating the internal state, and a Boolean variable indicating the output. Each process receives a Boolean value as the input during its running time. For a ring algorithm with processes $p_0,p_1,...,p_n$, the internal state of $p_i$ depends on the output of process $p_{i-1}$, and the output of $p_{i-1}$ depends on its internal state, where $1\le i\le n$. The internal state of $p_0$ depends on the output of process $p_n$, and the output of $p_n$ depends on the internal state of its own. The number of processes vary from $3$ to $10$. There are four properties specified by \CTL{} formulae are to be verified in ring algorithms, as in Figure~\ref{tabl:mutual:ring:properties}. In these formulae, $out_i$ indicates that the output of process $p_i$ is Boolean value $true$.
+}
 
 
 %	The experimental results are shown in Table~\ref{tabl:solvable:mutual:ring}, \ref{tabl:compare:mutual:ring}, and \ref{tabl:data:mutual:ring}. 
 
-The experimental results (Table~\ref{tabl:solvable:mutual:ring} and Table \ref{tabl:compare:mutual:ring}) show that \sctl{} solves more test cases than \verds, \nusmv{}, and \nuxmv{}. At the same time, \sctl{} is more time and space efficiency in more than 75 percent of the test cases than the other three tools.  
+如表\ref{tabl:solvable:mutual:ring}、表\ref{tabl:compare:mutual:ring}、表\ref{tabl:data:mutual}、表\ref{tabl:data:ring}所示：\sctl{}成功验证的测试用例个数多于\verds， \nusmv{}以及\nuxmv{}；同时在超过75\%的测试用例中，\sctl{}占用资源（时间和空间）相比另外三个工具更少。
+
+
+\couic{The experimental results (Table~\ref{tabl:solvable:mutual:ring} and Table \ref{tabl:compare:mutual:ring}) show that \sctl{} solves more test cases than \verds, \nusmv{}, and \nuxmv{}. At the same time, \sctl{} is more time and space efficiency in more than 75 percent of the test cases than the other three tools.  
 
 The detailed experimental data is shown in ~\ref{bench4:data:detail}.
+}
 
-\begin{table}
-	%\setlength{\tabcolsep}{3pt}
-	%\renewcommand{\arraystretch}{1.0}
-	\begin{center}
-		\begin{tabular}{| l | l |}
-			\hline
-			\textbf{Prop} & \textbf{Mutual Exclusion Algorithms}\\
-			\hline
-			{$P_1$} & $EF (cri_0 \wedge cri_1)$  \\
-			\hline
-			{$P_2$} &  $AG (try_0 \Rightarrow AF (cri_0))$\\
-			\hline
-			{$P_3$} &  $AG (try_1 \Rightarrow AF (cri_1))$\\
-			
-			\hline
-			{$P_4$} &  $AG (cri_0 \Rightarrow A cri_0 U (\neg cri_0 \wedge A \neg cri_0 U cri_1))$  \\
-			\hline
-			{$P_5$} &  $AG (cri_1 \Rightarrow A cri_1 U (\neg cri_1 \wedge A \neg cri_1 U cri_0))$\\
-			\hline
-			%			\vspace{0.5cm}\\
-			%		\end{tabular}
-			%	\begin{tabular}{| l | l |}
-			\hline
-			\textbf{Prop} & \textbf{Ring Algorithms}\\
-			\hline
-			{$P_1$} & $AGAF out_0 \wedge AGAF \neg out_0$ \\
-			\hline
-			{$P_2$} &  $AGEF out_0 \wedge AGEF \neg out_0$ \\
-			\hline
-			{$P_3$} &  $EGAF out_0 \wedge EGAF \neg out_0$\\
-			
-			\hline
-			{$P_4$} &  $EGEF out_0 \wedge EGEF \neg out_0$ \\
-			\hline
-		\end{tabular}
-	\end{center}
-	\figcaption{Properties to be verified in benchmark \#4.}
-	\label{tabl:mutual:ring:properties}
-\end{table}
 
-\begin{table}
+\begin{table}[h!]
+	\small
 	%\setlength{\tabcolsep}{3pt}
 	%\renewcommand{\arraystretch}{1.0}
 	%	\begin{tabular}{c c}
@@ -2124,14 +2158,17 @@ The detailed experimental data is shown in ~\ref{bench4:data:detail}.
 		Sum & 152(58.0\%) & 71(27.1\%) & 71(27.1\%) & 211 (80.5\%)\\
 		\hline
 	\end{tabular}	
-	\caption{Solvable cases in \verds{}, \nusmv{}, \nuxmv{}, and \sctl{}.}
+	\caption{测试集四中各个工具能成功验证的测试用例的个数}
 	\label{tabl:solvable:mutual:ring}
 	\vspace{0.5cm}
-	%\end{table}
-	%\begin{table}
+\end{table}
+\begin{table}[h!]
+	\small
 	%\scriptsize
 	%			\centering
 	%			\setlength{\tabcolsep}{3pt}
+	\centering
+	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{| l | r | r | r |}
 		\hline
 		\textbf{Programs} & \verds{} & \nusmv{} & \nuxmv{}  \\
@@ -2143,14 +2180,210 @@ The detailed experimental data is shown in ~\ref{bench4:data:detail}.
 		Sum & 200(76.3\%) & 211(80.5\%) & 211(80.5\%) \\
 		\hline
 	\end{tabular}
-	\caption{Cases where \sctl{} both runs faster and uses less memory.}
+	\caption{测试集四中\sctl{}占用资源更少的的测试用例的个数}
 	\label{tabl:compare:mutual:ring}
 	%		\end{minipage}
 	%	\end{tabular}
 \end{table}
 
+\begin{table}[h!]\scriptsize
+	\centering
+	%	\begin{tabular}{p{6.8cm} p{6.8cm}}
+	%	\begin{table}
+	%		\setlength{\tabcolsep}{2pt}
+	%		\renewcommand{\arraystretch}{1.0}
+	%		\begin{minipage}[b]{0.5\linewidth}
+	\setlength{\tabcolsep}{2pt}
+	\begin{tabular}{| r | r | r | r | r | r | r | r | r | r |}
+		\hline
+		\textbf{Prop} & \textbf{NoP} & \multicolumn{8}{c|}{Mutual Exclusion Algorithms} \\
+		\hline
+		{} & {} & \multicolumn{2}{c|}{\verds{}} & \multicolumn{2}{c|}{\nusmv{}} & \multicolumn{2}{c|}{\nuxmv{}} &  \multicolumn{2}{c|}{\sctl{}} \\
+		\hline
+		{} & {} & sec & MB & sec & MB & sec & MB &  sec & MB \\
+		\hline
+		\multirow{6}{*}{$P_1$} & 6 & 0.286 & 321.99 & 0.153 & 9.07 & 0.270 & 21.18 & 0.005 & 2.25 \\
+		%			\hline
+		{} & 12 & 1.278 & 322.08 & 19.506 & 76.98 & 21.848 & 89.25 & 0.016 & 3.70  \\
+		%			\hline
+		{} & 18 & 4.719 & 426.45 & - & - & - & - & 0.037 & 5.44  \\
+		%			\hline
+		{} & 24 & 11.989 & 601.55 & - & - & - & - & 0.091 & 9.36  \\
+		%			\hline
+		{} & 30 & 26.511 & 926.25 & - & - & - & - & 0.200 & 16.49  \\
+		%			\hline
+		{} & 36 & 52.473 & 1287.57 & - & - & - & - & 0.418 & 27.46  \\
+		%			\hline
+		{} & 42 & 100.071 & 1944.95 & - & - & - & - & 0.682 & 48.28  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & 1.119 & 66.63  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & 1.392 & 82.32  \\
+		\hline
+		\multirow{6}{*}{$P_2$} & 6 & 0.375 & 322.07 & 0.054 & 9.07 & 0.048 & 21.31 & 0.012 & 3.07  \\
+		%			\hline
+		{} & 12 & 2.011 & 322.02 & 22.774 & 76.96 & 21.733 & 89.24 & 0.035 & 4.44  \\
+		%			\hline
+		{} & 18 & 7.958 & 446.71 & - & - & - & - & 0.101 & 8.09  \\
+		%			\hline
+		{} & 24 & 23.448 & 692.30 & - & - & - & - & 0.252 & 14.57  \\
+		%			\hline
+		{} & 30 & 48.800 & 1026.48 & - & - & - & - & 0.509 & 23.61  \\
+		%			\hline
+		{} & 36 & 105.183 & 1619.01 & - & - & - & - & 1.005 & 50.49  \\
+		%			\hline
+		{} & 42 & - & - & - & - & - & - & 1.791 & 57.93  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & 2.679 & 86.67  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & 3.453 & 129.83  \\
+		\hline
+		\multirow{6}{*}{$P_3$} & 6 & 0.331 & 322.02 & 0.089 & 9.04 & 0.033 & 21.27 & 0.012 & 3.03  \\
+		%			\hline
+		{} & 12 & 2.059 & 322.07 & 22.749 & 76.91 & 21.897 & 89.22 & 0.035 & 4.93  \\
+		%			\hline
+		{} & 18 & 7.995 & 449.13 & - & - & - & - & 0.110 & 9.59  \\
+		%			\hline
+		{} & 24 & 23.578 & 696.74 & - & - & - & - & 0.286 & 21.04  \\
+		%			\hline
+		{} & 30 & 51.774 & 1138.27 & - & - & - & - & 0.643 & 30.09  \\
+		%			\hline
+		{} & 36 & 106.027 & 1628.84 & - & - & - & - & 1.287 & 66.14  \\
+		%			\hline
+		{} & 42 & - & - & - & - & - & - & 2.138 & 86.29  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & 3.369 & 170.94  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & 4.333 & 149.03  \\
+		\hline
+		\multirow{6}{*}{$P_4$} & 6 & 0.446 & 321.97 & 0.089 & 9.04 & 0.033 & 21.27 & 0.039 & 3.38  \\
+		%			\hline
+		{} & 12 & 8.289 & 552.62 & 22.749 & 76.91 & 21.897 & 89.22 & 150.115 & 986.64  \\
+		%			\hline
+		{} & 18 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 24 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 30 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 36 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 42 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & - & -  \\
+		\hline
+		\multirow{6}{*}{$P_5$} & 6 & 0.430 & 322.03 & 0.031 & 9.09 & 0.047 & 21.19 & 0.011 & 3.10  \\
+		%			\hline
+		{} & 12 & 3.398 & 363.78 & 22.747 & 77.01 & 22.029 & 89.17 & 0.040 & 4.81  \\
+		%			\hline
+		{} & 18 & 18.176 & 783.24 & - & - & - & - & 0.115 & 10.99  \\
+		%			\hline
+		{} & 24 & 87.432 & 2382.82 & - & - & - & - & 0.322 & 18.68  \\
+		%			\hline
+		{} & 30 & - & - & - & - & - & - & 1.414 & 47.68  \\
+		%			\hline
+		{} & 36 & - & - & - & - & - & - & 1.287 & 66.35  \\
+		%			\hline
+		{} & 42 & - & - & - & - & - & - & 2.405 & 142.86  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & 4.848 & 225.55  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & 5.177 & 225.66  \\
+		\hline
+	\end{tabular}
+	\caption{测试集四中互斥算法测试用例的实验数据}
+	\label{tabl:data:mutual}
+\end{table}
+
+\begin{table}[h!]\scriptsize
+	\centering
+	\setlength{\tabcolsep}{2pt}
+	\begin{tabular}{| r | r | r | r | r | r | r | r | r | r |}
+		\hline
+		\textbf{Prop} & \textbf{NoP} & \multicolumn{8}{c|}{Ring Algorithms} \\
+		\hline
+		{} & {} & \multicolumn{2}{c|}{\verds{}} & \multicolumn{2}{c|}{\nusmv{}} & \multicolumn{2}{c|}{\nuxmv{}} &  \multicolumn{2}{c|}{\sctl{}} \\
+		\hline
+		{} & {} & sec & MB & sec & MB & sec & MB & sec & MB \\
+		\hline
+		\multirow{6}{*}{$P_1$} & 3 & 0.168 & 322.09 & 0.040 & 10.02 & 0.045 & 22.08 & 4.622 & 62.22  \\
+		%			\hline
+		{} & 4 & 0.216 & 322.12 & 0.299 & 22.46 & 0.255 & 34.96 & - & -  \\
+		%			\hline
+		{} & 5 & 0.301 & 322.07 & 2.421 & 59.31 & 1.195 & 71.53 & - & -  \\
+		%			\hline
+		{} & 6 & 0.449 & 322.13 & 22.127 & 80.49 & 17.967 & 92.82 & - & -  \\
+		%			\hline
+		{} & 7 & 0.740 & 322.19 & 147.895 & 224.17 & 131.735 & 236.50 & - & -  \\
+		%			\hline
+		{} & 8 & 1.115 & 322.09 & 1135.882 & 865.04 & 1083.48 & 877.36 & - & -  \\
+		%			\hline
+		{} & 9 & 1.646 & 322.07 & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 10 & 2.232 & 321.96 & - & - & - & - & - & -  \\
+		\hline
+		\multirow{6}{*}{$P_2$} & 3 & - & - & 0.058 & 10.74 & 0.068 & 22.73 & 0.031 & 3.22  \\
+		%			\hline
+		{} & 4 & - & - & 0.583 & 40.29 & 0.562 & 52.61 & 0.125 & 3.73  \\
+		%			\hline
+		{} & 5 & - & - & 5.164 & 62.29 & 5.295 & 74.62 & 0.444 & 4.05  \\
+		%			\hline
+		{} & 6 & - & - & 39.085 & 81.85 & 37.969 & 93.96 & 1.373 & 4.71  \\
+		%			\hline
+		{} & 7 & - & - & 246.123 & 229.07 & 241.375 & 241.15 & 3.745 & 6.03  \\
+		%			\hline
+		{} & 8 & - & - & - & - & - & - & 9.154 & 7.61  \\
+		%			\hline
+		{} & 9 & - & - & - & - & - & - & 19.997 & 10.07  \\
+		%			\hline
+		{} & 10 & - & - & - & - & - & - & 40.331 & 13.05  \\
+		\hline
+		\multirow{6}{*}{$P_3$} & 3 & - & - & 0.045 & 10.03 & 0.071 & 22.32 & 0.022 & 3.20  \\
+		%			\hline
+		{} & 4 & - & - & 0.296 & 22.46 & 0.299 & 34.96 & 0.820 & 13.11  \\
+		%			\hline
+		{} & 5 & - & - & 2.357 & 59.31 & 2.526 & 71.63 & 111.96 & 676.29  \\
+		%			\hline
+		{} & 6 & - & - & 22.147 & 80.49 & 21.304 & 92.93 & - & -  \\
+		%			\hline
+		{} & 7 & - & - & 147.567 & 224.17 & 141.134 & 236.74 & - & -  \\
+		%			\hline
+		{} & 8 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 9 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 10 & - & - & - & - & - & - & - & -  \\
+		\hline
+		\multirow{6}{*}{$P_4$} & 3 & 0.158 & 322.09 & 0.066 & 10.00 & 0.171 & 22.32 & 0.024 & 3.24  \\
+		%			\hline
+		{} & 4 & 0.190 & 322.05 & 0.356 & 22.46 & 0.367 & 34.95 & 0.104 & 3.82  \\
+		%			\hline
+		{} & 5 & 0.263 & 322.04 & 2.726 & 59.31 & 2.781 & 71.63 & 0.385 & 3.99  \\
+		%			\hline
+		{} & 6 & 0.385 & 322.07 & 27.013 & 80.48 & 24.794 & 94.95 & 1.289 & 4.57  \\
+		%			\hline
+		{} & 7 & 0.528 & 322.07 & 181.007 & 224.16 & 166.725 & 236.61 & 3.727 & 5.29  \\
+		%			\hline
+		{} & 8 & 0.815 & 322.14 & - & - & - & - & 9.525 & 7.14  \\
+		%			\hline
+		{} & 9 & 1.138 & 322.19 & - & - & - & - & 21.568 & 9.31  \\
+		%			\hline
+		{} & 10 & 1.574 & 321.98 & - & - & - & - & 45.097 & 12.95  \\
+		\hline
+	\end{tabular}
+	%		\end{minipage}
+	
+	%	\end{table}
+	%	\end{tabular}
+	\tabcaption{测试集四中环算法测试用例的实验数据}
+	\label{tabl:data:ring}
+\end{table}
 
 \subsection{工业级测试用例的验证}	\label{subsc:vlts}
+在本小节中，我们在工业级测试用例上（测试集五）对比\sctl{}与其他工具的效率。不同于测试集一、二、三、四，本次对比所用的测试用例均为符号迁移系统（Labeled Transition System，简称LTS），而且所有的LTS均以BCG（Binary-Coded Graph）格式表示。测试集五（原名VLTS测试集，即Very Large Transition Systems）
+
 In this part, we evaluate benchmark \#5, also called the \textsf{VLTS} (Very Large Transition Systems) benchmark\footnote{\url{http://cadp.inria.fr/resources/vlts/}}, which was originally proposed as a part of the \CADP{}\footnote{\url{http://cadp.inria.fr/}} (Construction and Analysis of Distributed Processes) toolbox \cite{GaravelLMS13}.
 As a formal verification toolbox, \CADP{} focuses on action-based models, for instance, \textsf{LTS}s and Markov Chains.
 As pointed out by the authors of \textsf{CADP}: \textit{this benchmark has been obtained from the modeling of various communication protocols and concurrent systems, many of which corresponds to real life and industrial systems}. 
@@ -2167,13 +2400,13 @@ when detecting livelocks, \sctlprov{} uses less time than \CADP{} in 22 (55\%) t
 For brevity's sake, more details about the experiment on benchmark \#5 are explained in \ref{appendix:data:benchmark5}.
 
 \begin{figure}[h]
-	
+	\small
 	\centering
 	\begin{tabular}{ | l | c | c | }
 		\hline
-		\textbf{Cases} & t(\sctlprov) $<$ t(\CADP{}) & m(\sctlprov) $<$ m(\CADP{})\\\hline
-		\code{deadlock} & 31 (77.5\%) & 35 (87.5\%)\\\hline
-		\code{livelock} & 22 (55\%) & 27 (67.5\%)\\\hline
+		\textbf{性质} & t(\sctlprov) $<$ t(\CADP{}) & m(\sctlprov) $<$ m(\CADP{})\\\hline
+		\code{死锁} & 31 (77.5\%) & 35 (87.5\%)\\\hline
+		\code{活锁} & 22 (55\%) & 27 (67.5\%)\\\hline
 		%\hline
 	\end{tabular}
 	

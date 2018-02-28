@@ -8,10 +8,12 @@
 \contentsline {table}{\numberline {2.3}{\ignorespaces 测试集二中5个工具能成功验证的测试用例个数\relax }}{32}{table.caption.36}
 \contentsline {table}{\numberline {2.4}{\ignorespaces 测试集二中\textsf {SCTLProV}{}相比其他工具占用资源（时间和空间）少的测试用例个数\relax }}{32}{table.caption.37}
 \contentsline {table}{\numberline {2.5}{\ignorespaces 测试集三中5个工具能成功验证的测试用例个数\relax }}{33}{table.caption.41}
-\contentsline {table}{\numberline {2.6}{\ignorespaces \textsf {SCTLProV}{} vs. \textsf {SCTLProV$_R$}{}\relax }}{33}{table.caption.42}
-\contentsline {table}{\numberline {2.7}{\ignorespaces Solvable cases in \textsf {Verds}{}, \textsf {NuSMV}{}, \textsf {NuXMV}{}, and \textsf {SCTLProV}{}.\relax }}{36}{table.caption.46}
-\contentsline {table}{\numberline {2.8}{\ignorespaces Cases where \textsf {SCTLProV}{} both runs faster and uses less memory.\relax }}{36}{table.caption.46}
-\contentsline {table}{\numberline {2.9}{\ignorespaces Test cases where \textsf {S{CTL}ProV}{} uses less time and less memory, respectively.\relax }}{36}{figure.caption.47}
+\contentsline {table}{\numberline {2.6}{\ignorespaces 在测试集一、二、三上\textsf {SCTLProV}{}和\textsf {SCTLProV$_R$}{}的实验数据对比\relax }}{33}{table.caption.42}
+\contentsline {table}{\numberline {2.7}{\ignorespaces 测试集四中各个工具能成功验证的测试用例的个数\relax }}{35}{table.caption.46}
+\contentsline {table}{\numberline {2.8}{\ignorespaces 测试集四中\textsf {SCTLProV}{}占用资源更少的的测试用例的个数\relax }}{35}{table.caption.47}
+\contentsline {table}{\numberline {2.9}{\ignorespaces 测试集四中互斥算法测试用例的实验数据\relax }}{36}{table.caption.48}
+\contentsline {table}{\numberline {2.10}{\ignorespaces 测试集四中环算法测试用例的实验数据\relax }}{37}{table.caption.49}
+\contentsline {table}{\numberline {2.11}{\ignorespaces Test cases where \textsf {S{CTL}ProV}{} uses less time and less memory, respectively.\relax }}{38}{figure.caption.50}
 \addvspace {10.0pt}
 \addvspace {10.0pt}
 \addvspace {10.0pt}

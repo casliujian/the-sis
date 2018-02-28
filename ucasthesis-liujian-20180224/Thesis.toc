@@ -35,11 +35,11 @@
 \contentsline {paragraph}{测试集二的实验结果}{30}{paragraph*.35}
 \contentsline {paragraph}{测试集三的实验结果}{31}{paragraph*.40}
 \contentsline {subsubsection}{\numberline {2.4.3.4}连续 vs. 递归}{32}{subsubsection.2.4.3.4}
-\contentsline {subsection}{\numberline {2.4.4}带有公平性性质的程序的验证}{34}{subsection.2.4.4}
-\contentsline {paragraph}{互斥算法和环算法 Mutual exclusion and ring algorithms.}{34}{paragraph*.44}
+\contentsline {subsection}{\numberline {2.4.4}公平性性质的验证}{34}{subsection.2.4.4}
+\contentsline {subsubsection}{\numberline {2.4.4.1}测试集四}{34}{subsubsection.2.4.4.1}
 \contentsline {subsection}{\numberline {2.4.5}工业级测试用例的验证}{35}{subsection.2.4.5}
-\contentsline {subsection}{\numberline {2.4.6}关于实验结果的讨论}{37}{subsection.2.4.6}
-\contentsline {chapter}{参考文献}{39}{section*.48}
-\contentsline {chapter}{发表学术论文}{41}{chapter*.50}
-\contentsline {chapter}{简历}{43}{chapter*.53}
-\contentsline {chapter}{致\hskip 1em\relax 谢}{45}{chapter*.57}
+\contentsline {subsection}{\numberline {2.4.6}关于实验结果的讨论}{38}{subsection.2.4.6}
+\contentsline {chapter}{参考文献}{41}{section*.51}
+\contentsline {chapter}{发表学术论文}{43}{chapter*.53}
+\contentsline {chapter}{简历}{45}{chapter*.56}
+\contentsline {chapter}{致\hskip 1em\relax 谢}{47}{chapter*.60}

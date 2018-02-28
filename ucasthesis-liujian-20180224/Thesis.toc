@@ -27,19 +27,19 @@
 \contentsline {subsection}{\numberline {2.4.2}案例二：小型飞机场运输系统}{23}{subsection.2.4.2}
 \contentsline {subsection}{\numberline {2.4.3}随机生成的布尔程序的验证}{28}{subsection.2.4.3}
 \contentsline {subsubsection}{\numberline {2.4.3.1}测试集一}{28}{subsubsection.2.4.3.1}
-\contentsline {paragraph}{并发进程}{29}{paragraph*.27}
+\contentsline {paragraph}{并发进程}{28}{paragraph*.27}
 \contentsline {paragraph}{并发顺序进程}{29}{paragraph*.28}
-\contentsline {subsubsection}{\numberline {2.4.3.2}测试集二、三}{30}{subsubsection.2.4.3.2}
+\contentsline {subsubsection}{\numberline {2.4.3.2}测试集二、三}{29}{subsubsection.2.4.3.2}
 \contentsline {subsubsection}{\numberline {2.4.3.3}实验数据}{30}{subsubsection.2.4.3.3}
-\contentsline {paragraph}{Experimental data for benchmark \#1.}{30}{paragraph*.30}
-\contentsline {paragraph}{Experimental data for benchmark \#2.}{31}{paragraph*.31}
-\contentsline {paragraph}{Experimental data for benchmark \#3.}{31}{paragraph*.32}
+\contentsline {paragraph}{测试集一的实验结果}{30}{paragraph*.30}
+\contentsline {paragraph}{测试集二的实验结果}{30}{paragraph*.35}
+\contentsline {paragraph}{测试集三的实验结果}{31}{paragraph*.40}
 \contentsline {subsubsection}{\numberline {2.4.3.4}连续 vs. 递归}{32}{subsubsection.2.4.3.4}
-\contentsline {subsection}{\numberline {2.4.4}带有公平性性质的程序的验证}{33}{subsection.2.4.4}
-\contentsline {paragraph}{互斥算法和环算法 Mutual exclusion and ring algorithms.}{33}{paragraph*.39}
-\contentsline {subsection}{\numberline {2.4.5}工业级测试用例的验证}{34}{subsection.2.4.5}
-\contentsline {subsection}{\numberline {2.4.6}关于实验结果的讨论}{36}{subsection.2.4.6}
-\contentsline {chapter}{参考文献}{37}{section*.43}
-\contentsline {chapter}{发表学术论文}{39}{chapter*.45}
-\contentsline {chapter}{简历}{41}{chapter*.48}
-\contentsline {chapter}{致\hskip 1em\relax 谢}{43}{chapter*.52}
+\contentsline {subsection}{\numberline {2.4.4}带有公平性性质的程序的验证}{34}{subsection.2.4.4}
+\contentsline {paragraph}{互斥算法和环算法 Mutual exclusion and ring algorithms.}{34}{paragraph*.44}
+\contentsline {subsection}{\numberline {2.4.5}工业级测试用例的验证}{35}{subsection.2.4.5}
+\contentsline {subsection}{\numberline {2.4.6}关于实验结果的讨论}{37}{subsection.2.4.6}
+\contentsline {chapter}{参考文献}{39}{section*.48}
+\contentsline {chapter}{发表学术论文}{41}{chapter*.50}
+\contentsline {chapter}{简历}{43}{chapter*.53}
+\contentsline {chapter}{致\hskip 1em\relax 谢}{45}{chapter*.57}

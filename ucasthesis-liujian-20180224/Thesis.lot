@@ -3,10 +3,15 @@
 \addvspace {10.0pt}
 \addvspace {10.0pt}
 \addvspace {10.0pt}
-\contentsline {table}{\numberline {2.1}{\ignorespaces \textsf {SCTLProV}{} vs. \textsf {SCTLProV$_R$}{}\relax }}{32}{table.caption.37}
-\contentsline {table}{\numberline {2.2}{\ignorespaces Solvable cases in \textsf {Verds}{}, \textsf {NuSMV}{}, \textsf {NuXMV}{}, and \textsf {SCTLProV}{}.\relax }}{35}{table.caption.41}
-\contentsline {table}{\numberline {2.3}{\ignorespaces Cases where \textsf {SCTLProV}{} both runs faster and uses less memory.\relax }}{35}{table.caption.41}
-\contentsline {table}{\numberline {2.4}{\ignorespaces Test cases where \textsf {S{CTL}ProV}{} uses less time and less memory, respectively.\relax }}{36}{figure.caption.42}
+\contentsline {table}{\numberline {2.1}{\ignorespaces 测试集一中5个工具能成功验证的测试用例个数\relax }}{30}{table.caption.31}
+\contentsline {table}{\numberline {2.2}{\ignorespaces 测试集一中\textsf {SCTLProV}{}相比其他工具占用资源（时间和空间）少的测试用例个数\relax }}{31}{table.caption.32}
+\contentsline {table}{\numberline {2.3}{\ignorespaces 测试集二中5个工具能成功验证的测试用例个数\relax }}{32}{table.caption.36}
+\contentsline {table}{\numberline {2.4}{\ignorespaces 测试集二中\textsf {SCTLProV}{}相比其他工具占用资源（时间和空间）少的测试用例个数\relax }}{32}{table.caption.37}
+\contentsline {table}{\numberline {2.5}{\ignorespaces 测试集三中5个工具能成功验证的测试用例个数\relax }}{33}{table.caption.41}
+\contentsline {table}{\numberline {2.6}{\ignorespaces \textsf {SCTLProV}{} vs. \textsf {SCTLProV$_R$}{}\relax }}{33}{table.caption.42}
+\contentsline {table}{\numberline {2.7}{\ignorespaces Solvable cases in \textsf {Verds}{}, \textsf {NuSMV}{}, \textsf {NuXMV}{}, and \textsf {SCTLProV}{}.\relax }}{36}{table.caption.46}
+\contentsline {table}{\numberline {2.8}{\ignorespaces Cases where \textsf {SCTLProV}{} both runs faster and uses less memory.\relax }}{36}{table.caption.46}
+\contentsline {table}{\numberline {2.9}{\ignorespaces Test cases where \textsf {S{CTL}ProV}{} uses less time and less memory, respectively.\relax }}{36}{figure.caption.47}
 \addvspace {10.0pt}
 \addvspace {10.0pt}
 \addvspace {10.0pt}

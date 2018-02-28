@@ -1173,10 +1173,10 @@ Based on benchmark \#1, we extend the number of variables to tens, hundreds, and
 The randomness of the test cases in three benchmarks makes it rather fair for different \CTL{} model checking approaches, and helps us recognize the strengths and weaknesses of each tool. }
 
 \subsubsection{测试集一}
-Benchmark \#1 chosen in this subsection is originally introduced by Zhang \cite{Zhang14} in the evaluation of model checkers \verds{} and \nusmv{}. Later, Ji \cite{Ji15} also uses this benchmark in the evaluation of the theorem prover \tool{iProver Modulo} and the model checker \verds{}. This benchmark consists of 2880 randomly generated test cases where two types of random Boolean programs are considered---Concurrent Processes and Concurrent Sequential Processes. 
+\couic{Benchmark \#1 chosen in this subsection is originally introduced by Zhang \cite{Zhang14} in the evaluation of model checkers \verds{} and \nusmv{}. Later, Ji \cite{Ji15} also uses this benchmark in the evaluation of the theorem prover \tool{iProver Modulo} and the model checker \verds{}. This benchmark consists of 2880 randomly generated test cases where two types of random Boolean programs are considered---Concurrent Processes and Concurrent Sequential Processes. 
 In programs with Concurrent Processes,
 the parameters of the first set of random Boolean programs are as
-follows.
+follows.}
 
 测试集一中包含两类测试用例：并发进程（Concurrent Processes，简称CP）和并发顺序进程（Concurrent Sequential Processes，简称CSP）。
 \paragraph{并发进程}
@@ -1192,7 +1192,7 @@ follows.
 		\hline
 	\end{tabular}
 \end{center}
-进程间的共享变量的初始值均为$\{0,1\}$中的随机值，而每个进程的局部变量的初始值均为$0$。每个进程的共享变量和局部变量的每次赋值均为随机选择的某个变量的值的逻辑非。我们令进程个数为3，即$a=3$；令$b$在$\{12,24,36\}$中取值；同时令$c=b/2$，以及$d=c/a$。对于每个$b$的取值有20个Kripke模型，然后在每个Kripke模型分别验证24个\CTL{}性质。因此，此测试集中共有$3\times20\times24=1440$个并发进程测试用例。
+进程间的共享变量的初始值均为$\{0,1\}$中的随机值，而每个进程的局部变量的初始值均为$0$。每个进程的共享变量和局部变量的每次赋值均为随机选择的某个变量的值的逻辑非。我们令每个测试用例中进程个数为3，即$a=3$；令$b$在$\{12,24,36\}$中取值；同时令$c=b/2$，以及$d=c/a$。对于每个$b$的取值有20个Kripke模型，然后在每个Kripke模型分别验证24个\CTL{}性质。因此，此测试集中共有$3\times20\times24=1440$个并发进程测试用例。
 
 \couic{The shared variables are initially set to a random value in $\{0,1\}$,
 and the local variables are initially set to $0$. For each process,
@@ -1216,7 +1216,8 @@ follows.}
 		\hline
 	\end{tabular}
 \end{center}
-For each concurrent sequential process, besides the $b$ Boolean
+除了在并发进程中介绍的$b$个布尔变量之外，在每个并发顺序进程中还用到一个局部变量来表示进程当前执行的位置，共有$c$个取值。进程间的共享变量的初始值均为$\{0,1\}$中的随机值，而每个进程的局部变量的初始值均为$0$。每个进程共有$t$种迁移（状态变换，即对变量的赋值操作），在每个迁移种对随机选择的$p$个共享变量和局部变量进行赋值操作。随着进程的运行，所有的迁移依次周期性地进行。我们令每个测试用例包含2个进程，即$a=2$；令$b$在$\{12,16,20\}$中取值；同时令$c=b/2,d=c/a,t=c,p=4$。对于每个$b$的取值有20个Kripke模型，然后在每个Kripke模型分别验证24个\CTL{}性质。因此，此测试集中共有$3\times20\times24=1440$个并发顺序进程测试用例。
+\couic{For each concurrent sequential process, besides the $b$ Boolean
 variables, there is a local variable representing program locations,
 with $c$ possible values. The shared variables are initially set to a
 random value in $\{0,1\}$, and the local variables are initially set
@@ -1231,70 +1232,131 @@ $0$. For this type of programs, we test different sizes of the
 programs with $2$ processes ($a=2$), and let $b$ vary in the set of
 values $\{12,16,20\}$, and then set $c=b/2, d=c/a, t=c$, and
 $p=4$. Similarly, each property is tested on $20$ test cases for each
-value of $b$.
+value of $b$.}
 
+在本测试集中，我们验证24个\CTL{}性质，其中性质$P_{01}$至 $P_{12}$如图\ref{fig:properties}所示，而性质$P_{13}$至$P_{24}$为依次将$P_{01}$至 $P_{12}$中的$\wedge$替换成$\vee$，以及将$\vee$替换成$\wedge$。
 
-Twenty-four properties are to be checked in this benchmark: properties $P_{01}$ to $P_{12}$ are depicted in Figure~\ref{fig:properties}, and $P_{13}$ to $P_{24}$ are simply the variations of
+\couic{Twenty-four properties are to be checked in this benchmark: properties $P_{01}$ to $P_{12}$ are depicted in Figure~\ref{fig:properties}, and $P_{13}$ to $P_{24}$ are simply the variations of
 $P_{01}$ to $P_{12}$ by replacing $\wedge$ and $\bigvee$ by $\vee$ and
-$\bigwedge$, respectively.
+$\bigwedge$, respectively.}
 
 \begin{figure}[!h]
 	\centering
 	{
-		\begin{tabular}{|l|l|}
+		\begin{tabular}{|l|l||l|l|}
 			\hline
-			$P_{01}$& $AG(\bigvee^c_{i=1}v_i)$ \\
+			$P_{01}$& $AG(\bigvee^c_{i=1}v_i)$ & $P_{07}$& $AU(v_1, AU(v_2, \bigvee^c_{i=3}v_i))$\\
 			\hline
-			$P_{02}$& $AF(\bigvee^c_{i=1}v_i)$ \\
+			$P_{02}$& $AF(\bigvee^c_{i=1}v_i)$ & $P_{08}$ & $AU(v_1, EU(v_2, \bigvee^c_{i=3}v_i))$\\
 			\hline
-			$P_{03}$& $AG(v_1 \A AF(v_2\wedge \bigvee^c_{i=3}v_i))$
-			\\
+			$P_{03}$& $AG(v_1 \A AF(v_2\wedge \bigvee^c_{i=3}v_i))$ & $P_{09}$& $AU(v_1, AR(v_2, \bigvee^c_{i=3}v_i))$\\
+			
 			\hline
-			$P_{04}$& $AG(v_1 \A EF(v_2\wedge \bigvee^c_{i=3}v_i))$
-			\\
+			$P_{04}$& $AG(v_1 \A EF(v_2\wedge \bigvee^c_{i=3}v_i))$ & $P_{10}$& $AU(v_1, ER(v_2, \bigvee^c_{i=3}v_i))$\\
+			
 			\hline
-			$P_{05}$& $EG(v_1 \A AF(v_2\wedge \bigvee^c_{i=3}v_i))$
-			\\
+			$P_{05}$& $EG(v_1 \A AF(v_2\wedge \bigvee^c_{i=3}v_i))$ & $P_{11}$& $AR(AX v_1, AX AU(v_2, \bigvee^c_{i=3}v_i))$\\
+			
 			\hline
-			$P_{06}$& $EG(v_1 \A EF(v_2\wedge \bigvee^c_{i=3}v_i))$
-			\\
-			\hline
-			$P_{07}$& $AU(v_1, AU(v_2, \bigvee^c_{i=3}v_i))$\\
-			\hline
-			$P_{08}$ & $AU(v_1, EU(v_2, \bigvee^c_{i=3}v_i))$\\
-			\hline
-			$P_{09}$& $AU(v_1, AR(v_2, \bigvee^c_{i=3}v_i))$\\
-			\hline
-			$P_{10}$& $AU(v_1, ER(v_2, \bigvee^c_{i=3}v_i))$\\
-			\hline
-			$P_{11}$& $AR(AX v_1, AX AU(v_2, \bigvee^c_{i=3}v_i))$\\
-			\hline
-			$P_{12}$& $AR(EX v_1, EX EU(v_2, \bigvee^c_{i=3}v_i))$\\
+			$P_{06}$& $EG(v_1 \A EF(v_2\wedge \bigvee^c_{i=3}v_i))$ & $P_{12}$& $AR(EX v_1, EX EU(v_2, \bigvee^c_{i=3}v_i))$\\
+			
 			\hline
 		\end{tabular}
 	}
-	\caption{测试集一、二、三中需要验证的性质$P_{01}, P_{02}, \ldots, P_{12}$}
+	\caption{测试集一中需要验证的性质$P_{01}$至$P_{12}$}
 	\label{fig:properties}
 \end{figure}
 
 \subsubsection{测试集二、三}
-In benchmark {\#}2, we increase the number of state variables in benchmark \#1 to $48$, $60$, or $72$ for Concurrent Processes, and $24$,
+在测试集一的基础上，我们分别将并发进程测试用例中$b$的值分别扩大为$48$，$60$，以及$72$，将并发顺序进程测试用例中$b$的值扩大为$24$，$28$，以及$32$。并由此得到包含2880个新的测试用例的测试集二。与测试集一一样，测试集二中的测试用例的模型的初始状态和迁移规则也是随机生成的。测试集二中要验证的性质与测试集一一致。
+
+在测试集三中，我们将并发进程和并发顺序进程测试用例的$b$的值同时进一步扩大到$252$，$504$，以及$1008$，同时要验证的性质与测试集一、二保持一致。
+
+\couic{In benchmark {\#}2, we increase the number of state variables in benchmark \#1 to $48$, $60$, or $72$ for Concurrent Processes, and $24$,
 $28$, or $32$ for Concurrent Sequential Processes. The 2880 test cases are also randomly generated.
 The properties to be checked are the same as in benchmark \#1.
 
 In benchmark {\#}3, we increase the number of state variables in benchmark \#1 to $252$, $504$
-and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, and check the same properties as benchmark \#1 and \#2.
+and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, and check the same properties as benchmark \#1 and \#2.}
 
 \subsubsection{实验数据}
-The experimental results are shown below, and the detailed data is in \ref{app:detail:data}.
+\couic{The experimental results are shown below, and the detailed data is in \ref{app:detail:data}.}
+在测试集一、二、三上，我们分别对比了\sctlprov{}与\tool{iProver Modulo}、\verds{}、\nusmv{}，以及\nuxmv{}的实验结果。
 
-\paragraph{Experimental data for benchmark \#1.}
-For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1816 (63.1\%) cases, \verds{} can solve 2230 (77.4\%) cases, \sctl{} can solve 2862 (99.4\%) cases, and both \nusmv{} and \nuxmv{} can solve all (100\%) test cases. The numbers of test cases where \sctl{} runs faster are 2823 (98.2\%) comparing with \tool{iProver Modulo}, 2858 (99.2\%) comparing with \verds{}, 2741 (95.2\%) comparing with \nusmv{}, and 2763 (95.9\%) comparing with \nuxmv{}. According to Figure~\ref{fig:average_time} and Figure~\ref{fig:average_memory}, \sctl{} uses less time and space than the other four tools.
-\paragraph{Experimental data for benchmark \#2.}
-For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1602 (55.6\%) cases, \verds{} can solve 1874 (65.1\%) cases, \nusmv{} can solve 728 (25.3\%) cases, \nuxmv{} can solve 736 (25.6\%) cases, and \sctl{} can solve 2597 (90.2\%) cases. The numbers of test cases where \sctl{} runs faster are 2597 (90.2\%) comparing with \tool{iProver Modulo}, 2594 (90.1\%) comparing with \verds{}, and 2588 (89.9\%) comparing both with \nusmv{} and \nuxmv{}. According to Figure~\ref{fig:average_time:extended} and Figure~\ref{fig:average_memory:extended}, \sctl{} uses less time and space than the other four tools.
-\paragraph{Experimental data for benchmark \#3.}
-For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1146 (39.8\%) cases, \verds{} can solve 352 (12.2\%) cases, \sctl{} can solve 1844 (64.0\%) cases, while neither \nusmv{} nor \nuxmv{} can solve any case.
+\paragraph{测试集一的实验结果}
+由表\ref{tabl:solvable}与表\ref{tabl:compare}可知：在测试集一的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证1816（63.1\%）、2230（77.4\%）、2880（100\%）、2880（100\%）、2862（99.4\%）个测试用例；同时\sctlprov{}分别在2823（98.2\%）、2858（99.2\%）、2741（95.2\%）、2763（95.9\%）的测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory}所示。
 
+\couic{For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1816 (63.1\%) cases, \verds{} can solve 2230 (77.4\%) cases, \sctl{} can solve 2862 (99.4\%) cases, and both \nusmv{} and \nuxmv{} can solve all (100\%) test cases. The numbers of test cases where \sctl{} runs faster are 2823 (98.2\%) comparing with \tool{iProver Modulo}, 2858 (99.2\%) comparing with \verds{}, 2741 (95.2\%) comparing with \nusmv{}, and 2763 (95.9\%) comparing with \nuxmv{}. According to Figure~\ref{fig:average_time} and Figure~\ref{fig:average_memory}, \sctl{} uses less time and space than the other four tools.}
+\begin{table}[!h]\small
+	%	\begin{tabular}{c c}
+	%\renewcommand{\arraystretch}{1.0}
+	%		\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\setlength{\tabcolsep}{1pt}
+	\begin{tabular}{| l | r | r | r | r | r |}
+		\hline
+		\textbf{Programs} & \tool{iProver Modulo} & \verds{} & \nusmv{} & \nuxmv{} & \sctl{}\\
+		\hline
+		\code{CP ($b = 12$)} & 467(97.3\%) & 433(90.2\%) & 480(100\%) & 480(100\%) & 480(100\%)\\
+		\hline
+		
+		%\hline
+		\code{CP ($b = 24$)} & 372(77.5\%) & 428(89.2\%) & 480(100\%) & 480(100\%) & 480(100\%)\\
+		\hline
+		
+		%\hline
+		\code{CP ($b = 36$)} & 383(79.8\%) & 416(86.7\%) & 480(100\%) & 480(100\%) & 470(97.9\%)\\
+		\hline
+		
+		%\hline
+		\code{CSP ($b = 12$)} & 177(36.9\%) & 370(77.1\%) & 480(100\%) & 480(100\%) & 480(100\%)\\
+		\hline
+		
+		%\hline
+		\code{CSP ($b = 16$)} & 164(34.2\%) & 315(65.6\%) & 480(100\%) & 480(100\%) & 474(98.8\%)\\
+		\hline
+		
+		%\hline
+		\code{CSP ($b = 20$)} & 253(52.7\%) & 268(55.8\%) & 480(100\%) & 480(100\%) & 478(99.6\%)\\
+		\hline
+		Sum & 1816(63.1\%) & 2230(77.4\%) & 2880(100\%) & 2880(100\%) & 2862(99.4\%)\\
+		\hline
+	\end{tabular}
+	\tabcaption{测试集一中5个工具能成功验证的测试用例个数}
+	\vspace{0.5cm}
+	\end{table}
+	\begin{table}[!h]\small
+	%	\centering
+	%	\setlength{\tabcolsep}{1pt}
+	%			\centering
+	%			\setlength{\tabcolsep}{1pt}
+	\centering
+	\setlength{\tabcolsep}{1pt}
+	\begin{tabular}{| l | r | r | r | r |}
+		\hline
+		\textbf{Programs} & \tool{iProver Modulo} & \verds{} & \nusmv{} & \nuxmv{} \\
+		\hline
+		\code{CP ($b = 12$)} & 480(100\%) & 480(100\%) & 430(89.6\%) & 431(89.8\%) \\
+		\hline
+		\code{CP ($b = 24$)} & 480(100\%) & 480(100\%) & 456(95.0\%) & 458(95.4\%) \\
+		\hline
+		\code{CP ($b = 36$)} & 454(94.6\%) & 467(97.3\%) & 441(91.9\%) & 446(92.9\%) \\
+		\hline
+		\code{CSP ($b = 12$)} & 480(100\%) & 480(100\%) & 464(96.7\%) & 465(96.9\%) \\
+		\hline
+		\code{CSP ($b = 16$)} & 474(98.6\%) & 473(98.5\%) & 472(98.3\%) & 474(98.6\%) \\
+		\hline
+		\code{CSP ($b = 20$)} & 455(94.8\%) & 478(99.6\%) & 478(99.6\%) & 479(99.8\%) \\
+		\hline
+		Sum & 2823(98.2\%) & 2858(99.2\%) & 2741(95.2\%) & 2763(95.9\%)  \\
+		\hline
+	\end{tabular}
+	
+	\tabcaption{测试集一中\sctl{}相比其他工具占用资源（时间和空间）少的测试用例个数}
+	\label{tabl:compare}
+	%		\end{minipage}
+	%	\end{tabular}
+\end{table}
 
 \begin{figure}[h!]\centering
 	%		\begin{subfigure}\centering
@@ -1390,352 +1452,459 @@ For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1146 (39.
 	
 	\caption{Average verification time in benchmark {\#}1.}
 	\label{fig:average_time}
-	\end{figure}
-	
-	\begin{figure}[h!]\centering
-%	\begin{subfigure}\centering
-		\begin{tabular}{c}
-			\scriptsize
-			\begin{tikzpicture}[scale=0.7]
-			\begin{axis}[title={\small{CP}},legend pos=north west, 
-			%small, 
-			ymax=1000,
-			xlabel = {\normalsize Number of state variables},
-			ylabel = {\normalsize Memory [MB]}
-			]
-			\addplot [color=red, mark=x] coordinates
-			{
-				(12,7.845)
-				(24,22.328)
-				(36,42.184)     
-			};
-			\addplot [color=green, mark=triangle] coordinates
-			{
-				(12,10.111)
-				(24,16.547)
-				(36,73.946)
-			};
-			\addplot [color=blue, mark=o] coordinates
-			{
-				(12,322.020)
-				(24,468.169)
-				(36,581.011)
-			};
-			\addplot [color=black,mark=*] coordinates
-			{
-				(12,8.818)
-				(24,42.924)
-				(36,251.364)
-			};
-			\addplot [color=black,mark=square] coordinates
-			{
-				(12,21.013)
-				(24,55.179)
-				(36,256.058)
-			};
-			\legend{\sctl{},\tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}
-			\end{axis}
-			\end{tikzpicture}
-			
-		\end{tabular}
-%	\end{subfigure}
-%	\begin{subfigure}
-%		\centering
-		\begin{tabular}{c}
-			\scriptsize
-			\begin{tikzpicture}[scale=0.7]
-			\begin{axis}[title={\small{CSP}},legend pos=north west, 
-			%small, 
-			ymax=1000,
-			xlabel = {\normalsize Number of state variables},
-			ylabel = {\normalsize Memory [MB]}
-			]
-			\addplot [color=red, mark=x] coordinates
-			{
-				(12,1.984)
-				(16,2.039)
-				(20,3.383)      
-			};
-			\addplot [color=green, mark=triangle] coordinates
-			{
-				(12,10.070)
-				(16,11.449)
-				(20,23.660)
-			};
-			\addplot [color=blue, mark=o] coordinates
-			{
-				(12,322.023)
-				(16,485.081)
-				(20,514.027)
-			};
-			\addplot [color=black,mark=*] coordinates
-			{
-				(12,7.051)
-				(16,29.151)
-				(20,144.974)
-			};
-			\addplot [color=black,mark=square] coordinates
-			{
-				(12,21.168)
-				(16,48.423)
-				(20,157.113)
-			};
-			{\legend{\sctl{},\tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}}
-			\end{axis}
-			\end{tikzpicture}
-		\end{tabular}
-%	\end{subfigure}
+\end{figure}
+
+\begin{figure}[h!]\centering
+	%	\begin{subfigure}\centering
+	\begin{tabular}{c}
+		\scriptsize
+		\begin{tikzpicture}[scale=0.7]
+		\begin{axis}[title={\small{CP}},legend pos=north west, 
+		%small, 
+		ymax=1000,
+		xlabel = {\normalsize Number of state variables},
+		ylabel = {\normalsize Memory [MB]}
+		]
+		\addplot [color=red, mark=x] coordinates
+		{
+			(12,7.845)
+			(24,22.328)
+			(36,42.184)     
+		};
+		\addplot [color=green, mark=triangle] coordinates
+		{
+			(12,10.111)
+			(24,16.547)
+			(36,73.946)
+		};
+		\addplot [color=blue, mark=o] coordinates
+		{
+			(12,322.020)
+			(24,468.169)
+			(36,581.011)
+		};
+		\addplot [color=black,mark=*] coordinates
+		{
+			(12,8.818)
+			(24,42.924)
+			(36,251.364)
+		};
+		\addplot [color=black,mark=square] coordinates
+		{
+			(12,21.013)
+			(24,55.179)
+			(36,256.058)
+		};
+		\legend{\sctl{},\tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}
+		\end{axis}
+		\end{tikzpicture}
+		
+	\end{tabular}
+	%	\end{subfigure}
+	%	\begin{subfigure}
+	%		\centering
+	\begin{tabular}{c}
+		\scriptsize
+		\begin{tikzpicture}[scale=0.7]
+		\begin{axis}[title={\small{CSP}},legend pos=north west, 
+		%small, 
+		ymax=1000,
+		xlabel = {\normalsize Number of state variables},
+		ylabel = {\normalsize Memory [MB]}
+		]
+		\addplot [color=red, mark=x] coordinates
+		{
+			(12,1.984)
+			(16,2.039)
+			(20,3.383)      
+		};
+		\addplot [color=green, mark=triangle] coordinates
+		{
+			(12,10.070)
+			(16,11.449)
+			(20,23.660)
+		};
+		\addplot [color=blue, mark=o] coordinates
+		{
+			(12,322.023)
+			(16,485.081)
+			(20,514.027)
+		};
+		\addplot [color=black,mark=*] coordinates
+		{
+			(12,7.051)
+			(16,29.151)
+			(20,144.974)
+		};
+		\addplot [color=black,mark=square] coordinates
+		{
+			(12,21.168)
+			(16,48.423)
+			(20,157.113)
+		};
+		{\legend{\sctl{},\tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}}
+		\end{axis}
+		\end{tikzpicture}
+	\end{tabular}
+	%	\end{subfigure}
 	
 	\caption{Average memory usage in benchmark {\#}1.}
 	\label{fig:average_memory}
 \end{figure}
 
 
+\paragraph{测试集二的实验结果}
+由表\ref{tabl:solvable:extended}与表\ref{tabl:compare:extended}可知：在测试集二的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证1602（55.6\%）、1874（65.1\%）、728（25.3\%）、736（25.6\%）、2597（90.2\%）个测试用例；同时\sctlprov{}分别在2597（90.2\%）、2594（90.1\%）、2588（89.9\%）、2588（89.9\%）的测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time:extended}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory:extended}所示。
+\couic{For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1602 (55.6\%) cases, \verds{} can solve 1874 (65.1\%) cases, \nusmv{} can solve 728 (25.3\%) cases, \nuxmv{} can solve 736 (25.6\%) cases, and \sctl{} can solve 2597 (90.2\%) cases. The numbers of test cases where \sctl{} runs faster are 2597 (90.2\%) comparing with \tool{iProver Modulo}, 2594 (90.1\%) comparing with \verds{}, and 2588 (89.9\%) comparing both with \nusmv{} and \nuxmv{}. According to Figure~\ref{fig:average_time:extended} and Figure~\ref{fig:average_memory:extended}, \sctl{} uses less time and space than the other four tools.}
+
+\begin{table}[!h]\small
+	%	\begin{tabular}{c c}
+	%\renewcommand{\arraystretch}{1.0}
+	%		\begin{minipage}[b]{0.55\linewidth}
+	\centering
+	\setlength{\tabcolsep}{3pt}
+	\begin{tabular}{| l | r | r | r | r | r |}
+		\hline
+		\textbf{Programs} & \tool{iProver Modulo} & \verds{} & \nuxmv{} & \nuxmv{} & \sctl{} \\
+		\hline
+		\code{CP ($b = 48$)} & 375(78.1\%) & 400(83.3\%) & 171(35.6\%) & 176(36.7\%) & 446(92.9\%)  \\
+		\hline
+		\code{CP ($b = 60$)} & 360(75.0\%) & 403(84.0\%) & 22(4.6\%) & 23(4.8\%) & 440(91.7\%)  \\
+		\hline
+		\code{CP ($b = 72$)} & 347(72.3\%) & 383(79.8\%) &  0 & 0 & 437(91.0\%)  \\
+		
+		\hline
+		\code{CSP ($b=24$)} & 190(39.6\%) & 235(49.0\%) &  421(87.7\%) & 423(88.1\%) & 430(89.6\%) \\
+		\hline
+		\code{CSP ($b=28$)} & 172(35.8\%) & 229(47.7\%) & 106(22.1\%) & 108(22.5\%) & 426(88.8\%) \\
+		\hline
+		\code{CSP ($b=32$)} & 158(32.9\%) & 224(46.7\%) & 8(1.7\%) & 6(1.3\%) & 418(87.1\%) \\
+		
+		\hline
+		Sum & 1602(55.6\%) & 1874(65.1\%) & 728(25.3\%) & 736(25.6\%) & 2597(90.2\%)\\
+		\hline
+	\end{tabular}
+	\tabcaption{测试集二中5个工具能成功验证的测试用例个数}
+	\label{tabl:solvable:extended}
+	\vspace{0.5cm}
+	%		\end{minipage}
+	%		&
+	\end{table}
+	
+	\begin{table}[h!]\small
+	%\setlength{\tabcolsep}{3pt}
+	%\renewcommand{\arraystretch}{1.0}
+	%		\begin{minipage}[b]{0.45\linewidth}
+	%			\centering
+	%			\setlength{\tabcolsep}{3pt}
+	\centering
+	\setlength{\tabcolsep}{3pt}
+	\begin{tabular}{| l | r | r | r | r |}
+		\hline
+		\textbf{Programs} & \tool{iProver Modulo} & \verds{} & \nusmv{} & \nuxmv{}\\
+		\hline
+		\code{CP ($b=48$)} & 446(92.9\%) & 444(92.5\%) & 442(92.1\%) & 442(92.1\%) \\
+		\hline
+		\code{CP ($b=60$)} & 440(91.7\%) & 440(91.7\%) & 440(91.7\%) & 440(91.7\%) \\
+		\hline
+		\code{CP ($b=72$)} & 437(91.0\%) & 437(91.0\%) & 437(91.0\%) & 437(91.0\%) \\
+		
+		\hline
+		\code{CSP ($b=24$)} & 430(89.6\%) & 429(89.4\%) & 426(88.8\%) & 426(88.8\%) \\
+		\hline
+		\code{CSP ($b=28$)} & 426(88.8\%) & 426(88.8\%) & 425(88.5\%) & 425(88.5\%) \\
+		\hline
+		\code{CSP ($b=32$)} & 418(87.1\%) & 418(87.1\%) & 418(87.1\%) & 418(87.1\%) \\
+		\hline
+		Sum & 2597(90.2\%) & 2594(90.1\%) & 2588(89.9\%) & 2588(89.9\%)\\
+		\hline
+	\end{tabular}	
+	\tabcaption{测试集二中\sctl{}相比其他工具占用资源（时间和空间）少的测试用例个数}
+	\label{tabl:compare:extended}
+	%		\end{minipage}
+	%	\end{tabular}
+\end{table}
+
+
 \begin{figure}[h!]\centering
-%	\begin{subfigure}\centering
-		\begin{tabular}{c}			
-			\scriptsize
-			\begin{tikzpicture}[scale=0.7]
-			\begin{axis}[title={\small{CP}},legend pos=north west, 
-			%small,
-			xlabel = {\normalsize Number of state variables},
-			ylabel = {\normalsize Time [seconds]}
-			]
-			\addplot [color=red, mark=x] coordinates
-			{
-				(12,0.011)
-				(24,0.280)
-				(36,2.929)  
-				(48,5.100)
-				(60,7.357)   
-			};
-			\addplot [color=green, mark=triangle] coordinates
-			{
-				(12,6.293)
-				(24,14.648)
-				(36,16.351)
-				(48,20.130)
-				(60,37.303) 
-			};
-			\addplot [color=blue, mark=o] coordinates
-			{
-				(12,1.904)
-				(24,0.714)
-				(36,19.200)
-				(48,40.825)
-				(60,80.201)
-			};
-			\addplot [color=black,mark=*] coordinates
-			{
-				(12,0.014)
-				(24,2.202)
-				(36,135.202)
-				(48,477.578)
-				(60,1095.582)
-			};
-			\addplot [color=black,mark=square] coordinates
-			{
-				(12,0.018)
-				(24,2.100)
-				(36,130.268)
-				(48,450.324)
-				(60,995.689)
-			};
-			\legend{\sctl{}, \tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}
-			\end{axis}
-			\end{tikzpicture}
+	%	\begin{subfigure}\centering
+	\begin{tabular}{c}			
+		\scriptsize
+		\begin{tikzpicture}[scale=0.7]
+		\begin{axis}[title={\small{CP}},legend pos=north west, 
+		%small,
+		xlabel = {\normalsize Number of state variables},
+		ylabel = {\normalsize Time [seconds]}
+		]
+		\addplot [color=red, mark=x] coordinates
+		{
+			(12,0.011)
+			(24,0.280)
+			(36,2.929)  
+			(48,5.100)
+			(60,7.357)   
+		};
+		\addplot [color=green, mark=triangle] coordinates
+		{
+			(12,6.293)
+			(24,14.648)
+			(36,16.351)
+			(48,20.130)
+			(60,37.303) 
+		};
+		\addplot [color=blue, mark=o] coordinates
+		{
+			(12,1.904)
+			(24,0.714)
+			(36,19.200)
+			(48,40.825)
+			(60,80.201)
+		};
+		\addplot [color=black,mark=*] coordinates
+		{
+			(12,0.014)
+			(24,2.202)
+			(36,135.202)
+			(48,477.578)
+			(60,1095.582)
+		};
+		\addplot [color=black,mark=square] coordinates
+		{
+			(12,0.018)
+			(24,2.100)
+			(36,130.268)
+			(48,450.324)
+			(60,995.689)
+		};
+		\legend{\sctl{}, \tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}
+		\end{axis}
+		\end{tikzpicture}
+		
+	\end{tabular}
+	%	\end{subfigure}
+	%	\begin{subfigure}
+	%		\centering
+	\begin{tabular}{c}
+		\scriptsize
+		\begin{tikzpicture}[scale=0.7]
+		\begin{axis}[title={\small{CSP}},legend pos=north west, 
+		%small,
+		xlabel = {\normalsize Number of state variables},
+		ylabel = {\normalsize Time [seconds]}
+		]
+		\addplot [color=red, mark=x] coordinates
+		{
+			(12,0.006)
+			(16,0.007)
+			(20,0.374) 
+			(24,9.903)
+			(28,12.548)
+			(32,26.417)     
+		};
+		\addplot [color=green, mark=triangle] coordinates
+		{
+			(12,4.995)
+			(16,3.997)
+			(20,4.424)
+			(24,19.903)
+			(28,32.548)
+			(32,56.417)   
+		};
+		\addplot [color=blue, mark=o] coordinates
+		{
+			(12,20.203)
+			(16,75.741)
+			(20,136.387)
+			(24,187.043)
+			(28,259.342)
+			(32,300.031)
+		};
+		\addplot [color=black,mark=*] coordinates
+		{
+			(12,0.105)
+			(16,2.036)
+			(20,53.195)
+			(24,300.406)
+			(28,517.544)
+			(32,933.722)
 			
-		\end{tabular}
-%	\end{subfigure}
-%	\begin{subfigure}
-%		\centering
-		\begin{tabular}{c}
-			\scriptsize
-			\begin{tikzpicture}[scale=0.7]
-			\begin{axis}[title={\small{CSP}},legend pos=north west, 
-			%small,
-			xlabel = {\normalsize Number of state variables},
-			ylabel = {\normalsize Time [seconds]}
-			]
-			\addplot [color=red, mark=x] coordinates
-			{
-				(12,0.006)
-				(16,0.007)
-				(20,0.374) 
-				(24,9.903)
-				(28,12.548)
-				(32,26.417)     
-			};
-			\addplot [color=green, mark=triangle] coordinates
-			{
-				(12,4.995)
-				(16,3.997)
-				(20,4.424)
-				(24,19.903)
-				(28,32.548)
-				(32,56.417)   
-			};
-			\addplot [color=blue, mark=o] coordinates
-			{
-				(12,20.203)
-				(16,75.741)
-				(20,136.387)
-				(24,187.043)
-				(28,259.342)
-				(32,300.031)
-			};
-			\addplot [color=black,mark=*] coordinates
-			{
-				(12,0.105)
-				(16,2.036)
-				(20,53.195)
-				(24,300.406)
-				(28,517.544)
-				(32,933.722)
-				
-			};
-			\addplot [color=black,mark=square] coordinates
-			{
-				(12,0.107)
-				(16,1.957)
-				(20,49.144)
-				(24,290.205)
-				(28,499.454)
-				(32,912.527)
-			};
-			\tiny{\legend{\sctl{}, \tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}}
-			\end{axis}
-			\end{tikzpicture}
-		\end{tabular}
-%	\end{subfigure}
+		};
+		\addplot [color=black,mark=square] coordinates
+		{
+			(12,0.107)
+			(16,1.957)
+			(20,49.144)
+			(24,290.205)
+			(28,499.454)
+			(32,912.527)
+		};
+		\tiny{\legend{\sctl{}, \tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}}
+		\end{axis}
+		\end{tikzpicture}
+	\end{tabular}
+	%	\end{subfigure}
 	
 	\caption{Average verification time in benchmark \#1 and {\#}2.}
 	\label{fig:average_time:extended}
-	\end{figure}
-	
-	\begin{figure}[h!]\centering
+\end{figure}
+
+\begin{figure}[h!]\centering
+	\scriptsize
+	%	\begin{subfigure}\centering
+	\begin{tabular}{c}
+		
+		\begin{tikzpicture}[scale=0.7]
+		\begin{axis}[title={\small{CP}},legend pos=north west, 
+		%small,
+		xlabel = {\normalsize Number of state variables},
+		ylabel = {\normalsize Memory [MB]}
+		]
+		\addplot [color=red, mark=x] coordinates
+		{
+			(12,7.845)
+			(24,22.328)
+			(36,42.184)  
+			(48,55.100)
+			(60,77.357)   
+		};
+		\addplot [color=green, mark=triangle] coordinates
+		{
+			(12,10.111)
+			(24,16.547)
+			(36,73.946)
+			(48,123.342)
+			(60,204.298)
+		};
+		\addplot [color=blue, mark=o] coordinates
+		{
+			(12,322.020)
+			(24,468.169)
+			(36,581.011)
+			(48,601.023)
+			(60,631.034)
+		};
+		\addplot [color=black,mark=*] coordinates
+		{
+			(12,8.818)
+			(24,42.924)
+			(36,251.364)
+			(48,589.205)
+			(60,1559.283)
+		};
+		\addplot [color=black,mark=square] coordinates
+		{
+			(12,21.013)
+			(24,55.179)
+			(36,256.058)
+			(48,650.324)
+			(60,1595.689)
+		};
+		\legend{\sctl{}, \tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}
+		\end{axis}
+		\end{tikzpicture}
+		
+	\end{tabular}
+	%	\end{subfigure}
+	%	\begin{subfigure}
+	%		\centering
+	\begin{tabular}{c}
 		\scriptsize
-%	\begin{subfigure}\centering
-		\begin{tabular}{c}
+		\begin{tikzpicture}[scale=0.7]
+		\begin{axis}[title={\small{CSP}},legend pos=north west, 
+		%small,
+		xlabel = {\normalsize Number of state variables},
+		ylabel = {\normalsize Memory [MB]}
+		]
+		\addplot [color=red, mark=x] coordinates
+		{
+			(12,1.984)
+			(16,2.039)
+			(20,3.383) 
+			(24,9.903)
+			(28,22.548)
+			(32,36.417)     
+		};
+		\addplot [color=green, mark=triangle] coordinates
+		{
+			(12,10.070)
+			(16,11.449)
+			(20,23.660)
+			(24,39.903)
+			(28,52.548)
+			(32,86.417)
+		};
+		\addplot [color=blue, mark=o] coordinates
+		{
+			(12,322.023)
+			(16,485.081)
+			(20,514.027)
+			(24,530.238)
+			(28,542.231)
+			(32,580.357)
+		};
+		\addplot [color=black,mark=*] coordinates
+		{
+			(12,7.051)
+			(16,29.151)
+			(20,144.974)
+			(24,420.406)
+			(28,1217.544)
+			(32,2903.722)
 			
-			\begin{tikzpicture}[scale=0.7]
-			\begin{axis}[title={\small{CP}},legend pos=north west, 
-			%small,
-			xlabel = {\normalsize Number of state variables},
-			ylabel = {\normalsize Memory [MB]}
-			]
-			\addplot [color=red, mark=x] coordinates
-			{
-				(12,7.845)
-				(24,22.328)
-				(36,42.184)  
-				(48,55.100)
-				(60,77.357)   
-			};
-			\addplot [color=green, mark=triangle] coordinates
-			{
-				(12,10.111)
-				(24,16.547)
-				(36,73.946)
-				(48,123.342)
-				(60,204.298)
-			};
-			\addplot [color=blue, mark=o] coordinates
-			{
-				(12,322.020)
-				(24,468.169)
-				(36,581.011)
-				(48,601.023)
-				(60,631.034)
-			};
-			\addplot [color=black,mark=*] coordinates
-			{
-				(12,8.818)
-				(24,42.924)
-				(36,251.364)
-				(48,589.205)
-				(60,1559.283)
-			};
-			\addplot [color=black,mark=square] coordinates
-			{
-				(12,21.013)
-				(24,55.179)
-				(36,256.058)
-				(48,650.324)
-				(60,1595.689)
-			};
-			\legend{\sctl{}, \tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}
-			\end{axis}
-			\end{tikzpicture}
-			
-		\end{tabular}
-%	\end{subfigure}
-%	\begin{subfigure}
-%		\centering
-		\begin{tabular}{c}
-			\scriptsize
-			\begin{tikzpicture}[scale=0.7]
-			\begin{axis}[title={\small{CSP}},legend pos=north west, 
-			%small,
-			xlabel = {\normalsize Number of state variables},
-			ylabel = {\normalsize Memory [MB]}
-			]
-			\addplot [color=red, mark=x] coordinates
-			{
-				(12,1.984)
-				(16,2.039)
-				(20,3.383) 
-				(24,9.903)
-				(28,22.548)
-				(32,36.417)     
-			};
-			\addplot [color=green, mark=triangle] coordinates
-			{
-				(12,10.070)
-				(16,11.449)
-				(20,23.660)
-				(24,39.903)
-				(28,52.548)
-				(32,86.417)
-			};
-			\addplot [color=blue, mark=o] coordinates
-			{
-				(12,322.023)
-				(16,485.081)
-				(20,514.027)
-				(24,530.238)
-				(28,542.231)
-				(32,580.357)
-			};
-			\addplot [color=black,mark=*] coordinates
-			{
-				(12,7.051)
-				(16,29.151)
-				(20,144.974)
-				(24,420.406)
-				(28,1217.544)
-				(32,2903.722)
-				
-			};
-			\addplot [color=black,mark=square] coordinates
-			{
-				(12,21.168)
-				(16,48.423)
-				(20,157.113)
-				(24,490.205)
-				(28,1296.454)
-				(32,2932.527)
-			};
-			{\legend{\sctl{}, \tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}}
-			\end{axis}
-			\end{tikzpicture}
-		\end{tabular}
-%	\end{subfigure}
+		};
+		\addplot [color=black,mark=square] coordinates
+		{
+			(12,21.168)
+			(16,48.423)
+			(20,157.113)
+			(24,490.205)
+			(28,1296.454)
+			(32,2932.527)
+		};
+		{\legend{\sctl{}, \tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}}
+		\end{axis}
+		\end{tikzpicture}
+	\end{tabular}
+	%	\end{subfigure}
 	
 	\caption{Average memory usage in benchmark \#1 and {\#}2.}
 	\label{fig:average_memory:extended}
 \end{figure}
 
+
+\paragraph{测试集三的实验结果}
+由表\ref{tabl:solvable:larger}可知：在测试集三的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\sctlprov{}分别能验证1146（39.8\%）、352（12.2\%）、1844（64.0\%）个测试用例，然而\nusmv{}与\nuxmv{}无法验证本测试集中的测试用例。
+\couic{For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1146 (39.8\%) cases, \verds{} can solve 352 (12.2\%) cases, \sctl{} can solve 1844 (64.0\%) cases, while neither \nusmv{} nor \nuxmv{} can solve any case.}
+
+
+\begin{table}[h]\small
+	\setlength{\tabcolsep}{3pt}
+	%\renewcommand{\arraystretch}{1.0}
+	\begin{center}
+		\begin{tabular}{| l | r | r | r | r | r |}
+			\hline
+			\textbf{Programs} & \tool{iProver Modulo} & \verds{} &
+			\nusmv{} & \nuxmv{} & \sctl{} \\
+			\hline
+			\code{CP ($b=252$)} & 299(62.3\%) & 216(45.0\%) & 0 & 0 & 371(77.3\%) \\
+			\hline
+			\code{CP ($b=504$)} & 292(60.8\%) & 0 & 0 & 0 & 335(69.8\%)\\
+			\hline
+			\code{CP ($b=1008$)} & 271(56.5\%) & 0 & 0 & 0 & 278(57.9\%)\\
+			
+			\hline
+			\code{CSP ($b=252$)} & 114(23.6\%) & 136(28.3\%) & 0 & 0 & 312(65.0\%) \\
+			\hline
+			\code{CSP ($b=504$)} & 108(22.5\%) & 0 & 0 & 0 & 295(61.5\%) \\
+			\hline
+			\code{CSP ($b=1008$)} & 62(12.9\%) & 0 & 0 & 0 & 253(52.7\%)\\
+			\hline
+			Sum & 1146(39.8\%) & 352(12.2\%) & 0 & 0 & 1844(64.0\%)\\ \hline
+		\end{tabular}
+	\end{center}
+	\tabcaption{测试集三中5个工具能成功验证的测试用例个数}
+	\label{tabl:solvable:larger}
+\end{table}
 
 
 \subsubsection{连续 vs. 递归}
@@ -1745,7 +1914,7 @@ efficiency. In benchmark {\#}1, {\#}2, and {\#}3, \sctl{} solves about 10\% more
 all solvable cases (Table~\ref{tabl:cont_vs_rec}). \sctlprovr{} is more sensitive to the number of variables than \sctl{} (Figure \ref{fig:average_time:recursive:vs:continuation}).
 
 {
-	\begin{table}
+	\begin{table}\small
 		\setlength{\tabcolsep}{1pt}
 		\begin{center}
 			\begin{tabular}{| l | r | r | r |}

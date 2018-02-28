@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6600 64-bit) (preloaded format=xelatex 2018.2.26)  27 FEB 2018 21:32
+This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6600 64-bit) (preloaded format=xelatex 2018.2.26)  28 FEB 2018 11:38
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -2753,48 +2753,61 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 File: Img/./sca.jpg Graphic file (type bmp)
 <Img/./sca.jpg>
-[23] [24] [25] [26] [27] [28]
+[23] [24] [25] [26] [27] [28] [29]
+
+LaTeX Warning: Reference `tabl:solvable' on page 30 undefined on input line 128
+7.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[29]
 
-LaTeX Warning: Reference `app:detail:data' on page 30 undefined on input line 1
-289.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [30]
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[31]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[32] [33]
-
-LaTeX Warning: Reference `bench4:data:detail' on page 34 undefined on input lin
-e 1898.
-
-[34]
-
-LaTeX Warning: Reference `appendix:data:benchmark5' on page 35 undefined on inp
-ut line 1998.
-
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[35])) [36] (Thesis.bbl [37
+[31] [32]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[33] [34]
+
+LaTeX Warning: Reference `bench4:data:detail' on page 35 undefined on input lin
+e 2071.
+
+[35]
+
+LaTeX Warning: Reference `appendix:data:benchmark5' on page 36 undefined on inp
+ut line 2171.
+
+[36])) [37] [38
+
+] (Thesis.bbl [39
 
 
+]) (Tex/Backmatter.tex [40] [41
 
-]) (Tex/Backmatter.tex [38] [39
+] [42
 
-] [40
-
-] [41] [42
+] [43]
+[44
 
 ]
 
@@ -2802,7 +2815,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \hskip 12.0pt
 (hyperref)                replaced by space on input line 39.
 
-) [43]
+) [45]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 210.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 210.
  (Thesis.aux)
@@ -2815,12 +2828,12 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 210.
  ) 
 Here is how much of TeX's memory you used:
- 54961 strings out of 427836
- 1249232 string characters out of 3152479
- 1550685 words of memory out of 3000000
- 58113 multiletter control sequences out of 15000+200000
+ 54958 strings out of 427836
+ 1248774 string characters out of 3152479
+ 1570687 words of memory out of 3000000
+ 58110 multiletter control sequences out of 15000+200000
  552900 words of font info for 179 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
  63i,26n,96p,10537b,2365s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Thesis.pdf (61 pages).
+Output written on Thesis.pdf (63 pages).

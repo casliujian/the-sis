@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6600 64-bit) (preloaded format=xelatex 2018.2.26)  28 FEB 2018 21:21
+This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6600 64-bit) (preloaded format=xelatex 2018.2.26)  10 MAR 2018 21:37
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -2533,11 +2533,25 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \hskip 12.0pt
 (hyperref)                replaced by space on input line 165.
 
-(Thesis.lof)
+(Thesis.lof
+LaTeX Font Info:    Try loading font information for U+euf on input line 10.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\ueuf.fd"
+File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
+)
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+)
 \tf@lof=\write6
 \openout6 = `Thesis.lof'.
 
- [13
+
+[13
 
 ] [14
 
@@ -2638,10 +2652,6 @@ m/n/12 (\OML/cmm/m/it/12 ^^^[]; ^^^[]\OT1/cmr/m/n/12 )(\OML/cmm/m/it/12 s[]\OT1
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [14]
-LaTeX Font Info:    Try loading font information for U+euf on input line 584.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\ueuf.fd"
-File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
-)
 Overfull \hbox (13.76837pt too wide) in paragraph at lines 604--650
  [][] 
  []
@@ -2669,10 +2679,538 @@ mr/m/n/12 ) \OMS/cmsy/m/n/12 ^^_
  []
 
 
-LaTeX Warning: Reference `appendix:proof:corret:prfsearch' on page 18 undefined
- on input line 737.
+Overfull \hbox (12.91165pt too wide) in paragraph at lines 736--739
+[]\TU/lmr/m/n/12 We prove a more general proposition: for a given formula $\OML
+/cmm/m/it/12 ^^^$\TU/lmr/m/n/12 ,  $[]\OT1/cmr/m/n/12 (^^@ \OMS/cmsy/m/n/12 ` \
+OML/cmm/m/it/12 ^^^; c[]; c[]\OT1/cmr/m/n/12 ) \U/msa/m/n/12  []
+ []
+
+
+LaTeX Warning: Reference `cpt:termination' on page 18 undefined on input line 7
+41.
 
 [18]
+
+LaTeX Warning: Reference `sequent:weight' on page 19 undefined on input line 74
+5.
+
+
+Overfull \hbox (12.14236pt too wide) in paragraph at lines 748--752
+[]\TU/lmr/m/n/12 If $\OML/cmm/m/it/12 ^^^ \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 P\
+OT1/cmr/m/n/12 (\OML/cmm/m/it/12 s[]; :::; s[]\OT1/cmr/m/n/12 )$ \TU/lmr/m/n/12
+ where $\OML/cmm/m/it/12 P\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 s[]; :::; s[]\OT1/c
+mr/m/n/12 )$ \TU/lmr/m/n/12 is atomic, then $[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/1
+2 ` \OML/cmm/m/it/12 P\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 s[]; :::; s[]\OT1/cmr/m
+/n/12 )\OML/cmm/m/it/12 ; c[]; c[]\OT1/cmr/m/n/12 ) \U/msa/m/n/12  
+ []
+
+
+Overfull \hbox (28.1424pt too wide) in paragraph at lines 752--756
+[]\TU/lmr/m/n/12 If $\OML/cmm/m/it/12 ^^^ \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 :\
+OML/cmm/m/it/12 P\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 s[]; :::; s[]\OT1/cmr/m/n/12
+ )$ \TU/lmr/m/n/12 where $\OML/cmm/m/it/12 P\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 s
+[]; :::; s[]\OT1/cmr/m/n/12 )$ \TU/lmr/m/n/12 is atomic, then $[]\OT1/cmr/m/n/1
+2 (\OMS/cmsy/m/n/12 ` :\OML/cmm/m/it/12 P\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 s[];
+ :::; s[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; c[]; c[]\OT1/cmr/m/n/12 ) \U/msa/m
+/n/12  
+ []
+
+[19] [20]
+Overfull \hbox (6.44519pt too wide) in paragraph at lines 852--863
+[]\OT1/cmr/m/n/12 (^^@[] \OMS/cmsy/m/n/12 ` \OML/cmm/m/it/12 AF[]\OT1/cmr/m/n/1
+2 (\OML/cmm/m/it/12  \OT1/cmr/m/n/12 )(\OML/cmm/m/it/12 s[]\OT1/cmr/m/n/12 )\OM
+L/cmm/m/it/12 ; []\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 :::[]\OT1/cmr/m/n/12 (^^@[]
+ \OMS/cmsy/m/n/12 ` \OML/cmm/m/it/12 AF[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12  \OT
+1/cmr/m/n/12 )(\OML/cmm/m/it/12 s[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; c[]; c[]
+\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 :::; c[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; c
+[]\OT1/cmr/m/n/12 ) \U/msa/m/n/12  [] \OML/cmm/m/it/12 c[] \OMS/cmsy/m/n/12 6\U
+/msa/m/n/12  []
+ []
+
+[21]
+Overfull \hbox (17.01094pt too wide) in paragraph at lines 902--903
+[]\TU/lmr/m/n/12 if $\OML/cmm/m/it/12 EG[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12  \O
+T1/cmr/m/n/12 )(\OML/cmm/m/it/12 s\OT1/cmr/m/n/12 ) [] ^^@$\TU/lmr/m/n/12 , $\O
+MS/cmsy/m/n/12 ` \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 s\OT1/cmr/m/n/12 /\OML/cmm/m
+/it/12 x\OT1/cmr/m/n/12 )\OML/cmm/m/it/12  $ \TU/lmr/m/n/12 is provable, and $\
+OT1/cmr/m/n/12 ^^@\OML/cmm/m/it/12 ; EG[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12  \OT
+1/cmr/m/n/12 )(\OML/cmm/m/it/12 s\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ` \OML/cmm/
+m/it/12 EG[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12  \OT1/cmr/m/n/12 )(\OML/cmm/m/it/
+12 s[]\OT1/cmr/m/n/12 )$
+ []
+
+[22] [23] [24]
+Overfull \hbox (61.15134pt too wide) in paragraph at lines 1023--1023
+\TU/lmr/m/it/12 When proving the formula $\OML/cmm/m/it/12 EG[]\OT1/cmr/m/n/12 
+(\OML/cmm/m/it/12 P\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 ))(\OML/c
+mm/m/it/12 s[]\OT1/cmr/m/n/12 )$\TU/lmr/m/it/12 , we need to rewrite the \TU/lm
+ss/m/sl/12 CPT $[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ` \OML/cmm/m/it/12 EG[]\OT1
+/cmr/m/n/12 (\OML/cmm/m/it/12 P\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cmr/m/n/
+12 ))(\OML/cmm/m/it/12 s[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; \U/euf/m/n/12 t\O
+ML/cmm/m/it/12 ; \U/euf/m/n/12 f\OT1/cmr/m/n/12 )$\TU/lmr/m/it/12 .
+ []
+
+[25]
+
+LaTeX Warning: Reference `appendix:algorithm' on page 26 undefined on input lin
+e 1056.
+
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 1124--1124
+[] $[]$\TU/lmr/m/n/10 empty hash
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (15.23254pt too wide) in paragraph at lines 1124--1124
+[]   $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (17.33253pt too wide) in paragraph at lines 1124--1124
+[]   $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (15.23254pt too wide) in paragraph at lines 1124--1124
+[]   $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (14.39255pt too wide) in paragraph at lines 1124--1124
+[]   $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (56.71205pt too wide) in paragraph at lines 1124--1124
+[]   $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (57.55205pt too wide) in paragraph at lines 1124--1124
+[]   $[]$ 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (30.44719pt too wide) in paragraph at lines 1150--1150
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+Overfull \hbox (7.03862pt too wide) in paragraph at lines 1150--1150
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+Overfull \hbox (7.03862pt too wide) in paragraph at lines 1150--1150
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+Overfull \hbox (8.7959pt too wide) in paragraph at lines 1150--1150
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Overfull \hbox (30.5472pt too wide) in paragraph at lines 1165--1165
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+Overfull \hbox (6.93861pt too wide) in paragraph at lines 1165--1165
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+Overfull \hbox (6.93861pt too wide) in paragraph at lines 1165--1165
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+Overfull \hbox (8.7959pt too wide) in paragraph at lines 1165--1165
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Overfull \hbox (56.19858pt too wide) in paragraph at lines 1189--1189
+[]$[]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1189--1189
+[]$[]$\TU/lmr/m/n/10 , let
+ []
+
+
+Overfull \hbox (64.7706pt too wide) in paragraph at lines 1189--1189
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Overfull \hbox (56.09857pt too wide) in paragraph at lines 1208--1208
+[]$[]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1208--1208
+[]$[]$\TU/lmr/m/n/10 , let
+ []
+
+
+Overfull \hbox (74.23718pt too wide) in paragraph at lines 1208--1208
+[]\TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+[27]
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (11.24104pt too wide) in paragraph at lines 1226--1227
+\TU/lmr/m/n/12 provable, and thus should be added as the evidence of proving $[
+]$
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (21.4958pt too wide) in paragraph at lines 1264--1264
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (74.6618pt too wide) in paragraph at lines 1264--1264
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (52.67955pt too wide) in paragraph at lines 1264--1264
+[]     $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (68.56233pt too wide) in paragraph at lines 1264--1264
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (24.707pt too wide) in paragraph at lines 1302--1302
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+Overfull \hbox (52.21754pt too wide) in paragraph at lines 1302--1302
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+
+Overfull \hbox (43.84413pt too wide) in paragraph at lines 1302--1302
+[]      $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (68.56233pt too wide) in paragraph at lines 1302--1302
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[28]
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (25.88136pt too wide) in paragraph at lines 1318--1319
+\TU/lmr/m/n/12 and remove those reachable to some state in $[]$ from $[]$
+ []
+
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (20.66656pt too wide) in paragraph at lines 1321--1322
+[]\TU/lmr/m/n/12 If $[]$ rewrites to the inner $[]$, then $[]\OML/cmm/m/it/12 ;
+ :::; []$
+ []
+
+
+Overfull \hbox (25.50328pt too wide) in paragraph at lines 1321--1322
+\TU/lmr/m/n/12 should all be added to the counterexample as the children of $[]
+$
+ []
+
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans12-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (44.10182pt too wide) in paragraph at lines 1371--1371
+[]     $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (61.95662pt too wide) in paragraph at lines 1371--1371
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (70.39622pt too wide) in paragraph at lines 1371--1371
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (13.04102pt too wide) in paragraph at lines 1371--1371
+[]         $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (63.0584pt too wide) in paragraph at lines 1371--1371
+[]         $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (77.31703pt too wide) in paragraph at lines 1371--1371
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (35.21999pt too wide) in paragraph at lines 1371--1371
+[] $ [] [] [] [][]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (61.07658pt too wide) in paragraph at lines 1417--1417
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (69.51619pt too wide) in paragraph at lines 1417--1417
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (44.10182pt too wide) in paragraph at lines 1417--1417
+[]     $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (13.04102pt too wide) in paragraph at lines 1417--1417
+[]         $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (55.2806pt too wide) in paragraph at lines 1417--1417
+[]         $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (77.31703pt too wide) in paragraph at lines 1417--1417
+[] \TU/lmr/m/n/10 let $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+Overfull \hbox (35.21999pt too wide) in paragraph at lines 1417--1417
+[]     $[]$ 
+ []
+
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+Missing character: There is no ^^@ in font [lmsans10-regular]:mapping=tex-text;
+!
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[29]
 \g__fontspec_family_FangSong_int=\count353
 .................................................
 . fontspec info: "no-font-shape"
@@ -2701,34 +3239,36 @@ LaTeX Warning: Reference `appendix:proof:corret:prfsearch' on page 18 undefined
 . <->"FangSong/OT:script=hani;language=DFLT;"
 . - 'small caps'  (m/sc) with NFSS spec.: 
 .................................................
- [19]
+ [30] [31] [32] [33] [34] [35] [36] [37]
 
-Package caption Warning: \label without proper reference on input line 827.
+Package caption Warning: \label without proper reference on input line 1509.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `illustrative:mutual' on page 20 undefined on input li
-ne 798.
+LaTeX Warning: Reference `illustrative:mutual' on page 38 undefined on input li
+ne 1480.
 
-[20]
-Overfull \hbox (9.8743pt too wide) in paragraph at lines 809--809
+
+Overfull \hbox (9.8743pt too wide) in paragraph at lines 1491--1491
 []\TU/lmtt/m/n/10.95 1: while(flag);/*wait*/[] 
  []
 
 
-Overfull \hbox (24.10068pt too wide) in paragraph at lines 819--819
+Overfull \hbox (24.10068pt too wide) in paragraph at lines 1501--1501
 []\TU/lmtt/m/n/10.95 1: while(flag);/*wait*/[] 
  []
 
 
-Overfull \hbox (6.85443pt too wide) in paragraph at lines 822--822
+Overfull \hbox (6.85443pt too wide) in paragraph at lines 1504--1504
 []\TU/lmtt/m/n/10.95 /*critical section*/[] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[21] [22]
+[38
+
+] [39]
 File: Img/./illustrative_example2.png Graphic file (type bmp)
 <Img/./illustrative_example2.png>
 
@@ -2736,12 +3276,12 @@ File: Img/./illustrative_example2.png Graphic file (type bmp)
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (7.4364pt too wide) in paragraph at lines 957--957
+Overfull \hbox (7.4364pt too wide) in paragraph at lines 1639--1639
 []\TU/lmtt/m/n/10.95 3: while(y&&turn!=2); /*wait*/[] 
  []
 
 
-Overfull \hbox (35.88916pt too wide) in paragraph at lines 968--968
+Overfull \hbox (35.88916pt too wide) in paragraph at lines 1650--1650
 []\TU/lmtt/m/n/10.95 3: while(x&&turn!=1); /*wait*/[] 
  []
 
@@ -2751,9 +3291,14 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[40] [41]
 File: Img/./sca.jpg Graphic file (type bmp)
 <Img/./sca.jpg>
-[23] [24] [25] [26] [27] [28] [29]
+ [42] [43] [44] [45]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[46]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -2775,37 +3320,74 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[30]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[31] [32]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[33] [34]
+[47] [48]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[35] [36] [37]
+[49]
 
-LaTeX Warning: Reference `appendix:data:benchmark5' on page 38 undefined on inp
-ut line 2400.
+LaTeX Warning: Text page 50 contains only floats.
 
-[38])) [39] [40
+[50]
 
-] (Thesis.bbl [41
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[51]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-]) (Tex/Backmatter.tex [42] [43
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-] [44
 
-] [45]
-[46
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[52] [53] [54]
+Overfull \hbox (0.54488pt too wide) in paragraph at lines 3086--3086
+[]|\TU/lmr/bx/n/8 Deadlocks|  
+ []
+
+[55] [56]
+Overfull \hbox (17.59064pt too wide) in paragraph at lines 3150--3151
+\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 s[]; ^^\\OT1/cmr/m/n/12 )$ \TU/SimSun(0)/m/n/
+12 形 式 的 环 状 路 径，|  而 且 其 中 对 于 此 路 径 中 的 某 个 状 态 $\OT1/cmr/m/n/12 (\OML/cmm/m/
+it/12 s[]; ^^\\OT1/cmr/m/n/12 )$\TU/SimSun(0)/m/n/12 ，|  有 $\OT1/cmr/m/n/12 (\O
+ML/cmm/m/it/12 s[]; \OMS/cmsy/m/n/12 ^^A\OT1/cmr/m/n/12 ) [][]\OMS/cmsy/m/n/12 
+![]
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[57]
+
+LaTeX Warning: Text page 58 contains only floats.
+
+[58]
+Overfull \hbox (10.48712pt too wide) in paragraph at lines 3244--3245
+\TU/SimSun(0)/m/n/12 和 \TU/lmss/m/n/12 CADP \TU/SimSun(0)/m/n/12 均 占 用 资 源 较 少；
+|  而 且 当 要 验 证 的 性 质  |（死 锁 和 活 锁）|  满 足 的 时 候，| \TU/lmss/m/n/12 SCTLProV
+ []
+
+)) [59] [60
+
+] (Thesis.bbl [61
+
+
+]) (Tex/Backmatter.tex [62] [63
+
+] [64
+
+] [65] [66
 
 ]
 
@@ -2813,7 +3395,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \hskip 12.0pt
 (hyperref)                replaced by space on input line 39.
 
-) [47]
+) [67]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 210.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 210.
  (Thesis.aux)
@@ -2826,12 +3408,12 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 210.
  ) 
 Here is how much of TeX's memory you used:
- 54983 strings out of 427836
- 1250254 string characters out of 3152479
- 1570945 words of memory out of 3000000
- 58134 multiletter control sequences out of 15000+200000
- 552908 words of font info for 180 fonts, out of 3000000 for 9000
+ 55083 strings out of 427836
+ 1251339 string characters out of 3152479
+ 1588098 words of memory out of 3000000
+ 58228 multiletter control sequences out of 15000+200000
+ 553184 words of font info for 186 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
  63i,26n,96p,10537b,2365s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Thesis.pdf (65 pages).
+Output written on Thesis.pdf (85 pages).

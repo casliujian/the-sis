@@ -733,11 +733,693 @@ only.
 \end{proposition}
 
 \begin{proof}
-	Induction on the structure of $\phi$. The details are presented in 
-	\ref{appendix:proof:corret:prfsearch}.
+		We prove a more general proposition: 
+	for a given formula $\phi$, \couic{ where $c_1$ and $c_2$ cannot rewrite to each other,} $\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2) 
+	\rsa^* c_1$ for all distinct \CPT{}s $c_1$ and $c_2$ iff $\Gamma \vdash \phi$ is provable. 
+	
+	
+	Note that for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2)$ rewrites to either $c_1$ or $c_2$ in finite steps. This is because according to Proposition \ref{cpt:termination}, $\textsf{cpt}(\Gamma \vdash\phi, \mathfrak{t}, \mathfrak{f})$ rewrites to $\mathfrak{t}$ or $\mathfrak{f}$ in finite steps; and in the rewriting steps, neither the structure of $c_1$ nor $c_2$ is examined until either $c_1$ or $c_2$ appears in the rewriting steps. Thus, we can safely replace $\mathfrak{t}$ by $c_1$, and $\mathfrak{f}$ by $c_2$ in the rewriting steps of $\textsf{cpt}(\Gamma \vdash\phi, \mathfrak{t}, \mathfrak{f})$, and obtain a finite steps of rewriting from $\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2)$ to either $c_1$ or $c_2$.
+	This fact is used in the following proof. 
+	
+	
+	Now, we prove the more general proposition by induction on the weight of $\Gamma\vdash\phi$ (Definition \ref{sequent:weight}). In the proof, we use $c_1\not\rsa^*c_2$ to denote that \CPT{} $c_1$ cannot rewrite to \CPT $c_2$ in finite steps.
+	\begin{itemize}
+		\item If $\phi=\top$ or $\bot$, trivial.
+		\item If $\phi=P(s_1,...,s_n)$ where $P(s_1,...,s_n)$ is atomic, then
+		$\textsf{cpt}(\vdash P(s_1,...,s_n), c_1, c_2)\rsa c_1$ for all \textsf{CPT}s $c_1$ and $c_2$ iff $\langle
+		s_1,...,s_n\rangle \in P$ iff $\vdash P(s_1,...,s_n)$ is
+		provable.
+		\item If $\phi=\neg P(s_1,...,s_n)$ where $P(s_1,...,s_n)$ is atomic,
+		then $\textsf{cpt}(\vdash \neg P(s_1,...,s_n), c_1, c_2)\rsa c_1$ for all \textsf{CPT}s $c_1$ and $c_2$ iff
+		$\langle s_1,...,s_n\rangle \notin P$ iff $\vdash \neg
+		P(s_1,...,s_n)$ is provable.
+		
+		\item If $\phi = \phi_1\wedge \phi_2$, then
+		\begin{itemize}
+			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash\phi_1\wedge\phi_2, c_1, c_2)\rsa^* c_1$, then both $\vdash\phi_1$ and $\vdash\phi_2$ are provable, this is because otherwise, if $\vdash\phi$ is not provable, then according to the induction hypothesis, there exist \CPT{}s $c_1$ and $c_2$ such that 
+			$\textsf{cpt}(\vdash
+			\phi_1\wedge\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash \phi_1, \textsf{cpt}(\vdash
+			\phi_2, c_1, c_2), c_2)\rsa^*c_2$, and $c_2$ cannot rewrite to $c_1$; if $\vdash\phi_1$ is provable but $\vdash\phi_2$ is not, then according to the induction hypothesis, there exist \CPT{}s $c_1$ and $c_2$ such that $\textsf{cpt}(\vdash
+			\phi_1\wedge\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash \phi_1, \textsf{cpt}(\vdash
+			\phi_2, c_1, c_2), c_2)\rsa^*\textsf{cpt}(\vdash
+			\phi_2, c_1, c_2)\not\rsa^*c_1$. Thus, according to the rules of the proof system, $\vdash\phi_1\wedge\phi_2$ is provable.
+			\item $(\Leftarrow)$ if $\vdash\phi_1\wedge\phi_2$ is provable, then according to the rules of the proof system, both $\vdash\phi_1$ and $\vdash\phi_2$ are provable, then according to the induction hypothesis, for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash
+			\phi_1\wedge\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash \phi_1, \textsf{cpt}(\vdash
+			\phi_2, c_1, c_2), c_2) \rsa^* \textsf{cpt}(\vdash \phi_2, c_1, c_2)\rsa^*
+			c_1$.
+		\end{itemize}
+		
+		
+		\item If $\phi = \phi_1\vee\phi_2$, then 
+		\begin{itemize}
+			\item $(\Rightarrow)$ if for all distinct \textsf{CPT}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash \phi_1\vee\phi_2,
+			c_1, c_2)\rsa^* c_1$, then either $\vdash\phi_1$ or $\vdash\phi_2$ is proved. This is because otherwise, if both $\vdash\phi_1$ and $\vdash\phi_2$ are not provable, then according to the induction hypothesis, there exist \CPT{}s $c_1$ and $c_2$ such that 
+			$\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1,
+			c_2)\rsa \textsf{cpt}(\vdash \phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))\rsa^*\textsf{cpt}(\vdash\phi_2, c_1, c_2)\rsa^*
+			c_2$, and $c_2$ cannot rewrite to $c_1$. Then, according to the rules of the proof system, $\vdash\phi_1\vee\phi_2$ is provable.
+			\item $(\Leftarrow)$ if $\vdash\phi_1\vee\phi_2$ is provable, then according to the rules of the system, either $\vdash\phi_1$ or $\vdash\phi_2$ is provable, then according to the induction hypothesis, if $\vdash\phi_1$ is provable, then for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1,
+			c_2)\rsa \textsf{cpt}(\vdash \phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))\rsa^*
+			c_1$; if $\vdash\phi_2$ is provable, then for all distinct \CPT{}s $c_1$ and $c_2$, either $\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash
+			\phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))\rsa^* \textsf{cpt}(\vdash\phi_2,
+			c_1, c_2) \rsa^* c_1$, or $\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash
+			\phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))\rsa^* c_1$.
+		\end{itemize}
+		
+		\item If $\phi = AX_x(\psi)(s)$ and $\{s_1,...,s_n\}=\textsf{Next}(s)$, then
+		\begin{itemize}
+			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, 
+			$\textsf{cpt}(\vdash AX_x(\psi)(s), c_1, c_2)\rsa^* c_1$, then $\vdash(s_1/x)\psi,...,\vdash(s_n/x)\psi$ are all provable. This is because otherwise, if there exists $1\le i\le n$ such that for all $1\le j < i$, $\vdash(s_1/x)\psi,...,\vdash(s_j/x)\psi$ are all provable, but $\vdash(s_i/x)\psi$ is not provable, then according to the rewrite rules and the induction hypothesis, there exist distinct \CPT{}s $c_1$ and $c_2$ such that (for notation purpose, $\vdash\psi_{s_i}$ is used to denote $\vdash(s_i/x)\psi$)
+			
+			$\textsf{cpt}(\vdash
+			AX_x(\psi)(s), c_1, c_2)\rsa$ \\
+			$\textsf{cpt}(\vdash\psi_{s_1},
+			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
+			c_2)...), c_2)\rsa^*\\
+			\ldots\rsa^*\\
+			\textsf{cpt}(\vdash\psi_{s_j},
+			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
+			c_2)...), c_2)\rsa^*\\
+			\textsf{cpt}(\vdash\psi_{s_i},
+			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
+			c_2)...), c_2)\not\rsa^*\\
+			c_1$. Thus, according to the rules of the proof system, $\vdash AX_x(\psi)(s)$ is provable.
+			\item $(\Leftarrow)$ if $\vdash AX_x(\psi)(s)$ is provable, then according to the rules of the proof system, $\vdash(s_1/x)\psi,...,\vdash(s_n/x)\psi$ are all provable, then according to the induction hypothesis, for all distinct \CPT{}s $c_1$ and $c_2$ (for notation purpose, $\vdash\psi_{s_i}$ is used to denote $\vdash(s_i/x)\psi$), 
+			
+			$\textsf{cpt}(\vdash
+			AX_x(\psi)(s), c_1, c_2)\rsa$ \\
+			$\textsf{cpt}(\vdash\psi_{s_1},
+			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
+			c_2)...), c_2)\rsa^*\\
+			\ldots\rsa^*\\
+			\textsf{cpt}(\vdash\psi_{s_n}, c_1,
+			c_2)\rsa^*c_1$.
+		\end{itemize}
+		
+		\item If $\phi = EX_x(\psi)(s)$ and $\{s_1,...,s_n\}=\textsf{Next}(s)$, then
+		\begin{itemize}
+			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash EX_x(\psi)(s), c_1, c_2)\rsa^* c_1$, then there exists $1\le i\le n$ such that $\vdash(s_i/x)\psi$ is provable. This is because otherwise, if $\vdash(s_i/x)\psi$ is not provable for all $1\le i\le n$, then according to the induction hypothesis, there exist distinct \CPT{}s $c_1$ and $c_2$ such that (for notation purpose, $\vdash\psi_{s_i}$ is used to denote $\vdash(s_i/x)\psi$)
+			
+			$\textsf{cpt}(\vdash
+			EX_x(\psi)(s), c_1, c_2)\rsa \\ 
+			\textsf{cpt}(\vdash \psi_{s_1}, c_1,
+			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
+			c_2)...))\rsa^* \\ 
+			\ldots \rsa^*\\
+			\textsf{cpt}(\vdash\psi_{s_n}, c_1, c_2)\not\rsa^* c_1$. According to the rules of the proof system, $\vdash EX_x(\psi)(s)$ is provable.
+			\item $(\Leftarrow)$ if $\vdash EX_x(\psi)(s)$ is provable, then according to the rules of the proof system, there exists $1\le i\le n$ such that $\vdash (s_i/x)\psi$ is provable. According to the induction hypothesis, for all distinct \CPT{}s $c_1$ and $c_2$ (for notation purpose, $\vdash\psi_{s_i}$ is used to denote $\vdash(s_i/x)\psi$), 
+			
+			$\textsf{cpt}(\vdash EX_x(\psi)(s), c_1, c_2)\rsa \\ 
+			\textsf{cpt}(\vdash\psi_{s_1}, c_1,
+			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
+			c_2)...))\rsa^* \\ 
+			\ldots\\
+			\textsf{cpt}(\vdash\psi_{s_{i-1}}, c_1,
+			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
+			c_2)...))\rsa^*
+			\textsf{cpt}(\vdash\psi_{s_i}, c_1,
+			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
+			c_2)...))\rsa^*c_1$.
+		\end{itemize}
+		
+		\item If $\phi = AF_x(\psi)(s)$ and $\{s_1,...,s_n\}=\textsf{Next}(s)$, then
+		\begin{itemize}
+			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\Gamma\vdash AF_x(\psi)(s), c_1, c_2)\rsa^* c_1$, then either 
+			$\vdash(s/x)\psi$ is provable, or all of $\Gamma, AF_x(\psi)(s)\vdash
+			AF_x(\psi)(s_1)$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_2)$,
+			$...$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_n)$ are provable.
+			This is because otherwise, if $\vdash(s/x)\psi$ is not provable, $\Gamma,AF_x(\psi)(s)\vdash AF_x(\psi)(s_i)$ is also not provable for some $1\le i\le n$, and $\Gamma,AF_x(\psi)(s)\vdash AF_x(\psi)(s_j)$ is provable for all $j<i$, then according to the induction hypothesis, there exist two distinct \CPT{}s $c_1$ and $c_2$ such that (let $\Gamma'=\Gamma,AF_x(\psi)(s)$)
+			
+			$\textsf{cpt}(\Gamma\vdash AF_x(\psi)(s), c_1, c_2)\rsa \\ 
+			\textsf{cpt}(\vdash(s/x)\psi, c_1, \textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_1),
+			\textsf{cpt}(...\\\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)..., c_2),
+			c_2))\rsa^*\\ 
+			\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_1),
+			\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)..., c_2),
+			c_2)\rsa^*\\
+			\ldots\rsa^*\\
+			\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_{i}),
+			\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)..., c_2),
+			c_2)\rsa^*c_2\not\rsa^*c_1$. Then, according to the rules of the proof system, $\Gamma\vdash AF_x(\psi)(s)$ is provable.
+			\item $(\Leftarrow)$ if $\Gamma\vdash AF_x(\psi)(s)$ is provable, then according to the rules of the proof system, 
+			either $\vdash(s/x)\psi$ is provable, or all of $\Gamma, AF_x(\psi)(s)\vdash
+			AF_x(\psi)(s_1)$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_2)$,
+			$...$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_n)$ are provable. Thus, according to the induction hypothesis (let $\Gamma'=\Gamma,AF_x(\psi)(s)$),  
+			\begin{itemize}
+				\item if $\vdash(s/x)\psi$ is provable, then for all distinct \CPT{}s $c_1$ and $c_2$,
+				
+				$\textsf{cpt}(\Gamma\vdash AF_x(\psi)(s), c_1, c_2)\rsa \\ 
+				\textsf{cpt}(\vdash(s/x)\psi, c_1, \textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_1),
+				\\\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)..., c_2),
+				\\c_2))\rsa^*c_1$.
+				\item if $\vdash(s/x)\psi$ is not provable, but
+				$\Gamma, AF_x(\psi)(s)\vdash AF_x(\psi)(s_i)$ is provable for all $1\le i\le n$, then for all distinct \CPT{}s $c_1$ and $c_2$,
+				
+				$\textsf{cpt}(\Gamma\vdash AF_x(\psi)(s), c_1, c_2)\rsa \\ 
+				\textsf{cpt}(\vdash(s/x)\psi, c_1, \textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_1),\\
+				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)..., c_2),\\
+				c_2))\rsa^*\\ 
+				\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_1),
+				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)..., c_2),
+				c_2)\rsa^*\\
+				\ldots\rsa^*\\
+				\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)\rsa^*c_1$.
+			\end{itemize}
+		\end{itemize}	
+		
+		
+		\item if $\phi = EG_x(\psi)(s)$ and $\{s_1,...,s_n\}=\textsf{Next}(s)$, then
+		\begin{itemize}
+			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\Gamma\vdash EG_x(\psi), c_1, c_2)\rsa^* c_1$, then either $EG_x(\psi)(s)\in\Gamma$, or both $\vdash(s/x)\psi$ and
+			$\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$ are provable for some $1\le i\le n$. This is because otherwise (let $\Gamma'=\Gamma,EG_x(\psi)(s)$), 
+			\begin{itemize}
+				\item if $EG_x(\psi)(s)\notin\Gamma$, and $\vdash(s/x)\psi$ is not provable, then there exist distinct \CPT{}s $c_1$ and $c_2$ such that 
+				
+				$\textsf{cpt}(\Gamma\vdash EG_x(\psi)(s), c_1, c_2) \rsa^*\\
+				\textsf{cpt}(\vdash(s/x)\psi,
+				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_1), c_1,\\
+				\textsf{cpt}(...\textsf{cpt}( \Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...)),\\
+				c_2)\rsa^*c_2\not\rsa^*c_1$.
+				\item if $EG_x(\psi)(s)\notin\Gamma$, $\vdash(s/x)\psi$ is provable, and $\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$ is not provable for all $1\le i\le n$, then there exist distinct \CPT{}s $c_1$ and $c_2$ such that 
+				
+				$\textsf{cpt}(\Gamma\vdash EG_x(\psi)(s), c_1, c_2) \rsa^*\\
+				\textsf{cpt}(\vdash(s/x)\psi,
+				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_1), c_1,\\
+				\textsf{cpt}(...\textsf{cpt}( \Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...)),\\
+				c_2)\rsa^*\\
+				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_1), c_1,
+				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...))\rsa^*\\
+				\ldots\\
+				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)\not\rsa^*c_1$.
+			\end{itemize}
+			Then, according to the rules of the proof system, $\Gamma\vdash EG_x(\psi)(s)$ is provable.
+			\item $(\Leftarrow)$ if $\Gamma\vdash EG_x(\psi)(s)$ is provable, then according to the rules of the proof system, either $EG_x(\psi)(s)\in\Gamma$, or both $\vdash(s/x)\psi$ and $\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$ are provable for some $1\le i\le n$.
+			\begin{itemize}
+				\item If $EG_x(\psi)(s)\in\Gamma$, then for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\Gamma\vdash EG_x(\psi)(s), c_1, c_2) \rsa c_1$.
+				\item If both $\vdash(s/x)\psi$ and $\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$ are provable for some $1\le i\le n$, and $\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_j)$ is not provable for all $j<i$, then according to the induction hypothesis, for all distinct \CPT{}s $c_1$ and $c_2$ (let $\Gamma'=\Gamma,EG_x(\psi)(s)$),
+				
+				$\textsf{cpt}(\Gamma\vdash EG_x(\psi)(s), c_1, c_2) \rsa^*\\
+				\textsf{cpt}(\vdash(s/x)\psi,
+				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_1), c_1,\\
+				\textsf{cpt}(...\textsf{cpt}( \Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...)),\\
+				c_2)\rsa^*\\
+				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_1), c_1,
+				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...))\rsa^*\\
+				\ldots\rsa^*\\
+				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_i), c_1,
+				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...))\rsa^*c_1$.
+			\end{itemize}
+		\end{itemize}
+		
+		\item if $\phi = AR_{x,y}(\phi_1,\phi_2)(s)$, then as are both co-inductive
+		modalities, the analysis of the $AR$ case is analogous to that of $EG$.
+		\item if $\phi = EU_{x,y}(\phi_1,\phi_2)(s)$, then as are both inductive
+		modalities, the analysis of the $EU$ case is analogous to that of $AF$.
+	\end{itemize}
+	
 \end{proof}
 
 \subsection{证明搜索算法的优化}\label{subsec:proofsearch:optimize}
+
+In the proof search of sequents with co-inductive formulae (formulae with modality $EG$ or
+$AR$), the merge rules are used to assert that some property holds on
+an infinite path of states. For every merge rule, the formulae need to be
+memoized are with the same modality, whereas the only differences are
+the states appearing in the formulae. Thus, it is sufficient to
+memoize only the states, not the whole formulae, in the
+implementation of every merge (i.e., $\Gamma$). Essentially, each
+construction of a merge is implemented by memoizing an infinite path
+where all states verify some property. 
+
+What is worth mentioning is the proof search of sequents with
+inductive formulae (formulae with modality $AF$ or $EU$, especially). Although
+there are no merge rules for the proof of this kind of sequents,
+merges are also helpful to avoid infinite proof search, when the
+formula is not provable, that is when its (co-inductive) negation
+is. For instance, for the proof search of the sequent
+$\vdash EU_{x,y}(\phi_1,\phi_2)(s)$, we need to find a finite path
+where in the last states $\phi_2$ holds, and in all other states
+$\phi_1$ holds. Although we are not finding infinite paths, we still
+need to avoid our proof search falling into an infinite path. Thus, as
+an optimization in the proof search of inductive formulae, we also
+keep merges in the rewrite rules.  Note that merges are not
+reflected in the proof rules for the $AF$ and $EU$ cases. The reason
+is that, in the proof rules, we only care about the shape of the proof
+tree, not how the proof tree is constructed. It is only in the
+construction of proof trees where merges for $AF$ and $EU$ are
+mentioned.
+
+As another optimization of the proof search algorithm, we use a global memory to store, for each sub-formula $\phi$, 
+the states visited during the proof search of this formula, and avoid visiting states that are already in this memory. 
+This memory can be either a hash table or a \BDD{}, each having 
+advantages and disadvantages. 
+This memory helps to avoid constructing the same merges
+repeatedly. This optimization does not break the correctness
+property of the proof search method, as we are only omitting
+repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we use an example (Example \ref{example:globalmerge}) to illustrate this optimization.
+{\color{blue}
+	\begin{example}\label{example:globalmerge}
+		Consider the Kripke model formed with the following relation where $n>1$, and the set $P=\{s_0,s_{1,1},s_{1,2},...,s_{1,n-1},s_{2,0},...,s_{2,n}\}$. 
+		\begin{center}
+			\centering
+			%		\small
+			\begin{tikzpicture}
+			[scale=1.5,->,>=stealth',shorten >=1pt,auto,inner sep=2pt,semithick,bend angle=20]
+			\tikzstyle{every state}=[draw=none] 
+			\node[state] (1) at (0,0) {$s_0$};
+			\node[state] (2) at (1,0) {$s_{1,1}$}; 
+			\node[state] (3) at (2,0) {$s_{1,2}$}; 
+			\node[state] (4) at (3,0) {$\ldots$};
+			\node[state] (5) at (4,0) {$s_{1,n}$};
+			%		\node[state] (6) at (6.5,0) {$(100,f,f)$};
+			\node[state] (7) at (0,-1) {$s_{2,0}$};
+			\node[state] (8) at (1,-1) {$s_{2,1}$};
+			\node[state] (9) at (2,-1) {$s_{2,2}$};
+			\node[state] (10) at (3,-1) {$\ldots$};
+			\node[state] (11) at (4,-1) {$s_{2,n}$};
+			%		\node[state] (12) at (6.5,-1) {$(100,t,t)$};
+			%			\node[state] (3) at (1,-0.3){$c$}; 
+			%			\node[state] (4) at (2,0) {$d$};
+			
+			\draw[right] (0.3,0) -- (0.7,0);
+			\draw[right] (1.3,0) -- (1.7,0);
+			\draw[right] (2.3,0) -- (2.7,0);
+			\draw[right] (3.3,0) -- (3.7,0);
+			%		\draw[right] (5.4,0) -- (6.1,0);
+			\draw[->] (4,0.1) arc (-10:-325:-0.3);
+			\draw[right] (0,-0.2) -- (0,-0.8);
+			\draw[right] (0.2,-0.8) -- (1,-0.1);
+			\draw[right] (0.3,-1) -- (0.8,-1);
+			\draw[right] (1,-0.8) -- (1,-0.1);
+			\draw[right] (1.3,-1) -- (1.7,-1);
+			\draw[right] (1.9,-0.8) -- (1,-0.1);
+			\draw[right] (2.3,-1) -- (2.7,-1);
+			\draw[right] (2.3,-1) -- (2.7,-1);
+			\draw[right] (3.3,-1) -- (3.7,-1);
+			%		\draw[right] (3,-0.9) -- (1,-0.1);
+			%		\draw[right] (5.4,-1) -- (6.1,-1);
+			\draw[->] (4,-0.9) arc (-10:-325:-0.3);
+			\end{tikzpicture}
+		\end{center}
+		When proving the formula $EG_x(P(x))(s_0)$, we need to rewrite the \CPT{} $\textsf{cpt}(\vdash EG_x(P(x))(s_0), \mathfrak{t},\mathfrak{f})$. Suppose that $s_{1,1}$ is searched before $s_{2,0}$ in $\textsf{Next}(s_0)$, and $s_{1,1}$ is searched before $s_{2,i+1}$ in $\textsf{Next}(s_{2,i})$ for all $i$ between $0$ and $n-1$. The rewriting steps are depicted in Figure \ref{example:globalmerge:fig}. We let {$$\Gamma_0=\{EG_{x}(P(x))(s_0)\},$$} {$$ \Gamma_{1,i}=\{EG_x(P(x))(s_0), EG_x(P(x))(s_{1,0}),\ldots,EG_x(P(x))(s_{1,i})\},$$} and {$$\Gamma_{2,i}=\{EG_x(P(x))(s_0), EG_x(P(x))(s_{2,0}),\ldots,\\EG_x(P(x))(s_{2,i})\}$$} in the rewriting steps.
+		\begin{figure}[h!]\small
+			\centering
+			\color{blue}
+			\begin{tabular}{|l|}
+				\hline
+				$
+				\textsf{cpt}(\vdash EG_x(P(x))(s_0),\mathfrak{t},\mathfrak{f}) \rsa^*$\\
+				$\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{1,1}),\mathfrak{t},\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{2,0}), \mathfrak{t},\mathfrak{f}))\rsa^*
+				$\\
+				$\textsf{cpt}(\Gamma_{1,0}\vdash EG_x(P(x))(s_{1,2}),\mathfrak{t},\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{2,0}), \mathfrak{t},\mathfrak{f}))\rsa^*
+				$\\
+				$\ldots\rsa^*$\\
+				$\textsf{cpt}(\Gamma_{1,n-1}\vdash EG_x(P(x))(s_{1,n}),\mathfrak{t},\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{2,0}), \mathfrak{t},\mathfrak{f}))\rsa^*$\\
+				$\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{2,0}), \mathfrak{t},\mathfrak{f})\rsa^*$\\
+				$\textsf{cpt}(\Gamma_{2,0}\vdash EG_x(P(x))(s_{1,1}), \mathfrak{t},\textsf{cpt}(\Gamma_{2,0}\vdash EG_x(P(x))(s_{2,1}), \mathfrak{t},\mathfrak{f}))\rsa^*$\\
+				$\ldots\rsa^*$\\
+				%	$\textsf{cpt}(\Gamma_{2,n-1}\vdash EG_x(P(x))(s_{1,1}), \mathfrak{t},\textsf{cpt}(\Gamma_{2,0}\vdash EG_x(P(x))(s_{2,1}), \mathfrak{t},\mathfrak{f}))$\\
+				$\textsf{cpt}(\Gamma_{2,0}\vdash EG_x(P(x))(s_{2,1}), \mathfrak{t},\mathfrak{f})\rsa^*$\\
+				$\ldots\rsa^*$\\
+				$\textsf{cpt}(\Gamma_{2,n-1}\vdash EG_x(P(x))(s_{2,n}), \mathfrak{t},\mathfrak{f})\rsa^*$\\
+				$\textsf{cpt}(\Gamma_{2,n}\vdash EG_x(P(x))(s_{2,n}), \mathfrak{t},\mathfrak{f})\rsa$
+				$\mathfrak{t}$\\
+				\hline
+			\end{tabular}
+			\caption{Rewriting steps of $\textsf{cpt}(\vdash EG_x(P(x))(s_0),\mathfrak{t},\mathfrak{f})$.}
+			\label{example:globalmerge:fig}
+		\end{figure}
+		
+		In Figure \ref{example:globalmerge:fig}, all states in the path $\pi = s_{1,1},s_{1,2},...,s_{1,n}$ are already visited before we rewrite $\textsf{cpt}(\Gamma_{2,0}\vdash EG_x(P(x))(s_{2,1}), \mathfrak{t},\mathfrak{f})$, and each time we rewrite $\textsf{cpt}(\Gamma_{2,i}\vdash EG_x(P(x))(s_{2,i+1}), \mathfrak{t},\mathfrak{f})$ for each $i$ between $0$ and $n-1$, all states in $\pi$ need to visited one more time. 
+		
+		When using a set $M$ (global memory) to store visited states, the repeatedly visiting of $\pi$ can be avoided. In this case, we put every visited state $s$, for which $EG_x(P(x))(s)$ is not provable, into $M$, and when rewriting a \CPT{} of the form $c=\textsf{cpt}(\Gamma\vdash EG_x(P(x))(s), c_1, c_2)$ for some $\Gamma, c_1, c_2,$ and $s\in M$, we replace $c$ by $c_2$ in the current rewriting step. In this case, before we rewrite $\textsf{cpt}(\Gamma_{2,i}\vdash EG_x(P(x))(s_{2,i+1}), \mathfrak{t},\mathfrak{f})$ for each $i$ between $0$ and $n-1$, all states in $\pi$ are already stored in $M$ and thus need not to be visited again.
+		
+		A more detailed explanation of the global memory in the proof search algorithm is in \ref{appendix:algorithm}.
+	\end{example}
+}
+
+\subsection{证明搜索算法伪代码}\label{algorithm:pseducode}
+In this section, we explain the pseudo code of our proof search algorithm in details.
+
+First, let us define the notion of formula schema.
+For a \sctlm{} formula $\phi$ with modality $AF, EG, AR, $ or $EU$, a schema $\phi^-$ of $\phi$ is defined by replacing the state constant in $\phi$ by $\_$.
+For instance, the schema of the formula $EU_{x,y}(\phi_1,\phi_2)(s)$ is $EU_{x,y}(\phi_1,\phi_2)(\_)$, and the schema of the formula $AF_x(\phi')(s')$ is $AF_x(\phi')(\_)$. A formula schema can be viewed as a context of a state constant in a \sctlm{} formula.
+
+The proof search algorithm is depicted in Figure \ref{appendix:algorithm:main}.
+
+In the proof search algorithm, $\mathsf{c}$ is the \textsf{CPT} that need to rewritten; $\mathsf{pt}$ and $\mathsf{ce}$ are the trees to be constructed during the proof search, which correspond to the proof tree and the counterexample, respectively; $\mathsf{M^t}$ and $\mathsf{M^f}$ are used to memoize formulae that are provable, or not, respectively; and finally, $\mathsf{visited}$ remembers the visited states during the proof search of each of the $AF, EG, AR$ and $EU$ formulae.
+
+Note that we associate a set of actions $\mathsf{A}$ to each \textsf{CPT}, such that when the \textsf{CPT} is to be rewritten, every action in $\mathsf{A}$ is performed. The purpose of associating actions to \textsf{CPT}s is to help construct the proof tree or counterexample, and update $\mathsf{M^t}$ and $\mathsf{M^f}$.
+Initially, we associate an empty set to each of the \textsf{CPT}s $\textsf{cpt}(\vdash\phi,\mathfrak{t},\mathfrak{f})$, $\mathfrak{t}$, and $\mathfrak{f}$.
+
+Note also that $\mathsf{M^t}$, $\mathsf{M^f}$, and $\mathsf{visited}$ are explained as hash tables. In fact,each of these global variables remembers a set of states for each formula schema. Thus, a formula schema is a key, and a set of states is a value to these 3 hash tables. We denote, for instance, $\mathsf{M^t_{EG_{x}(\phi)(\_)}}$ to the set of states $S$ such that $\forall s\in S$, $EG_{x}(\phi)(s)$ is provable; $\mathsf{M^f_{EG_{x}(\phi)(\_)}}$ to the set of states $S$ such that $\forall s\in S$, $EG_{x}(\phi)(s)$ is not provable; and finally, $\mathsf{visited_{EG_x(\phi)(\_)}}$ to the set of states $S$ such that $\forall s\in S$, $EG_x(\phi)(s)$ has been visited in the proof search.
+
+The ``while'' loop in the function is to repeatedly rewrite the \textsf{CPT} $\mathsf{c}$, until $\mathfrak{t}$ or $\mathfrak{f}$ is reached. The return value of the function is a pair consisting of a Boolean result, and a proof tree (or counterexample). 	
+
+
+\begin{figure}[h]
+	\footnotesize
+	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+			%			\hspace{0.7cm}\textbf{Global variables:} \\
+			
+			%			\vspace{0.1cm}\\
+			%			$~~~~~~~~$/*The proof search function*/\\
+			$~~~~~~~$\textbf{Input:} A \textsf{CPT} $\mathsf{c}$.\\
+			$~~~~~~~~$\textbf{Output:} A pair $\mathsf{(r, t)}$, where $\mathsf{r}$ is a Boolean, and $\mathsf{t}$ is either $\mathsf{pt}$ or $\mathsf{ce}$.\\
+			\vspace{-0.4cm}
+			\begin{algorithmic}[1]
+				\Function{ProofSearch}{}
+				\State $\mathsf{c:=\textsf{cpt}^\emptyset(\vdash\psi,\mathfrak{t}^\emptyset,\mathfrak{f}^\emptyset)}$
+				\State $\mathsf{pt := ce := \langle}$tree with a single node: $\mathsf{\vdash\psi\rangle}$
+				\State $\mathsf{M^t := M^f := visited := \langle}$empty hash table$\mathsf{\rangle}$
+				\While{$\mathsf{c = \textsf{cpt}^{A_0}(\Gamma\vdash\phi,c_1^{A_1},c_2^{A_2})}$}
+				\State {$\mathsf{\forall a\in A_0}$, perform $\mathsf{a}$}
+				\State\textbf{case} $\phi$ \textbf{is}
+				\State~~$\mathsf{\top}$: $\mathsf{c:=c_1^{A_1}}$
+				\State~~$\mathsf{\bot}$: $\mathsf{c:=c_2^{A_2}}$
+				\State~~$\mathsf{P(s_1,...,s_n)}$:
+				\State~~~~~~\textbf{if} $\mathsf{\langle s_1,...,s_n\rangle\in P}$ \textbf{then} $\mathsf{c:=c_1^{A_1}}$ \textbf{else} $\mathsf{c:=c_1^{A_2}}$ \textbf{end if}
+				\State~~$\mathsf{\neg P(s_1,...,s_n)}$: 
+				\State~~~~~~\textbf{if} $\mathsf{\langle s_1,...,s_n\rangle\in P}$ \textbf{then} $\mathsf{c:=c_1^{A_2}}$ \textbf{else} $\mathsf{c:=c_1^{A_1}}$ \textbf{end if}
+				\State~~$\mathsf{\phi_1\wedge\phi_2: ProveAnd (\vdash \phi_1\wedge\phi_2)}$
+				\State~~$\mathsf{\phi_1\vee\phi_2: ProveOr (\vdash \phi_1\vee\phi_2)}$
+				\State~~$\mathsf{EX_x(\phi_1)(s): ProveEX (\Gamma\vdash EX_x(\phi_1)(s))}$
+				\State~~$\mathsf{AX_x(\phi_1)(s): ProveAX (\Gamma\vdash AX_x(\phi_1)(s))}$
+				\State~~$\mathsf{EG_x(\phi_1)(s): ProveEG (\Gamma\vdash EG_x(\phi_1)(s))}$
+				\State~~$\mathsf{AF_x(\phi_1)(s): ProveAF (\Gamma\vdash AF_x(\phi_1)(s))}$
+				\State~~$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s): ProveEU (\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s))}$
+				\State~~$\mathsf{AR_{x,y}(\phi_1,\phi_2)(s): ProveAR (\Gamma\vdash AR_{x,y}(\phi_1,\phi_2)(s))}$
+				\State\textbf{end case}
+				\EndWhile
+				\If{$\mathsf{c=\mathfrak{t}^{A}}$}
+				
+				\State $\mathsf{\forall a\in A}$, perform $\mathsf{a}$
+				\State \textbf{Return} {$\mathsf{(true, pt)}$}
+				\EndIf
+				\If{$\mathsf{c=\mathfrak{f}^{A}}$}
+				\State $\mathsf{\forall a\in A}$, perform $\mathsf{a}$
+				\State \textbf{Return} {$\mathsf{(false, ce)}$}
+				\EndIf
+				\EndFunction
+			\end{algorithmic}
+	}}
+	\caption{The proof search algorithm.}
+	\label{appendix:algorithm:main}
+\end{figure}
+
+
+
+In the proof search algorithm, the rewriting steps for the cases where $\phi$ is an atomic formula or the negation of a atomic formula is presented, and the explanation for other cases are presented separately in the following Subsections.
+\subsubsection{$\mathsf{ProveAnd}$ and $\mathsf{ProveOr}$}
+The proof search for conjunction formulae is depicted in Figure \ref{algorithm:and}, where $\mathsf{ac (t, parent, children)}$ represents the operation of adding each element in $\mathsf{children}$ as a child to the node $\mathsf{parent}$ in the tree $\mathsf{t}$. The algorithm for $\mathsf{ProveAnd}$ can be explained as follows.
+
+\begin{itemize}
+	\item Line 4: When $\mathsf{c_1}$ is reached from $\mathsf{c'}$ in the future steps, both $\vdash\phi_1$ and $\vdash\phi_2$ are provable, then both $\vdash\phi_1$ and $\vdash\phi_2$ should be added as children of $\vdash\phi_1\wedge\phi_2$ in the proof tree (Line 1). Otherwise, if either of the inner or outer $\mathsf{c_2}$ is reached from $\mathsf{c'}$, then the unprovability of either $\vdash\phi_1$ (Line 2) or $\vdash\phi_2$ (Line 3) is added as the evidence of negating $\vdash\phi_1\wedge\phi_2$ in the counterexample.
+	\item Line 5: Rewrite $\mathsf{c}$ to $\mathsf{c'}$.
+\end{itemize}
+
+\begin{figure}[h!]\footnotesize
+	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State let $\mathsf{A_{12}=A_1\cup\{\mathsf{ac}(pt, \vdash\phi_1\wedge\phi_2,\{\vdash\phi_1,\vdash\phi_2\})\})\}}$
+				\State let $\mathsf{A_{21}=A_2\cup\{\mathsf{ac}(ce, \vdash\phi_1\wedge\phi_2,\{\vdash\phi_1\})\})\}}$
+				\State let $\mathsf{A_{22}=A_2\cup\{\mathsf{ac}(ce, \vdash\phi_1\wedge\phi_2,\{\vdash\phi_2\})\})\}}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash\phi_1, \textsf{cpt}^\emptyset(\vdash\phi_2, c_1^{A_{12}}, c_2^{A_{22}}), c_2^{A_{21}})}$
+				\State $\mathsf{c := c'}$
+			\end{algorithmic}
+			
+	}}
+	\caption{$\mathsf{ProveAnd (\vdash\phi_1\wedge\phi_2})$}
+	\label{algorithm:and}
+\end{figure}
+Figure \ref{algorithm:or} shows the details of $\mathsf{ProveOr}$, which is the dual case of $\mathsf{ProveAnd}$.
+\begin{figure}[h!]\footnotesize
+	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State let $\mathsf{A_{22}=A_2\cup\{\mathsf{ac}(ce, \vdash\phi_1\vee\phi_2,\{\vdash\phi_1,\vdash\phi_2\})\})\}}$
+				\State let $\mathsf{A_{11}=A_1\cup\{\mathsf{ac}(pt, \vdash\phi_1\vee\phi_2,\{\vdash\phi_1\})\})\}}$
+				\State let $\mathsf{A_{12}=A_1\cup\{\mathsf{ac}(pt, \vdash\phi_1\vee\phi_2,\{\vdash\phi_2\})\})\}}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash\phi_1, c_1^{A_{11}}, \textsf{cpt}^\emptyset(\vdash\phi_2, c_1^{A_{12}}, c_2^{A_{22}}))}$
+				\State $\mathsf{c := c'}$
+				
+			\end{algorithmic}
+	}}
+	\caption{$\mathsf{ProveOr (\vdash\phi_1\vee\phi_2)}$}
+	\label{algorithm:or}
+\end{figure}
+
+
+
+\subsubsection{$\mathsf{ProveEX}$ and $\mathsf{ProveAX}$}
+In the case of $\mathsf{ProveEX}$, we let $\{s_1,...,s_n\}=\textsf{Next}(s)$, and the algorithm for this case is depicted in Figure \ref{algorithm:ex}. The analysis is analogous to that of Figure \ref{algorithm:and}, except that in Line 5 and Line 6, when $\mathsf{c'}$ rewrites to the $i$th $\mathsf{c_1}$ in the future steps, then $\mathsf{\vdash (s_i/x)\phi_1}$ should be added as the children of $\mathsf{\vdash EX_x(\phi_1)(s)}$ in the proof tree (Line 4), and otherwise, when $\mathsf{c'}$ rewrites to $\mathsf{c_2}$, then $\mathsf{\vdash (s_1/x)\phi_1}, ... , \mathsf{\vdash (s_n/x)\phi_1}$ should be added as the children of $\mathsf{\vdash EX_x(\phi_1)(s)}$ in the counterexample (Line 3).
+
+
+\begin{figure}[h!]\footnotesize
+	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{EX_x(\phi_1)(\_)}$, and
+				\State \textit{``k(s)'' to $\mathit{EX_x(\phi_1)(s)}$.*/}
+				\State $\mathsf{A_2 := A_2\cup \{\mathsf{ac}(ce, \vdash k(s),\{\vdash(s_1/x)\phi_1,...,\vdash(s_n/x)\phi_1\})\}}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$, let
+				$\mathsf{A_{1i}=A_1\cup\{\mathsf{ac}(pt, \vdash k(s),\{\vdash(s_i/x)\phi_1\})\}}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s_1/x)\phi_1, c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\vdash(s_n/x)\phi_1, c_1^{A_{1n}}, }$
+				\State ~~~~$\mathsf{c_2^{A_2})...))}$
+				\State $\mathsf{c := c'}$
+				
+			\end{algorithmic}
+	}}
+	\caption{$\mathsf{ProveEX (\vdash EX_x(\phi_1)(s))}$}
+	\label{algorithm:ex}
+\end{figure}
+
+Figure \ref{algorithm:ax} shows the details of $\mathsf{ProveAX}$, which is the dual case of $\mathsf{ProveEX}$.
+\begin{figure}[h!]\footnotesize
+	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{AX_x(\phi_1)(\_)}$, and
+				\State \textit{``k(s)'' to $\mathit{AX_x(\phi_1)(s)}$.*/}
+				\State $\mathsf{A_1 := A_1\cup \{\mathsf{ac}(pt, \vdash k(s),\{\vdash(s_1/x)\phi_1,...,\vdash(s_n/x)\phi_1\})\}}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$, let
+				$\mathsf{A_{2i}=A_2\cup\{\mathsf{ac}(ce, \vdash k(s),\{\vdash(s_i/x)\phi_1\})\}}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s_1/x)\phi, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\vdash(s_n/x)\phi, c_1^{A_{1}}, c_2^{A_{2n}}),...), }$
+				\State~~~~$\mathsf{c_2^{A_{21}})}$
+				\State $\mathsf{c := c'}$
+				
+			\end{algorithmic}
+	}}
+	\caption{$\mathsf{ProveAX (\vdash AX_x(\phi_1)(s))}$}
+	\label{algorithm:ax}
+\end{figure}
+
+\subsubsection{$\mathsf{ProveEG}$ and $\mathsf{ProveAF}$}
+The algorithm for the $\mathsf{ProveEG}$ case is depicted in Figure \ref{algorithm:eg}, where $\mathsf{states(\Gamma)}$ represents the set of states that appear in $\mathsf{\Gamma}$. In this case, we let $\{s_1,...,s_n\}=\textsf{Next}(s)$.
+The algorithm for $\mathsf{ProveEG}$ is explained as follows.
+\begin{itemize}
+	\item Line 3 -- 4: If $\mathsf{EG_x(\phi_1)(s)}$ has been negated, then just rewrite $\mathsf{c}$ to $\mathsf{c_2}$.
+	\item Line 5 -- 8: If $\mathsf{EG_x(\phi_1)(s)}$ has been proved, or a merge rule is applied, then rewrite $\mathsf{c}$ to $\mathsf{c_1}$, and every formula in $\mathsf{\Gamma}$ is provable and its corresponding state is thus added to $\mathsf{M_{EG_x(\phi_1)(\_)}^t}$. Besides, since states are visited in a depth-first manner, every visited state should be added into $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$ except those in $\mathsf{\Gamma}$.
+	\item Line 21 -- 22: The \textsf{CPT} $\mathsf{c'}$ is constructed with the following information integrated into $\mathsf{c'}$.
+	\begin{enumerate}
+		\item If $\mathsf{c'}$ rewrites to the outer $\mathsf{c_2}$ in the future steps, then $\mathsf{\vdash(s/x)\phi_1}$ is not provable, and thus $\mathsf{\vdash(s/x)\phi_1}$ will be added as the evidence of negating $\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$ in the counterexample (Line 10). 
+		At the same time, if $\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$ is not provable, then there exists no infinite path starting from $s$ such that all states in the path satisfy $\phi_1$. In this case, we add $s$ into $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$ (Line 19 -- 20).
+		
+		\couic{If, at the same time, $\Gamma$ is  $\emptyset$, then all visited states should be added into $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$ since $\mathsf{\textsf{cpt}(\vdash EG_x(\phi_1)(s), c_1, c_2)\rsa^*c_2}$ indicates that all visited $EG$ formulae during the rewriting are not provable (Line 16 -- 17).}
+		\item If $\mathsf{c'}$ rewrites to the inner $\mathsf{c_2}$, then $\mathsf{\Gamma'\vdash EG_x(\phi_1)(s_1)}, ... , \mathsf{\Gamma'\vdash EG_x(\phi_1)(s_n)}$ are all added as the evidence of negating $\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$ in the counterexample (Line 11).
+		\item If $\mathsf{c'}$ rewrites to the $i$th $\mathsf{c_1}$, then both $\mathsf{\vdash(s/x)\phi_1}$ and $\mathsf{\Gamma'\vdash EG_x(\phi_1)(s_i)}$ are provable, and thus should be added as the evidence of proving $\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$ in the proof tree (Line 12 -- 13). 
+	\end{enumerate}
+	\item Line 23: Rewrite $\mathsf{c}$ to $\mathsf{c'}$.
+\end{itemize}
+
+
+\begin{figure}[h!]\footnotesize
+	\noindent\framebox{\parbox{.47\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{EG_x(\phi_1)(\_)}$ and
+				\State \textit{``k(s)'' to $\mathit{EG_x(\phi_1)(s)}$, and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
+				\If{$\mathsf{s\in M^f_k}$}
+				\State $\mathsf{c:=c_2^{A_2}}$
+				
+				\ElsIf{$\mathsf{s\in M^t_k}$ or $\mathsf{k(s)\in \Gamma}$}
+				\State $\mathsf{c:=c_1^{A_1}}$
+				\State $\mathsf{M^t_k := M^t_k \cup \mathsf{states}(\Gamma)}$
+				\State $\mathsf{M^f_k := M^f_k \cup \mathsf{visited}_{k}\setminus\mathsf{states}(\Gamma)}$
+				\Else 
+				\State let $\mathsf{A_{20}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\vdash(s/x)\phi_1\})\}}$
+				\State let $\mathsf{A_{2n}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_1),...,\Gamma'\vdash k(s_n)\})\}}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$, let 
+				\State ~~~~$\mathsf{A_{1i}=A_1\cup\{\mathsf{ac}(pt, \Gamma\vdash k(s),\{\vdash(s/x)\phi_1, \Gamma\vdash k(s_i)\})\}}$
+				%				\State ~~$\mathsf{A_{2i}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_1),...,\Gamma'\vdash k(s_i)\})\}}$
+				\If{$\mathsf{\Gamma = \emptyset}$}
+				\State $\mathsf{\mathsf{visited}_k := \{s\}}$
+				\Else
+				\State $\mathsf{\mathsf{visited}_k := \mathsf{visited}_k\cup\{s\}}$
+				\EndIf
+				\State $\mathsf{A_{20}:=A_{20} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$;
+				\State $\mathsf{A_{2n}:=A_{2n} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$;
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1, \textsf{cpt}^\emptyset(\Gamma'\vdash k(s_1), c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}$
+				\State $~~~~\mathsf{\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}})}$
+				\State $\mathsf{c := c'}$
+				
+				\EndIf
+				
+			\end{algorithmic}
+	}}
+	\caption{$\mathsf{ProveEG (\Gamma\vdash EG_x(\phi_1)(s))}$ }
+	\label{algorithm:eg}
+\end{figure}
+Figure \ref{algorithm:af} shows the details of $\mathsf{ProveAF}$, which is the dual case of $\mathsf{ProveEG}$.
+\begin{figure}[h!]\footnotesize
+	\noindent\framebox{\parbox{.47\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{AF_x(\phi_1)(\_)}$ and
+				\State \textit{``k(s)'' to $\mathit{AF_x(\phi_1)(s)}$, and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$..*/}
+				\If{$\mathsf{s\in M^t_k}$}
+				\State $\mathsf{c:=c_1^{A_1}}$
+				
+				\ElsIf{$\mathsf{s\in M^f_k}$ or $\mathsf{k(s)\in \Gamma}$}
+				\State $\mathsf{c:=c_2^{A_2}}$
+				\State $\mathsf{M^f_k := M^f_k \cup \mathsf{states}(\Gamma)}$
+				\State $\mathsf{M^t_k := M^t_k \cup \mathsf{visited}_k\setminus\mathsf{states}(\Gamma)}$
+				\Else 
+				\State let $\mathsf{A_{10}=A_1\cup\{\mathsf{ac}(pt, \vdash k(s),\{\vdash(s/x)\phi_1\})\})\}}$
+				\State let $\mathsf{A_{1n}=A_1\cup\{\mathsf{ac}(pt, \vdash k(s),\{\vdash k(s_1),...,\vdash k(s_n)\})\}}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$, let
+				\State~~~~ $\mathsf{A_{2i}=A_2\cup\{\mathsf{ac}(ce, \vdash k(s),\{\vdash(s/x)\phi_1, \vdash k(s_i)\})\}}$
+				%				\State~~~~~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma')),}$
+				%				\State~~~~~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma'))\}}$
+				\If{$\mathsf{\Gamma = \emptyset}$}
+				\State $\mathsf{\mathsf{visited}_k := \{s\}}$
+				\Else
+				\State $\mathsf{\mathsf{visited}_k := \mathsf{visited}_k\cup\{s\}}$
+				\EndIf
+				\State $\mathsf{A_{10}:=A_{10} \cup \{M^t_k:= M^t_k\cup \{s\}\}}$
+				\State $\mathsf{A_{1n}:=A_{1n} \cup \{M^t_k:= M^t_k\cup  \{s\}\}}$;
+				\State let $\mathsf{c'= \textsf{cpt}^{\emptyset}(\vdash(s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^{\emptyset}(\Gamma'\vdash k(s_1), \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}$
+				\State $~~~~\mathsf{\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}}))}$
+				\State $\mathsf{c := c'}$
+				
+				\EndIf
+				
+			\end{algorithmic}
+	}}
+	\caption{$\mathsf{ProveAF (\Gamma\vdash AF_x(\phi_1)(s))}$}
+	\label{algorithm:af}
+\end{figure}
+
+\subsubsection{$\mathsf{ProveEU}$ and $\mathsf{ProveAR}$}
+The $EU$ case is more complex than the $EG$ case. The reason is that the latter case terminates when a cycle is detected, while former case does not terminate after detecting a number of cycles, until a non-cycle that satisfies a certain condition is detected. The algorithm of performing proof search for the $EU$ case is depicted in Figure \ref{algorithm:eu} and explained as follows. 
+In this case, we let $\{s_1,...,s_n\}=\textsf{Next}(s)$.
+In the algorithm, we use $\mathsf{reachable(S)}$ to denote the set of visited states which are reachable to some state in $\mathsf{S}$.
+\couic{The algorithm for $\mathsf{ProveEU}$ is explained as follows.}
+\begin{itemize}
+	\item Line 3 -- 4: If $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$ has been proved, then just rewrite $\mathsf{c}$ to $\mathsf{c_1}$. 
+	\item Line 5 -- 6: If $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$ has been negated, or a merge rule is applied, then just rewrite $\mathsf{c}$ to $\mathsf{c_2}$.
+	\item Line 26 -- 27: The \textsf{CPT} $\mathsf{c'}$ is constructed with the following information integrated into $\mathsf{c'}$.
+	\begin{enumerate}
+		\item If $\mathsf{c'}$ rewrites to the first $\mathsf{c_1}$, then $\mathsf{\vdash(s/y)\phi_2}$ should be added to the proof tree as the evidence of proving $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ (Line 9). At the same time, if $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$ is provable, then $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s')}$ is also provable for each $\mathsf{s'}$ that is visited and also reachable to $\mathsf{s}$. Thus, the set of states $\mathsf{reachable(states(\Gamma)\cup\{s\})}$ are added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$ (Line 10). Each state $\mathsf{s'}$ in $\mathsf{reachable(states(\Gamma)\cup\{s\})}$ is either in $\mathsf{states(\Gamma)\cup\{s\}}$, or in cycles which overlap with $\mathsf{states(\Gamma)\cup\{s\}}$ in some states. The set $\mathsf{reachable(states(\Gamma)\cup\{s\})}$ can thus be calculated on-the-fly by remembering all visited cycles and then selecting the ones overlap with states in $\mathsf{states(\Gamma)\cup\{s\}}$. Finally, we add every visited state into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$, and remove those reachable to some state in $\mathsf{states(\Gamma)\cup\{s\}}$ (Line 11).
+		\item If $\mathsf{c'}$ rewrites to the $i$th other $\mathsf{c_1}$, then $\mathsf{\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_i)}$ is added into the proof tree as one of the children of $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ (Line 16). At the same time, all states in $\mathsf{reachable(states(\Gamma')\cup\{s_i\})}$ should be added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$ (Line 17), all visited states are added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$, and remove those reachable to some state in $\mathsf{states(\Gamma')\cup\{s_i\}}$ from $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ (Line 18). 
+		
+		\item If $\mathsf{c'}$ rewrites to the outer $\mathsf{c_2}$, then both $\mathsf{\vdash (s/x)\phi_1}$ and $\mathsf{\vdash (s/y)\phi_2}$ should be added to the counterexample as the children of $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ (Line 12).
+		\item If $\mathsf{c'}$ rewrites to the inner $\mathsf{c_2}$, then $\mathsf{\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_1)},...,\mathsf{\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_n)}$ should all be added to the counterexample as the children of $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ (Line 13).
+		\item If $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ is not provable, then add $s$ to $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ in order to avoid visiting $\mathsf{s}$ repeatedly in the following steps (Line 24 -- 25). Note that $\mathsf{s}$ may be removed from $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ (Line 11 and Line 18). This occurs only when $\mathsf{\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s')}$ is provable for some $\mathsf{\Gamma'}$ and $\mathsf{s'}$, $\mathsf{\vdash (s'/y)\phi_2}$ is provable, and $\mathsf{s\in reachable(states(\Gamma')\cup \{s'\})}$. 
+		
+		\couic{If $\Gamma$ is $\emptyset$, and there exist the following rewriting steps $\mathsf{\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1, c_2) \rsa^* c_2}$, then for each visited state $s'$ during these rewriting steps, $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s')}$ is not provable. Thus, all visited states should be added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ when $\mathsf{c'}$ finally rewrites to $\mathsf{c_2}$ (Line 21 -- 22).}
+	\end{enumerate}
+	\item Line 28: Rewrite $\mathsf{c}$ to $\mathsf{c'}$. 
+\end{itemize}
+
+Figure \ref{algorithm:ar} shows the details of $\mathsf{ProveAR}$, which is the dual case of $\mathsf{ProveEU}$.
+
+\begin{figure}[h!]\footnotesize
+	\noindent\framebox{\parbox{.48\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{EU_{x,y}(\phi_1,\phi_2)(\_)}$ and
+				\State \textit{``k(s)'' to $\mathit{EU_{x,y}(\phi_1,\phi_2)(s)}$, and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
+				\If{$\mathsf{s\in M^t_k}$}
+				\State $\mathsf{c:=c_1^{A_1}}$
+				%				\State $\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma))}$
+				%				\State $\mathsf{M^f_k := M^f_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma))}$
+				\ElsIf{$\mathsf{s\in M^f_k}$ or $\mathsf{k_s\in \Gamma}$}
+				\State $\mathsf{c:=c_2^{A_2}}$;
+				\Else 
+				\State let $\mathsf{A_{10}=A_1\cup\{}$
+				\State~~~~$\mathsf{ac(pt, \Gamma\vdash k(s),\{\vdash(s/y)\phi_2\}),}$
+				\State~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma)\cup \{s\}),}$
+				\State ~~~~$\mathsf{M^f_k := (M^f_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(\Gamma)\cup \{s\})}$
+				\State let $\mathsf{A_{20}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\vdash(s/x)\phi_1, \vdash(s/y)\phi_2\})\}}$
+				\State let $\mathsf{A_{2n}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_1),...,\Gamma'\vdash k(s_n)\})\}}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$ , let 
+				\State ~~~~$\mathsf{A_{1i}=A_1\cup\{}$
+				\State~~~~~~~~$\mathsf{ac(pt, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_i)\}),}$
+				\State~~~~~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma')\cup \{s_i\}),}$
+				\State~~~~~~~~$\mathsf{M^f_k := (M^f_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(\Gamma')\cup \{s_i\})\}}$
+				%					\State~~~~~~~~$\mathsf{\}}$
+				%				\State $\mathsf{A_{10} := A_{10}\cup \{}$
+				%				\State~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma)),}$
+				%				\State ~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma))\}}$
+				\If{$\mathsf{\Gamma = \emptyset}$}
+				
+				\State $\mathsf{visited}_k := \{s\}$
+				\Else
+				\State $\mathsf{\mathsf{visited}_k := \mathsf{visited}_k\cup\{s\}}$
+				\EndIf
+				\State $\mathsf{A_{20}:=A_{20} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$
+				\State $\mathsf{A_{2n}:=A_{2n} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/y)\phi_2, c_1^{A_{10}}, \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1,\textsf{cpt}^\emptyset(\Gamma'\vdash k(s_1), }$
+				\State $~~~~\mathsf{c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}}))}$
+				\State $\mathsf{c := c'}$
+				\EndIf
+			\end{algorithmic}
+	}}
+	\caption{$\mathsf{ProveEU (\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s))}$}
+	\label{algorithm:eu}
+\end{figure}
+
+
+\begin{figure}[h!]\footnotesize
+	\noindent\framebox{\parbox{.48\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{AR_{x,y}(\phi_1,\phi_2)(\_)}$ and
+				\State \textit{``k(s)'' to $\mathit{AR_{x,y}(\phi_1,\phi_2)(s)}$, and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
+				\If{$\mathsf{s\in M^f_k}$}
+				\State $\mathsf{c:=c_2^{A_2}}$
+				%				\State $\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma))}$
+				%				\State $\mathsf{M^t_k := M^t_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma))}$
+				\ElsIf{$\mathsf{s\in M^t_k}$ or $\mathsf{k(s)\in \Gamma}$}
+				\State $\mathsf{c:=c_1^{A_1}}$;
+				\Else 
+				\State let $\mathsf{A_{10}=A_1\cup\{\mathsf{ac}(pt, \Gamma\vdash k(s),\{\vdash(s/x)\phi_1,\vdash(s/y)\phi_2\})\}}$
+				\State let $\mathsf{A_{1n}=A_1\cup\{\mathsf{ac}(pt, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_1),...,\Gamma'\vdash k(s_n)\})\}}$
+				\State let $\mathsf{A_{20}=A_2\cup\{}$
+				\State~~~~$\mathsf{ac(ce, \Gamma\vdash k(s),\{\vdash(s/y)\phi_2\}),}$
+				\State ~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma)\cup \{s\}),}$
+				\State ~~~~$\mathsf{M^t_k := (M^t_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(\Gamma)\cup\{s\})}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$, let 
+				\State ~~~~$\mathsf{A_{2i}=A_2\cup\{}$
+				\State~~~~~~~~$\mathsf{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_i)\}),}$
+				\State~~~~~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma')\cup\{s_i\}),}$
+				\State~~~~~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma')\cup\{s_i\})\}}$
+				%				\State $\mathsf{A_{20} := A_{20}\cup \{}$
+				%				\State ~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma)),}$
+				%				\State ~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma))\}}$
+				\If{$\mathsf{\Gamma = \emptyset}$}
+				\State $\mathsf{\mathsf{visited}_k := \{s\}}$
+				\Else
+				\State $\mathsf{\mathsf{visited}_k := \mathsf{visited}_k\cup\{s\}}$
+				\EndIf
+				\State $\mathsf{A_{10}:=A_{10} \cup \{M^t_k:= M^t_k\cup \{s\}\}}$
+				\State $\mathsf{A_{1n}:=A_{1n} \cup \{M^t_k:= M^t_k\cup \{s\}\}}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/y)\phi_2, \textsf{cpt}^\emptyset(\vdash (s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^\emptyset(\Gamma'\vdash k(s_1), }$
+				\State ~~~~$\mathsf{\textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}})), c_2^{A_{20}})}$
+				\State $\mathsf{c := c'}$
+				
+				\EndIf
+				
+			\end{algorithmic}
+	}}
+	\caption{$\mathsf{ProveAR (\Gamma\vdash AR_{x,y}(\phi_1,\phi_2)(s))}$}
+	\label{algorithm:ar}
+\end{figure}
+%}
+
 
 \subsection{其他\CTLP{}模型检测方法的对比}
 在这里，我们讨论\sctlprov{}的证明搜索算法与其他\CTLP{}模型检测方法的对比。
@@ -1267,26 +1949,19 @@ $\bigwedge$, respectively.}
 	\label{fig:properties}
 \end{figure}
 
-\subsubsection{测试集二、三}
-在测试集一的基础上，我们分别将并发进程测试用例中$b$的值分别扩大为$48$，$60$，以及$72$，将并发顺序进程测试用例中$b$的值扩大为$24$，$28$，以及$32$。并由此得到包含2880个新的测试用例的测试集二。与测试集一一样，测试集二中的测试用例的模型的初始状态和迁移规则也是随机生成的。测试集二中要验证的性质与测试集一一致。
+\subsubsection{测试集二}
+在测试集一的基础上，我们分别将并发进程测试用例中$b$的值分别扩大为$48$、$60$、$72$、$252$、$504$、$1008$，将并发顺序进程测试用例中$b$的值分别扩大为$24$、$28$、$32$、$252$、$504$、$1008$。由此，我们得到包含5760个新的测试用例的测试集二。与测试集一一样，测试集二中的测试用例的模型的初始状态和迁移规则也是随机生成的。测试集二中要验证的性质与测试集一一致。
 
-在测试集三中，我们将并发进程和并发顺序进程测试用例的$b$的值同时进一步扩大到$252$，$504$，以及$1008$，同时要验证的性质与测试集一、二保持一致。
-
-\couic{In benchmark {\#}2, we increase the number of state variables in benchmark \#1 to $48$, $60$, or $72$ for Concurrent Processes, and $24$,
-$28$, or $32$ for Concurrent Sequential Processes. The 2880 test cases are also randomly generated.
-The properties to be checked are the same as in benchmark \#1.
-
-In benchmark {\#}3, we increase the number of state variables in benchmark \#1 to $252$, $504$
-and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, and check the same properties as benchmark \#1 and \#2.}
+%在测试集三中，我们将并发进程和并发顺序进程测试用例的$b$的值同时进一步扩大到$252$，$504$，以及$1008$，同时要验证的性质与测试集一、二保持一致。
 
 \subsubsection{实验数据}
 \couic{The experimental results are shown below, and the detailed data is in \ref{app:detail:data}.}
-在测试集一、二、三上，我们分别对比了\sctlprov{}与\tool{iProver Modulo}、\verds{}、\nusmv{}，以及\nuxmv{}的实验结果。
+在测试集一、二上，我们分别对比了\sctlprov{}与\tool{iProver Modulo}、\verds{}、\nusmv{}，以及\nuxmv{}的实验结果。
 
 \paragraph{测试集一的实验结果}
-由表\ref{tabl:solvable}与表\ref{tabl:compare}可知：在测试集一的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证1816（63.1\%）、2230（77.4\%）、2880（100\%）、2880（100\%）、2862（99.4\%）个测试用例；同时\sctlprov{}分别在2823（98.2\%）、2858（99.2\%）、2741（95.2\%）、2763（95.9\%）的测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory}所示。
+由表\ref{tabl:solvable}与表\ref{tabl:compare}可知：在测试集一的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证1816（63.1\%）、2230（77.4\%）、2880（100\%）、2880（100\%）、2862（99.4\%）个测试用例；同时\sctlprov{}分别在2823（98.2\%）、2858（99.2\%）、2741（95.2\%）、2763（95.9\%）个测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory}所示。
 
-\couic{For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1816 (63.1\%) cases, \verds{} can solve 2230 (77.4\%) cases, \sctl{} can solve 2862 (99.4\%) cases, and both \nusmv{} and \nuxmv{} can solve all (100\%) test cases. The numbers of test cases where \sctl{} runs faster are 2823 (98.2\%) comparing with \tool{iProver Modulo}, 2858 (99.2\%) comparing with \verds{}, 2741 (95.2\%) comparing with \nusmv{}, and 2763 (95.9\%) comparing with \nuxmv{}. According to Figure~\ref{fig:average_time} and Figure~\ref{fig:average_memory}, \sctl{} uses less time and space than the other four tools.}
+
 \begin{table}[!h]\small
 	%	\begin{tabular}{c c}
 	%\renewcommand{\arraystretch}{1.0}
@@ -1555,8 +2230,7 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 
 
 \paragraph{测试集二的实验结果}
-由表\ref{tabl:solvable:extended}与表\ref{tabl:compare:extended}可知：在测试集二的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证1602（55.6\%）、1874（65.1\%）、728（25.3\%）、736（25.6\%）、2597（90.2\%）个测试用例；同时\sctlprov{}分别在2597（90.2\%）、2594（90.1\%）、2588（89.9\%）、2588（89.9\%）的测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time:extended}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory:extended}所示。
-\couic{For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1602 (55.6\%) cases, \verds{} can solve 1874 (65.1\%) cases, \nusmv{} can solve 728 (25.3\%) cases, \nuxmv{} can solve 736 (25.6\%) cases, and \sctl{} can solve 2597 (90.2\%) cases. The numbers of test cases where \sctl{} runs faster are 2597 (90.2\%) comparing with \tool{iProver Modulo}, 2594 (90.1\%) comparing with \verds{}, and 2588 (89.9\%) comparing both with \nusmv{} and \nuxmv{}. According to Figure~\ref{fig:average_time:extended} and Figure~\ref{fig:average_memory:extended}, \sctl{} uses less time and space than the other four tools.}
+由表\ref{tabl:solvable:extended}与表\ref{tabl:compare:extended}可知：在测试集二的5760个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证2748（44.7\%）、2226（38.6\%）、728（12.6\%）、736（12.8\%）、4441（77.1\%）个测试用例；同时\sctlprov{}分别在4441（77.1\%）、4438（77.0\%）、4432（76.9\%）、4432（76.9\%）个测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time:extended}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory:extended}所示。
 
 \begin{table}[!h]\small
 	%	\begin{tabular}{c c}
@@ -1573,6 +2247,12 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 		\code{CP ($b = 60$)} & 360(75.0\%) & 403(84.0\%) & 22(4.6\%) & 23(4.8\%) & 440(91.7\%)  \\
 		\hline
 		\code{CP ($b = 72$)} & 347(72.3\%) & 383(79.8\%) &  0 & 0 & 437(91.0\%)  \\
+		\hline
+		\code{CP ($b=252$)} & 299(62.3\%) & 216(45.0\%) & 0 & 0 & 371(77.3\%) \\
+		\hline
+		\code{CP ($b=504$)} & 292(60.8\%) & 0 & 0 & 0 & 335(69.8\%)\\
+		\hline
+		\code{CP ($b=1008$)} & 271(56.5\%) & 0 & 0 & 0 & 278(57.9\%)\\
 		
 		\hline
 		\code{CSP ($b=24$)} & 190(39.6\%) & 235(49.0\%) &  421(87.7\%) & 423(88.1\%) & 430(89.6\%) \\
@@ -1582,7 +2262,13 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 		\code{CSP ($b=32$)} & 158(32.9\%) & 224(46.7\%) & 8(1.7\%) & 6(1.3\%) & 418(87.1\%) \\
 		
 		\hline
-		Sum & 1602(55.6\%) & 1874(65.1\%) & 728(25.3\%) & 736(25.6\%) & 2597(90.2\%)\\
+		\code{CSP ($b=252$)} & 114(23.6\%) & 136(28.3\%) & 0 & 0 & 312(65.0\%) \\
+		\hline
+		\code{CSP ($b=504$)} & 108(22.5\%) & 0 & 0 & 0 & 295(61.5\%) \\
+		\hline
+		\code{CSP ($b=1008$)} & 62(12.9\%) & 0 & 0 & 0 & 253(52.7\%)\\
+		\hline
+		Sum & 2748(47.7\%) & 2226(38.6\%) & 728(12.6\%) & 736(12.8\%) & 4441(77.1\%)\\
 		\hline
 	\end{tabular}
 	\tabcaption{测试集二中5个工具能成功验证的测试用例个数}
@@ -1609,7 +2295,12 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 		\code{CP ($b=60$)} & 440(91.7\%) & 440(91.7\%) & 440(91.7\%) & 440(91.7\%) \\
 		\hline
 		\code{CP ($b=72$)} & 437(91.0\%) & 437(91.0\%) & 437(91.0\%) & 437(91.0\%) \\
-		
+		\hline
+		\code{CP ($b=252$)} & 371(77.3\%) & 371(77.3\%) & 371(77.3\%) & 371(77.3\%)\\
+		\hline
+		\code{CP ($b=504$)} & 335(69.8\%) & 335(69.8\%) & 335(69.8\%) & 335(69.8\%)\\
+		\hline
+		\code{CP ($b=1008$)} & 278(57.9\%) & 278(57.9\%) & 278(57.9\%) & 278(57.9\%)\\
 		\hline
 		\code{CSP ($b=24$)} & 430(89.6\%) & 429(89.4\%) & 426(88.8\%) & 426(88.8\%) \\
 		\hline
@@ -1617,7 +2308,13 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 		\hline
 		\code{CSP ($b=32$)} & 418(87.1\%) & 418(87.1\%) & 418(87.1\%) & 418(87.1\%) \\
 		\hline
-		Sum & 2597(90.2\%) & 2594(90.1\%) & 2588(89.9\%) & 2588(89.9\%)\\
+		\code{CSP ($b=252$)} & 312(65.0\%) & 312(65.0\%) & 312(65.0\%) & 312(65.0\%)\\
+		\hline
+		\code{CSP ($b=504$)} & 295(61.5\%) & 295(61.5\%) & 295(61.5\%) & 295(61.5\%)\\
+		\hline
+		\code{CSP ($b=1008$)} & 253(52.7\%) & 253(52.7\%) & 253(52.7\%) & 253(52.7\%)\\
+		\hline
+		Sum & 4441(77.1\%) & 4438(77.0\%) & 4432(76.9\%) & 4432(76.9\%)\\
 		\hline
 	\end{tabular}	
 	\tabcaption{测试集二中\sctl{}相比其他工具占用资源（时间和空间）少的测试用例个数}
@@ -1872,7 +2569,7 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 	\label{fig:average_memory:extended}
 \end{figure}
 
-
+\couic{
 \paragraph{测试集三的实验结果}
 由表\ref{tabl:solvable:larger}可知：在测试集三的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\sctlprov{}分别能验证1146（39.8\%）、352（12.2\%）、1844（64.0\%）个测试用例，然而\nusmv{}与\nuxmv{}无法验证本测试集中的测试用例。
 \couic{For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1146 (39.8\%) cases, \verds{} can solve 352 (12.2\%) cases, \sctl{} can solve 1844 (64.0\%) cases, while neither \nusmv{} nor \nuxmv{} can solve any case.}
@@ -1906,29 +2603,23 @@ and $1008$ for both Concurrent Processes and Concurrent Sequential Processes, an
 	\tabcaption{测试集三中5个工具能成功验证的测试用例个数}
 	\label{tabl:solvable:larger}
 \end{table}
-
-
-\subsubsection{连续 vs. 递归}
-传统的动态模型检测工具通常使用递归算法来进行公式的证明和状态空间的搜索。不同于递归算法，\sctlprov{}的验证算法是连续传递风格（Continuation-Passing Style，简称CPS），CPS的应用可以大大减少栈的操作，从而节省验证所需的时间。为了对比使用连续传递风格的算法和递归算法的效率，我们对比了\sctlprov{}和\sctlprovr{}分别在测试集一、二、三上的实验数据。其中\sctlprovr{}与\sctlprov{}的唯一不同是使用递归算法来证明公式和搜索状态空间。如表\ref{tabl:cont_vs_rec}所示，\sctlprov{}能成功验证的测试用例个数比\sctlprovr{}多10\%，而且\sctlprov{}在绝大多数能成功运行的测试用例中比\sctlprovr{}所用时间短。如图\ref{fig:average_time:recursive:vs:continuation}所示，随着状态变量数的增加，\sctlprovr{}的平均运行时间多于\sctlprov{}，而且时间的变化幅度更大。
-
-\couic{To show the importance of using continuation-passing style,
-we have implemented a recursive version of our tool and compared the time
-efficiency. In benchmark {\#}1, {\#}2, and {\#}3, \sctl{} solves about 10\% more test cases than \sctlprovr{}, and it outperforms \sctlprovr{} in almost
-all solvable cases (Table~\ref{tabl:cont_vs_rec}). \sctlprovr{} is more sensitive to the number of variables than \sctl{} (Figure \ref{fig:average_time:recursive:vs:continuation}).
-
-%\begin{remark}
-In the comparison of average verification time of \sctl{} and \sctlprovr, we extend the number of variables in Concurrent Sequential Processes to 52 and 72, on the basis of benchmark \#2.
-%\end{remark}
 }
 
+\subsubsection{连续 vs. 递归}
+传统的动态模型检测工具通常使用递归算法来进行公式的证明和状态空间的搜索。不同于递归算法，\sctlprov{}的验证算法是连续传递风格（Continuation-Passing Style，简称CPS），CPS的应用可以大大减少栈的操作，从而节省验证所需的时间。为了对比使用连续传递风格的算法和递归算法的效率，我们对比了\sctlprov{}和\sctlprovr{}分别在测试集一、二上的实验数据。其中\sctlprovr{}与\sctlprov{}的唯一不同是使用递归算法来证明公式和搜索状态空间。如表\ref{tabl:cont_vs_rec}所示，\sctlprov{}能成功验证的测试用例个数比\sctlprovr{}多10\%，而且\sctlprov{}在绝大多数能成功运行的测试用例中比\sctlprovr{}所用时间短。如图\ref{fig:average_time:recursive:vs:continuation}所示，随着状态变量数的增加，\sctlprovr{}的平均运行时间多于\sctlprov{}，而且时间的变化幅度更大。
+
+
 {
-	\begin{table}\small
+	\begin{figure}[h!]\scriptsize
 		\setlength{\tabcolsep}{1pt}
 		\begin{center}
 			\begin{tabular}{| l | r | r | r |}
 				
 				\hline
-				\textbf{测试集} & \sctl{} solvable & \sctlprovr{} solvable & t(\sctlprov) $<$ t(\sctlprovr{})  \\
+				%				\textbf{Bench} & \sctl{} solvable & \sctlprovr{} solvable & t(\sctlprov) $<$ t(\sctlprovr{})  \\
+				\multirow{2}{*}{\textbf{测试集}} & \multicolumn{2}{c|}{Solvable} &\multirow{2}{*}{ t(\sctlprov) $<$ t(\sctlprovr{})}\\
+				\cline{2-3}
+				{}&\sctl{}&\sctlprovr{}&{}\\
 				\hline
 				%\code{CP} & 1430(99.3\%) & 1354(94.0\%) \\
 				%\hline
@@ -1936,16 +2627,18 @@ In the comparison of average verification time of \sctl{} and \sctlprovr, we ext
 				%\hline
 				\textbf{一} & 2862(99.4\%) & 2682(93.1\%) & 2598(90.2\%)\\
 				\hline
-				\textbf{二} & 2597(90.2\%) & 2306(80.1\%) & 2406(83.5\%)\\
-				\hline
-				\textbf{三} & 1849(64.2\%) & 1520(52.8\%) & 1735(60.2\%)\\
+				\textbf{二} & 4446(77.2\%) & 3826(66.4\%) & 3841(71.9\%)\\
+				%				\textbf{\#2} & 2597(90.2\%) & 2306(80.1\%) & 2406(83.5\%)\\
+				%				\hline
+				%				\textbf{\#3} & 1849(64.2\%) & 1520(52.8\%) & 1735(60.2\%)\\
 				\hline
 			\end{tabular}
 		\end{center}
-		\caption{在测试集一、二、三上\sctl{}和\sctlprovr{}的实验数据对比}
+		\tabcaption{在测试集一、二上\sctl{}和\sctlprovr{}的实验数据对比}
 		\label{tabl:cont_vs_rec}
-	\end{table}
+	\end{figure}
 }
+
 
 \begin{figure}[h!]\centering
 %	\begin{subfigure}\centering
@@ -2039,8 +2732,8 @@ because \tool{iProver Modulo} cannot handle \CTL{} properties with
 fairness constraints \cite{Ji15}.}
 
 
-\subsubsection{测试集四}
-测试集四种包含两类测试用例：互斥算法和环算法。
+\subsubsection{测试集三}
+测试集三种包含两类测试用例：互斥算法和环算法。
 
 每个互斥算法包含$n$个进程，$n$个进程的调度方式如下：对于$0\le i\le n-2$，进程$i+1$的迁移在进程$i$之后，进程$0$的迁移在进程$n-1$之后。
 互斥算法中$n$的取值范围为$\{6,...,51\}$。
@@ -2102,44 +2795,18 @@ fairness constraints \cite{Ji15}.}
 	\label{tabl:ring:properties}
 \end{table}
 
-\couic{This benchmark consists of two sets of concurrent programs: the mutual
-exclusion algorithms and the ring algorithms. Both kinds of algorithms
-consist of a set of concurrent processes running in parallel. 
-
-
-In the mutual exclusion algorithms, the scheduling of processes is simple: for all $i$ between $0$ and $n-2$, process $i+1$ performs a transition after process $i$, and process $0$ performs a transition after process $n-1$.
-Each formula in the algorithms needs to be
-verified under the fairness constraint that each process does not
-starve, i.e., no process waits infinitely long.
-
-Each process in the mutual exclusion algorithms has three internal
-states: \textsf{noncritical}, \textsf{trying}, and
-\textsf{critical}. The number of processes vary from $6$ to $51$. There
-are five properties specified by \CTL{} formulae are to be verified in
-mutual exclusion algorithms, as in
-Table~\ref{tabl:mutual:ring:properties}. In these formulae, $non_i$
-($try_i$, $cri_i$) indicates that process $p_i$ has internal state
-\textsf{noncritical} (\textsf{trying}, \textsf{critical}).
-Note that because of the scheduling algorithm, 
-processes $0$ and $1$ are not symmetric, as exemplified by the 
-difference in performance between the properties $P_4$ and $P_5$.
-
-Each process in the ring algorithms consists of $5$ Boolean internal variables indicating the internal state, and a Boolean variable indicating the output. Each process receives a Boolean value as the input during its running time. For a ring algorithm with processes $p_0,p_1,...,p_n$, the internal state of $p_i$ depends on the output of process $p_{i-1}$, and the output of $p_{i-1}$ depends on its internal state, where $1\le i\le n$. The internal state of $p_0$ depends on the output of process $p_n$, and the output of $p_n$ depends on the internal state of its own. The number of processes vary from $3$ to $10$. There are four properties specified by \CTL{} formulae are to be verified in ring algorithms, as in Figure~\ref{tabl:mutual:ring:properties}. In these formulae, $out_i$ indicates that the output of process $p_i$ is Boolean value $true$.
-}
-
-
 %	The experimental results are shown in Table~\ref{tabl:solvable:mutual:ring}, \ref{tabl:compare:mutual:ring}, and \ref{tabl:data:mutual:ring}. 
-
+\couic{
 如表\ref{tabl:solvable:mutual:ring}、表\ref{tabl:compare:mutual:ring}、表\ref{tabl:data:mutual}、表\ref{tabl:data:ring}所示：\sctl{}成功验证的测试用例个数多于\verds， \nusmv{}以及\nuxmv{}；同时在超过75\%的测试用例中，\sctl{}占用资源（时间和空间）相比另外三个工具更少。
 
-
-\couic{The experimental results (Table~\ref{tabl:solvable:mutual:ring} and Table \ref{tabl:compare:mutual:ring}) show that \sctl{} solves more test cases than \verds, \nusmv{}, and \nuxmv{}. At the same time, \sctl{} is more time and space efficiency in more than 75 percent of the test cases than the other three tools.  
-
-The detailed experimental data is shown in ~\ref{bench4:data:detail}.
+\paragraph{Experimental data for benchmark \#3.}
+For 262 test cases in this benchmark, \verds{} can solve 152 (58.0\%) cases, both \nusmv{} and \nuxmv{} can solve 71 (27.1\%) cases, and \sctlprov{} can solve 211 (80.2\%) cases (Table \ref{tabl:solvable:mutual:ring}). The number of test cases where \sctlprov{} runs faster and used less memory are 200 (76.3\%) comparing with \verds{}, and 211 (80.2\%) comparing both with \nusmv{} and with \nuxmv{} (Table \ref{tabl:solvable:mutual:ring}).
 }
 
+\paragraph{测试集三的实验结果} 
+如表\ref{tabl:solvable:mutual:ring}所示，在本测试集的262个测试用例中，\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能解决152 (58.0\%)、71 (27.1\%)、71 (27.1\%)、211 (80.2\%)个测试用例。如表\ref{tabl:compare:mutual:ring}所示，\sctlprov{}分别在200 (76.3\%)、211 (80.2\%)、211 (80.2\%)个测试用例上占用的时间和空间少于\verds{}、\nusmv{}、\nuxmv{}。测试集三上各个工具的详细实验数据如表\ref{tabl:data:mutual}和表\ref{tabl:data:ring}所示。
 
-\begin{table}[h!]
+\begin{figure}[h!]
 	\small
 	%\setlength{\tabcolsep}{3pt}
 	%\renewcommand{\arraystretch}{1.0}
@@ -2158,11 +2825,11 @@ The detailed experimental data is shown in ~\ref{bench4:data:detail}.
 		Sum & 152(58.0\%) & 71(27.1\%) & 71(27.1\%) & 211 (80.5\%)\\
 		\hline
 	\end{tabular}	
-	\caption{测试集四中各个工具能成功验证的测试用例的个数}
+	\tabcaption{测试集三中各个工具能成功验证的测试用例的个数}
 	\label{tabl:solvable:mutual:ring}
 	\vspace{0.5cm}
-\end{table}
-\begin{table}[h!]
+\end{figure}
+\begin{figure}[h!]
 	\small
 	%\scriptsize
 	%			\centering
@@ -2180,16 +2847,16 @@ The detailed experimental data is shown in ~\ref{bench4:data:detail}.
 		Sum & 200(76.3\%) & 211(80.5\%) & 211(80.5\%) \\
 		\hline
 	\end{tabular}
-	\caption{测试集四中\sctl{}占用资源更少的的测试用例的个数}
+	\tabcaption{测试集三中\sctl{}占用资源更少的的测试用例的个数}
 	\label{tabl:compare:mutual:ring}
 	%		\end{minipage}
 	%	\end{tabular}
-\end{table}
+\end{figure}
 
-\begin{table}[h!]\scriptsize
+\begin{figure}[h!]\scriptsize
 	\centering
 	%	\begin{tabular}{p{6.8cm} p{6.8cm}}
-	%	\begin{table}
+	%	\begin{figure}
 	%		\setlength{\tabcolsep}{2pt}
 	%		\renewcommand{\arraystretch}{1.0}
 	%		\begin{minipage}[b]{0.5\linewidth}
@@ -2293,11 +2960,11 @@ The detailed experimental data is shown in ~\ref{bench4:data:detail}.
 		{} & 51 & - & - & - & - & - & - & 5.177 & 225.66  \\
 		\hline
 	\end{tabular}
-	\caption{测试集四中互斥算法测试用例的实验数据}
+	\tabcaption{测试集三中互斥算法测试用例的实验数据}
 	\label{tabl:data:mutual}
-\end{table}
+\end{figure}
 
-\begin{table}[h!]\scriptsize
+\begin{figure}[h!]\scriptsize
 	\centering
 	\setlength{\tabcolsep}{2pt}
 	\begin{tabular}{| r | r | r | r | r | r | r | r | r | r |}
@@ -2375,53 +3042,204 @@ The detailed experimental data is shown in ~\ref{bench4:data:detail}.
 	\end{tabular}
 	%		\end{minipage}
 	
-	%	\end{table}
+	%	\end{figure}
 	%	\end{tabular}
-	\tabcaption{测试集四中环算法测试用例的实验数据}
+	\tabcaption{测试集三中环算法测试用例的实验数据}
 	\label{tabl:data:ring}
-\end{table}
+\end{figure}
 
 \subsection{工业级测试用例的验证}	\label{subsc:vlts}
-在本小节中，我们在工业级测试用例上（测试集五）对比\sctl{}与其他工具的效率。不同于测试集一、二、三、四，本次对比所用的测试用例均为符号迁移系统（Labeled Transition System，简称LTS），而且所有的LTS均以BCG（Binary-Coded Graph）格式表示。测试集五（原名VLTS测试集，即Very Large Transition Systems）
+在本小节中，我们在工业级测试用例上（测试集四）对比\sctl{}与其他工具的效率。不同于测试集一、二、三，本次对比所用的测试用例均为符号迁移系统（Labeled Transition System，简称\textsf{LTS}），而且所有的\textsf{LTS}均以\textsf{BCG}（Binary-Coded Graph）格式表示，其中\textsf{BCG}格式可以用来表示较大的状态空间。测试集四是形式化验证工具包\CADP{}\cite{GaravelLMS13}的一部分，也被称作\textsf{VLTS}（Very Large Transition Systems）测试集。
+不同于本文中其他的形式化验证工具，\CADP{}是专门验证基于动作的系统的工具，比如符号迁移系统、马尔可夫链等。
+测试集四中的例子均由对不同的传输协议以及并发系统的建模而得到的，其中许多例子是对工业级系统的建模\footnote{\url{http://cadp.inria.fr/resources/vlts/}}。
 
-In this part, we evaluate benchmark \#5, also called the \textsf{VLTS} (Very Large Transition Systems) benchmark\footnote{\url{http://cadp.inria.fr/resources/vlts/}}, which was originally proposed as a part of the \CADP{}\footnote{\url{http://cadp.inria.fr/}} (Construction and Analysis of Distributed Processes) toolbox \cite{GaravelLMS13}.
-As a formal verification toolbox, \CADP{} focuses on action-based models, for instance, \textsf{LTS}s and Markov Chains.
-As pointed out by the authors of \textsf{CADP}: \textit{this benchmark has been obtained from the modeling of various communication protocols and concurrent systems, many of which corresponds to real life and industrial systems}. 
+测试集四中共有40个测试用例，针对每个测试用例我们分别验证有无死锁与活锁。由于\sctlprov{}是基于Kripke模型的验证工具，因此在验证之前，我们需将每个\textsf{LTS}转换到相应的Kripke模型，然后在转换后的Kripke模型中进行验证。
 
 
-There are 40 test cases in benchmark \#5, where deadlocks and livelocks are to be detected for each test case.
-All test cases in benchmark \#5 are encoded as \textsf{BCG} (Binary-Coded Graphs) format, which is a binary format designed for encoding large state spaces \cite{GaravelLMS13}. 
-When verifying test cases in this benchmark in \sctlprov{}, each \textsf{BCG} file was parsed into a Kripke model, and perform the proving procedure on the Kripke model. We compare the experimental results of detecting deadlocks and livelocks both in \sctlprov{} and \CADP{}. 
+给定一个\textsf{LTS} $\mathcal{L} = \langle s_0, S, Act, \rightarrow \rangle$，其中$s_0$是初始状态；$s$是一个有穷的状态集合；$Act$是一个有穷的动作集合；$\rightarrow \subseteq S\times Act\times S$是迁移规则。那么$\mathcal{L}$到相应的Kripke模型$\mathcal{M} = \langle s_0', S', \lra, {\mathcal P} \rangle$的转换过程如下：
 
-The experimental result is depicted in Table \ref{tabl:vlts}:
-when detecting deadlocks, \sctlprov{} uses less time than \CADP{} in 31 (77.5\%) test cases, and uses less memory than \CADP{} in 35 (87.5\%) test cases;
-when detecting livelocks, \sctlprov{} uses less time than \CADP{} in 22 (55\%) test cases, and uses less memory than \CADP{} in 27 (67.5\%) test cases.
+\begin{itemize}
+	\item 令$s_0'$为$(s_0, \cdot)$，其中$\cdot\notin Act$是一个特殊的动作符号。
+	\item 分别将$(s_d,\cdot)$与$S'$与$(s_d,\cdot)\lra (s_d,\cdot)$添加到$S'$与$\lra$中，其中$(s_d,\cdot)$区分于$S'$中的所有其他状态。
+	\item 重复以下步骤直到没有更多的状态和迁移被添加到$\mathcal{M}$中：
+	\begin{itemize}
+		\item 如果$\cal L$中存在一个迁移$s_1\stackrel{a}\rightarrow s_2$，那么对于所有的$(s_1, b)\in S'$，将$(s_1, b)\lra (s_2, a)$添加到$\cal M$的迁移关系$\lra$中，其中$a, b\in Act\cup\{\cdot\}$；同时将$(s_2, a)$添加到$\cal M$的状态集合$S'$中；
+		\item 对于$S'$中的状态$(s,a)$，如果$s$在$\cal L$中没有后继，那么将$(s,a)\lra (s_d,\cdot)$添加到$\cal M$的迁移关系$\lra$。
+	\end{itemize}
+	\item 最后，令$P=\{(s_d,\cdot)\}$而且$Q = \{(s,a)\mid s\in S\wedge a=\tau\}$。
+\end{itemize}
+经过从\textsf{LTS}到Kripke模型的转换之后，我们就可以在\sctlprov{}中验证死锁与活锁的存在了。
 
-For brevity's sake, more details about the experiment on benchmark \#5 are explained in \ref{appendix:data:benchmark5}.
+\paragraph{死锁}
+在\textsf{LTS}中，死锁状态指的是没有后继的状态。当验证一个\textsf{LTS} $\cal L$中是否存在可达的死锁状态时，我们首先将$\cal L$经过以上的转换方法转换到一个Kripke模型$\cal M$。经过观察得知，$\cal L$中存在一个可达的死锁状态当且仅当$\cal M$中状态$(s_d,\cdot)$时可达的。
 
-\begin{figure}[h]
+然后，我们可以通过证明如下的公式来验证$\cal M$中$(s_d,\cdot)$是否可达：
+$$EF_x(P(x))((s_0,\cdot))$$ 
+
+这个公式是可证的当且仅当$\cal M$中存在一条形式为$(s_0,\cdot)\lra^*(s,a)\lra (s_d,\cdot)$的路径，其中$a$是一个动作符号，而且$s$在$\mathcal{L}$中没有后继。
+因此，这个公式可以被用来验证$\cal L$中有没有可达的死锁状态。 
+\begin{figure}[h!]
+	\centering
+	\scriptsize
+	\begin{tabular}{| l | c | r | r | r | r |}
+		\hline
+		\multirow{2}{1cm}{\textbf{Name}} & \multirow{2}{1.5cm}{\textbf{Deadlocks}} & \multicolumn{2}{c|}{\sctlprov{}} & \multicolumn{2}{c|}{\CADP{}}\\
+		\cline{3-6}
+		{}&{} & sec & MB & sec & MB\\
+		\hline
+		vasy\_0\_1 & No & 0.13 &	27.16 &	0.40 &	10.95\\\hline
+		cwi\_1\_2 & No & 0.13 &	27.67 &	0.39 &	10.80\\\hline
+		vasy\_1\_4 	& No & 0.14 &	27.75 &	0.39 &	10.71\\\hline
+		cwi\_3\_14 	& Yes & 0.14 &	25.70 &	0.40 &	10.82\\\hline
+		vasy\_5\_9 	& Yes &	0.14 &	25.70 &	0.40 &	10.82\\\hline
+		vasy\_8\_24 & No &	0.17 & 	28.90 &	0.43 &	10.79\\\hline
+		vasy\_8\_38 & Yes &	0.14 &	25.76 &	0.39 &	10.74\\\hline
+		vasy\_10\_56 &	No & 0.20 &	29.90 &	0.43 &	10.86\\\hline
+		vasy\_18\_73 &	No & 0.24 &	31.68 &	0.47 &	11.81\\\hline
+		vasy\_25\_25 &	Yes & 0.97 & 33.52 & 2.18 &	23.26\\\hline
+		vasy\_40\_60 &	No &	0.21 &	29.42 &	0.46 &	15.08\\\hline
+		vasy\_52\_318 &	No &	0.59 &	41.09 &	0.65 &	16.69\\\hline
+		vasy\_65\_2621 & No &	1.41 &	77.02 &	2.09 &	109.03\\\hline
+		vasy\_66\_1302 & No &	0.89 &	34.92 &	1.25 &  14.13\\\hline
+		vasy\_69\_520 &	Yes &	0.23 &	27.47 &	0.51 &	11.84\\\hline
+		vasy\_83\_325 &	Yes &	0.21 &	27.96 &	0.48 &	11.32\\\hline
+		vasy\_116\_368 & No &	0.67 &	35.27 &	0.77 &	14.40\\\hline
+		cwi\_142\_925 & Yes &	0.28 &	28.33 &	0.57 &	12.72\\\hline
+		vasy\_157\_297 & Yes &	0.18 &	27.14 &	0.45 &	11.48\\\hline
+		vasy\_164\_1619 & No &	2.53 &	48.39 &	1.53 &	22.90\\\hline
+		vasy\_166\_651 & Yes &	0.29 &	31.19 &	0.55 &	13.30\\\hline
+		cwi\_214\_684 &	Yes &	0.39 &	34.39 &	0.63 &	22.94\\\hline
+		cwi\_371\_641 &	No &	1.36 &	40.41 &	1.24 &	42.92\\\hline
+		vasy\_386\_1171 & No &	2.14 &	74.11 &	1.66 &	45.12\\\hline
+		cwi\_566\_3984 & Yes &	0.78 &	38.53 &	1.11 &	21.92\\\hline
+		vasy\_574\_13561 &	No & 18.23 &	246.97 &	9.72 &	188.21\\\hline
+		vasy\_720\_390 	& Yes &	0.23 &	28.49 &	0.48 &	12.89\\\hline
+		vasy\_1112\_5290 & No &	10.2 &	89.81 &	6.54 & 97.47\\\hline
+		cwi\_2165\_8723 &	No &16.51 &	166.74 &14.55 &	185.58 \\\hline
+		cwi\_2416\_17605 &	Yes &3.19 &	87.61 &	3.38 &	71.80 \\\hline
+		vasy\_2581\_11442 &	Yes &2.40 &	74.11 &	2.68 &	58.43 \\\hline
+		vasy\_4220\_13944 &	Yes &2.85 &	89.50 &	3.20 &	73.82 \\\hline
+		vasy\_4338\_15666 &	Yes &3.41 &	96.21 &	3.83 &	80.59 \\\hline
+		vasy\_6020\_19353 &	No &37.19 &	456.34 &	74.24 &	649.41 \\\hline
+		vasy\_6120\_11031 &	Yes &2.35 &	82.57 	&2.60 &	67.01 \\\hline
+		cwi\_7838\_59101 &	No &72.76 &	1013.67 &	140.21 &1019.55\\\hline
+		vasy\_8082\_42933 &	No & 7.85 &	309.74 	&7.82 &	240.69 	\\\hline
+		vasy\_11026\_24660 & Yes & 4.82 &149.80 &5.15 &	134.17 \\\hline
+		vasy\_12323\_27667 	&Yes &5.40 &	164.73 & 5.67 &	149.09 \\\hline
+		cwi\_33949\_165318 	&	No &	366.51 &	2368.22 &	636.39 &2972.61 
+		\\\hline
+		
+		\hline
+		
+	\end{tabular}
+	\tabcaption{\sctlprov{}与\CADP{}分别验证测试集四中测试用例的死锁性质的实验数据}
+	\label{benchmark:vlts:deadlock}
+	%\caption{}
+\end{figure}
+
+\paragraph{活锁}
+在\textsf{LTS}中，活锁指的是所有动作均为$\tau$的无穷的环状路径。在\textsf{LTS}中检测活锁相比检测死锁更复杂，原因是当观察一个迁移的时候，状态和动作都要考察到。
+与在检测死锁的方法一样，当验证一个\textsf{LTS} $\cal L$中是否存在可达的活锁时，我们首先将$\cal L$经过以上的转换方法转换到一个Kripke模型$\cal M$。通过以下分析可知，
+$\cal L$中存在一个可达的活锁当且仅当$\cal M$中存在一个环状路径，而且该路径上的所有状态均满足$Q$。
+
+\begin{itemize}
+	\item ($\Rightarrow$) 如果$\cal L$中存在一个可达的环状路径，那么这个环状路径具有$s_p\stackrel{\tau}\rightarrow s_{p+1}\stackrel{\tau}\rightarrow \cdots \stackrel{\tau}\rightarrow s_n\stackrel{\tau}\rightarrow s_p$形式，其中$s_p=s_0$，或者存在一个从$s_0$到$s_p$的路径$s_0\stackrel{a_0}\rightarrow \cdots \stackrel{a_{p-1}}\rightarrow s_p$。那么根据由$\cal L$到$\cal M$的转换方法可知，$\cal M$中一定存在一个环状路径$(s_p,a)\lra(s_{p+1},\tau)\lra \cdots \lra (s_n,\tau)\lra(s_p,\tau)\lra (s_{p+1},\tau)$，其中$a=a_{p-1}$，而且$(s_0,\cdot)\lra^*(s_p, a)$。
+	
+\couic{	If there exists a cycle of $\tau$ transitions in $\mathcal{L}$, then the cycle is of the form $s_p\stackrel{\tau}\rightarrow s_{p+1}\stackrel{\tau}\rightarrow \cdots \stackrel{\tau}\rightarrow s_n\stackrel{\tau}\rightarrow s_p$, where either $s_p = s_0$, or there exists a path $s_0\stackrel{a_0}\rightarrow \cdots \stackrel{a_{p-1}}\rightarrow s_p$. Then according to the transformation, there exists a cycle of the form $(s_p,a)\lra(s_{p+1},\tau)\lra \cdots \lra (s_n,\tau)\lra(s_p,\tau)\lra (s_{p+1},\tau)$ in $\mathcal{M}$, where
+	$(s_0,\cdot)\lra^*(s_p, a)$, and $a=a_{p-1}$.}
+	\item ($\Leftarrow$) 如果$\cal M$中存在一个具有$(s_p,\tau)\lra(s_{p+1},\tau)\lra \cdots \lra (s_n,\tau)\lra(s_p,\tau)$形式的环状路径，而且其中对于此路径中的某个状态$(s_m,\tau)$，有$(s_0,\cdot)\lra^*(s_m,\tau)$，那么在$\cal L$中存在一个环状路径$s_p\stackrel{\tau}\rightarrow \cdots \stackrel{\tau}\rightarrow s_m \stackrel{\tau}\rightarrow \cdots \stackrel{\tau}\rightarrow s_p$，其中此路径是从$s_0$状态可达的。
+	
+\couic{	If there exists a cycle of the form $(s_p,\tau)\lra(s_{p+1},\tau)\lra \cdots \lra (s_n,\tau)\lra(s_p,\tau)$ which is reachable from $(s_0,\cdot)$ in $\mathcal{M}$, then $(s_0,\cdot)\lra^*(s_m,\tau)$ for some $(s_m,\tau)$ in the cycle, then we have $s_0\stackrel{a_0}\rightarrow \cdots \stackrel{a'}\rightarrow s'\stackrel{\tau}\rightarrow s_m$ in $\mathcal{L}$, and there exists a cycle $s_p\stackrel{\tau}\rightarrow \cdots \stackrel{\tau}\rightarrow s_m \stackrel{\tau}\rightarrow \cdots \stackrel{\tau}\rightarrow s_p$ in $\mathcal{L}$ that is reachable from $s_0$.}
+\end{itemize}
+
+然后，我们可以通过在$\cal M$中证明如下的公式来验证$\cal L$中是否有可达的活锁：
+$$EF_x(EG_y(Q(y))(x))((s_0,\cdot))$$
+
+这个公式是可证的当且仅当$\cal L$中存在一个可达的活锁。
+
+
+\begin{figure}[h!]
+	\centering
+	\scriptsize
+	\begin{tabular}{| l | c | r | r | r | r |}
+		\hline
+		\multirow{2}{1cm}{\textbf{Name}} & \multirow{2}{1.5cm}{\textbf{Livelocks}} & \multicolumn{2}{c|}{\sctlprov{}} & \multicolumn{2}{c|}{\CADP{}}\\
+		\cline{3-6}
+		{}&{} & sec & MB & sec & MB\\
+		\hline
+		
+		vasy\_0\_1 & No &0.13 &	27.45 &	0.48 &	14.57 \\\hline
+		cwi\_1\_2 & No &0.14 &	27.74 &	0.50 &	14.61 \\\hline
+		vasy\_1\_4 	& No &0.14& 	27.70& 	0.48 &	14.66 \\\hline
+		cwi\_3\_14 	& No &0.16 &	28.18 &	0.50 &	14.57 \\\hline
+		vasy\_5\_9 	& No &0.16 	&28.08 &	0.51 &	14.68 \\\hline
+		vasy\_8\_24 & No &0.18 	&29.09 &	0.53 &	14.75 \\\hline
+		vasy\_8\_38 & No &0.20 	&28.86 	&0.52 &	14.73 \\\hline
+		vasy\_10\_56 &	No &0.23 &	30.33 &	0.55 &	15.34 \\\hline
+		vasy\_18\_73 &	No &0.28 &	33.07 &	0.56 &	16.25 \\\hline
+		vasy\_25\_25 &	No &0.96 &	33.54 &	2.25 &	27.84 \\\hline
+		vasy\_40\_60 &	No &0.26 &	30.23 &	0.57 &	19.65 \\\hline
+		vasy\_52\_318 &	Yes &0.21 &	27.66 &	0.55 &	15.45 \\\hline
+		vasy\_65\_2621 & No &5.31 &	280.57 &	1.98 &	113.40 \\\hline
+		vasy\_66\_1302 & No &2.40 &	38.33 &	1.30 &	18.50 \\\hline
+		vasy\_69\_520 &	No &1.04 &	33.41 &	0.85 &	16.39 \\\hline
+		vasy\_83\_325 &	No &0.83 &	39.27 &	0.76 &	19.40 \\\hline
+		vasy\_116\_368 & No &1.19 &	42.14 &	0.86 &	15.74 \\\hline
+		cwi\_142\_925 & No &2.67 &	46.30 &	1.22 &	17.89 \\\hline
+		vasy\_157\_297 & No &0.80 &	33.99 &	0.78 &	17.91 \\\hline
+		vasy\_164\_1619 & No &3.69 &	53.30 &	1.51& 	23.44 \\\hline
+		vasy\_166\_651 & No &1.60 	&49.98 &	1.02 &	26.02 \\\hline
+		cwi\_214\_684 &	Yes &0.26 	&29.93 &	0.63 &	16.81 \\\hline
+		cwi\_371\_641 &	Yes &0.26 	&30.63 &	0.62 &	17.41 \\\hline
+		vasy\_386\_1171 & No &2.91 	&80.16 &	1.55 &	41.75 \\\hline
+		cwi\_566\_3984 & No &13.32 	&106.25 &	3.95 &	54.08 \\\hline
+		vasy\_574\_13561 &	No &27.02& 	272.11 &	8.17 &	188.69 \\\hline
+		vasy\_720\_390 	& No &	0.86 &	31.45 	&0.76 &	17.45 \\\hline
+		vasy\_1112\_5290 & No &10.49 &	89.86 &	5.24 &	97.93 \\\hline
+		cwi\_2165\_8723 &	Yes &1.87 &	61.94 &	2.15 &	48.80 \\\hline
+		cwi\_2416\_17605 &	Yes &3.10 &	87.61 &	3.44 &	76.30 \\\hline
+		vasy\_2581\_11442 &	No &32.70 &	326.38 &	14.78& 	214.93 \\\hline
+		vasy\_4220\_13944 &	No &43.93 &	423.03 	&24.71 &	330.85 \\\hline
+		vasy\_4338\_15666 &	No &47.55 &	479.15 	&28.06 &	344.64 \\\hline
+		vasy\_6020\_19353 &	Yes &3.23 &	100.24 	&3.57 &	106.43 \\\hline
+		vasy\_6120\_11031 &	No &30.59 &	425.64 	&38.37 &	437.71 \\\hline
+		cwi\_7838\_59101 &	Yes &11.34 &	250.68 &	11.58 &	236.09 \\\hline
+		vasy\_8082\_42933 &	No & 119.77 &	1123.85 &	106.49& 	908.29 \\\hline
+		vasy\_11026\_24660 &	No &60.86& 	698.85 &	108.97 &	804.34 \\\hline
+		vasy\_12323\_27667 	&	No &68.50 &	793.83 &	134.44 	&898.61 \\\hline
+		cwi\_33949\_165318 	&	Yes &33.89 &	732.05& 	34.60& 	738.78 \\\hline
+	\end{tabular}
+	\tabcaption{\sctlprov{}与\CADP{}分别验证测试集四中测试用例的活锁性质的实验数据}
+	\label{benchmark:vlts:livelock}
+\end{figure}
+
+
+
+\paragraph{测试集四的实验结果}
+我们用\sctlprov{}与\CADP{}分别验证了测试集四中所有测试用例。如表\ref{tabl:vlts}所示，在40个测试用例中，\sctlprov{}和\CADP{}均能成功验证所有的例子。在验证死锁性质时，\sctlprov{}在33 (82.5\%)个测试用例中用时比\CADP{}短；在7 (17.5\%)个测试用例中占用内存比\CADP{}少。 
+在验证活锁性质时，\sctlprov{}在22 (55.0\%)个测试用例中用时比\CADP{}短；在6 (15.0\%)个测试用例中占用内存比\CADP{}少。测试集四的详细实验数据见表\ref{benchmark:vlts:deadlock}和表\ref{benchmark:vlts:livelock}。
+
+\begin{figure}[h!]
 	\small
 	\centering
 	\begin{tabular}{ | l | c | c | }
 		\hline
 		\textbf{性质} & t(\sctlprov) $<$ t(\CADP{}) & m(\sctlprov) $<$ m(\CADP{})\\\hline
-		\code{死锁} & 31 (77.5\%) & 35 (87.5\%)\\\hline
-		\code{活锁} & 22 (55\%) & 27 (67.5\%)\\\hline
+		\code{死锁} & 33 (82.5\%) & 7 (17.5\%)\\\hline
+		\code{活锁} & 22 (55.0\%) & 6 (15.0\%)\\\hline
 		%\hline
 	\end{tabular}
 	
-	\tabcaption{Test cases where \sctlprov{} uses less time and less memory, respectively.}
+	\tabcaption{测试集四中\sctlprov{}相比\CADP{}用时短以及占用内存少的测试用例的个数}
 	\label{tabl:vlts}
 \end{figure}
 
 
 
 \subsection{关于实验结果的讨论}
-In the evaluation of benchmark \#1 to benchmark \#4 in this paper, the performances of \nusmv{}, \nuxmv{}, \verds{}, \tool{iProver Modulo}, and \sctl{} in the comparisons are affected by two factors: the number of state variables, and the type of the property to be checked. The performances of \nusmv{} and \nuxmv{} are mainly affected by the number of state variables, while the performances of \tool{iProver Modulo}, \verds{}, and \sctl{} are mainly affected by the type of the property to be checked. When the number of state variables is rather small (such as test cases in benchmark \#1), \nusmv{} and \nuxmv{} solves more test cases than \tool{iProver Modulo}, \verds{} and \sctl{}, but when the number of state variables becomes larger (such as test cases in benchmark \#2 and \#3), they performs worse than the other three tools.  When checking properties where nearly all states must be searched (such as $AG$ properties), \nusmv{} and \nuxmv{} usually perform better than \tool{iProver Modulo}, \verds{} and \sctl{}. However, for most properties, \tool{iProver Modulo}, \verds{} and \sctl{} usually search much less states than \nusmv{} and \nuxmv{} to check them, and are more time and space efficiency. Thus, \tool{iProver Modulo}, \verds{} and \sctl{} scale up better than \nusmv{} and \nuxmv{} when checking these properties. Moreover, \sctl{} scales up better than both \tool{iProver Modulo} and \verds{}, and outperforms these two tools in most solvable cases.
+由测试集一、二、三的实验结果可知，\nusmv{}、\nuxmv{}、\verds{}、\tool{iProver Modulo}、\sctl{}的实验数据主要受两方面因素影响：状态变量的个数和要验证的公式的类型。其中，\nusmv{}、\nuxmv{}的实验数据主要受状态变量个数的影响，而\verds{}、\tool{iProver Modulo}、\sctl{}的实验数据主要受公式类型的影响。当状态变量的个数较小的时候（比如测试集一），\nusmv{}和\nuxmv{}的表现往往优于\verds{}，\tool{iProver Modulo}以及\sctl{}；然而，在状态变量数较大的测试集中（比如测试集二、三），\verds{}、\tool{iProver Modulo}、\sctl{}的表现更好。如果在验证公式的过程中需要访问到几乎整个状态空间（比如一些$AG$性质），那么\nusmv{}和\nuxmv{}的表现优于\verds{}，\tool{iProver Modulo}以及\sctl{}；然而，在验证其他公式的时候，\verds{}，\tool{iProver Modulo}、\sctl{}的表现更好，这是因为在验证此类性质的时候\verds{}，\tool{iProver Modulo}以及\sctl{}不必访问整个状态空间。因此，\verds{}，\tool{iProver Modulo}、\sctl{}相比\nusmv{}、\nuxmv{}在状态变量个数上扩展性更好，其中\sctlprov{}在状态变量个数上比\verds{}和\tool{iProver Modulo}扩展性更好，而且在几乎所有能验证的例子上比\verds{}和\tool{iProver Modulo}占用资源更少。
 
+\couic{When the number of state variables is rather small (such as test cases in benchmark \#1), \nusmv{} and \nuxmv{} solves more test cases than \tool{iProver Modulo}, \verds{} and \sctl{}, but when the number of state variables becomes larger (such as test cases in benchmark \#2 and \#3), they performs worse than the other three tools.  When checking properties where nearly all states must be searched (such as $AG$ properties), \nusmv{} and \nuxmv{} usually perform better than \tool{iProver Modulo}, \verds{} and \sctl{}. However, for most properties, \tool{iProver Modulo}, \verds{} and \sctl{} usually search much less states than \nusmv{} and \nuxmv{} to check them, and are more time and space efficiency. Thus, \tool{iProver Modulo}, \verds{} and \sctl{} scale up better than \nusmv{} and \nuxmv{} when checking these properties. Moreover, \sctl{} scales up better than both \tool{iProver Modulo} and \verds{}, and outperforms these two tools in most solvable cases.}
 
-In the evaluation of benchmark \#5, the performances of \sctl{} and \CADP{} are affected by both the size of the state space, and the properties to be verified. 
-The verification processes in \sctl{} and \CADP{} tend to use less time and memory in test cases which have smaller state spaces.
-For test cases where there exists a deadlock or livelock, the verification processes tend to use less time and memory than those where there are no deadlock or livelock.
-Moreover, \sctl{} outperforms \CADP{} in more than half of the test cases.  
+由测试集四的实验结果可知，\sctlprov{}和\CADP{}的实验数据也受两方面因素影响：状态空间的大小以及是否满足要验证的性质。当状态空间较小时，\sctlprov{}和\CADP{}均占用资源较少；而且当要验证的性质（死锁和活锁）满足的时候，\sctlprov{}和\CADP{}的占用资源也较少。同时，在超过一半的例子中，\sctlprov{}用时相比\CADP{}更少。另外，值得注意的是，在验证测试集四种的测试用例时，\sctlprov{}需要将\textsf{LTS}转换成Kripke模型，而在转换的过程中往往状态空间也会增大，因此在某些测试用例中\sctlprov{}的空间占用比\CADP{}大。如果\sctlprov{}能直接在\textsf{LTS}上进行验证，那么则可避免增大状态空间，这是本文的下一步工作。
 

@@ -7,20 +7,30 @@
 \contentsline {figure}{\numberline {2.2}{\ignorespaces \textsf {SCTL($\cal M$)}{}\relax }}{8}{figure.caption.17}
 \contentsline {figure}{\numberline {2.3}{\ignorespaces \textsf {SCTLProV}{}.\relax }}{15}{figure.caption.19}
 \contentsline {figure}{\numberline {2.4}{\ignorespaces \textsf {CPT}的重写规则.\relax }}{16}{figure.caption.20}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces 进程$A$和进程$B$的一个简单描述。\relax }}{21}{figure.caption.21}
-\contentsline {figure}{\numberline {2.6}{\ignorespaces 输入文件“mutual.model”。\relax }}{22}{figure.caption.22}
-\contentsline {figure}{\numberline {2.7}{\ignorespaces 进程互斥问题的验证中证明树和模型的可视化\relax }}{24}{figure.caption.23}
-\contentsline {figure}{\numberline {2.8}{\ignorespaces 修改后的进程互斥程序。\relax }}{24}{figure.caption.24}
-\contentsline {figure}{\numberline {2.9}{\ignorespaces 输入文件“mutual\_solution.model”\relax }}{25}{figure.caption.25}
-\contentsline {figure}{\numberline {2.10}{\ignorespaces 飞机场自我控制区域的划分（以飞行员视角区分左右）\relax }}{26}{figure.caption.26}
-\contentsline {figure}{\numberline {2.11}{\ignorespaces 测试集一中需要验证的性质$P_{01}$至$P_{12}$\relax }}{29}{figure.caption.29}
-\contentsline {figure}{\numberline {2.12}{\ignorespaces 在测试集一上各个工具的平均占用时间\relax }}{31}{figure.caption.33}
-\contentsline {figure}{\numberline {2.13}{\ignorespaces 在测试集一上各个工具的平均占用内存\relax }}{31}{figure.caption.34}
-\contentsline {figure}{\numberline {2.14}{\ignorespaces 在测试集一、二上各个工具的平均占用时间\relax }}{32}{figure.caption.38}
-\contentsline {figure}{\numberline {2.15}{\ignorespaces 在测试集一、二上各个工具的平均占用内存\relax }}{33}{figure.caption.39}
-\contentsline {figure}{\numberline {2.16}{\ignorespaces \textsf {SCTLProV}{}和\textsf {SCTLProV$_R$}{}平均运行时间\relax }}{34}{figure.caption.43}
-\contentsline {figure}{\numberline {2.17}{\ignorespaces 互斥算法的性质\relax }}{34}{table.caption.44}
-\contentsline {figure}{\numberline {2.18}{\ignorespaces 环算法的性质\relax }}{35}{table.caption.45}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Rewriting steps of $\textsf {cpt}(\vdash EG_x(P(x))(s_0),\mathfrak {t},\mathfrak {f})$.\relax }}{25}{figure.caption.21}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces The proof search algorithm.\relax }}{32}{figure.caption.22}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces $\mathsf {ProveAnd (\vdash \phi _1\wedge \phi _2})$\relax }}{33}{figure.caption.23}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces $\mathsf {ProveOr (\vdash \phi _1\vee \phi _2)}$\relax }}{33}{figure.caption.24}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces $\mathsf {ProveEX (\vdash EX_x(\phi _1)(s))}$\relax }}{33}{figure.caption.25}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces $\mathsf {ProveAX (\vdash AX_x(\phi _1)(s))}$\relax }}{33}{figure.caption.26}
+\contentsline {figure}{\numberline {2.11}{\ignorespaces $\mathsf {ProveEG (\Gamma \vdash EG_x(\phi _1)(s))}$ \relax }}{34}{figure.caption.27}
+\contentsline {figure}{\numberline {2.12}{\ignorespaces $\mathsf {ProveAF (\Gamma \vdash AF_x(\phi _1)(s))}$\relax }}{35}{figure.caption.28}
+\contentsline {figure}{\numberline {2.13}{\ignorespaces $\mathsf {ProveEU (\Gamma \vdash EU_{x,y}(\phi _1,\phi _2)(s))}$\relax }}{36}{figure.caption.29}
+\contentsline {figure}{\numberline {2.14}{\ignorespaces $\mathsf {ProveAR (\Gamma \vdash AR_{x,y}(\phi _1,\phi _2)(s))}$\relax }}{37}{figure.caption.30}
+\contentsline {figure}{\numberline {2.15}{\ignorespaces 进程$A$和进程$B$的一个简单描述。\relax }}{38}{figure.caption.31}
+\contentsline {figure}{\numberline {2.16}{\ignorespaces 输入文件“mutual.model”。\relax }}{39}{figure.caption.32}
+\contentsline {figure}{\numberline {2.17}{\ignorespaces 进程互斥问题的验证中证明树和模型的可视化\relax }}{41}{figure.caption.33}
+\contentsline {figure}{\numberline {2.18}{\ignorespaces 修改后的进程互斥程序。\relax }}{41}{figure.caption.34}
+\contentsline {figure}{\numberline {2.19}{\ignorespaces 输入文件“mutual\_solution.model”\relax }}{42}{figure.caption.35}
+\contentsline {figure}{\numberline {2.20}{\ignorespaces 飞机场自我控制区域的划分（以飞行员视角区分左右）\relax }}{43}{figure.caption.36}
+\contentsline {figure}{\numberline {2.21}{\ignorespaces 测试集一中需要验证的性质$P_{01}$至$P_{12}$\relax }}{47}{figure.caption.39}
+\contentsline {figure}{\numberline {2.22}{\ignorespaces 在测试集一上各个工具的平均占用时间\relax }}{48}{figure.caption.43}
+\contentsline {figure}{\numberline {2.23}{\ignorespaces 在测试集一上各个工具的平均占用内存\relax }}{49}{figure.caption.44}
+\contentsline {figure}{\numberline {2.24}{\ignorespaces 在测试集一、二上各个工具的平均占用时间\relax }}{50}{figure.caption.48}
+\contentsline {figure}{\numberline {2.25}{\ignorespaces 在测试集一、二上各个工具的平均占用内存\relax }}{50}{figure.caption.49}
+\contentsline {figure}{\numberline {2.26}{\ignorespaces \textsf {SCTLProV}{}和\textsf {SCTLProV$_R$}{}平均运行时间\relax }}{51}{figure.caption.51}
+\contentsline {figure}{\numberline {2.27}{\ignorespaces 互斥算法的性质\relax }}{52}{table.caption.52}
+\contentsline {figure}{\numberline {2.28}{\ignorespaces 环算法的性质\relax }}{52}{table.caption.53}
 \addvspace {10.0pt}
 \addvspace {10.0pt}
 \addvspace {10.0pt}

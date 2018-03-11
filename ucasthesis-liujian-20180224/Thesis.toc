@@ -23,7 +23,7 @@
 \contentsline {subsubsection}{\numberline {2.3.5.2}$\mathsf {ProveEX}$ and $\mathsf {ProveAX}$}{27}{subsubsection.2.3.5.2}
 \contentsline {subsubsection}{\numberline {2.3.5.3}$\mathsf {ProveEG}$ and $\mathsf {ProveAF}$}{27}{subsubsection.2.3.5.3}
 \contentsline {subsubsection}{\numberline {2.3.5.4}$\mathsf {ProveEU}$ and $\mathsf {ProveAR}$}{28}{subsubsection.2.3.5.4}
-\contentsline {subsection}{\numberline {2.3.6}其他\textsf {CTL$_P$}{}模型检测方法的对比}{30}{subsection.2.3.6}
+\contentsline {subsection}{\numberline {2.3.6}其他\textsf {CTL$_P$}{}模型检测方法的对比}{29}{subsection.2.3.6}
 \contentsline {subsubsection}{\numberline {2.3.6.1}基于\textsf {BDD}{}的符号模型检测}{30}{subsubsection.2.3.6.1}
 \contentsline {subsubsection}{\numberline {2.3.6.2}动态（On-the-fly）模型检测}{30}{subsubsection.2.3.6.2}
 \contentsline {subsubsection}{\numberline {2.3.6.3}限界模型检测}{31}{subsubsection.2.3.6.3}

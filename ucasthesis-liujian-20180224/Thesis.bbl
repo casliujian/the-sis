@@ -1,4 +1,4 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{20}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \providecommand{\href}[2]{\url{#2}}
@@ -70,13 +70,6 @@ GARAVEL H, LANG F, MATEESCU R, et~al., 2013.
   distributed processes\allowbreak[J/OL].
 \newblock {STTT}, 15\penalty0 (2): 89--107.
 \newblock \url{https://doi.org/10.1007/s10009-012-0244-z}.
-
-\bibitem[Ji(2015)]{Ji15}
-JI K, 2015.
-\newblock {CTL Model Checking in Deduction
-  Modulo}\allowbreak[C]//\allowbreak{}Proceedings of Automated Deduction -
-  CADE-25.
-\newblock Berlin: Springer International Publishing, Switzerland: 295--310.
 
 \bibitem[McMillan(1993)]{mcmillan93}
 MCMILLAN K~L, 1993.

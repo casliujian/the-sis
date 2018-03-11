@@ -725,6 +725,7 @@ only.
 	\end{itemize}
 \end{proof}
 
+
 \subsection{证明搜索算法的正确性}\label{subsec:cpt:correctness}
 证明搜索算法的正确性可由以下命题来表示。
 \begin{proposition}[证明搜索算法的正确性]
@@ -734,7 +735,7 @@ only.
 
 \begin{proof}
 		We prove a more general proposition: 
-	for a given formula $\phi$, \couic{ where $c_1$ and $c_2$ cannot rewrite to each other,} $\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2) 
+	for a given formula $\phi$, $\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2) 
 	\rsa^* c_1$ for all distinct \CPT{}s $c_1$ and $c_2$ iff $\Gamma \vdash \phi$ is provable. 
 	
 	
@@ -939,18 +940,10 @@ only.
 \end{proof}
 
 \subsection{证明搜索算法的优化}\label{subsec:proofsearch:optimize}
+在余归纳公式（尤其是$EG$和$AR$公式）的证明搜索中，我们通常利用merge规则来证明某个性质在无穷路径上满足。对于每一个merge规则，上下文$\Gamma$（我们称之为merge）中的公式都是一种类型的，而且都与要证明的公式是相同类型的，唯一的不同是公式中相应的状态常量不同。本质上来说，每个merge对应的是无穷路径上的状态，其中所有的状态都满足某个性质。因此，在merge规则的实现中，我们可以对于每一种公式类型，只在$\Gamma$中记录状态常量。
 
-In the proof search of sequents with co-inductive formulae (formulae with modality $EG$ or
-$AR$), the merge rules are used to assert that some property holds on
-an infinite path of states. For every merge rule, the formulae need to be
-memoized are with the same modality, whereas the only differences are
-the states appearing in the formulae. Thus, it is sufficient to
-memoize only the states, not the whole formulae, in the
-implementation of every merge (i.e., $\Gamma$). Essentially, each
-construction of a merge is implemented by memoizing an infinite path
-where all states verify some property. 
-
-What is worth mentioning is the proof search of sequents with
+需要注意的是，对于归纳公式（尤其是$AF$和$EU$公式），虽然在证明规则中没有merge规则，但是在证明搜索中仍然需要merge。对于这些公式，merge的存在可避免无穷的证明搜索。这是由于当归纳公式是不可证的时候，即它们的非（余归纳公式）是可证的时候，我们需要merge来表示一个无穷路径，而且这个无穷路径上的状态都不满足某些性质。对于归纳公式，之所以在证明规则中没有merge，而在证明搜索中需要merge是因为，在证明规则中我们只关心证明树的形状，而不是证明树的构造过程，只有在证明树的构造过程中才需要记录归纳公式的merge。因此，作为对证明搜索算法的另一个优化，我们需要在归纳公式的证明搜索中同样记录merge。
+\couic{What is worth mentioning is the proof search of sequents with
 inductive formulae (formulae with modality $AF$ or $EU$, especially). Although
 there are no merge rules for the proof of this kind of sequents,
 merges are also helpful to avoid infinite proof search, when the
@@ -966,8 +959,9 @@ reflected in the proof rules for the $AF$ and $EU$ cases. The reason
 is that, in the proof rules, we only care about the shape of the proof
 tree, not how the proof tree is constructed. It is only in the
 construction of proof trees where merges for $AF$ and $EU$ are
-mentioned.
+mentioned.}
 
+另外，在证明搜索过程中，我们用一个全局的数据结构来保存访问过的状态，以防止在证明某个公式的时候同一个状态被重复访问。
 As another optimization of the proof search algorithm, we use a global memory to store, for each sub-formula $\phi$, 
 the states visited during the proof search of this formula, and avoid visiting states that are already in this memory. 
 This memory can be either a hash table or a \BDD{}, each having 
@@ -1078,7 +1072,8 @@ The ``while'' loop in the function is to repeatedly rewrite the \textsf{CPT} $\m
 
 \begin{figure}[h]
 	\footnotesize
-	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+	\centering
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			%			\hspace{0.7cm}\textbf{Global variables:} \\
 			
 			%			\vspace{0.1cm}\\
@@ -1138,7 +1133,8 @@ The proof search for conjunction formulae is depicted in Figure \ref{algorithm:a
 \end{itemize}
 
 \begin{figure}[h!]\footnotesize
-	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+	\centering
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
 				\State let $\mathsf{A_{12}=A_1\cup\{\mathsf{ac}(pt, \vdash\phi_1\wedge\phi_2,\{\vdash\phi_1,\vdash\phi_2\})\})\}}$
 				\State let $\mathsf{A_{21}=A_2\cup\{\mathsf{ac}(ce, \vdash\phi_1\wedge\phi_2,\{\vdash\phi_1\})\})\}}$
@@ -1153,7 +1149,8 @@ The proof search for conjunction formulae is depicted in Figure \ref{algorithm:a
 \end{figure}
 Figure \ref{algorithm:or} shows the details of $\mathsf{ProveOr}$, which is the dual case of $\mathsf{ProveAnd}$.
 \begin{figure}[h!]\footnotesize
-	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+	\centering
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
 				\State let $\mathsf{A_{22}=A_2\cup\{\mathsf{ac}(ce, \vdash\phi_1\vee\phi_2,\{\vdash\phi_1,\vdash\phi_2\})\})\}}$
 				\State let $\mathsf{A_{11}=A_1\cup\{\mathsf{ac}(pt, \vdash\phi_1\vee\phi_2,\{\vdash\phi_1\})\})\}}$
@@ -1174,15 +1171,14 @@ In the case of $\mathsf{ProveEX}$, we let $\{s_1,...,s_n\}=\textsf{Next}(s)$, an
 
 
 \begin{figure}[h!]\footnotesize
-	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+	\centering
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
-				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{EX_x(\phi_1)(\_)}$, and
-				\State \textit{``k(s)'' to $\mathit{EX_x(\phi_1)(s)}$.*/}
+				\State \textit{/* For notation purpose, here we refer ``k'' to $\mathit{EX_x(\phi_1)(\_)}$, and ``k(s)'' to $\mathit{EX_x(\phi_1)(s)}$.*/}
 				\State $\mathsf{A_2 := A_2\cup \{\mathsf{ac}(ce, \vdash k(s),\{\vdash(s_1/x)\phi_1,...,\vdash(s_n/x)\phi_1\})\}}$
 				\State $\mathsf{\forall i\in\{1,...,n\}}$, let
 				$\mathsf{A_{1i}=A_1\cup\{\mathsf{ac}(pt, \vdash k(s),\{\vdash(s_i/x)\phi_1\})\}}$
-				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s_1/x)\phi_1, c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\vdash(s_n/x)\phi_1, c_1^{A_{1n}}, }$
-				\State ~~~~$\mathsf{c_2^{A_2})...))}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s_1/x)\phi_1, c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\vdash(s_n/x)\phi_1, c_1^{A_{1n}}, c_2^{A_2})...))}$
 				\State $\mathsf{c := c'}$
 				
 			\end{algorithmic}
@@ -1193,15 +1189,14 @@ In the case of $\mathsf{ProveEX}$, we let $\{s_1,...,s_n\}=\textsf{Next}(s)$, an
 
 Figure \ref{algorithm:ax} shows the details of $\mathsf{ProveAX}$, which is the dual case of $\mathsf{ProveEX}$.
 \begin{figure}[h!]\footnotesize
-	\noindent\framebox{\parbox{.46\textwidth}{\hspace*{-0.3cm}
+	\centering
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
-				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{AX_x(\phi_1)(\_)}$, and
-				\State \textit{``k(s)'' to $\mathit{AX_x(\phi_1)(s)}$.*/}
+				\State /*\textit{For notation purpose, here we refer ``k'' to $\mathit{AX_x(\phi_1)(\_)}$, and ``k(s)'' to $\mathit{AX_x(\phi_1)(s)}$.*/}
 				\State $\mathsf{A_1 := A_1\cup \{\mathsf{ac}(pt, \vdash k(s),\{\vdash(s_1/x)\phi_1,...,\vdash(s_n/x)\phi_1\})\}}$
 				\State $\mathsf{\forall i\in\{1,...,n\}}$, let
 				$\mathsf{A_{2i}=A_2\cup\{\mathsf{ac}(ce, \vdash k(s),\{\vdash(s_i/x)\phi_1\})\}}$
-				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s_1/x)\phi, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\vdash(s_n/x)\phi, c_1^{A_{1}}, c_2^{A_{2n}}),...), }$
-				\State~~~~$\mathsf{c_2^{A_{21}})}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s_1/x)\phi, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\vdash(s_n/x)\phi, c_1^{A_{1}}, c_2^{A_{2n}}),...), c_2^{A_{21}})}$
 				\State $\mathsf{c := c'}$
 				
 			\end{algorithmic}
@@ -1230,10 +1225,11 @@ The algorithm for $\mathsf{ProveEG}$ is explained as follows.
 
 
 \begin{figure}[h!]\footnotesize
-	\noindent\framebox{\parbox{.47\textwidth}{\hspace*{-0.3cm}
+	\centering
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
-				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{EG_x(\phi_1)(\_)}$ and
-				\State \textit{``k(s)'' to $\mathit{EG_x(\phi_1)(s)}$, and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
+				\State \textit{/* For notation purpose, here we refer ``k'' to $\mathit{EG_x(\phi_1)(\_)}$ and ``k(s)'' to $\mathit{EG_x(\phi_1)(s)}$, }
+				\State \textit{and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
 				\If{$\mathsf{s\in M^f_k}$}
 				\State $\mathsf{c:=c_2^{A_2}}$
 				
@@ -1254,8 +1250,7 @@ The algorithm for $\mathsf{ProveEG}$ is explained as follows.
 				\EndIf
 				\State $\mathsf{A_{20}:=A_{20} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$;
 				\State $\mathsf{A_{2n}:=A_{2n} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$;
-				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1, \textsf{cpt}^\emptyset(\Gamma'\vdash k(s_1), c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}$
-				\State $~~~~\mathsf{\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}})}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1, \textsf{cpt}^\emptyset(\Gamma'\vdash k(s_1), c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset({\Gamma}'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}})}$
 				\State $\mathsf{c := c'}$
 				
 				\EndIf
@@ -1267,10 +1262,11 @@ The algorithm for $\mathsf{ProveEG}$ is explained as follows.
 \end{figure}
 Figure \ref{algorithm:af} shows the details of $\mathsf{ProveAF}$, which is the dual case of $\mathsf{ProveEG}$.
 \begin{figure}[h!]\footnotesize
-	\noindent\framebox{\parbox{.47\textwidth}{\hspace*{-0.3cm}
+	\centering
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
-				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{AF_x(\phi_1)(\_)}$ and
-				\State \textit{``k(s)'' to $\mathit{AF_x(\phi_1)(s)}$, and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$..*/}
+				\State \textit{/* For notation purpose, here we refer ``k'' to $\mathit{AF_x(\phi_1)(\_)}$ and ``k(s)'' to $\mathit{AF_x(\phi_1)(s)}$, }
+				\State \textit{and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$..*/}
 				\If{$\mathsf{s\in M^t_k}$}
 				\State $\mathsf{c:=c_1^{A_1}}$
 				
@@ -1283,8 +1279,6 @@ Figure \ref{algorithm:af} shows the details of $\mathsf{ProveAF}$, which is the 
 				\State let $\mathsf{A_{1n}=A_1\cup\{\mathsf{ac}(pt, \vdash k(s),\{\vdash k(s_1),...,\vdash k(s_n)\})\}}$
 				\State $\mathsf{\forall i\in\{1,...,n\}}$, let
 				\State~~~~ $\mathsf{A_{2i}=A_2\cup\{\mathsf{ac}(ce, \vdash k(s),\{\vdash(s/x)\phi_1, \vdash k(s_i)\})\}}$
-				%				\State~~~~~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma')),}$
-				%				\State~~~~~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma'))\}}$
 				\If{$\mathsf{\Gamma = \emptyset}$}
 				\State $\mathsf{\mathsf{visited}_k := \{s\}}$
 				\Else
@@ -1292,10 +1286,8 @@ Figure \ref{algorithm:af} shows the details of $\mathsf{ProveAF}$, which is the 
 				\EndIf
 				\State $\mathsf{A_{10}:=A_{10} \cup \{M^t_k:= M^t_k\cup \{s\}\}}$
 				\State $\mathsf{A_{1n}:=A_{1n} \cup \{M^t_k:= M^t_k\cup  \{s\}\}}$;
-				\State let $\mathsf{c'= \textsf{cpt}^{\emptyset}(\vdash(s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^{\emptyset}(\Gamma'\vdash k(s_1), \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}$
-				\State $~~~~\mathsf{\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}}))}$
+				\State let $\mathsf{c'= \textsf{cpt}^{\emptyset}(\vdash(s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^{\emptyset}(\Gamma'\vdash k(s_1), \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}}))}$
 				\State $\mathsf{c := c'}$
-				
 				\EndIf
 				
 			\end{algorithmic}
@@ -1329,14 +1321,13 @@ In the algorithm, we use $\mathsf{reachable(S)}$ to denote the set of visited st
 Figure \ref{algorithm:ar} shows the details of $\mathsf{ProveAR}$, which is the dual case of $\mathsf{ProveEU}$.
 
 \begin{figure}[h!]\footnotesize
-	\noindent\framebox{\parbox{.48\textwidth}{\hspace*{-0.3cm}
+	\centering
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
-				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{EU_{x,y}(\phi_1,\phi_2)(\_)}$ and
-				\State \textit{``k(s)'' to $\mathit{EU_{x,y}(\phi_1,\phi_2)(s)}$, and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
+				\State \textit{/* For notation purpose, here we refer ``k'' to $\mathit{EU_{x,y}(\phi_1,\phi_2)(\_)}$ and ``k(s)'' to $\mathit{EU_{x,y}(\phi_1,\phi_2)(s)}$,} 
+				\State \textit{and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
 				\If{$\mathsf{s\in M^t_k}$}
 				\State $\mathsf{c:=c_1^{A_1}}$
-				%				\State $\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma))}$
-				%				\State $\mathsf{M^f_k := M^f_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma))}$
 				\ElsIf{$\mathsf{s\in M^f_k}$ or $\mathsf{k_s\in \Gamma}$}
 				\State $\mathsf{c:=c_2^{A_2}}$;
 				\Else 
@@ -1351,10 +1342,6 @@ Figure \ref{algorithm:ar} shows the details of $\mathsf{ProveAR}$, which is the 
 				\State~~~~~~~~$\mathsf{ac(pt, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_i)\}),}$
 				\State~~~~~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma')\cup \{s_i\}),}$
 				\State~~~~~~~~$\mathsf{M^f_k := (M^f_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(\Gamma')\cup \{s_i\})\}}$
-				%					\State~~~~~~~~$\mathsf{\}}$
-				%				\State $\mathsf{A_{10} := A_{10}\cup \{}$
-				%				\State~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma)),}$
-				%				\State ~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma))\}}$
 				\If{$\mathsf{\Gamma = \emptyset}$}
 				
 				\State $\mathsf{visited}_k := \{s\}$
@@ -1375,14 +1362,13 @@ Figure \ref{algorithm:ar} shows the details of $\mathsf{ProveAR}$, which is the 
 
 
 \begin{figure}[h!]\footnotesize
-	\noindent\framebox{\parbox{.48\textwidth}{\hspace*{-0.3cm}
+	\centering
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
-				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{AR_{x,y}(\phi_1,\phi_2)(\_)}$ and
-				\State \textit{``k(s)'' to $\mathit{AR_{x,y}(\phi_1,\phi_2)(s)}$, and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
+				\State \textit{/* For notation purpose, here we refer ``k'' to $\mathit{AR_{x,y}(\phi_1,\phi_2)(\_)}$ and ``k(s)'' to $\mathit{AR_{x,y}(\phi_1,\phi_2)(s)}$,} 
+				\State \textit{and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
 				\If{$\mathsf{s\in M^f_k}$}
 				\State $\mathsf{c:=c_2^{A_2}}$
-				%				\State $\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma))}$
-				%				\State $\mathsf{M^t_k := M^t_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma))}$
 				\ElsIf{$\mathsf{s\in M^t_k}$ or $\mathsf{k(s)\in \Gamma}$}
 				\State $\mathsf{c:=c_1^{A_1}}$;
 				\Else 
@@ -1397,9 +1383,6 @@ Figure \ref{algorithm:ar} shows the details of $\mathsf{ProveAR}$, which is the 
 				\State~~~~~~~~$\mathsf{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_i)\}),}$
 				\State~~~~~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma')\cup\{s_i\}),}$
 				\State~~~~~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma')\cup\{s_i\})\}}$
-				%				\State $\mathsf{A_{20} := A_{20}\cup \{}$
-				%				\State ~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma)),}$
-				%				\State ~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma))\}}$
 				\If{$\mathsf{\Gamma = \emptyset}$}
 				\State $\mathsf{\mathsf{visited}_k := \{s\}}$
 				\Else

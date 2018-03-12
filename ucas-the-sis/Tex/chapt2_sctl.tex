@@ -1057,15 +1057,7 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 
 
 \subsection{证明搜索算法伪代码}\label{algorithm:pseducode}
-在本小节，我们来详细介绍\sctlprov{}的证明搜索算法中的数据结构及伪代码。
-
-首先，我们需要介绍\textit{公式模式}的概念：
-对于以模态词$AF$、$EG$、$AR$、$EU$开头的公式$\phi$，用$\_$来代替$\phi$中的常量后得到即为$\phi$的公式模式$\phi^-$。比如，$EU_{x,y}(\phi_1,\phi_2)(s)$的模式为$EU_{x,y}(\phi_1,\phi_2)(\_)$；$AF_x(\phi')(s')$的模式为$AF_x(\phi')(\_)$。一个公式的模式可以看作是当前公式中状态常量的上下文。
-\couic{First, let us define the notion of formula schema.
-For a \sctlm{} formula $\phi$ with modality $AF, EG, AR, $ or $EU$, a schema $\phi^-$ of $\phi$ is defined by replacing the state constant in $\phi$ by $\_$.
-For instance, the schema of the formula $EU_{x,y}(\phi_1,\phi_2)(s)$ is $EU_{x,y}(\phi_1,\phi_2)(\_)$, and the schema of the formula $AF_x(\phi')(s')$ is $AF_x(\phi')(\_)$. A formula schema can be viewed as a context of a state constant in a \sctlm{} formula.}
-
-\sctlprov{}的证明搜索算法如图\ref{appendix:algorithm:main}所示。
+在本小节，我们来详细介绍\sctlprov{}的证明搜索算法中的数据结构及伪代码。\sctlprov{}的证明搜索算法如图\ref{appendix:algorithm:main}所示。
 
 \begin{figure}[h!]
 	\footnotesize
@@ -1117,6 +1109,9 @@ For instance, the schema of the formula $EU_{x,y}(\phi_1,\phi_2)(s)$ is $EU_{x,y
 	\caption{The proof search algorithm.}
 	\label{appendix:algorithm:main}
 \end{figure}
+在解释该算法之前，我们需要介绍\textit{公式模式}的概念：
+对于以模态词$AF$、$EG$、$AR$、$EU$开头的公式$\phi$，用$\_$来代替$\phi$中的常量后得到即为$\phi$的公式模式$\phi^-$。比如，$EU_{x,y}(\phi_1,\phi_2)(s)$的模式为$EU_{x,y}(\phi_1,\phi_2)(\_)$；$AF_x(\phi')(s')$的模式为$AF_x(\phi')(\_)$。一个公式的模式可以看作是当前公式中状态常量的上下文。
+
 
 在该证明搜索算法中，
 $\mathsf{c}$是当前需要被重写的\textsf{CPT}；$\mathsf{pt}$和$\mathsf{ce}$是在证明搜索的过程构造的树结构，分别指的是证明树和反例；$\mathsf{M^t}$和$\mathsf{M^f}$记录的是，对于当前要证明的公式的每一个子公式，分别使得该子公式满足与不满足的状态的集合；$\mathsf{visited}$记录的是在对于每个以$AF$、$EG$、$AR$、$EU$开头的公式的证明过程中访问过的状态集合。
@@ -1126,23 +1121,15 @@ $\mathsf{c}$是当前需要被重写的\textsf{CPT}；$\mathsf{pt}$和$\mathsf{c
 \couic{Note that we associate a set of actions $\mathsf{A}$ to each \textsf{CPT}, such that when the \textsf{CPT} is to be rewritten, every action in $\mathsf{A}$ is performed. The purpose of associating actions to \textsf{CPT}s is to help construct the proof tree or counterexample, and update $\mathsf{M^t}$ and $\mathsf{M^f}$.
 Initially, we associate an empty set to each of the \textsf{CPT}s $\textsf{cpt}(\vdash\phi,\mathfrak{t},\mathfrak{f})$, $\mathfrak{t}$, and $\mathfrak{f}$.}
 
-另外需要注意的是，
-Note also that $\mathsf{M^t}$, $\mathsf{M^f}$, and $\mathsf{visited}$ are explained as hash tables. In fact,each of these global variables remembers a set of states for each formula schema. Thus, a formula schema is a key, and a set of states is a value to these 3 hash tables. We denote, for instance, $\mathsf{M^t_{EG_{x}(\phi)(\_)}}$ to the set of states $S$ such that $\forall s\in S$, $EG_{x}(\phi)(s)$ is provable; $\mathsf{M^f_{EG_{x}(\phi)(\_)}}$ to the set of states $S$ such that $\forall s\in S$, $EG_{x}(\phi)(s)$ is not provable; and finally, $\mathsf{visited_{EG_x(\phi)(\_)}}$ to the set of states $S$ such that $\forall s\in S$, $EG_x(\phi)(s)$ has been visited in the proof search.
-
-The ``while'' loop in the function is to repeatedly rewrite the \textsf{CPT} $\mathsf{c}$, until $\mathfrak{t}$ or $\mathfrak{f}$ is reached. The return value of the function is a pair consisting of a Boolean result, and a proof tree (or counterexample). 	
+另外需要注意的是，该算法中，三个全局变量$\mathsf{M^t}$、$\mathsf{M^f}$、$\mathsf{visited}$的值都是哈希表。实际上，这三个全局变量都是对于每个公式模式记录一个状态集合，因此，$\mathsf{M^t}$、$\mathsf{M^f}$、$\mathsf{visited}$均可看作是以公式模式为键，以状态集合为值的哈希表。在该算法中，$\mathsf{M^t_{EG_{x}(\phi)(\_)}}$用来表示一个状态集合$S$，其中$\forall s\in S$，$EG_{x}(\phi)(s)$是可证的；$\mathsf{M^f_{EG_{x}(\phi)(\_)}}$用来表示一个集合$S$，其中$\forall s\in S$，$EG_{x}(\phi)(s)$是不可证的；$\mathsf{visited_{EG_x(\phi)(\_)}}$用来表示一个集合$S$，其中$\forall s\in S$， $s$在证明以$EG_x(\phi)(\_)$为模式的公式的过程中已被访问过。
 
 
+该算法中的“while”循环的作用是重复重写\CPT{} $\mathsf{c}$，直到重写到$\mathfrak{t}$或$\mathfrak{f}$。该算法的返回值是一个由一个布尔值和一棵树组成的二元组，布尔值表示要验证的公式的满足与否，树则表示此公式的证明树或者反例。
 
 
-In the proof search algorithm, the rewriting steps for the cases where $\phi$ is an atomic formula or the negation of a atomic formula is presented, and the explanation for other cases are presented separately in the following Subsections.
-\subsubsection{$\mathsf{ProveAnd}$ and $\mathsf{ProveOr}$}
-The proof search for conjunction formulae is depicted in Figure \ref{algorithm:and}, where $\mathsf{ac (t, parent, children)}$ represents the operation of adding each element in $\mathsf{children}$ as a child to the node $\mathsf{parent}$ in the tree $\mathsf{t}$. The algorithm for $\mathsf{ProveAnd}$ can be explained as follows.
-
-\begin{itemize}
-	\item Line 4: When $\mathsf{c_1}$ is reached from $\mathsf{c'}$ in the future steps, both $\vdash\phi_1$ and $\vdash\phi_2$ are provable, then both $\vdash\phi_1$ and $\vdash\phi_2$ should be added as children of $\vdash\phi_1\wedge\phi_2$ in the proof tree (Line 1). Otherwise, if either of the inner or outer $\mathsf{c_2}$ is reached from $\mathsf{c'}$, then the unprovability of either $\vdash\phi_1$ (Line 2) or $\vdash\phi_2$ (Line 3) is added as the evidence of negating $\vdash\phi_1\wedge\phi_2$ in the counterexample.
-	\item Line 5: Rewrite $\mathsf{c}$ to $\mathsf{c'}$.
-\end{itemize}
-
+该算法中，\CPT{}的重写方式由公式$\phi$的形状决定，其中$\phi$为原子公式和原子公式的非的情况在算法主体（表\ref{appendix:algorithm:main}）中给出，对于$\phi$的更复杂的情况，我们在接下来的小节中依次加以讨论。
+\couic{In the proof search algorithm, the rewriting steps for the cases where $\phi$ is an atomic formula or the negation of a atomic formula is presented, and the explanation for other cases are presented separately in the following Subsections.}
+\subsubsection{$\mathsf{ProveAnd}$和$\mathsf{ProveOr}$}
 \begin{figure}[h!]\footnotesize
 	\centering
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
@@ -1158,7 +1145,15 @@ The proof search for conjunction formulae is depicted in Figure \ref{algorithm:a
 	\caption{$\mathsf{ProveAnd (\vdash\phi_1\wedge\phi_2})$}
 	\label{algorithm:and}
 \end{figure}
-Figure \ref{algorithm:or} shows the details of $\mathsf{ProveOr}$, which is the dual case of $\mathsf{ProveAnd}$.
+该算法中合取公式的证明搜索如图\ref{algorithm:and}所示，其中$\mathsf{ac (t, parent, children)}$表示将$\mathsf{children}$的每个元素都作为证明树$\mathsf{t}$上$\mathsf{parent}$的子节点。$\mathsf{ProveAnd}$的解释如下：
+
+\begin{itemize}
+	\item 第4行：当从$\mathsf{c'}$重写到$\mathsf{c_1}$时，由于$\vdash\phi_1$和$\vdash\phi_2$均可证，那么将$\vdash\phi_1$和$\vdash\phi_2$都加在证明树中作为$\vdash\phi_1\wedge\phi_2$的子节点（第1行）。否则，当从$\mathsf{c'}$重写到外部的$\mathsf{c_2}$或内部的$\mathsf{c_2}$时，由于$\vdash\phi_1$或$\vdash\phi_2$是不可证的，这时将$\vdash\phi_1$或$\vdash\phi_2$加到反例中作为$\vdash\phi_1\wedge\phi_2$的子节点（第2、3行）。
+	\item 第5行: 将$\mathsf{c}$重写到$\mathsf{c'}$。
+\end{itemize}
+
+
+$\mathsf{ProveOr}$是$\mathsf{ProveAnd}$的对偶情况，算法细节如图\ref{algorithm:or}所示。
 \begin{figure}[h!]\footnotesize
 	\centering
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
@@ -1177,9 +1172,7 @@ Figure \ref{algorithm:or} shows the details of $\mathsf{ProveOr}$, which is the 
 
 
 
-\subsubsection{$\mathsf{ProveEX}$ and $\mathsf{ProveAX}$}
-In the case of $\mathsf{ProveEX}$, we let $\{s_1,...,s_n\}=\textsf{Next}(s)$, and the algorithm for this case is depicted in Figure \ref{algorithm:ex}. The analysis is analogous to that of Figure \ref{algorithm:and}, except that in Line 5 and Line 6, when $\mathsf{c'}$ rewrites to the $i$th $\mathsf{c_1}$ in the future steps, then $\mathsf{\vdash (s_i/x)\phi_1}$ should be added as the children of $\mathsf{\vdash EX_x(\phi_1)(s)}$ in the proof tree (Line 4), and otherwise, when $\mathsf{c'}$ rewrites to $\mathsf{c_2}$, then $\mathsf{\vdash (s_1/x)\phi_1}, ... , \mathsf{\vdash (s_n/x)\phi_1}$ should be added as the children of $\mathsf{\vdash EX_x(\phi_1)(s)}$ in the counterexample (Line 3).
-
+\subsubsection{$\mathsf{ProveEX}$和$\mathsf{ProveAX}$}
 
 \begin{figure}[h!]\footnotesize
 	\centering
@@ -1197,8 +1190,11 @@ In the case of $\mathsf{ProveEX}$, we let $\{s_1,...,s_n\}=\textsf{Next}(s)$, an
 	\caption{$\mathsf{ProveEX (\vdash EX_x(\phi_1)(s))}$}
 	\label{algorithm:ex}
 \end{figure}
+$\mathsf{ProveEX}$的算法细节如图\ref{algorithm:ex}所示，其中令$\{s_1,...,s_n\}=\textsf{Next}(s)$。$\mathsf{ProveEX}$与$\mathsf{ProveAnd}$的分析过程类似，不同点在于第4、5行，当$\mathsf{c'}$重写到第$i$个$\mathsf{c_1}$的时候，$\mathsf{\vdash (s_i/x)\phi_1}$应该作为$\mathsf{\vdash EX_x(\phi_1)(s)}$的子节点被加入到证明树中（第3行）；相反，当$\mathsf{c'}$重写到$\mathsf{c_2}$的时候，$\mathsf{\vdash (s_1/x)\phi_1}, ... , \mathsf{\vdash (s_n/x)\phi_1}$ 都应该作为$\mathsf{\vdash EX_x(\phi_1)(s)}$的子节点被加入到反例中（第2行）。
 
-Figure \ref{algorithm:ax} shows the details of $\mathsf{ProveAX}$, which is the dual case of $\mathsf{ProveEX}$.
+
+
+$\mathsf{ProveAX}$是$\mathsf{ProveEX}$的对偶情况，算法细节如图\ref{algorithm:ax}所示。
 \begin{figure}[h!]\footnotesize
 	\centering
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
@@ -1217,23 +1213,6 @@ Figure \ref{algorithm:ax} shows the details of $\mathsf{ProveAX}$, which is the 
 \end{figure}
 
 \subsubsection{$\mathsf{ProveEG}$ and $\mathsf{ProveAF}$}
-The algorithm for the $\mathsf{ProveEG}$ case is depicted in Figure \ref{algorithm:eg}, where $\mathsf{states(\Gamma)}$ represents the set of states that appear in $\mathsf{\Gamma}$. In this case, we let $\{s_1,...,s_n\}=\textsf{Next}(s)$.
-The algorithm for $\mathsf{ProveEG}$ is explained as follows.
-\begin{itemize}
-	\item Line 3 -- 4: If $\mathsf{EG_x(\phi_1)(s)}$ has been negated, then just rewrite $\mathsf{c}$ to $\mathsf{c_2}$.
-	\item Line 5 -- 8: If $\mathsf{EG_x(\phi_1)(s)}$ has been proved, or a merge rule is applied, then rewrite $\mathsf{c}$ to $\mathsf{c_1}$, and every formula in $\mathsf{\Gamma}$ is provable and its corresponding state is thus added to $\mathsf{M_{EG_x(\phi_1)(\_)}^t}$. Besides, since states are visited in a depth-first manner, every visited state should be added into $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$ except those in $\mathsf{\Gamma}$.
-	\item Line 21 -- 22: The \textsf{CPT} $\mathsf{c'}$ is constructed with the following information integrated into $\mathsf{c'}$.
-	\begin{enumerate}
-		\item If $\mathsf{c'}$ rewrites to the outer $\mathsf{c_2}$ in the future steps, then $\mathsf{\vdash(s/x)\phi_1}$ is not provable, and thus $\mathsf{\vdash(s/x)\phi_1}$ will be added as the evidence of negating $\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$ in the counterexample (Line 10). 
-		At the same time, if $\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$ is not provable, then there exists no infinite path starting from $s$ such that all states in the path satisfy $\phi_1$. In this case, we add $s$ into $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$ (Line 19 -- 20).
-		
-		\couic{If, at the same time, $\Gamma$ is  $\emptyset$, then all visited states should be added into $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$ since $\mathsf{\textsf{cpt}(\vdash EG_x(\phi_1)(s), c_1, c_2)\rsa^*c_2}$ indicates that all visited $EG$ formulae during the rewriting are not provable (Line 16 -- 17).}
-		\item If $\mathsf{c'}$ rewrites to the inner $\mathsf{c_2}$, then $\mathsf{\Gamma'\vdash EG_x(\phi_1)(s_1)}, ... , \mathsf{\Gamma'\vdash EG_x(\phi_1)(s_n)}$ are all added as the evidence of negating $\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$ in the counterexample (Line 11).
-		\item If $\mathsf{c'}$ rewrites to the $i$th $\mathsf{c_1}$, then both $\mathsf{\vdash(s/x)\phi_1}$ and $\mathsf{\Gamma'\vdash EG_x(\phi_1)(s_i)}$ are provable, and thus should be added as the evidence of proving $\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$ in the proof tree (Line 12 -- 13). 
-	\end{enumerate}
-	\item Line 23: Rewrite $\mathsf{c}$ to $\mathsf{c'}$.
-\end{itemize}
-
 
 \begin{figure}[h!]\footnotesize
 	\centering
@@ -1244,24 +1223,24 @@ The algorithm for $\mathsf{ProveEG}$ is explained as follows.
 				\If{$\mathsf{s\in M^f_k}$}
 				\State $\mathsf{c:=c_2^{A_2}}$
 				
-				\ElsIf{$\mathsf{s\in M^t_k}$ or $\mathsf{k(s)\in \Gamma}$}
+				\ElsIf{$\mathsf{s\in M^t_k}$ or $\mathsf{k(s)\in} \;\Gamma$}
 				\State $\mathsf{c:=c_1^{A_1}}$
-				\State $\mathsf{M^t_k := M^t_k \cup \mathsf{states}(\Gamma)}$
-				\State $\mathsf{M^f_k := M^f_k \cup \mathsf{visited}_{k}\setminus\mathsf{states}(\Gamma)}$
+				\State $\mathsf{M^t_k := M^t_k \cup \mathsf{states}(}\Gamma)$
+				\State $\mathsf{M^f_k := M^f_k \cup \mathsf{visited}_{k}\setminus\mathsf{states}(}\Gamma)$
 				\Else 
-				\State let $\mathsf{A_{20}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\vdash(s/x)\phi_1\})\}}$
-				\State let $\mathsf{A_{2n}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_1),...,\Gamma'\vdash k(s_n)\})\}}$
+				\State let $\mathsf{A_{20}=A_2\cup\{\mathsf{ac}(ce,}\;\Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1\})\}}$
+				\State let $\mathsf{A_{2n}=A_2\cup\{\mathsf{ac}(ce,}\;\Gamma\;\mathsf{\vdash k(s),\{}\Gamma'\;\mathsf{\vdash k(s_1),...,} \;\Gamma'\;\mathsf{\vdash k(s_n)\})\}}$
 				\State $\mathsf{\forall i\in\{1,...,n\}}$, let 
-				\State ~~~~$\mathsf{A_{1i}=A_1\cup\{\mathsf{ac}(pt, \Gamma\vdash k(s),\{\vdash(s/x)\phi_1, \Gamma\vdash k(s_i)\})\}}$
+				\State ~~~~$\mathsf{A_{1i}=A_1\cup\{\mathsf{ac}(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1,}\; \Gamma'\;\mathsf{\vdash k(s_i)\})\}}$
 				%				\State ~~$\mathsf{A_{2i}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_1),...,\Gamma'\vdash k(s_i)\})\}}$
-				\If{$\mathsf{\Gamma = \emptyset}$}
+				\If{$\Gamma = \mathsf{\emptyset}$}
 				\State $\mathsf{\mathsf{visited}_k := \{s\}}$
 				\Else
 				\State $\mathsf{\mathsf{visited}_k := \mathsf{visited}_k\cup\{s\}}$
 				\EndIf
 				\State $\mathsf{A_{20}:=A_{20} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$;
 				\State $\mathsf{A_{2n}:=A_{2n} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$;
-				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1, \textsf{cpt}^\emptyset(\Gamma'\vdash k(s_1), c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset({\Gamma}'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}})}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1, \textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_1), c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}})}$
 				\State $\mathsf{c := c'}$
 				
 				\EndIf
@@ -1271,7 +1250,7 @@ The algorithm for $\mathsf{ProveEG}$ is explained as follows.
 	\caption{$\mathsf{ProveEG (\Gamma\vdash EG_x(\phi_1)(s))}$ }
 	\label{algorithm:eg}
 \end{figure}
-Figure \ref{algorithm:af} shows the details of $\mathsf{ProveAF}$, which is the dual case of $\mathsf{ProveEG}$.
+
 \begin{figure}[h!]\footnotesize
 	\centering
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
@@ -1281,15 +1260,15 @@ Figure \ref{algorithm:af} shows the details of $\mathsf{ProveAF}$, which is the 
 				\If{$\mathsf{s\in M^t_k}$}
 				\State $\mathsf{c:=c_1^{A_1}}$
 				
-				\ElsIf{$\mathsf{s\in M^f_k}$ or $\mathsf{k(s)\in \Gamma}$}
+				\ElsIf{$\mathsf{s\in M^f_k}$ or $\mathsf{k(s)\in} {\;\Gamma}$}
 				\State $\mathsf{c:=c_2^{A_2}}$
-				\State $\mathsf{M^f_k := M^f_k \cup \mathsf{states}(\Gamma)}$
-				\State $\mathsf{M^t_k := M^t_k \cup \mathsf{visited}_k\setminus\mathsf{states}(\Gamma)}$
+				\State $\mathsf{M^f_k := M^f_k \cup \mathsf{states}(}\Gamma)$
+				\State $\mathsf{M^t_k := M^t_k \cup \mathsf{visited}_k\setminus\mathsf{states}(}\Gamma)$
 				\Else 
-				\State let $\mathsf{A_{10}=A_1\cup\{\mathsf{ac}(pt, \vdash k(s),\{\vdash(s/x)\phi_1\})\})\}}$
-				\State let $\mathsf{A_{1n}=A_1\cup\{\mathsf{ac}(pt, \vdash k(s),\{\vdash k(s_1),...,\vdash k(s_n)\})\}}$
+				\State let $\mathsf{A_{10}=A_1\cup\{\mathsf{ac}(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1\})\})\}}$
+				\State let $\mathsf{A_{1n}=A_1\cup\{\mathsf{ac}(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{}\Gamma'\;\mathsf{\vdash k(s_1),...,}\;\Gamma'\;\mathsf{\vdash k(s_n)\})\}}$
 				\State $\mathsf{\forall i\in\{1,...,n\}}$, let
-				\State~~~~ $\mathsf{A_{2i}=A_2\cup\{\mathsf{ac}(ce, \vdash k(s),\{\vdash(s/x)\phi_1, \vdash k(s_i)\})\}}$
+				\State~~~~ $\mathsf{A_{2i}=A_2\cup\{\mathsf{ac}(ce,}\;\Gamma\; \mathsf{\vdash k(s),\{\vdash(s/x)\phi_1,}\;\Gamma'\;\mathsf{\vdash k(s_i)\})\}}$
 				\If{$\mathsf{\Gamma = \emptyset}$}
 				\State $\mathsf{\mathsf{visited}_k := \{s\}}$
 				\Else
@@ -1297,39 +1276,37 @@ Figure \ref{algorithm:af} shows the details of $\mathsf{ProveAF}$, which is the 
 				\EndIf
 				\State $\mathsf{A_{10}:=A_{10} \cup \{M^t_k:= M^t_k\cup \{s\}\}}$
 				\State $\mathsf{A_{1n}:=A_{1n} \cup \{M^t_k:= M^t_k\cup  \{s\}\}}$;
-				\State let $\mathsf{c'= \textsf{cpt}^{\emptyset}(\vdash(s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^{\emptyset}(\Gamma'\vdash k(s_1), \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}}))}$
+				\State let $\mathsf{c'= \textsf{cpt}^{\emptyset}(\vdash(s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^{\emptyset}(}\Gamma'\;\mathsf{\vdash k(s_1), \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}}))}$
 				\State $\mathsf{c := c'}$
 				\EndIf
 				
 			\end{algorithmic}
 	}}
-	\caption{$\mathsf{ProveAF (\Gamma\vdash AF_x(\phi_1)(s))}$}
+	\caption{$\mathsf{ProveAF (}\Gamma\;\mathsf{\vdash AF_x(\phi_1)(s))}$}
 	\label{algorithm:af}
 \end{figure}
 
-\subsubsection{$\mathsf{ProveEU}$ and $\mathsf{ProveAR}$}
-The $EU$ case is more complex than the $EG$ case. The reason is that the latter case terminates when a cycle is detected, while former case does not terminate after detecting a number of cycles, until a non-cycle that satisfies a certain condition is detected. The algorithm of performing proof search for the $EU$ case is depicted in Figure \ref{algorithm:eu} and explained as follows. 
-In this case, we let $\{s_1,...,s_n\}=\textsf{Next}(s)$.
-In the algorithm, we use $\mathsf{reachable(S)}$ to denote the set of visited states which are reachable to some state in $\mathsf{S}$.
-\couic{The algorithm for $\mathsf{ProveEU}$ is explained as follows.}
+$\mathsf{ProveEG}$的算法细节如图\ref{algorithm:eg}所示，其中，$\mathsf{states(\Gamma)}$表示$\mathsf{\Gamma}$中出现的状态，并且令$\{s_1,...,s_n\}=\textsf{Next}(s)$。
+$\mathsf{ProveEG}$的解释如下：
 \begin{itemize}
-	\item Line 3 -- 4: If $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$ has been proved, then just rewrite $\mathsf{c}$ to $\mathsf{c_1}$. 
-	\item Line 5 -- 6: If $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$ has been negated, or a merge rule is applied, then just rewrite $\mathsf{c}$ to $\mathsf{c_2}$.
-	\item Line 26 -- 27: The \textsf{CPT} $\mathsf{c'}$ is constructed with the following information integrated into $\mathsf{c'}$.
+	\item 第3、4行： 如果已知$\mathsf{EG_x(\phi_1)(s)}$是不可证的，那么将$\mathsf{c}$重写到$\mathsf{c_2}$。
+	\item 第5 -- 8行：如果已知$\mathsf{EG_x(\phi_1)(s)}$是可证的，或者可应用merge规则，那么将$\mathsf{c}$重写到$\mathsf{c_1}$，同时，由于$\mathsf{\Gamma}$中的每个公式都是可证的，因此将$\mathsf{\Gamma}$中出现的所有状态加入到$\mathsf{M_{EG_x(\phi_1)(\_)}^t}$中。
+	另外，由于状态的访问是深度优先的，因此将所有的访问过的除了在$\mathsf{\Gamma}$出现的状态之外都加入集合$\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中。
+	\item 第21行： \textsf{CPT} $\mathsf{c'}$的构造方式如下：
 	\begin{enumerate}
-		\item If $\mathsf{c'}$ rewrites to the first $\mathsf{c_1}$, then $\mathsf{\vdash(s/y)\phi_2}$ should be added to the proof tree as the evidence of proving $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ (Line 9). At the same time, if $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$ is provable, then $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s')}$ is also provable for each $\mathsf{s'}$ that is visited and also reachable to $\mathsf{s}$. Thus, the set of states $\mathsf{reachable(states(\Gamma)\cup\{s\})}$ are added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$ (Line 10). Each state $\mathsf{s'}$ in $\mathsf{reachable(states(\Gamma)\cup\{s\})}$ is either in $\mathsf{states(\Gamma)\cup\{s\}}$, or in cycles which overlap with $\mathsf{states(\Gamma)\cup\{s\}}$ in some states. The set $\mathsf{reachable(states(\Gamma)\cup\{s\})}$ can thus be calculated on-the-fly by remembering all visited cycles and then selecting the ones overlap with states in $\mathsf{states(\Gamma)\cup\{s\}}$. Finally, we add every visited state into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$, and remove those reachable to some state in $\mathsf{states(\Gamma)\cup\{s\}}$ (Line 11).
-		\item If $\mathsf{c'}$ rewrites to the $i$th other $\mathsf{c_1}$, then $\mathsf{\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_i)}$ is added into the proof tree as one of the children of $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ (Line 16). At the same time, all states in $\mathsf{reachable(states(\Gamma')\cup\{s_i\})}$ should be added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$ (Line 17), all visited states are added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$, and remove those reachable to some state in $\mathsf{states(\Gamma')\cup\{s_i\}}$ from $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ (Line 18). 
+		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash(s/x)\phi_1}$是不可证的，因此将$\mathsf{\vdash(s/x)\phi_1}$作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加到反例中（第10行）。另外，如果$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$是不可证的，那么不存在以$s$开头的无穷路径使得该路径上的所有状态都满足$\phi_1$，在这种情况下，我们将$s$加入到 $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中（第19、20行）。
 		
-		\item If $\mathsf{c'}$ rewrites to the outer $\mathsf{c_2}$, then both $\mathsf{\vdash (s/x)\phi_1}$ and $\mathsf{\vdash (s/y)\phi_2}$ should be added to the counterexample as the children of $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ (Line 12).
-		\item If $\mathsf{c'}$ rewrites to the inner $\mathsf{c_2}$, then $\mathsf{\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_1)},...,\mathsf{\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_n)}$ should all be added to the counterexample as the children of $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ (Line 13).
-		\item If $\mathsf{\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$ is not provable, then add $s$ to $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ in order to avoid visiting $\mathsf{s}$ repeatedly in the following steps (Line 24 -- 25). Note that $\mathsf{s}$ may be removed from $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ (Line 11 and Line 18). This occurs only when $\mathsf{\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s')}$ is provable for some $\mathsf{\Gamma'}$ and $\mathsf{s'}$, $\mathsf{\vdash (s'/y)\phi_2}$ is provable, and $\mathsf{s\in reachable(states(\Gamma')\cup \{s'\})}$. 
-		
-		\couic{If $\Gamma$ is $\emptyset$, and there exist the following rewriting steps $\mathsf{\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1, c_2) \rsa^* c_2}$, then for each visited state $s'$ during these rewriting steps, $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s')}$ is not provable. Thus, all visited states should be added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ when $\mathsf{c'}$ finally rewrites to $\mathsf{c_2}$ (Line 21 -- 22).}
+		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_1)}, ... , \Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_n)}$都是不可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加入到反例中（第11行）。
+		\item 如果$\mathsf{c'}$重写到第$i$个$\mathsf{c_1}$，那么$\mathsf{\vdash(s/x)\phi_1}$和$\mathsf{\Gamma'\vdash EG_x(\phi_1)(s_i)}$都是可证的，因此将其都作为$\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$的子节点加入到证明树中（第12、13行）。 
 	\end{enumerate}
-	\item Line 28: Rewrite $\mathsf{c}$ to $\mathsf{c'}$. 
+	\item 第22行：将$\mathsf{c}$重写到$\mathsf{c'}$。
 \end{itemize}
 
-Figure \ref{algorithm:ar} shows the details of $\mathsf{ProveAR}$, which is the dual case of $\mathsf{ProveEU}$.
+
+$\mathsf{ProveAF}$是$\mathsf{ProveEG}$的对偶情况，算法细节如图\ref{algorithm:af}所示。
+
+
+\subsubsection{$\mathsf{ProveEU}$和$\mathsf{ProveAR}$}
 
 \begin{figure}[h!]\footnotesize
 	\centering
@@ -1344,30 +1321,30 @@ Figure \ref{algorithm:ar} shows the details of $\mathsf{ProveAR}$, which is the 
 				\Else 
 				\State let $\mathsf{A_{10}=A_1\cup\{}$
 				\State~~~~$\mathsf{ac(pt, \Gamma\vdash k(s),\{\vdash(s/y)\phi_2\}),}$
-				\State~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma)\cup \{s\}),}$
-				\State ~~~~$\mathsf{M^f_k := (M^f_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(\Gamma)\cup \{s\})}$
-				\State let $\mathsf{A_{20}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\vdash(s/x)\phi_1, \vdash(s/y)\phi_2\})\}}$
-				\State let $\mathsf{A_{2n}=A_2\cup\{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_1),...,\Gamma'\vdash k(s_n)\})\}}$
+				\State~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup \{s\}),}$
+				\State ~~~~$\mathsf{M^f_k := (M^f_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup \{s\})}$
+				\State let $\mathsf{A_{20}=A_2\cup\{\mathsf{ac}(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1, \vdash(s/y)\phi_2\})\}}$
+				\State let $\mathsf{A_{2n}=A_2\cup\{\mathsf{ac}(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{}\Gamma'\;\mathsf{\vdash k(s_1),...,}\;\Gamma'\;\mathsf{\vdash k(s_n)\})\}}$
 				\State $\mathsf{\forall i\in\{1,...,n\}}$ , let 
 				\State ~~~~$\mathsf{A_{1i}=A_1\cup\{}$
-				\State~~~~~~~~$\mathsf{ac(pt, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_i)\}),}$
-				\State~~~~~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma')\cup \{s_i\}),}$
-				\State~~~~~~~~$\mathsf{M^f_k := (M^f_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(\Gamma')\cup \{s_i\})\}}$
-				\If{$\mathsf{\Gamma = \emptyset}$}
+				\State~~~~~~~~$\mathsf{ac(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{}\Gamma'\;\mathsf{\vdash k(s_i)\}),}$
+				\State~~~~~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(}\Gamma'\mathsf{)\cup \{s_i\}),}$
+				\State~~~~~~~~$\mathsf{M^f_k := (M^f_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(}\Gamma'\mathsf{)\cup \{s_i\})\}}$
+				\If{$\Gamma\; \mathsf{= \emptyset}$}
 				
-				\State $\mathsf{visited}_k := \{s\}$
+				\State $\mathsf{visited_k := \{s\}}$
 				\Else
 				\State $\mathsf{\mathsf{visited}_k := \mathsf{visited}_k\cup\{s\}}$
 				\EndIf
 				\State $\mathsf{A_{20}:=A_{20} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$
 				\State $\mathsf{A_{2n}:=A_{2n} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$
-				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/y)\phi_2, c_1^{A_{10}}, \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1,\textsf{cpt}^\emptyset(\Gamma'\vdash k(s_1), }$
-				\State $~~~~\mathsf{c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}}))}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/y)\phi_2, c_1^{A_{10}}, \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1,\textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_1), }$
+				\State $~~~~\mathsf{c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}}))}$
 				\State $\mathsf{c := c'}$
 				\EndIf
 			\end{algorithmic}
 	}}
-	\caption{$\mathsf{ProveEU (\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s))}$}
+	\caption{$\mathsf{ProveEU (}\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s))}$}
 	\label{algorithm:eu}
 \end{figure}
 
@@ -1380,20 +1357,20 @@ Figure \ref{algorithm:ar} shows the details of $\mathsf{ProveAR}$, which is the 
 				\State \textit{and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
 				\If{$\mathsf{s\in M^f_k}$}
 				\State $\mathsf{c:=c_2^{A_2}}$
-				\ElsIf{$\mathsf{s\in M^t_k}$ or $\mathsf{k(s)\in \Gamma}$}
+				\ElsIf{$\mathsf{s\in M^t_k}$ or $\mathsf{k(s)\in}\; \Gamma$}
 				\State $\mathsf{c:=c_1^{A_1}}$;
 				\Else 
-				\State let $\mathsf{A_{10}=A_1\cup\{\mathsf{ac}(pt, \Gamma\vdash k(s),\{\vdash(s/x)\phi_1,\vdash(s/y)\phi_2\})\}}$
-				\State let $\mathsf{A_{1n}=A_1\cup\{\mathsf{ac}(pt, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_1),...,\Gamma'\vdash k(s_n)\})\}}$
+				\State let $\mathsf{A_{10}=A_1\cup\mathsf{ac}(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1,\vdash(s/y)\phi_2\})\}}$
+				\State let $\mathsf{A_{1n}=A_1\cup\{\mathsf{ac}(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{}\;\Gamma'\;\mathsf{\vdash k(s_1),...,}\;\Gamma'\;\mathsf{\vdash k(s_n)\})\}}$
 				\State let $\mathsf{A_{20}=A_2\cup\{}$
-				\State~~~~$\mathsf{ac(ce, \Gamma\vdash k(s),\{\vdash(s/y)\phi_2\}),}$
-				\State ~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma)\cup \{s\}),}$
-				\State ~~~~$\mathsf{M^t_k := (M^t_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(\Gamma)\cup\{s\})}$
+				\State~~~~$\mathsf{ac(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/y)\phi_2\}),}$
+				\State ~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup \{s\}),}$
+				\State ~~~~$\mathsf{M^t_k := (M^t_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup\{s\})}$
 				\State $\mathsf{\forall i\in\{1,...,n\}}$, let 
 				\State ~~~~$\mathsf{A_{2i}=A_2\cup\{}$
-				\State~~~~~~~~$\mathsf{\mathsf{ac}(ce, \Gamma\vdash k(s),\{\Gamma'\vdash k(s_i)\}),}$
-				\State~~~~~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(\Gamma')\cup\{s_i\}),}$
-				\State~~~~~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{visited}_k\setminus \mathsf{reachable}(\mathsf{states}(\Gamma')\cup\{s_i\})\}}$
+				\State~~~~~~~~$\mathsf{\mathsf{ac}(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1,}\;\Gamma'\;\mathsf{\vdash k(s_i)\}),}$
+				\State~~~~~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(}\Gamma'\mathsf{)\cup\{s_i\}),}$
+				\State~~~~~~~~$\mathsf{M^t_k := (M^t_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(}\Gamma'\mathsf{)\cup\{s_i\})\}}$
 				\If{$\mathsf{\Gamma = \emptyset}$}
 				\State $\mathsf{\mathsf{visited}_k := \{s\}}$
 				\Else
@@ -1401,36 +1378,57 @@ Figure \ref{algorithm:ar} shows the details of $\mathsf{ProveAR}$, which is the 
 				\EndIf
 				\State $\mathsf{A_{10}:=A_{10} \cup \{M^t_k:= M^t_k\cup \{s\}\}}$
 				\State $\mathsf{A_{1n}:=A_{1n} \cup \{M^t_k:= M^t_k\cup \{s\}\}}$
-				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/y)\phi_2, \textsf{cpt}^\emptyset(\vdash (s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^\emptyset(\Gamma'\vdash k(s_1), }$
-				\State ~~~~$\mathsf{\textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(\Gamma'\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}})), c_2^{A_{20}})}$
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/y)\phi_2, \textsf{cpt}^\emptyset(\vdash (s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_1), }$
+				\State ~~~~$\mathsf{\textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}})), c_2^{A_{20}})}$
 				\State $\mathsf{c := c'}$
 				
 				\EndIf
 				
 			\end{algorithmic}
 	}}
-	\caption{$\mathsf{ProveAR (\Gamma\vdash AR_{x,y}(\phi_1,\phi_2)(s))}$}
+	\caption{$\mathsf{ProveAR (}\Gamma\;\mathsf{\vdash AR_{x,y}(\phi_1,\phi_2)(s))}$}
 	\label{algorithm:ar}
 \end{figure}
+$\mathsf{ProveEU}$的算法细节要比$\mathsf{ProveEG}$更加复杂。原因是，对于后者我们只需找到一个满足某个公式的环即可，而对于前者我们需要找到一条终点状态满足某公式的有穷路径，而且在找到这条路径之前可能已访问若干个环。$\mathsf{ProveEU}$的算法细节如图\ref{algorithm:eu}所示。
+在$\mathsf{ProveEG}$中，我们令$\{s_1,...,s_n\}=\textsf{Next}(s)$；
+令$\mathsf{reachable(S)}$表示能经过有穷路径到达$\mathsf{S}$的某个状态的状态集合。$\mathsf{ProveEU}$的解释如下：
+\begin{itemize}
+	\item 第3、4行： 如果$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$是可证的，那么将$\mathsf{c}$重写到$\mathsf{c_1}$。
+	\item 第5、6行：如果$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$是不可证的，或者$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)\in}\;\Gamma$，那么将$\mathsf{c}$重写到$\mathsf{c_2}$。
+	\item 第26、27行：\textsf{CPT} $\mathsf{c'}$的构造方式如下：
+	\begin{enumerate}
+		\item 如果$\mathsf{c'}$将来能重写到第一个$\mathsf{c_1}$，那么$\mathsf{\vdash(s/y)\phi_2}$是可证的，因此将其作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加到证明树中（第9行）。与此同时，由于$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$是可证的，那么对于任意访问过的状态$s'$，如果存在以$s'$为起点的有穷路径而$s$在这条路径上，那么$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s')}$也是可证的。因此，可将状态集合$\mathsf{reachable(states(}\Gamma\mathsf{)\cup\{s\})}$中的所有状态加入到 $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$中（第10行）。每个$\mathsf{reachable(states(}\Gamma\mathsf{)\cup\{s\})}$中的状态$\mathsf{s'}$或者在 $\mathsf{states(}\Gamma\mathsf{)\cup\{s\}}$中，或者在与 $\mathsf{states(}\Gamma\mathsf{)\cup\{s\}}$重叠的某个环上。因此，通过记录并选取与$\mathsf{states(}\Gamma\mathsf{)\cup\{s\}}$重叠的所有的环，就可以计算状态集合 $\mathsf{reachable(states(}\Gamma\mathsf{)\cup\{s\})}$了。然后，我们将所有被访问过的状态加入到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中，然后去掉可经过有穷路径到达$\mathsf{states(}\Gamma\mathsf{)\cup\{s\}}$中某个状态的状态（第11行）。
+		\item 如果$\mathsf{c'}$能重写到第$i$个其他的$\mathsf{c_1}$，那么$\vdash(s/x)\phi_1$和 $\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_i)}$是可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到证明树中（第16行）。与此同时，$\mathsf{reachable(states(}\Gamma'\mathsf{)\cup\{s_i\})}$中的所有状态都应加到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$中（第17行）；所有被访问过的状态都加到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中并且去掉可经过有穷路径到达$\mathsf{states(}\Gamma'\mathsf{)\cup\{s_i\}}$中某个状态的状态（第18行）。 
+		
+		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash (s/x)\phi_1}$和$\mathsf{\vdash (s/y)\phi_2}$是不可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第12行）。
+		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_1)},...,\;\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_n)}$都是不可证的，因此将其全部作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第13行）。
+		\item 如果$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$是不可证的，那么将$s$加入到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中，并以此在对这个$EU$公式的证明搜索中避免重复访问$\mathsf{s}$（第24、25行）。值得注意的是$\mathsf{s}$可从$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$被移除（第11 -- 18行）。这种情况只当存在${\Gamma'}$和$\mathsf{s'}$使得$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s')}$是可证的，$\mathsf{s'}$, $\mathsf{\vdash (s'/y)\phi_2}$是可证的，以及$\mathsf{s\in reachable(states(}\Gamma'\mathsf{)\cup \{s'\})}$的时候发生。
+		
+		\couic{If $\Gamma$ is $\emptyset$, and there exist the following rewriting steps $\mathsf{\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1, c_2) \rsa^* c_2}$, then for each visited state $s'$ during these rewriting steps, $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s')}$ is not provable. Thus, all visited states should be added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ when $\mathsf{c'}$ finally rewrites to $\mathsf{c_2}$ (Line 21 -- 22).}
+	\end{enumerate}
+	\item 第28行：将$\mathsf{c}$重写到$\mathsf{c'}$。
+\end{itemize}
+
+$\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，算法细节如图\ref{algorithm:ar}所示。
 %}
 
 
 \subsection{其他\CTLP{}模型检测方法的对比}
 在这里，我们讨论\sctlprov{}的证明搜索算法与其他\CTLP{}模型检测方法的对比。
 
-\subsubsection{基于\BDD{}的符号模型检测}
+\paragraph{基于\BDD{}的符号模型检测}
 当Kripke模型中绝大多数状态变量是布尔类型（比如在硬件模型检测问题中）的时候，\BDD{}的应用可以用来减少模型检测算法的空间占用。迄今为止，最好的基于\BDD{}的符号模型检测工具是\nusmv{}\cite{mcmillan93,CimattiCGR99}以及\nusmv{}的扩展\nuxmv{} \cite{CAVCDGMMMRT14}。下面我们举例说明基于\BDD{}的符号模型检测方法的原理：假设存在一个以$s_0$为初始状态，$T$为迁移规则的Kripke模型$\cal M$。若要验证${\cal M},s_0\models EF\phi$，基于\BDD{}的符号模型检测工具（例如\nusmv{}）会首先计算一个最小不动点$\textup{lfp}=\mu Y. (\phi\vee EXY)$，然后，若$s_0\in \textup{lfp}$，则${\cal M},s_0\models EF\phi$成立，反之则不成立。计算不动点的过程中会不断地对迁移规则$T$进行展开直到得到不动点，其中$s_0$不可达的状态也可能被计算在不动点之内。
 
 与基于\BDD{}的符号模型检测工具不同，\sctlprov{}在验证过程中没有必要计算不动点：迁移规则$T$是动态展开，即展开$T$直到可以判定公式是否可证为止。\sctlprov{}的验证过程只访问初始状态$s_0$可达的状态，因此验证过程会节省空间的占用。不止如此，当Kripke模型的状态变量绝大多数为布尔类型的时候，\sctlprov{}可以用\BDD{}来记录访问过的状态，并以此来进一步节省空间占用；反之，当Kripke模型中包含多个非布尔类型的状态变量的时候，\sctlprov{}可以选择直接记录（通常用哈希表）访问过的状态。不同于符号模型检测中将Kripke结构和要证明的性质都编码到\BDD{}的做法，\sctlprov{}在Kripke结构上直接做状态搜索，\BDD{}只被用来记录搜索过的状态。
 
-\subsubsection{动态（On-the-fly）模型检测}
+\paragraph{动态（On-the-fly）模型检测}
 在验证时序逻辑公式的正确性时，利用动态模型检测的方法可以避免访问Kripke模型的整个状态空间，而只是访问由初始状态可达的状态集合。传统的\CTL{}动态模型检测方法\cite{VergauwenL93,BCG95}通常是基于递归的：即子公式的验证以及迁移规则的展开都是递归进行的。基于递归的\CTL{}动态模型检测通常会涉及到大量的栈操作，尤其是在验证大型系统的过程中。验证算法通常会在栈操作上浪费大量的时间。
 
 与传统的\CTL{}动态模型检测方法不同，在\sctlprov{}中，公式和迁移规则均按需展开，而且验证算法基于连续（连续传递风格）而不是递归。基于连续的算法只需占用常数大小的栈空间\cite{Reynolds93,Appel06,Sestoft12}，而在递归算法中，栈空间的占用大小与递归深度成正比。
 
 由于目前没有完整的基于传统的动态模型检测算法的工具存在，因此，为了将其与\sctlprov{}的证明搜索算法进行对比，我们开发了一个递归版本的\sctlprov{}，即\sctlprovr{}\footnote{\url{https://github.com/terminatorlxj/SCTLProV_R}}。不同于\sctlprov{}，\sctlprovr{}利用基于递归的算法来证明子公式并搜索状态空间。\sctlprov{}与\sctlprovr{}的实验结果对比见第\ref{sec:case_exp}节。
 
-\subsubsection{限界模型检测}
+\paragraph{限界模型检测}
 在传统的限界模型检测工具中，若要证明一个时序逻辑公式，首先需要人为规定（或程序给定）一个限界，并将Kripke模型的迁移规则在限界之内展开，然后判断该公式在迁移规则的有限步展开之内满足与否。若在当前的限界之内可以判断公式满足与否，则算法终止；否则，继续扩大限界。举例来说，若要判断${\cal M}, s_0 \models_{k+1} EF\phi$满足与否，则要先在限界$k+1$之内展开公式与迁移规则\cite{BCCZ99}：
 
 \begin{small}
@@ -1964,7 +1962,7 @@ $\bigwedge$, respectively.}
 	\setlength{\tabcolsep}{1pt}
 	\begin{tabular}{| l | r | r | r | r | r |}
 		\hline
-		\textbf{Programs} & \tool{iProver Modulo} & \verds{} & \nusmv{} & \nuxmv{} & \sctl{}\\
+		\textbf{程序类型} & \tool{iProver Modulo} & \verds{} & \nusmv{} & \nuxmv{} & \sctl{}\\
 		\hline
 		\code{CP ($b = 12$)} & 467(97.3\%) & 433(90.2\%) & 480(100\%) & 480(100\%) & 480(100\%)\\
 		\hline
@@ -2004,7 +2002,7 @@ $\bigwedge$, respectively.}
 	\setlength{\tabcolsep}{1pt}
 	\begin{tabular}{| l | r | r | r | r |}
 		\hline
-		\textbf{Programs} & \tool{iProver Modulo} & \verds{} & \nusmv{} & \nuxmv{} \\
+		\textbf{程序类型} & \tool{iProver Modulo} & \verds{} & \nusmv{} & \nuxmv{} \\
 		\hline
 		\code{CP ($b = 12$)} & 480(100\%) & 480(100\%) & 430(89.6\%) & 431(89.8\%) \\
 		\hline
@@ -2234,7 +2232,7 @@ $\bigwedge$, respectively.}
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{| l | r | r | r | r | r |}
 		\hline
-		\textbf{Programs} & \tool{iProver Modulo} & \verds{} & \nuxmv{} & \nuxmv{} & \sctl{} \\
+		\textbf{程序类型} & \tool{iProver Modulo} & \verds{} & \nuxmv{} & \nuxmv{} & \sctl{} \\
 		\hline
 		\code{CP ($b = 48$)} & 375(78.1\%) & 400(83.3\%) & 171(35.6\%) & 176(36.7\%) & 446(92.9\%)  \\
 		\hline
@@ -2282,7 +2280,7 @@ $\bigwedge$, respectively.}
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{| l | r | r | r | r |}
 		\hline
-		\textbf{Programs} & \tool{iProver Modulo} & \verds{} & \nusmv{} & \nuxmv{}\\
+		\textbf{程序类型} & \tool{iProver Modulo} & \verds{} & \nusmv{} & \nuxmv{}\\
 		\hline
 		\code{CP ($b=48$)} & 446(92.9\%) & 444(92.5\%) & 442(92.1\%) & 442(92.1\%) \\
 		\hline
@@ -2741,7 +2739,7 @@ fairness constraints \cite{Ji15}.}
 	\begin{center}
 		\begin{tabular}{| l | l |}
 			\hline
-			\textbf{Prop} & \textbf{Mutual Exclusion Algorithms}\\
+			\textbf{性质} & \textbf{互斥算法公式}\\
 			\hline
 			{$P_1$} & $EF (cri_0 \wedge cri_1)$  \\
 			\hline
@@ -2772,7 +2770,7 @@ fairness constraints \cite{Ji15}.}
 	\begin{center}
 		\begin{tabular}{| l | l |}
 			\hline
-			\textbf{Prop} & \textbf{Ring Algorithms}\\
+			\textbf{性质} & \textbf{环算法公式}\\
 			\hline
 			{$P_1$} & $AGAF out_0 \wedge AGAF \neg out_0$ \\
 			\hline

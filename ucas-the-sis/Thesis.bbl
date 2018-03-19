@@ -48,9 +48,8 @@ CRAIG J~J, 1989.
 
 \bibitem[Dershowitz(1987)]{Dershowitz87}
 DERSHOWITZ N, 1987.
-\newblock Termination of rewriting\allowbreak[J/OL].
+\newblock Termination of rewriting\allowbreak[J].
 \newblock J. Symb. Comput., 3\penalty0 (1/2): 69--116.
-\newblock \url{https://doi.org/10.1016/S0747-7171(87)80022-6}.
 
 \bibitem[Emerson\ et~al.(1982)Emerson and Clarke]{EmersonC82}
 EMERSON E~A, CLARKE E~M, 1982.
@@ -67,9 +66,8 @@ EMERSON E~A, HALPERN J~Y, 1985.
 \bibitem[Garavel\ et~al.(2013)Garavel, Lang, Mateescu, and Serwe]{GaravelLMS13}
 GARAVEL H, LANG F, MATEESCU R, et~al., 2013.
 \newblock {CADP} 2011: a toolbox for the construction and analysis of
-  distributed processes\allowbreak[J/OL].
+  distributed processes\allowbreak[J].
 \newblock {STTT}, 15\penalty0 (2): 89--107.
-\newblock \url{https://doi.org/10.1007/s10009-012-0244-z}.
 
 \bibitem[McMillan(1993)]{mcmillan93}
 MCMILLAN K~L, 1993.

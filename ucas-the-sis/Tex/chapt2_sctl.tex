@@ -674,11 +674,11 @@ only.
 	证明由Dershowitz提出，参考\cite{Dershowitz87}。
 \end{proof}
 
-\begin{definition}[相继式的权重]
+\begin{definition}[相继式的权重]\label{sequent:weight}
 	假设一个Kripke模型的状态集的基数为$n$；$\Gamma\vdash\phi$是一个\sctlm{}相继式；$|\phi|$是公式$\phi$的大小；$|\Gamma|$是$\Gamma$的基数。相继式$\Gamma\vdash\phi$的权重为$$w(\Gamma\vdash \phi) = \langle|\phi|, (n - |\Gamma|)\rangle$$
 \end{definition}
 
-\begin{proposition}[可终止性]
+\begin{proposition}[可终止性]\label{cpt:termination}
 	假设$\cal M$是一个Kripke模型，$\phi$是一个\ctlpm{}闭公式，那么
 	$\textsf{cpt}(\vdash\phi, \mathfrak{t}, \mathfrak{f})$能在有限步之内重写到$\mathfrak{t}$或$\mathfrak{f}$。
 \end{proposition}
@@ -734,62 +734,59 @@ only.
 \end{proposition}
 
 \begin{proof}
-		We prove a more general proposition: 
-	for a given formula $\phi$, $\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2) 
-	\rsa^* c_1$ for all distinct \CPT{}s $c_1$ and $c_2$ iff $\Gamma \vdash \phi$ is provable. 
+	我们证明一个更一般的命题，即：
+	对于一个给定的公式$\phi$, 对任意不同的两个\CPT{} $c_1$和$c_2$都有$\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2) 
+	\rsa^* c_1$当且仅当$\Gamma \vdash \phi$是可证的。 
 	
 	
-	Note that for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2)$ rewrites to either $c_1$ or $c_2$ in finite steps. This is because according to Proposition \ref{cpt:termination}, $\textsf{cpt}(\Gamma \vdash\phi, \mathfrak{t}, \mathfrak{f})$ rewrites to $\mathfrak{t}$ or $\mathfrak{f}$ in finite steps; and in the rewriting steps, neither the structure of $c_1$ nor $c_2$ is examined until either $c_1$ or $c_2$ appears in the rewriting steps. Thus, we can safely replace $\mathfrak{t}$ by $c_1$, and $\mathfrak{f}$ by $c_2$ in the rewriting steps of $\textsf{cpt}(\Gamma \vdash\phi, \mathfrak{t}, \mathfrak{f})$, and obtain a finite steps of rewriting from $\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2)$ to either $c_1$ or $c_2$.
-	This fact is used in the following proof. 
+	需要注意的是，对任意不同的两个\CPT{} $c_1$和$c_2$，$\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2)$总会在有限步之内重写到$c_1$或$c_2$。这是由于根据命题\ref{cpt:termination}，
+	$\textsf{cpt}(\Gamma \vdash\phi, \mathfrak{t}, \mathfrak{f})$总会在有限步之内重写到 $\mathfrak{t}$或$\mathfrak{f}$，而且在重写$\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2)$的过程中;$c_1$和$c_2$的结构都不会影响重写的步骤直到需要重写$c_1$或者$c_2$本身。因此，我们可以在$\textsf{cpt}(\Gamma \vdash\phi, \mathfrak{t}, \mathfrak{f})$的重写步骤中将$\mathfrak{t}$替换成$c_1$，将$\mathfrak{f}$替换成$c_2$并由此得到由$\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2)$重写到$c_1$或$c_2$的步骤。
+	本证明中需要用到这个性质。
 	
 	
-	Now, we prove the more general proposition by induction on the weight of $\Gamma\vdash\phi$ (Definition \ref{sequent:weight}). In the proof, we use $c_1\not\rsa^*c_2$ to denote that \CPT{} $c_1$ cannot rewrite to \CPT $c_2$ in finite steps.
+	现在，我们通过对$\Gamma\vdash\phi$的权重（见定义\ref{sequent:weight}）进行归纳分析。在本证明中，我们将\CPT{} $c_1$无法在有限步之内重写到$c_2$记作$c_1\not\rsa^*c_2$。
 	\begin{itemize}
-		\item If $\phi=\top$ or $\bot$, trivial.
-		\item If $\phi=P(s_1,...,s_n)$ where $P(s_1,...,s_n)$ is atomic, then
-		$\textsf{cpt}(\vdash P(s_1,...,s_n), c_1, c_2)\rsa c_1$ for all \textsf{CPT}s $c_1$ and $c_2$ iff $\langle
-		s_1,...,s_n\rangle \in P$ iff $\vdash P(s_1,...,s_n)$ is
-		provable.
-		\item If $\phi=\neg P(s_1,...,s_n)$ where $P(s_1,...,s_n)$ is atomic,
-		then $\textsf{cpt}(\vdash \neg P(s_1,...,s_n), c_1, c_2)\rsa c_1$ for all \textsf{CPT}s $c_1$ and $c_2$ iff
-		$\langle s_1,...,s_n\rangle \notin P$ iff $\vdash \neg
-		P(s_1,...,s_n)$ is provable.
+		\item 如果$\phi=\top$或$\bot$，命题显然成立。
+		\item 如果$\phi=P(s_1,...,s_n)$，其中$P(s_1,...,s_n)$是原子公式，那么对任意两个\textsf{CPT} $c_1$和$c_2$都有
+		$\textsf{cpt}(\vdash P(s_1,...,s_n), c_1, c_2)\rsa c_1$当且仅当$\langle
+		s_1,...,s_n\rangle \in P$当且仅当$\vdash P(s_1,...,s_n)$是可证的。
+		\item 如果$\phi=\neg P(s_1,...,s_n)$，其中$P(s_1,...,s_n)$是原子命题，那么对任意两个\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\vdash \neg P(s_1,...,s_n), c_1, c_2)\rsa c_1$当且仅当$\langle s_1,...,s_n\rangle \notin P$当且仅当$\vdash \neg
+		P(s_1,...,s_n)$是可证的。
 		
-		\item If $\phi = \phi_1\wedge \phi_2$, then
+		\item 如果$\phi = \phi_1\wedge \phi_2$，那么
 		\begin{itemize}
-			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash\phi_1\wedge\phi_2, c_1, c_2)\rsa^* c_1$, then both $\vdash\phi_1$ and $\vdash\phi_2$ are provable, this is because otherwise, if $\vdash\phi$ is not provable, then according to the induction hypothesis, there exist \CPT{}s $c_1$ and $c_2$ such that 
-			$\textsf{cpt}(\vdash
+			\item $(\Rightarrow)$ 如果对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\vdash\phi_1\wedge\phi_2, c_1, c_2)\rsa^* c_1$，那么$\vdash\phi_1$和$\vdash\phi_2$都是可证的。否则，如果$\vdash\phi$不可证，那么根据归纳假设，存在两个不相同的\CPT{} $c_1$和$c_2$使得		$\textsf{cpt}(\vdash
 			\phi_1\wedge\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash \phi_1, \textsf{cpt}(\vdash
-			\phi_2, c_1, c_2), c_2)\rsa^*c_2$, and $c_2$ cannot rewrite to $c_1$; if $\vdash\phi_1$ is provable but $\vdash\phi_2$ is not, then according to the induction hypothesis, there exist \CPT{}s $c_1$ and $c_2$ such that $\textsf{cpt}(\vdash
+			\phi_2, c_1, c_2), c_2)\rsa^*c_2$而且$c_2$不能在有限步内重写到$c_1$；如果$\vdash\phi_1$可证而$\vdash\phi_2$不可证，那么根据归纳假设，存在两个不同的\CPT{} $c_1$和$c_2$使得$\textsf{cpt}(\vdash
 			\phi_1\wedge\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash \phi_1, \textsf{cpt}(\vdash
 			\phi_2, c_1, c_2), c_2)\rsa^*\textsf{cpt}(\vdash
-			\phi_2, c_1, c_2)\not\rsa^*c_1$. Thus, according to the rules of the proof system, $\vdash\phi_1\wedge\phi_2$ is provable.
-			\item $(\Leftarrow)$ if $\vdash\phi_1\wedge\phi_2$ is provable, then according to the rules of the proof system, both $\vdash\phi_1$ and $\vdash\phi_2$ are provable, then according to the induction hypothesis, for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash
+			\phi_2, c_1, c_2)\not\rsa^*c_1$。因此，由证明系统的规则可知，$\vdash\phi_1\wedge\phi_2$是可证的。
+			\item $(\Leftarrow)$ 如果$\vdash\phi_1\wedge\phi_2$是可证的，那么由证明系统规则可知，$\vdash\phi_1$和$\vdash\phi_2$都是可证的，那么根据归纳假设，对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\vdash
 			\phi_1\wedge\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash \phi_1, \textsf{cpt}(\vdash
 			\phi_2, c_1, c_2), c_2) \rsa^* \textsf{cpt}(\vdash \phi_2, c_1, c_2)\rsa^*
-			c_1$.
+			c_1$。
 		\end{itemize}
 		
 		
-		\item If $\phi = \phi_1\vee\phi_2$, then 
+		\item 如果$\phi = \phi_1\vee\phi_2$，那么
 		\begin{itemize}
-			\item $(\Rightarrow)$ if for all distinct \textsf{CPT}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash \phi_1\vee\phi_2,
-			c_1, c_2)\rsa^* c_1$, then either $\vdash\phi_1$ or $\vdash\phi_2$ is proved. This is because otherwise, if both $\vdash\phi_1$ and $\vdash\phi_2$ are not provable, then according to the induction hypothesis, there exist \CPT{}s $c_1$ and $c_2$ such that 
+			\item $(\Rightarrow)$ 对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\vdash \phi_1\vee\phi_2,
+			c_1, c_2)\rsa^* c_1$，那么$\vdash\phi_1$或$\vdash\phi_2$是可证的。否则，如果$\vdash\phi_1$和$\vdash\phi_2$均不可证，那么根据归纳假设，存在两个不同的\CPT{} $c_1$和$c_2$使得 
 			$\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1,
 			c_2)\rsa \textsf{cpt}(\vdash \phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))\rsa^*\textsf{cpt}(\vdash\phi_2, c_1, c_2)\rsa^*
-			c_2$, and $c_2$ cannot rewrite to $c_1$. Then, according to the rules of the proof system, $\vdash\phi_1\vee\phi_2$ is provable.
-			\item $(\Leftarrow)$ if $\vdash\phi_1\vee\phi_2$ is provable, then according to the rules of the system, either $\vdash\phi_1$ or $\vdash\phi_2$ is provable, then according to the induction hypothesis, if $\vdash\phi_1$ is provable, then for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1,
+			c_2$，而且$c_2$不能在有限步内重写到$c_1$。因此，由证明系统的规则可知，$\vdash\phi_1\vee\phi_2$是可证的。
+			\item $(\Leftarrow)$ 如果$\vdash\phi_1\vee\phi_2$是可证的，那么由证明系统的规则可知，$\vdash\phi_1$或$\vdash\phi_2$是可证的，那么根据归纳假设，如果$\vdash\phi_1$是可证的，那么对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1,
 			c_2)\rsa \textsf{cpt}(\vdash \phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))\rsa^*
-			c_1$; if $\vdash\phi_2$ is provable, then for all distinct \CPT{}s $c_1$ and $c_2$, either $\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash
+			c_1$；如果$\vdash\phi_2$是可证的，那么对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash
 			\phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))\rsa^* \textsf{cpt}(\vdash\phi_2,
-			c_1, c_2) \rsa^* c_1$, or $\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash
-			\phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))\rsa^* c_1$.
+			c_1, c_2) \rsa^* c_1$或者$\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1, c_2)\rsa \textsf{cpt}(\vdash
+			\phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))\rsa^* c_1$。
 		\end{itemize}
 		
-		\item If $\phi = AX_x(\psi)(s)$ and $\{s_1,...,s_n\}=\textsf{Next}(s)$, then
+		\item 如果$\phi = AX_x(\psi)(s)$，而且$\{s_1,...,s_n\}=\textsf{Next}(s)$，那么
 		\begin{itemize}
-			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, 
-			$\textsf{cpt}(\vdash AX_x(\psi)(s), c_1, c_2)\rsa^* c_1$, then $\vdash(s_1/x)\psi,...,\vdash(s_n/x)\psi$ are all provable. This is because otherwise, if there exists $1\le i\le n$ such that for all $1\le j < i$, $\vdash(s_1/x)\psi,...,\vdash(s_j/x)\psi$ are all provable, but $\vdash(s_i/x)\psi$ is not provable, then according to the rewrite rules and the induction hypothesis, there exist distinct \CPT{}s $c_1$ and $c_2$ such that (for notation purpose, $\vdash\psi_{s_i}$ is used to denote $\vdash(s_i/x)\psi$)
+			\item $(\Rightarrow)$ 对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有
+			$\textsf{cpt}(\vdash AX_x(\psi)(s), c_1, c_2)\rsa^* c_1$，那么$\vdash(s_1/x)\psi,...,\vdash(s_n/x)\psi$都是可证的。否则，如果存在$1\le i\le n$使得对任意$1\le j < i$，$\vdash(s_1/x)\psi,...,\vdash(s_j/x)\psi$都是可证的，而$\vdash(s_i/x)\psi$是不可证的，那么根据归纳假设，存在两个不同的 \CPT{} $c_1$和$c_2$使得（我们用$\vdash\psi_{s_i}$表示$\vdash(s_i/x)\psi$）
 			
 			$\textsf{cpt}(\vdash
 			AX_x(\psi)(s), c_1, c_2)\rsa$ \\
@@ -803,8 +800,8 @@ only.
 			\textsf{cpt}(\vdash\psi_{s_i},
 			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
 			c_2)...), c_2)\not\rsa^*\\
-			c_1$. Thus, according to the rules of the proof system, $\vdash AX_x(\psi)(s)$ is provable.
-			\item $(\Leftarrow)$ if $\vdash AX_x(\psi)(s)$ is provable, then according to the rules of the proof system, $\vdash(s_1/x)\psi,...,\vdash(s_n/x)\psi$ are all provable, then according to the induction hypothesis, for all distinct \CPT{}s $c_1$ and $c_2$ (for notation purpose, $\vdash\psi_{s_i}$ is used to denote $\vdash(s_i/x)\psi$), 
+			c_1$。因此，由证明系统的规则可知，$\vdash AX_x(\psi)(s)$是可证的。
+			\item $(\Leftarrow)$ 如果$\vdash AX_x(\psi)(s)$是可证的，那么由证明系统的规则可知，$\vdash(s_1/x)\psi,...,\vdash(s_n/x)\psi$都是可证的，那么根据归纳假设，对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有（我们用$\vdash\psi_{s_i}$表示$\vdash(s_i/x)\psi$） 
 			
 			$\textsf{cpt}(\vdash
 			AX_x(\psi)(s), c_1, c_2)\rsa$ \\
@@ -813,12 +810,12 @@ only.
 			c_2)...), c_2)\rsa^*\\
 			\ldots\rsa^*\\
 			\textsf{cpt}(\vdash\psi_{s_n}, c_1,
-			c_2)\rsa^*c_1$.
+			c_2)\rsa^*c_1$。
 		\end{itemize}
 		
-		\item If $\phi = EX_x(\psi)(s)$ and $\{s_1,...,s_n\}=\textsf{Next}(s)$, then
+		\item 如果$\phi = EX_x(\psi)(s)$，而且$\{s_1,...,s_n\}=\textsf{Next}(s)$，那么
 		\begin{itemize}
-			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\vdash EX_x(\psi)(s), c_1, c_2)\rsa^* c_1$, then there exists $1\le i\le n$ such that $\vdash(s_i/x)\psi$ is provable. This is because otherwise, if $\vdash(s_i/x)\psi$ is not provable for all $1\le i\le n$, then according to the induction hypothesis, there exist distinct \CPT{}s $c_1$ and $c_2$ such that (for notation purpose, $\vdash\psi_{s_i}$ is used to denote $\vdash(s_i/x)\psi$)
+			\item $(\Rightarrow)$ 对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\vdash EX_x(\psi)(s), c_1, c_2)\rsa^* c_1$，那么存在$1\le i\le n$使得$\vdash(s_i/x)\psi$是可证的。否则，如果对任意$1\le i\le n$，$\vdash(s_i/x)\psi$都是不可证的，那么根据归纳假设，存在两个不同的\CPT{} $c_1$和$c_2$使得（我们用$\vdash\psi_{s_i}$表示$\vdash(s_i/x)\psi$）
 			
 			$\textsf{cpt}(\vdash
 			EX_x(\psi)(s), c_1, c_2)\rsa \\ 
@@ -826,8 +823,8 @@ only.
 			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
 			c_2)...))\rsa^* \\ 
 			\ldots \rsa^*\\
-			\textsf{cpt}(\vdash\psi_{s_n}, c_1, c_2)\not\rsa^* c_1$. According to the rules of the proof system, $\vdash EX_x(\psi)(s)$ is provable.
-			\item $(\Leftarrow)$ if $\vdash EX_x(\psi)(s)$ is provable, then according to the rules of the proof system, there exists $1\le i\le n$ such that $\vdash (s_i/x)\psi$ is provable. According to the induction hypothesis, for all distinct \CPT{}s $c_1$ and $c_2$ (for notation purpose, $\vdash\psi_{s_i}$ is used to denote $\vdash(s_i/x)\psi$), 
+			\textsf{cpt}(\vdash\psi_{s_n}, c_1, c_2)\not\rsa^* c_1$。因此，由证明系统的规则可知，$\vdash EX_x(\psi)(s)$是可证的。
+			\item $(\Leftarrow)$ 如果$\vdash EX_x(\psi)(s)$是可证的，那么由证明系统的规则可知，存在$1\le i\le n$使得$\vdash (s_i/x)\psi$是可证的。根据归纳假设，对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有（我们用$\vdash\psi_{s_i}$表示$\vdash(s_i/x)\psi$） 
 			
 			$\textsf{cpt}(\vdash EX_x(\psi)(s), c_1, c_2)\rsa \\ 
 			\textsf{cpt}(\vdash\psi_{s_1}, c_1,
@@ -836,19 +833,18 @@ only.
 			\ldots\\
 			\textsf{cpt}(\vdash\psi_{s_{i-1}}, c_1,
 			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
-			c_2)...))\rsa^*
+			c_2)...))\rsa^*\\
 			\textsf{cpt}(\vdash\psi_{s_i}, c_1,
 			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
-			c_2)...))\rsa^*c_1$.
+			c_2)...))\rsa^*c_1$。
 		\end{itemize}
 		
-		\item If $\phi = AF_x(\psi)(s)$ and $\{s_1,...,s_n\}=\textsf{Next}(s)$, then
+		\item 如果$\phi = AF_x(\psi)(s)$，而且$\{s_1,...,s_n\}=\textsf{Next}(s)$，那么
 		\begin{itemize}
-			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\Gamma\vdash AF_x(\psi)(s), c_1, c_2)\rsa^* c_1$, then either 
-			$\vdash(s/x)\psi$ is provable, or all of $\Gamma, AF_x(\psi)(s)\vdash
+			\item $(\Rightarrow)$ 对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\Gamma\vdash AF_x(\psi)(s), c_1, c_2)\rsa^* c_1$，那么$\vdash(s/x)\psi$是可证的，或者$\Gamma, AF_x(\psi)(s)\vdash
 			AF_x(\psi)(s_1)$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_2)$,
-			$...$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_n)$ are provable.
-			This is because otherwise, if $\vdash(s/x)\psi$ is not provable, $\Gamma,AF_x(\psi)(s)\vdash AF_x(\psi)(s_i)$ is also not provable for some $1\le i\le n$, and $\Gamma,AF_x(\psi)(s)\vdash AF_x(\psi)(s_j)$ is provable for all $j<i$, then according to the induction hypothesis, there exist two distinct \CPT{}s $c_1$ and $c_2$ such that (let $\Gamma'=\Gamma,AF_x(\psi)(s)$)
+			$...$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_n)$都是可证的。
+			否则，如果$\vdash(s/x)\psi$是不可证的，而且存在$1\le i\le n$使得$\Gamma,AF_x(\psi)(s)\vdash AF_x(\psi)(s_i)$是不可证的，而且对任意$j<i$，$\Gamma,AF_x(\psi)(s)\vdash AF_x(\psi)(s_j)$是可证的，那么根据归纳假设，存在两个不同的\CPT{} $c_1$和$c_2$使得（令$\Gamma'=\Gamma,AF_x(\psi)(s)$）
 			
 			$\textsf{cpt}(\Gamma\vdash AF_x(\psi)(s), c_1, c_2)\rsa \\ 
 			\textsf{cpt}(\vdash(s/x)\psi, c_1, \textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_1),
@@ -860,20 +856,19 @@ only.
 			\ldots\rsa^*\\
 			\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_{i}),
 			\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)..., c_2),
-			c_2)\rsa^*c_2\not\rsa^*c_1$. Then, according to the rules of the proof system, $\Gamma\vdash AF_x(\psi)(s)$ is provable.
-			\item $(\Leftarrow)$ if $\Gamma\vdash AF_x(\psi)(s)$ is provable, then according to the rules of the proof system, 
-			either $\vdash(s/x)\psi$ is provable, or all of $\Gamma, AF_x(\psi)(s)\vdash
+			c_2)\rsa^*c_2\not\rsa^*c_1$。因此，由证明系统的规则可知，$\Gamma\vdash AF_x(\psi)(s)$是可证的。
+			\item $(\Leftarrow)$ 如果$\Gamma\vdash AF_x(\psi)(s)$是可证的，那么由证明系统的规则可知，$\vdash(s/x)\psi$是可证的，或者$\Gamma, AF_x(\psi)(s)\vdash
 			AF_x(\psi)(s_1)$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_2)$,
-			$...$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_n)$ are provable. Thus, according to the induction hypothesis (let $\Gamma'=\Gamma,AF_x(\psi)(s)$),  
+			$...$, $\Gamma , AF_x(\psi)(s)\vdash AF_x(\psi)(s_n)$都是可证的。因此，根据归纳假设（令$\Gamma'=\Gamma,AF_x(\psi)(s)$），  
 			\begin{itemize}
-				\item if $\vdash(s/x)\psi$ is provable, then for all distinct \CPT{}s $c_1$ and $c_2$,
+				\item 如果$\vdash(s/x)\psi$是可证的，那么对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有
 				
 				$\textsf{cpt}(\Gamma\vdash AF_x(\psi)(s), c_1, c_2)\rsa \\ 
 				\textsf{cpt}(\vdash(s/x)\psi, c_1, \textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_1),
 				\\\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)..., c_2),
-				\\c_2))\rsa^*c_1$.
-				\item if $\vdash(s/x)\psi$ is not provable, but
-				$\Gamma, AF_x(\psi)(s)\vdash AF_x(\psi)(s_i)$ is provable for all $1\le i\le n$, then for all distinct \CPT{}s $c_1$ and $c_2$,
+				\\c_2))\rsa^*c_1$。
+				\item 如果$\vdash(s/x)\psi$是不可证的，而对任意$1\le i\le n$，
+				$\Gamma, AF_x(\psi)(s)\vdash AF_x(\psi)(s_i)$是可证的，那么根据归纳假设，对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有
 				
 				$\textsf{cpt}(\Gamma\vdash AF_x(\psi)(s), c_1, c_2)\rsa \\ 
 				\textsf{cpt}(\vdash(s/x)\psi, c_1, \textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_1),\\
@@ -881,26 +876,26 @@ only.
 				c_2))\rsa^*\\ 
 				\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_1),
 				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)..., c_2),
-				c_2)\rsa^*\\
+				c_2)\rsa^*
 				\ldots\rsa^*\\
-				\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)\rsa^*c_1$.
+				\textsf{cpt}(\Gamma'\vdash AF_x(\psi)(s_n), c_1, c_2)\rsa^*c_1$。
 			\end{itemize}
 		\end{itemize}	
 		
 		
-		\item if $\phi = EG_x(\psi)(s)$ and $\{s_1,...,s_n\}=\textsf{Next}(s)$, then
+		\item 如果$\phi = EG_x(\psi)(s)$，而且$\{s_1,...,s_n\}=\textsf{Next}(s)$，那么
 		\begin{itemize}
-			\item $(\Rightarrow)$ if for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\Gamma\vdash EG_x(\psi), c_1, c_2)\rsa^* c_1$, then either $EG_x(\psi)(s)\in\Gamma$, or both $\vdash(s/x)\psi$ and
-			$\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$ are provable for some $1\le i\le n$. This is because otherwise (let $\Gamma'=\Gamma,EG_x(\psi)(s)$), 
+			\item $(\Rightarrow)$ 如果对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\Gamma\vdash EG_x(\psi), c_1, c_2)\rsa^* c_1$，那么 $EG_x(\psi)(s)\in\Gamma$，或者$\vdash(s/x)\psi$是可证的以及存在$1\le i\le n$使得
+			$\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$是可证的。否则（令$\Gamma'=\Gamma,EG_x(\psi)(s)$）， 
 			\begin{itemize}
-				\item if $EG_x(\psi)(s)\notin\Gamma$, and $\vdash(s/x)\psi$ is not provable, then there exist distinct \CPT{}s $c_1$ and $c_2$ such that 
+				\item 如果$EG_x(\psi)(s)\notin\Gamma$，而且$\vdash(s/x)\psi$是不可证的，那么存在不同的两个\CPT{} $c_1$和$c_2$使得
 				
 				$\textsf{cpt}(\Gamma\vdash EG_x(\psi)(s), c_1, c_2) \rsa^*\\
 				\textsf{cpt}(\vdash(s/x)\psi,
 				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_1), c_1,\\
 				\textsf{cpt}(...\textsf{cpt}( \Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...)),\\
-				c_2)\rsa^*c_2\not\rsa^*c_1$.
-				\item if $EG_x(\psi)(s)\notin\Gamma$, $\vdash(s/x)\psi$ is provable, and $\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$ is not provable for all $1\le i\le n$, then there exist distinct \CPT{}s $c_1$ and $c_2$ such that 
+				c_2)\rsa^*c_2\not\rsa^*c_1$。
+				\item 如果$EG_x(\psi)(s)\notin\Gamma$，$\vdash(s/x)\psi$是可证的，而且对任意$1\le i\le n$，$\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$都是不可证的，那么根据归纳假设，存在不同的两个\CPT{} $c_1$和$c_2$使得
 				
 				$\textsf{cpt}(\Gamma\vdash EG_x(\psi)(s), c_1, c_2) \rsa^*\\
 				\textsf{cpt}(\vdash(s/x)\psi,
@@ -910,13 +905,13 @@ only.
 				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_1), c_1,
 				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...))\rsa^*\\
 				\ldots\\
-				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)\not\rsa^*c_1$.
+				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)\not\rsa^*c_1$。
 			\end{itemize}
-			Then, according to the rules of the proof system, $\Gamma\vdash EG_x(\psi)(s)$ is provable.
-			\item $(\Leftarrow)$ if $\Gamma\vdash EG_x(\psi)(s)$ is provable, then according to the rules of the proof system, either $EG_x(\psi)(s)\in\Gamma$, or both $\vdash(s/x)\psi$ and $\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$ are provable for some $1\le i\le n$.
+			因此，由证明系统的规则可知，$\Gamma\vdash EG_x(\psi)(s)$是可证的。
+			\item $(\Leftarrow)$ 如果$\Gamma\vdash EG_x(\psi)(s)$是可证的，那么由证明系统的规则可知，$EG_x(\psi)(s)\in\Gamma$，或者$\vdash(s/x)\psi$是可证的以及存在$1\le i\le n$使得$\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$是可证的。
 			\begin{itemize}
-				\item If $EG_x(\psi)(s)\in\Gamma$, then for all distinct \CPT{}s $c_1$ and $c_2$, $\textsf{cpt}(\Gamma\vdash EG_x(\psi)(s), c_1, c_2) \rsa c_1$.
-				\item If both $\vdash(s/x)\psi$ and $\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$ are provable for some $1\le i\le n$, and $\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_j)$ is not provable for all $j<i$, then according to the induction hypothesis, for all distinct \CPT{}s $c_1$ and $c_2$ (let $\Gamma'=\Gamma,EG_x(\psi)(s)$),
+				\item 如果$EG_x(\psi)(s)\in\Gamma$，那么对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有$\textsf{cpt}(\Gamma\vdash EG_x(\psi)(s), c_1, c_2) \rsa c_1$。
+				\item 如果$\vdash(s/x)\psi$是可证的，以及存在$1\le i\le n$使得$\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_i)$是可证的，而且对任意$j<i$，$\Gamma,EG_x(\psi)(s)\vdash EG_x(\psi)(s_j)$都不是可证的，那么根据归纳假设，对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有（令$\Gamma'=\Gamma,EG_x(\psi)(s)$）
 				
 				$\textsf{cpt}(\Gamma\vdash EG_x(\psi)(s), c_1, c_2) \rsa^*\\
 				\textsf{cpt}(\vdash(s/x)\psi,
@@ -927,14 +922,12 @@ only.
 				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...))\rsa^*\\
 				\ldots\rsa^*\\
 				\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_i), c_1,
-				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...))\rsa^*c_1$.
+				\textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash EG_x(\psi)(s_n), c_1, c_2)...))\rsa^*c_1$。
 			\end{itemize}
 		\end{itemize}
 		
-		\item if $\phi = AR_{x,y}(\phi_1,\phi_2)(s)$, then as are both co-inductive
-		modalities, the analysis of the $AR$ case is analogous to that of $EG$.
-		\item if $\phi = EU_{x,y}(\phi_1,\phi_2)(s)$, then as are both inductive
-		modalities, the analysis of the $EU$ case is analogous to that of $AF$.
+		\item 如果$\phi = AR_{x,y}(\phi_1,\phi_2)(s)$，由于均为余归纳公式，因此对$AR$公式的分析与$EG$类似。
+		\item 如果$\phi = EU_{x,y}(\phi_1,\phi_2)(s)$，由于均为归纳公式，因此对$EU$公式的分析与$AF$类似。
 	\end{itemize}
 	
 \end{proof}
@@ -1097,16 +1090,16 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 				\If{$\mathsf{c=\mathfrak{t}^{A}}$}
 				
 				\State $\mathsf{\forall a\in A}$, perform $\mathsf{a}$
-				\State \textbf{Return} {$\mathsf{(true, pt)}$}
+				\State \textbf{return} {$\mathsf{(true, pt)}$}
 				\EndIf
 				\If{$\mathsf{c=\mathfrak{f}^{A}}$}
 				\State $\mathsf{\forall a\in A}$, perform $\mathsf{a}$
-				\State \textbf{Return} {$\mathsf{(false, ce)}$}
+				\State \textbf{return} {$\mathsf{(false, ce)}$}
 				\EndIf
 				\EndFunction
 			\end{algorithmic}
 	}}
-	\caption{The proof search algorithm.}
+	\caption{证明搜索算法}
 	\label{appendix:algorithm:main}
 \end{figure}
 在解释该算法之前，我们需要介绍\textit{公式模式}的概念：
@@ -1118,8 +1111,6 @@ $\mathsf{c}$是当前需要被重写的\textsf{CPT}；$\mathsf{pt}$和$\mathsf{c
 
 需要注意的是，对于算法中重写步骤中的每个\textsf{CPT} $\mathsf{c}$，我们人为关联一个动作集合$\mathsf{A}$，使得当$c$是当前需要重写的\textsf{CPT}时，执行$\mathsf{A}$中的所有动作。将\textsf{CPT}关联动作集合的目的是为了构造证明树和反例，以及更新$\mathsf{M^t}$和$\mathsf{M^f}$。在算法执行的初始时刻，我们分别给三个\textsf{CPT} $\textsf{cpt}(\vdash\phi,\mathfrak{t},\mathfrak{f})$、 $\mathfrak{t}$、$\mathfrak{f}$均关联一个空动作集合，其中$\phi$是要验证的公式。
 
-\couic{Note that we associate a set of actions $\mathsf{A}$ to each \textsf{CPT}, such that when the \textsf{CPT} is to be rewritten, every action in $\mathsf{A}$ is performed. The purpose of associating actions to \textsf{CPT}s is to help construct the proof tree or counterexample, and update $\mathsf{M^t}$ and $\mathsf{M^f}$.
-Initially, we associate an empty set to each of the \textsf{CPT}s $\textsf{cpt}(\vdash\phi,\mathfrak{t},\mathfrak{f})$, $\mathfrak{t}$, and $\mathfrak{f}$.}
 
 另外需要注意的是，该算法中，三个全局变量$\mathsf{M^t}$、$\mathsf{M^f}$、$\mathsf{visited}$的值都是哈希表。实际上，这三个全局变量都是对于每个公式模式记录一个状态集合，因此，$\mathsf{M^t}$、$\mathsf{M^f}$、$\mathsf{visited}$均可看作是以公式模式为键，以状态集合为值的哈希表。在该算法中，$\mathsf{M^t_{EG_{x}(\phi)(\_)}}$用来表示一个状态集合$S$，其中$\forall s\in S$，$EG_{x}(\phi)(s)$是可证的；$\mathsf{M^f_{EG_{x}(\phi)(\_)}}$用来表示一个集合$S$，其中$\forall s\in S$，$EG_{x}(\phi)(s)$是不可证的；$\mathsf{visited_{EG_x(\phi)(\_)}}$用来表示一个集合$S$，其中$\forall s\in S$， $s$在证明以$EG_x(\phi)(\_)$为模式的公式的过程中已被访问过。
 
@@ -1128,7 +1119,7 @@ Initially, we associate an empty set to each of the \textsf{CPT}s $\textsf{cpt}(
 
 
 该算法中，\CPT{}的重写方式由公式$\phi$的形状决定，其中$\phi$为原子公式和原子公式的非的情况在算法主体（表\ref{appendix:algorithm:main}）中给出，对于$\phi$的更复杂的情况，我们在接下来的小节中依次加以讨论。
-\couic{In the proof search algorithm, the rewriting steps for the cases where $\phi$ is an atomic formula or the negation of a atomic formula is presented, and the explanation for other cases are presented separately in the following Subsections.}
+
 \subsubsection{$\mathsf{ProveAnd}$和$\mathsf{ProveOr}$}
 \begin{figure}[h!]\footnotesize
 	\centering
@@ -1403,8 +1394,6 @@ $\mathsf{ProveEU}$的算法细节要比$\mathsf{ProveEG}$更加复杂。原因�
 		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash (s/x)\phi_1}$和$\mathsf{\vdash (s/y)\phi_2}$是不可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第12行）。
 		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_1)},...,\;\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_n)}$都是不可证的，因此将其全部作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第13行）。
 		\item 如果$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$是不可证的，那么将$s$加入到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中，并以此在对这个$EU$公式的证明搜索中避免重复访问$\mathsf{s}$（第24、25行）。值得注意的是$\mathsf{s}$可从$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$被移除（第11 -- 18行）。这种情况只当存在${\Gamma'}$和$\mathsf{s'}$使得$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s')}$是可证的，$\mathsf{s'}$, $\mathsf{\vdash (s'/y)\phi_2}$是可证的，以及$\mathsf{s\in reachable(states(}\Gamma'\mathsf{)\cup \{s'\})}$的时候发生。
-		
-		\couic{If $\Gamma$ is $\emptyset$, and there exist the following rewriting steps $\mathsf{\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1, c_2) \rsa^* c_2}$, then for each visited state $s'$ during these rewriting steps, $\mathsf{EU_{x,y}(\phi_1,\phi_2)(s')}$ is not provable. Thus, all visited states should be added into $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ when $\mathsf{c'}$ finally rewrites to $\mathsf{c_2}$ (Line 21 -- 22).}
 	\end{enumerate}
 	\item 第28行：将$\mathsf{c}$重写到$\mathsf{c'}$。
 \end{itemize}
@@ -1455,24 +1444,10 @@ $\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，算法细节如图\ref{
 本节所有工具的运行环境均为：Linux操作系统，内存3.0GB，2.93GHz$\times$4 CPU；每个测试用例的最大运行时间限制为20分钟。本节所有的测试用例均可在因特网\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}下载。
 
 
-
-\couic{To illustrate the feasibility and the efficiency of \sctl{}, we first use an example (Subsection~\ref{subsec:example}) to show an application of \sctl{}, and then evaluate several benchmarks (benchmark \#1, \#2 and \#3 in Subsection~\ref{subsec:random}, benchmark \#4 in Subsection~\ref{subsec:fair}, and benchmark \#5 in Subsection \ref{subsc:vlts}) to show the efficiency of \sctl{}, and compare the experimental results with five other verification tools: the Resolution-based
-theorem prover \tool{iProver Modulo} \cite{Burel11}, the \QBF{}-based
-bounded model checker \verds{} version 1.49, the
-\BDD-based unbounded model checker \nusmv{} version 2.6.0 and
-its extension \nuxmv{} version 1.0.0, and the formal verification toolbox \tool{CADP}.
-All examples and benchmarks are tested on a Linux
-platform with 3.0 GB memory and a 2.93GHz $\times$ 4 CPU, and the time limit is 20 minutes.
-
-All benchmarks used in this paper are available online\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}.}
-
 \subsection{案例一：进程互斥问题}\label{subsec:example}
 \begin{example}[进程互斥问题\cite{Peterson81}]
 	
 	本例讲的是关于两个进程（进程$A$和进程$B$）的互斥问题。进程的互斥指的是在程序执行的任意时刻，最多只有一个进程在临界区内。一个关于此类问题的算法描述如图\ref{illustrative:mutual}所示，其中$flag$是一个布尔变量，指的是当前是否有进程在运行，而$mutex$是一个整型变量，指的是当前进入临界区的进程个数（初始值为$0$）。如果在程序执行的某个时刻有多于$1$个进程进入临界区（即$mutex=2$），那么则称该程序违反了进程互斥性质。
-	
-	\couic{This example is a mutual exclusion algorithm of two concurrent
-	processes (process $A$ and process $B$). \textit{Mutual Exclusion} means that at any time, the number of processes in the critical section is at most one. A scratch of the algorithm is depicted in Figure \ref{illustrative:mutual}, where $flag$ indicates whether there exist a process running at the moment, and $mutex$ (has the initial value $0$) is the number of processes that have entered the critical section. A violation of \textit{Mutual Exclusion} means that in some state of the program, more than one process have entered the critical section, i.e., the value of $mutex$ is $2$.}
 	
 	\begin{figure}[h!]
 		\centering
@@ -1542,7 +1517,6 @@ Model mutual()
 		\label{fig:mutual}
 	\end{figure}
 	如图\ref{fig:mutual}所示，输入文件"mutual.model"中变量$a$和变量$b$分别指代进程$A$和进程$B$的程序计数器（Program Counter），变量$ini$指代初始状态。本例中要验证的性质为：是否存在程序执行的某个时刻使得两个进程同时进入临界区。利用\sctlprov{}，我们可以在计算机的命令行中输入以下命令来验证该性质。
-	\couic{In the input file (Figure \ref{fig:mutual}), two additional variables $a$ and $b$ are used to indicate the program counters of the two processes, respectively, and $ini$ stands for the initial state. The property to be checked is that whether both processes are in the critical section at the the same time. We check this property in \sctl{} using the following command.}
 	\begin{center}
 		\small
 		\begin{verbatim}
@@ -1560,8 +1534,6 @@ Model mutual()
               find_bug is true.
 		\end{verbatim}
 	\end{center}
-	
-		\couic{The proof tree of the property is output to the file ``output.out", which is listed as follows. In the output of the proof tree, each node is shown as the form $${id: seqt ~ [id_1, ..., id_n]}$$ where ${seqt}$ is the sequent, ${id}$ the identity number of the sequent, and ${id_1,...,id_n}$ the identity numbers of the hypothesis of the sequent. }
 	该性质的证明树输出在文件"output.out"中，如下图所示。证明树的每个节点被输出为${id: seqt ~ [id_1, ..., id_n]}$形式，其中$id$是该节点的ID，$seqt$是当前的相继式，而${id_1,...,id_n}$则是当前的相继式的所有的前提的ID。
 	\begin{center}
 		\small
@@ -1606,9 +1578,6 @@ Model mutual()
 	由以上的证明树输出可知，当进程$A$进入临界区之后，进程$B$同样进入临界区。
 	
 	如图\ref{fig:visualize:illustrative}所示，\sctlprov{}验证该例子时的输出（证明树和Kripke模型）可由可视化工具\tool{VMDV}（Visualization for Modeling, Demonstration, and Verification）实现三维可视化显示。
-	\couic{According to the output above, we can find that after process $A$ has entered the critical section, process $B$ can also enter the critical section.
-	
-	The output can be visualized by a visualization tool \textsf{VMDV}\footnote{\url{https://github.com/terminatorlxj/VMDV}} (Visualization for Modeling, Demonstration, and Verification), where both the proof tree and the Kripke model can be visualized in 3D space, as depicted in Figure \ref{fig:visualize:illustrative}.}
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=10cm]{./illustrative_example2.png}
@@ -1618,7 +1587,6 @@ Model mutual()
 	\end{figure}
 	
 	通过对原程序进行修改\cite{Peterson81}，可以使程序满足进程互斥性质，修改后的程序如图\ref{illustrative:mutual:solution}所示。修改后的程序可形式化描述为图\ref{fig:mutual:solution}所示的输入文件。在此输入文件中，变量$x$和变量$y$均为布尔变量，分别指代当前状态下进程$A$和进程$B$是否在运行，而$turn$则表示进程$A$和进程$B$轮流处在临界区内。
-	\couic{Note that the violation of the mutual exclusion property can be avoided if the the algorithm of the two processes is modified \cite{Peterson81} as in Figure \ref{illustrative:mutual:solution}. The Kripke model built for this algorithm is depicted in Figure \ref{fig:mutual:solution}. Variable $x$ and $y$ are used to to indicate whether process A and B are running, respectively; $turn$ is the variable indicating it is whose turn to enter the critical section.}
 	
 	\begin{figure}[!h]
 		\centering
@@ -1717,11 +1685,6 @@ Model mutual()
 
 \subsection{案例二：小型飞机场运输系统}
 在本小节中，我们介绍对于一个工程问题的形式化验证：由美国国家航空与航天局（National Aeronautics and Space Administration，简称NASA）为主导提出的小型飞机场运输系统（Small Aircraft Transportation System，简称SATS）\cite{MunozDC04,nasasats04}。在\sctlprov{}中，我们对SATS系统进行形式化描述，并验证该系统的安全性。
-\couic{As an application to an engineering problem, we present
-a concept of operations for the {\em Small Aircraft Transportation System} 
-(\textsf{SATS}) 
-\cite{MunozDC04,nasasats04}
-in \sctl{}\footnote{\url{https://github.com/terminatorlxj/SATS-model}}.}
 
 
 

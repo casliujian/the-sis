@@ -1,0 +1,11 @@
+\chapter{定理证明的可视化}
+在数理逻辑领域，一个公式的形式化证明通常被表示成一个公式序列，其中这个公式序列中的每个公式既可以是公理，也可以是之前公式的逻辑推导结论。一种更加自然的表示公式的形式化证明的方式是将证明表示成一棵树，其中这颗树的每一个节点都用一个公式标记，而该节点的子节点则标记为相应公式的逻辑前提。
+
+
+在上一章中我们提到，\sctlprov{}在验证Kripke模型的性质的时候，相比于传统的模型检测工具，能生成更丰富的验证结果。而且，在传统的模型检测工具和定理证明工具中，验证的结果通常是以文本形式输出的，而文本形式的输出通常无法清晰地表达对于结构复杂的Kripke模型的状态搜索，也无法完整展现模态词嵌套的公式的证明树。为了能将\sctlprov{}的证明输出结果以及证明过程得以清晰并完整的展现出来，在本章我们介绍\tool{VMDV}\footnote{\url{https://github.com/terminatorlxj/VMDV}}（Visualization for Modeling, Demonstration and Verification）。
+\tool{VMDV}是一个将证明树及其他数据结构（比如Kripke模型）在3D空间内进行动态可视化布局和显示的工具，并可与定理证明工具协同工作，实现证明的3D可视化。
+\tool{VMDV}利用OpenGL接口来编写显示引擎，并用Java编程语言来实现布局算法与其他工具的数据通信。
+
+需要进一步说明的是，\tool{VMDV}被设计成一个一般化的定理证明可视化工具，并定义了接口\footnote{\url{https://github.com/terminatorlxj/VMDV/blob/master/protocol.md}}来与不同的定理证明工具进行通信，而不仅仅能可视化\sctlprov{}的证明输出。接下来，我们分别介绍\tool{VMDV}的相关技术细节及其应用。
+
+\section{OpenGL}\label{vmdv:opengl}

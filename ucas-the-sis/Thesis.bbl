@@ -1,4 +1,4 @@
-\begin{thebibliography}{20}
+\begin{thebibliography}{28}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \providecommand{\href}[2]{\url{#2}}
@@ -6,10 +6,29 @@
 \expandafter\ifx\csname urlstyle\endcsname\relax\relax\else
   \urlstyle{same}\fi
 
+\bibitem[冯艳林(2015)]{FYL15}
+冯艳林, 2015.
+\newblock 城市道路交通信息可视化及其应用研究\allowbreak[J].
+\newblock 黑龙江科技信息, 17: 180.
+
+\bibitem[张敏\ et~al.(2016)张敏, 霍朝光, 霍帆帆, and
+  吴郁松]{ZHHW16}
+张敏, 霍朝光, 霍帆帆, et~al., 2016.
+\newblock
+  国际信息可视化知识族群：演化、聚类及迁徙研究\allowbreak[J].
+\newblock 情报科学, 4: 13--17.
+
 \bibitem[Appel(2006)]{Appel06}
 APPEL A~W, 2006.
 \newblock Compiling with continuations (corr. version)\allowbreak[M].
 \newblock UK: Cambridge University Press.
+
+\bibitem[Bajaj\ et~al.(2003)Bajaj, Khandelwal, Moore, and
+  Siddavanahalli]{bajaj2003interactive}
+BAJAJ C, KHANDELWAL S, MOORE J, et~al., 2003.
+\newblock Interactive symbolic visualization of semi-automatic theorem
+  proving\allowbreak[M].
+\newblock [S.l.]: Computer Science Department, University of Texas at Austin.
 
 \bibitem[Bhat\ et~al.(1995)Bhat, Cleaveland, and Grumberg]{BCG95}
 BHAT G, CLEAVELAND R, GRUMBERG O, 1995.
@@ -23,6 +42,13 @@ BIERE A, CIMATTI A, CLARKE E, et~al., 1999.
   {BDD}s\allowbreak[C]//\allowbreak{}CLEAVELAND W~R.
 \newblock LNCS: volume 1579\quad Proceedings of TACAS'99.
 \newblock Amsterdam, the Netherlands: Springer, USA: 193--207.
+
+\bibitem[Byrnes\ et~al.(2009)Byrnes, Buchanan, Ernst, Miller, Roberts, and
+  Keller]{byrnes2009visualizing}
+BYRNES J, BUCHANAN M, ERNST M, et~al., 2009.
+\newblock Visualizing proof search for theorem prover
+  development\allowbreak[J].
+\newblock Electronic Notes in Theoretical Computer Science, 226: 23--38.
 
 \bibitem[Cavada\ et~al.(2014)Cavada, Cimatti, Dorigatti, Griggio, Mariotti,
   Micheli, Mover, Roveri, and Tonetta]{CAVCDGMMMRT14}
@@ -63,11 +89,23 @@ EMERSON E~A, HALPERN J~Y, 1985.
   branching time\allowbreak[J].
 \newblock J. Comput. Syst. Sci., 30\penalty0 (1): 1--24.
 
+\bibitem[Farmer\ et~al.(2009)Farmer and Grigorov]{Farmer200939}
+FARMER W~M, GRIGOROV O~G, 2009.
+\newblock Panoptes: An exploration tool for formal proofs\allowbreak[J].
+\newblock Electr. Notes Theor. Comput. Sci., 226: 39--48.
+
 \bibitem[Garavel\ et~al.(2013)Garavel, Lang, Mateescu, and Serwe]{GaravelLMS13}
 GARAVEL H, LANG F, MATEESCU R, et~al., 2013.
 \newblock {CADP} 2011: a toolbox for the construction and analysis of
   distributed processes\allowbreak[J].
 \newblock {STTT}, 15\penalty0 (2): 89--107.
+
+\bibitem[Libal\ et~al.(2014)Libal, Riener, and Rukhaia]{LibalRR14}
+LIBAL T, RIENER M, RUKHAIA M, 2014.
+\newblock Advanced proof viewing in
+  prooftool\allowbreak[C]//\allowbreak{}Proceedings Eleventh Workshop on User
+  Interfaces for Theorem Provers, {UITP} 2014, Vienna, Austria, 17th July 2014.
+\newblock [S.l.: s.n.]: 35--47.
 
 \bibitem[McMillan(1993)]{mcmillan93}
 MCMILLAN K~L, 1993.
@@ -105,6 +143,13 @@ REYNOLDS J~C, 1993.
 \newblock The discoveries of continuations\allowbreak[J].
 \newblock Lisp and Symbolic Computation, 6\penalty0 (3-4): 233--248.
 
+\bibitem[Sakurai\ et~al.(2011)Sakurai and Asai]{sakurai2011mikibeta}
+SAKURAI K, ASAI K, 2011.
+\newblock Mikibeta: A general {GUI} library for visualizing proof
+  trees\allowbreak[M]//\allowbreak{}Logic-Based Program Synthesis and
+  Transformation.
+\newblock [S.l.]: Springer: 84--98.
+
 \bibitem[Sarnat\ et~al.(2009)Sarnat and Sch{\"{u}}rmann]{SarnatS09}
 SARNAT J, SCH{\"{U}}RMANN C, 2009.
 \newblock Lexicographic path induction\allowbreak[C]//\allowbreak{}Proceedings
@@ -117,6 +162,13 @@ SESTOFT P, 2012.
 \newblock Undergraduate topics in computer science: volume~50\quad programming
   language concepts\allowbreak[M].
 \newblock Switzerland: Springer International Publishing.
+
+\bibitem[Steel(2005)]{steel2005visualising}
+STEEL G, 2005.
+\newblock Visualising first-order proof
+  search\allowbreak[C]//\allowbreak{}Proceedings of User Interfaces for Theorem
+  Provers: volume 2005.
+\newblock [S.l.: s.n.]: 179--189.
 
 \bibitem[Vergauwen\ et~al.(1993)Vergauwen and Lewi]{VergauwenL93}
 VERGAUWEN B, LEWI J, 1993.

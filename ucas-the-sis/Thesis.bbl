@@ -1,4 +1,4 @@
-\begin{thebibliography}{28}
+\begin{thebibliography}{33}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \providecommand{\href}[2]{\url{#2}}
@@ -23,6 +23,11 @@ APPEL A~W, 2006.
 \newblock Compiling with continuations (corr. version)\allowbreak[M].
 \newblock UK: Cambridge University Press.
 
+\bibitem[Baier\ et~al.(2008)Baier and Katoen]{BaierKatoen08}
+BAIER C, KATOEN J, 2008.
+\newblock Principles of model checking\allowbreak[M].
+\newblock USA: {MIT} Press.
+
 \bibitem[Bajaj\ et~al.(2003)Bajaj, Khandelwal, Moore, and
   Siddavanahalli]{bajaj2003interactive}
 BAJAJ C, KHANDELWAL S, MOORE J, et~al., 2003.
@@ -42,6 +47,19 @@ BIERE A, CIMATTI A, CLARKE E, et~al., 1999.
   {BDD}s\allowbreak[C]//\allowbreak{}CLEAVELAND W~R.
 \newblock LNCS: volume 1579\quad Proceedings of TACAS'99.
 \newblock Amsterdam, the Netherlands: Springer, USA: 193--207.
+
+\bibitem[Bouajjani\ et~al.(2000)Bouajjani, Jonsson, Nilsson, and
+  Touili]{BouajjaniJNT00}
+BOUAJJANI A, JONSSON B, NILSSON M, et~al., 2000.
+\newblock Regular model checking\allowbreak[C]//\allowbreak{}Proceedings of
+  Computer Aided Verification, 12th International Conference, {CAV} 2000.
+\newblock Chicago, IL, USA: Springer-Verlag, Berlin: 403--418.
+
+\bibitem[Bryant(1986)]{Bryant86}
+BRYANT R~E, 1986.
+\newblock Graph-based algorithms for boolean function
+  manipulation\allowbreak[J].
+\newblock {IEEE} Trans. Computers, 35\penalty0 (8): 677--691.
 
 \bibitem[Byrnes\ et~al.(2009)Byrnes, Buchanan, Ernst, Miller, Roberts, and
   Keller]{byrnes2009visualizing}
@@ -65,6 +83,11 @@ CIMATTI A, CLARKE E~M, GIUNCHIGLIA F, et~al., 1999.
 \newblock Nusmv: A new symbolic model
   verifier\allowbreak[C]//\allowbreak{}Proceedings of CAV'99.
 \newblock Trento, Italy: Springer-Verlag, Berlin: 495--499.
+
+\bibitem[Clarke\ et~al.(2001)Clarke, Grumberg, and Peled]{CGP01}
+CLARKE E~M, GRUMBERG O, PELED D, 2001.
+\newblock Model checking\allowbreak[M].
+\newblock Cambridge, MA, USA: {MIT} Press.
 
 \bibitem[Craig(1989)]{Craig89}
 CRAIG J~J, 1989.
@@ -99,6 +122,11 @@ GARAVEL H, LANG F, MATEESCU R, et~al., 2013.
 \newblock {CADP} 2011: a toolbox for the construction and analysis of
   distributed processes\allowbreak[J].
 \newblock {STTT}, 15\penalty0 (2): 89--107.
+
+\bibitem[Holzmann(1997)]{Holzmann97}
+HOLZMANN G~J, 1997.
+\newblock The model checker {SPIN}\allowbreak[J].
+\newblock {IEEE} Trans. Software Eng., 23\penalty0 (5): 279--295.
 
 \bibitem[Libal\ et~al.(2014)Libal, Riener, and Rukhaia]{LibalRR14}
 LIBAL T, RIENER M, RUKHAIA M, 2014.

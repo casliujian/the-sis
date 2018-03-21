@@ -35,11 +35,121 @@
 \end{figure}
 如图\ref{fig:architecture}所示，\tool{VMDV}可同时在多个程序窗口中显示3D图像，在\tool{VMDV}中，每个程序窗口都分别包含一个3D渲染器和一个由多个点和边组成的图。3D渲染器的作用是读入图中的点和边的信息，然后根据布局算法确定点和边的位置，最后在3D空间中将图渲染出来。其中，图中的点和边可以通过接收定理证明器传递的消息来动态的添加、删除以及更改，同时3D渲染器对图的更改进行动态的显示，然后向定理证明器发送反馈消息。在3D渲染器工作的同时，\tool{VMDV}同样接收用户传递的交互消息（键盘或鼠标消息），并及时地在3D渲染器中做出反应。
 
-可以看出，\tool{VMDV}同时可以接收两种消息：定理证明器传递过来的消息以及用户给定的控制消息。其中，定理证明器的消息是以\textsf{TCP}数据包的形式传输的。因此，定理证明器与\tool{VMDV}在网络上通过给定的通讯接口进行交互，而不一定在同一机器上甚至同一进程中。这种设计方式大大减少了\tool{VMDV}对特定的定理证明器的依赖。用户通过传递给\tool{VMDV}控制消息，可是实现对3D图像的操作：旋转、放大、缩小、高亮、搜索以及触发自定义操作。通过这两种消息，\tool{VMDV}可以实现与定理证明器和用户的交互。
+可以看出，\tool{VMDV}同时可以接收两种消息：定理证明器传递过来的消息以及用户给定的消息。其中，定理证明器的消息是以\textsf{TCP}数据包的形式传输的。因此，定理证明器与\tool{VMDV}在网络上通过给定的通讯接口进行交互，而不一定在同一机器上甚至同一进程中。这种设计方式大大减少了\tool{VMDV}对特定的定理证明器的依赖。用户通过传递给\tool{VMDV}消息，可是实现对3D图像的操作：旋转、放大、缩小、高亮、搜索以及触发自定义操作。通过这两种消息，\tool{VMDV}可以实现与定理证明器和用户的交互。
 
-下面我们分别介绍\tool{VMDV}分别与定理证明器和用户的交互。
+下面我们分别介绍\tool{VMDV}与定理证明器和用户的交互。
 \subsection{\tool{VMDV}与定理证明器的交互}
-上面我们说到，\tool{VMDV}与定理证明器的交互是通过\textsf{TCP}数据包形式的消息传递来实现的。其中，每个\textsf{TCP}数据包都包含一个\textsf{JSON}格式的数据结构，不同的\textsf{JSON}数据结构可被解析为不同类型的消息。
+上面我们说到，\tool{VMDV}与定理证明器的交互是通过\textsf{TCP}数据包形式的消息传递来实现的。其中，每个\textsf{TCP}数据包都包含一个\textsf{JSON}格式的数据结构，不同的\textsf{JSON}数据结构可被解析为两种类型的消息：控制消息和反馈消息。
+
+首先，我们介绍控制消息：
 \begin{itemize}
-	\item 
+	\item \textbf{初始化显示窗口}（{定理证明器} $\longrightarrow$ \tool{VMDV}）：在\tool{VMDV}中，我们将每个显示窗口成为一个会话（Session）。当定理证明器需要可视化一个数据结构（比如证明树）的时候，定理证明器发送一个“create\_session”消息， 指定需要可视化的数据结构的名称（“session\_id”）、简介（“session\_descr”）及类型（“graph\_type”）。其中，定理证明器指定的可视化的数据结构的类型分为两种：树（“Tree”）和有向图（“DiGraph”），前者通常用来表示证明树，后者通常用来表示可能有环的有向图。\tool{VMDV}接收到该消息之后立即初始化并显示一个窗口，并等待定理证明器的进一步消息。
+	\begin{verbatim}
+	{
+	  "type": "create_session",
+	  "session_id": string,
+	  "session_descr": string,
+	  "graph_type": string
+	}
+	\end{verbatim}
+	\item \textbf{添加节点}（定理证明器 $\longrightarrow$ \tool{VMDV}）：向\tool{VMDV}相应的会话中加入一个节点，并指定节点的标识（“id”）、要显示的字符串（“label”）、状态（“state”）。其中，节点的状态分为两种：已证明（“Proved”）和未证明（“Not\_Proved”），不同状态的节点通常用不同的颜色高亮显示。\couic{已证明的节点通常默认高亮为绿色，而未证明的节点通常默认高亮为黄色。}
+	\begin{verbatim}
+	{
+	  "type": "add_node",
+	  "session_id": string,
+	  "node":
+	    {
+	      "id": string,
+	      "label": string,
+	      "state": string
+	    }
+	}
+	\end{verbatim}
+	\item \textbf{删除节点}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中删除一个指定的节点。
+	\begin{verbatim}
+	{
+	  "type": "remove_node",
+	  "session_id": string,
+	  "node_id": string
+	}
+	\end{verbatim}
+	\item \textbf{添加边}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中添加一条由“from\_id”节点指向“to\_id”节点的边，同时指定该条边上要显示的字符串（“label”）。
+	\begin{verbatim}
+	{
+	  "type": "add_edge",
+	  "session_id": string,
+	  "from_id": string,
+	  "to_id": string,
+	  "label": string
+	}
+	\end{verbatim}
+	\item \textbf{删除边}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中删除由“from\_id”节点指向“to\_id”节点的边。
+	\begin{verbatim}
+	{
+	  "type": "remove_node",
+	  "session_id": string,
+	  "node_id": string
+	}
+	\end{verbatim}
+	\item \textbf{高亮节点}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：高亮节点消息可由定理证明器和\tool{VMDV}互相发送给对方。当定理证明器向\tool{VMDV}发送该消息时，\tool{VMDV}在相应的会话中将指定的节点用不同于节点当前的颜色高亮显示。当用户在\tool{VMDV}窗口中执行鼠标选中或者搜索操作时，被选中或者搜索到的节点在窗口中被高亮显示的同时，将所有节点的高亮消息发送到定理证明器。当定理证明器同时在\tool{VMDV}中可视化多个数据结构时，高亮节点消息的传递过程可用来实现多个数据结构的交互显示。比如，在可视化\sctlprov{}的证明结果的时候，\tool{VMDV}通常会初始化两个窗口，分别可视化当前公式的证明树，以及在搜索当前证明树的过程中所访问到的Kripke模型的状态。当用鼠标选中或搜索到证明树的某个或某些节点时，\tool{VMDV}将这些证明树节点的高亮信息发送给\sctlprov{}，同时\sctlprov{}识别相应的证明树节点，并计算出与这些证明树节点相关的状态，然后将这些状态节点的高亮信息发送给\tool{VMDV}，于是\tool{VMDV}在状态图窗口中高亮显示相应的状态。
+	
+%	在指定的会话中删除由“from\_id”节点指向“to\_id”节点的边。
+	\begin{verbatim}
+	{
+	  "type": "remove_node",
+	  "session_id": string,
+	  "node_id": string
+	}
+	\end{verbatim}
+	\item \textbf{取消高亮节点}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：同高亮节点消息一样，取消高亮节点的消息同样可由定理证明器和\tool{VMDV}互相发送给对方。
+	\begin{verbatim}
+	{
+	  "type": "unhighlight_node",
+	  "session_id": string,
+	  "node_id": string
+	}
+	\end{verbatim}
+	\item \textbf{取消所有高亮}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：去掉所有节点的高亮颜色。
+	\begin{verbatim}
+	{
+	  "type": "clear_color",
+	  "session_id": string
+	}
+	\end{verbatim}
+	\item \textbf{删除会话} （定理证明器 $\longrightarrow$ \tool{VMDV}）：\tool{VMDV}收到删除会话消息后，销毁对应的窗口，结束一个数据结构的可视化过程。
+	\begin{verbatim}
+	{
+	  "type": "remove_session",
+	  "session_id": string
+	}
+	\end{verbatim}
 \end{itemize}
+
+当定理证明器或\tool{VMDV}收到对方发来的控制消息后，会发送回对方一个反馈消息，用来表明该控制消息是否被成功解析：
+\begin{itemize}
+	\item \textsf{成功解析}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：
+	\begin{verbatim}
+	{
+	  "type": "feedback",
+	  "session_id": string,
+	  "status": "OK"
+	}
+	\end{verbatim}
+	\item \textbf{解析失败}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：
+	\begin{verbatim}
+	{
+	  "type": "feedback",
+	  "session_id": string,
+	  "status": "Fail",
+	  "error_msg": string
+	}
+	\end{verbatim}
+\end{itemize}
+\subsection{\tool{VMDV}与用户的交互}
+
+
+\subsection{\tool{VMDV}中3D图形的动态布局算法}
+
+\section{\tool{VMDV}的应用}
+
+

@@ -271,9 +271,9 @@ only.
 	}}
 	\caption{\label{sctl_rules} \sctlm{}}
 \end{figure}
-\paragraph{有效性与完备性。}\label{sound:complete}
-%\SCTL{}证明系统的有效与完备性是基于kripke模型的有穷性。具体证明如下：
-命题\ref{prop:fis}和命题\ref{prop:fit}的作用是将有穷结构转换为无穷结构，这两个命题被用来证明\SCTL{}的有效性；命题\ref{prop:ifs}和命题\ref{prop:ift}的作用是将无穷结构转换到有穷结构，这两个命题被用来证明\SCTL{}的完备性。
+\paragraph{可靠性与完备性。}\label{sound:complete}
+%\SCTL{}证明系统的可靠性与完备性是基于kripke模型的有穷性。具体证明如下：
+命题\ref{prop:fis}和命题\ref{prop:fit}的作用是将有穷结构转换为无穷结构，这两个命题被用来证明\SCTL{}的可靠性；命题\ref{prop:ifs}和命题\ref{prop:ift}的作用是将无穷结构转换到有穷结构，这两个命题被用来证明\SCTL{}的完备性。
 
 \begin{proposition} [有穷状态序列到无穷状态序列]\label{prop:fis}
 	给定一个有穷的状态序列$s_0,...,s_n$，其中对于任意$0\le i\le n-1$都有$s_i\longrightarrow s_{i+1}$，而且存在$0\le p \le n-1$使得$s_n=s_p$。那么，一定存在一个无穷的状态序列$s_0',s_1',...$使得$s_0 = s_0'$，而且对于任意$i\ge 0$都有$s_i'\longrightarrow
@@ -305,7 +305,7 @@ only.
 	由于Kripke模型的状态集是有穷的，因此对于$T$的每个无穷分支，都存在$0\le p<n$，使得$s_p=s_n$。将$T$的每个这样的无穷分支在$s_n$处截断，所得到的路径树即为$T'$。显然，由于$T'$具有有穷个分支，同时$T'$的每个分支都是有穷的，因此$T'$也是有穷的。
 \end{proof}
 
-\begin{theorem}[有效性]\label{thm:sound}
+\begin{theorem}[可靠性]\label{thm:sound}
 	设$\cal M$为一个Kripke模型，$\phi$为一个\ctlpm{}闭公式。如果相继式$\vdash\phi$具有一个证明，则$\mathcal{M}\models\phi$成立。
 \end{theorem}
 \begin{proof}
@@ -1410,12 +1410,12 @@ $\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，算法细节如图\ref{
 
 与基于\BDD{}的符号模型检测工具不同，\sctlprov{}在验证过程中没有必要计算不动点：迁移规则$T$是动态展开，即展开$T$直到可以判定公式是否可证为止。\sctlprov{}的验证过程只访问初始状态$s_0$可达的状态，因此验证过程会节省空间的占用。不止如此，当Kripke模型的状态变量绝大多数为布尔类型的时候，\sctlprov{}可以用\BDD{}来记录访问过的状态，并以此来进一步节省空间占用；反之，当Kripke模型中包含多个非布尔类型的状态变量的时候，\sctlprov{}可以选择直接记录（通常用哈希表）访问过的状态。不同于符号模型检测中将Kripke结构和要证明的性质都编码到\BDD{}的做法，\sctlprov{}在Kripke结构上直接做状态搜索，\BDD{}只被用来记录搜索过的状态。
 
-\paragraph{动态（On-the-fly）模型检测}
-在验证时序逻辑公式的正确性时，利用动态模型检测的方法可以避免访问Kripke模型的整个状态空间，而只是访问由初始状态可达的状态集合。传统的\CTL{}动态模型检测方法\cite{VergauwenL93,BCG95}通常是基于递归的：即子公式的验证以及迁移规则的展开都是递归进行的。基于递归的\CTL{}动态模型检测通常会涉及到大量的栈操作，尤其是在验证大型系统的过程中。验证算法通常会在栈操作上浪费大量的时间。
+\paragraph{即时（On-the-fly）模型检测}
+在验证时序逻辑公式的正确性时，利用即时模型检测的方法可以避免访问Kripke模型的整个状态空间，而只是访问由初始状态可达的状态集合。传统的\CTL{}即时模型检测方法\cite{VergauwenL93,BCG95}通常是基于递归的：即子公式的验证以及迁移规则的展开都是递归进行的。基于递归的\CTL{}即时模型检测通常会涉及到大量的栈操作，尤其是在验证大型系统的过程中。验证算法通常会在栈操作上浪费大量的时间。
 
-与传统的\CTL{}动态模型检测方法不同，在\sctlprov{}中，公式和迁移规则均按需展开，而且验证算法基于连续（连续传递风格）而不是递归。基于连续的算法只需占用常数大小的栈空间\cite{Reynolds93,Appel06,Sestoft12}，而在递归算法中，栈空间的占用大小与递归深度成正比。
+与传统的\CTL{}即时模型检测方法不同，在\sctlprov{}中，公式和迁移规则均按需展开，而且验证算法基于连续（连续传递风格）而不是递归。基于连续的算法只需占用常数大小的栈空间\cite{Reynolds93,Appel06,Sestoft12}，而在递归算法中，栈空间的占用大小与递归深度成正比。
 
-由于目前没有完整的基于传统的动态模型检测算法的工具存在，因此，为了将其与\sctlprov{}的证明搜索算法进行对比，我们开发了一个递归版本的\sctlprov{}，即\sctlprovr{}\footnote{\url{https://github.com/terminatorlxj/SCTLProV_R}}。不同于\sctlprov{}，\sctlprovr{}利用基于递归的算法来证明子公式并搜索状态空间。\sctlprov{}与\sctlprovr{}的实验结果对比见第\ref{sec:case_exp}节。
+由于目前没有完整的基于传统的即时模型检测算法的工具存在，因此，为了将其与\sctlprov{}的证明搜索算法进行对比，我们开发了一个递归版本的\sctlprov{}，即\sctlprovr{}\footnote{\url{https://github.com/terminatorlxj/SCTLProV_R}}。不同于\sctlprov{}，\sctlprovr{}利用基于递归的算法来证明子公式并搜索状态空间。\sctlprov{}与\sctlprovr{}的实验结果对比见第\ref{sec:case_exp}节。
 
 \paragraph{限界模型检测}
 在传统的限界模型检测工具中，若要证明一个时序逻辑公式，首先需要人为规定（或程序给定）一个限界，并将Kripke模型的迁移规则在限界之内展开，然后判断该公式在迁移规则的有限步展开之内满足与否。若在当前的限界之内可以判断公式满足与否，则算法终止；否则，继续扩大限界。举例来说，若要判断${\cal M}, s_0 \models_{k+1} EF\phi$满足与否，则要先在限界$k+1$之内展开公式与迁移规则\cite{BCCZ99}：
@@ -2561,7 +2561,7 @@ $\bigwedge$, respectively.}
 }
 
 \subsubsection{连续 vs. 递归}
-传统的动态模型检测工具通常使用递归算法来进行公式的证明和状态空间的搜索。不同于递归算法，\sctlprov{}的验证算法是连续传递风格（Continuation-Passing Style，简称CPS），CPS的应用可以大大减少栈的操作，从而节省验证所需的时间。为了对比使用连续传递风格的算法和递归算法的效率，我们对比了\sctlprov{}和\sctlprovr{}分别在测试集一、二上的实验数据。其中\sctlprovr{}与\sctlprov{}的唯一不同是使用递归算法来证明公式和搜索状态空间。如表\ref{tabl:cont_vs_rec}所示，\sctlprov{}能成功验证的测试用例个数比\sctlprovr{}多10\%，而且\sctlprov{}在绝大多数能成功运行的测试用例中比\sctlprovr{}所用时间短。如图\ref{fig:average_time:recursive:vs:continuation}所示，随着状态变量数的增加，\sctlprovr{}的平均运行时间多于\sctlprov{}，而且时间的变化幅度更大。
+传统的即时模型检测工具通常使用递归算法来进行公式的证明和状态空间的搜索。不同于递归算法，\sctlprov{}的验证算法是连续传递风格（Continuation-Passing Style，简称CPS），CPS的应用可以大大减少栈的操作，从而节省验证所需的时间。为了对比使用连续传递风格的算法和递归算法的效率，我们对比了\sctlprov{}和\sctlprovr{}分别在测试集一、二上的实验数据。其中\sctlprovr{}与\sctlprov{}的唯一不同是使用递归算法来证明公式和搜索状态空间。如表\ref{tabl:cont_vs_rec}所示，\sctlprov{}能成功验证的测试用例个数比\sctlprovr{}多10\%，而且\sctlprov{}在绝大多数能成功运行的测试用例中比\sctlprovr{}所用时间短。如图\ref{fig:average_time:recursive:vs:continuation}所示，随着状态变量数的增加，\sctlprovr{}的平均运行时间多于\sctlprov{}，而且时间的变化幅度更大。
 
 
 {
@@ -3005,7 +3005,7 @@ For 262 test cases in this benchmark, \verds{} can solve 152 (58.0\%) cases, bot
 
 \subsection{工业级测试用例的验证}	\label{subsc:vlts}
 在本小节中，我们在工业级测试用例上（测试集四）对比\sctl{}与其他工具的效率。不同于测试集一、二、三，本次对比所用的测试用例均为符号迁移系统（Labeled Transition System，简称\textsf{LTS}），而且所有的\textsf{LTS}均以\textsf{BCG}（Binary-Coded Graph）格式表示，其中\textsf{BCG}格式可以用来表示较大的状态空间。测试集四是形式化验证工具包\CADP{}\cite{GaravelLMS13}的一部分，也被称作\textsf{VLTS}（Very Large Transition Systems）测试集。
-不同于本文中其他的形式化验证工具，\CADP{}是专门验证基于动作的系统的工具，比如符号迁移系统、马尔可夫链等。
+不同于本文中其他的形式化验证工具，\CADP{}是专门验证基于动作的形式化系统的工具，比如符号迁移系统、马尔可夫链等。
 测试集四中的例子均由对不同的传输协议以及并发系统的建模而得到的，其中许多例子是对工业级系统的建模\footnote{\url{http://cadp.inria.fr/resources/vlts/}}。
 
 测试集四中共有40个测试用例，针对每个测试用例我们分别验证有无死锁与活锁。由于\sctlprov{}是基于Kripke模型的验证工具，因此在验证之前，我们需将每个\textsf{LTS}转换到相应的Kripke模型，然后在转换后的Kripke模型中进行验证。

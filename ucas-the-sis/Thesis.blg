@@ -1,40 +1,8 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: Thesis.aux
-The style file: Biblio/gbt7714-plain.bst
+The style file: Biblio/gbt7714-unsrt.bst
 Database file #1: Biblio/thesis_references.bib
-Repeated entry---line 668 of file Biblio/thesis_references.bib
- : @book{CGP01
- :            ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 677 of file Biblio/thesis_references.bib
- : @book{Fitting96
- :                ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 686 of file Biblio/thesis_references.bib
- : @book{Loveland78
- :                 ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 750 of file Biblio/thesis_references.bib
- : @inproceedings{Ji15
- :                    ,
-I'm skipping whatever remains of this entry
 Repeated entry---line 761 of file Biblio/thesis_references.bib
  : @inproceedings{Zhang14
  :                       ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 774 of file Biblio/thesis_references.bib
- : @inproceedings{CimattiCGR99
- :                            ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 784 of file Biblio/thesis_references.bib
- : @article{EmersonC82
- :                    ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 795 of file Biblio/thesis_references.bib
- : @article{EmersonH85
- :                    ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 974 of file Biblio/thesis_references.bib
- : @article{FisherDP01
- :                    ,
-I'm skipping whatever remains of this entry
-(There were 9 error messages)
+(There was 1 error message)

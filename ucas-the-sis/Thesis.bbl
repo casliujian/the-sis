@@ -1,4 +1,4 @@
-\begin{thebibliography}{51}
+\begin{thebibliography}{14}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \providecommand{\href}[2]{\url{#2}}
@@ -6,331 +6,93 @@
 \expandafter\ifx\csname urlstyle\endcsname\relax\relax\else
   \urlstyle{same}\fi
 
-\bibitem[冯艳林(2015)]{FYL15}
-冯艳林, 2015.
-\newblock 城市道路交通信息可视化及其应用研究\allowbreak[J].
-\newblock 黑龙江科技信息, 17: 180.
-
-\bibitem[张敏\ et~al.(2016)张敏, 霍朝光, 霍帆帆, and
-  吴郁松]{ZHHW16}
-张敏, 霍朝光, 霍帆帆, et~al., 2016.
-\newblock
-  国际信息可视化知识族群：演化、聚类及迁徙研究\allowbreak[J].
-\newblock 情报科学, 4: 13--17.
-
-\bibitem[Allen\ et~al.(2000)Allen, Constable, Eaton, Kreitz, and
-  Lorigo]{AllenCEKL00}
-ALLEN S~F, CONSTABLE R~L, EATON R, et~al., 2000.
-\newblock The nuprl open logical
-  environment\allowbreak[C]//\allowbreak{}Automated Deduction - CADE-17, 17th
-  International Conference on Automated Deduction, Pittsburgh, PA, USA, June
-  17-20, 2000, Proceedings.
-\newblock [S.l.: s.n.]: 170--176.
-
-\bibitem[Appel(2006)]{Appel06}
-APPEL A~W, 2006.
-\newblock Compiling with continuations (corr. version)\allowbreak[M].
-\newblock UK: Cambridge University Press.
-
-\bibitem[Baier\ et~al.(2008)Baier and Katoen]{BaierKatoen08}
-BAIER C, KATOEN J, 2008.
-\newblock Principles of model checking\allowbreak[M].
-\newblock USA: {MIT} Press.
-
-\bibitem[Bajaj\ et~al.(2003)Bajaj, Khandelwal, Moore, and
-  Siddavanahalli]{bajaj2003interactive}
-BAJAJ C, KHANDELWAL S, MOORE J, et~al., 2003.
-\newblock Interactive symbolic visualization of semi-automatic theorem
-  proving\allowbreak[M].
-\newblock [S.l.]: Computer Science Department, University of Texas at Austin.
-
-\bibitem[Bertot\ et~al.(2004)Bertot and Cast{\'{e}}ran]{BertotC04}
-BERTOT Y, CAST{\'{E}}RAN P, 2004.
-\newblock Texts in theoretical computer science. an {EATCS} series: Interactive
-  theorem proving and program development - coq'art: The calculus of inductive
-  constructions\allowbreak[M].
-\newblock [S.l.]: Springer.
-
-\bibitem[Bhat\ et~al.(1995)Bhat, Cleaveland, and Grumberg]{BCG95}
-BHAT G, CLEAVELAND R, GRUMBERG O, 1995.
-\newblock Efficient on-the-fly model checking for
-  $ctl^*$\allowbreak[C]//\allowbreak{}Proceedings of LICS'95.
-\newblock San Diego, California, USA: {IEEE} Computer Society, USA: 388--397.
-
-\bibitem[Biere\ et~al.(1999)Biere, Cimatti, Clarke, and Zhu]{BCCZ99}
-BIERE A, CIMATTI A, CLARKE E, et~al., 1999.
-\newblock Symbolic model checking without
-  {BDD}s\allowbreak[C]//\allowbreak{}CLEAVELAND W~R.
-\newblock LNCS: volume 1579\quad Proceedings of TACAS'99.
-\newblock Amsterdam, the Netherlands: Springer, USA: 193--207.
-
-\bibitem[Bouajjani\ et~al.(2000)Bouajjani, Jonsson, Nilsson, and
-  Touili]{BouajjaniJNT00}
-BOUAJJANI A, JONSSON B, NILSSON M, et~al., 2000.
-\newblock Regular model checking\allowbreak[C]//\allowbreak{}Proceedings of
-  Computer Aided Verification, 12th International Conference, {CAV} 2000.
-\newblock Chicago, IL, USA: Springer-Verlag, Berlin: 403--418.
-
-\bibitem[Bryant(1986)]{Bryant86}
-BRYANT R~E, 1986.
-\newblock Graph-based algorithms for boolean function
-  manipulation\allowbreak[J].
-\newblock {IEEE} Trans. Computers, 35\penalty0 (8): 677--691.
-
-\bibitem[Burel(2009)]{Burel09}
-BUREL G, 2009.
-\newblock Automating theories in intuitionistic
-  logic\allowbreak[C]//\allowbreak{}Proceedings of Frontiers of Combining
-  Systems, 7th International Symposium, FroCoS 2009.
-\newblock Trento, Italy: Springer-Verlag, Berlin: 181--197.
-
-\bibitem[Byrnes\ et~al.(2009)Byrnes, Buchanan, Ernst, Miller, Roberts, and
-  Keller]{byrnes2009visualizing}
-BYRNES J, BUCHANAN M, ERNST M, et~al., 2009.
-\newblock Visualizing proof search for theorem prover
-  development\allowbreak[J].
-\newblock Electronic Notes in Theoretical Computer Science, 226: 23--38.
-
-\bibitem[Cavada\ et~al.(2014)Cavada, Cimatti, Dorigatti, Griggio, Mariotti,
-  Micheli, Mover, Roveri, and Tonetta]{CAVCDGMMMRT14}
-CAVADA R, CIMATTI A, DORIGATTI M, et~al., 2014.
-\newblock The nuxmv symbolic model
-  checker\allowbreak[C]//\allowbreak{}Proceedings of Computer Aided
-  Verification - 26th International Conference, {CAV} 2014.
-\newblock Vienna, Austria: Springer International Publishing, Switzerland:
-  334--342.
-
-\bibitem[Cavalli\ et~al.(1984)Cavalli and del Cerro]{CavalliC84}
-CAVALLI A~R, DEL CERRO L~F, 1984.
-\newblock A decision method for linear temporal
-  logic\allowbreak[C]//\allowbreak{}7th International Conference on Automated
-  Deduction, Napa, California, USA, May 14-16, 1984, Proceedings.
-\newblock [S.l.: s.n.]: 113--127.
+\bibitem[McMillan(1993)]{mcmillan93}
+MCMILLAN K~L.
+\newblock Symbolic model checking\allowbreak[M].
+\newblock USA: Springer, 1993.
 
 \bibitem[Cimatti\ et~al.(1999)Cimatti, Clarke, Giunchiglia, and
   Roveri]{CimattiCGR99}
-CIMATTI A, CLARKE E~M, GIUNCHIGLIA F, et~al., 1999.
+CIMATTI A, CLARKE E~M, GIUNCHIGLIA F, et~al.
 \newblock Nusmv: A new symbolic model
   verifier\allowbreak[C]//\allowbreak{}Proceedings of CAV'99.
-\newblock Trento, Italy: Springer-Verlag, Berlin: 495--499.
+\newblock Trento, Italy: Springer-Verlag, Berlin, 1999: 495--499.
 
-\bibitem[Clarke\ et~al.(2001)Clarke, Grumberg, and Peled]{CGP01}
-CLARKE E~M, GRUMBERG O, PELED D, 2001.
-\newblock Model checking\allowbreak[M].
-\newblock Cambridge, MA, USA: {MIT} Press.
-
-\bibitem[Craig(1989)]{Craig89}
-CRAIG J~J, 1989.
-\newblock Introduction to robotics - mechanics and control {(2.}
-  ed.)\allowbreak[M].
-\newblock USA: Prentice Hall.
-
-\bibitem[Dershowitz(1987)]{Dershowitz87}
-DERSHOWITZ N, 1987.
-\newblock Termination of rewriting\allowbreak[J].
-\newblock J. Symb. Comput., 3\penalty0 (1/2): 69--116.
-
-\bibitem[Dowek(2010)]{Dowek10}
-DOWEK G, 2010.
-\newblock Polarized resolution modulo\allowbreak[C]//\allowbreak{}Theoretical
-  Computer Science - 6th {IFIP} {TC} 1/WG 2.2 International Conference, {TCS}
-  2010, Held as Part of {WCC} 2010, Brisbane, Australia, September 20-23, 2010.
-  Proceedings.
-\newblock [S.l.: s.n.]: 182--196.
-
-\bibitem[Dowek\ et~al.(2003)Dowek, Hardin, and Kirchner]{DowekHK03}
-DOWEK G, HARDIN T, KIRCHNER C, 2003.
-\newblock Theorem proving modulo\allowbreak[J].
-\newblock J. Autom. Reasoning, 31\penalty0 (1): 33--72.
-
-\bibitem[Emerson\ et~al.(1982)Emerson and Clarke]{EmersonC82}
-EMERSON E~A, CLARKE E~M, 1982.
-\newblock Using branching time temporal logic to synthesize synchronization
-  skeletons\allowbreak[J].
-\newblock Sci. Comput. Program., 2\penalty0 (3): 241--266.
-
-\bibitem[Emerson\ et~al.(1985)Emerson and Halpern]{EmersonH85}
-EMERSON E~A, HALPERN J~Y, 1985.
-\newblock Decision procedures and expressiveness in the temporal logic of
-  branching time\allowbreak[J].
-\newblock J. Comput. Syst. Sci., 30\penalty0 (1): 1--24.
-
-\bibitem[Farmer\ et~al.(2009)Farmer and Grigorov]{Farmer200939}
-FARMER W~M, GRIGOROV O~G, 2009.
-\newblock Panoptes: An exploration tool for formal proofs\allowbreak[J].
-\newblock Electr. Notes Theor. Comput. Sci., 226: 39--48.
-
-\bibitem[Fisher\ et~al.(2001)Fisher, Dixon, and Peim]{FisherDP01}
-FISHER M, DIXON C, PEIM M, 2001.
-\newblock Clausal temporal resolution\allowbreak[J].
-\newblock {ACM} Trans. Comput. Log., 2\penalty0 (1): 12--56.
-
-\bibitem[Fitting(1996)]{Fitting96}
-FITTING M, 1996.
-\newblock Graduate texts in computer science: First-order logic and automated
-  theorem proving, second edition\allowbreak[M].
-\newblock New York: Springer-Verlag.
-
-\bibitem[Garavel\ et~al.(2013)Garavel, Lang, Mateescu, and Serwe]{GaravelLMS13}
-GARAVEL H, LANG F, MATEESCU R, et~al., 2013.
-\newblock {CADP} 2011: a toolbox for the construction and analysis of
-  distributed processes\allowbreak[J].
-\newblock {STTT}, 15\penalty0 (2): 89--107.
-
-\bibitem[Gordon(2000)]{Gordon00}
-GORDON M, 2000.
-\newblock From {LCF} to {HOL:} a short
-  history\allowbreak[C]//\allowbreak{}Proof, Language, and Interaction, Essays
-  in Honour of Robin Milner.
-\newblock [S.l.: s.n.]: 169--186.
-
-\bibitem[Holzmann(1997)]{Holzmann97}
-HOLZMANN G~J, 1997.
-\newblock The model checker {SPIN}\allowbreak[J].
-\newblock {IEEE} Trans. Software Eng., 23\penalty0 (5): 279--295.
-
-\bibitem[Ji(2015)]{Ji15}
-JI K, 2015.
-\newblock {CTL Model Checking in Deduction
-  Modulo}\allowbreak[C]//\allowbreak{}Proceedings of Automated Deduction -
-  CADE-25.
-\newblock Berlin: Springer International Publishing, Switzerland: 295--310.
-
-\bibitem[Kaufmann\ et~al.(2008)Kaufmann and Moore]{KaufmannM08}
-KAUFMANN M, MOORE J~S, 2008.
-\newblock An {ACL2} tutorial\allowbreak[C]//\allowbreak{}Theorem Proving in
-  Higher Order Logics, 21st International Conference, TPHOLs 2008, Montreal,
-  Canada, August 18-21, 2008. Proceedings.
-\newblock [S.l.: s.n.]: 17--21.
-
-\bibitem[Libal\ et~al.(2014)Libal, Riener, and Rukhaia]{LibalRR14}
-LIBAL T, RIENER M, RUKHAIA M, 2014.
-\newblock Advanced proof viewing in
-  prooftool\allowbreak[C]//\allowbreak{}Proceedings Eleventh Workshop on User
-  Interfaces for Theorem Provers, {UITP} 2014, Vienna, Austria, 17th July 2014.
-\newblock [S.l.: s.n.]: 35--47.
-
-\bibitem[Loveland(1978)]{Loveland78}
-LOVELAND D~W, 1978.
-\newblock Automated theorem proving: A logical basis (fundamental studies in
-  computer science)\allowbreak[M].
-\newblock Amsterdam: Elsevier.
-
-\bibitem[McMillan(1993)]{mcmillan93}
-MCMILLAN K~L, 1993.
-\newblock Symbolic model checking\allowbreak[M].
-\newblock USA: Springer.
-
-\bibitem[Mu{\~{n}}oz\ et~al.(2004)Mu{\~{n}}oz, Dowek, and
-  Carre{\~{n}}o]{MunozDC04}
-MU{\~{N}}OZ C~A, DOWEK G, CARRE{\~{N}}O V, 2004.
-\newblock Modeling and verification of an air traffic concept of
-  operations\allowbreak[C]//\allowbreak{}Proceedings of the {ACM/SIGSOFT}
-  International Symposium on Software Testing and Analysis, {ISSTA} 2004.
-\newblock Boston, Massachusetts, USA: ACM, USA: 175--182.
-
-\bibitem[NASA/TM-2004-213006(2004)]{nasasats04}
-NASA/TM-2004-213006, 2004.
-\newblock Abstract model of sats concept of operations: Initial results and
-  recommendations\allowbreak[M].
-\newblock USA: NASA.
-
-\bibitem[Nipkow(2012)]{Nipkow12}
-NIPKOW T, 2012.
-\newblock Interactive proof: Introduction to
-  isabelle/hol\allowbreak[M]//\allowbreak{}Software Safety and Security - Tools
-  for Analysis and Verification.
-\newblock [S.l.: s.n.]: 254--285.
-
-\bibitem[Owre\ et~al.(1992)Owre, Rushby, and Shankar]{OwreRS92}
-OWRE S, RUSHBY J~M, SHANKAR N, 1992.
-\newblock {PVS:} {A} prototype verification
-  system\allowbreak[C]//\allowbreak{}Automated Deduction - CADE-11, 11th
-  International Conference on Automated Deduction, Saratoga Springs, NY, USA,
-  June 15-18, 1992, Proceedings.
-\newblock [S.l.: s.n.]: 748--752.
-
-\bibitem[Partovi\ et~al.(2014)Partovi and Lin]{PartoviL14}
-PARTOVI A, LIN H, 2014.
-\newblock Assume-guarantee cooperative satisfaction of multi-agent
-  systems\allowbreak[C]//\allowbreak{}Proceedings of American Control
-  Conference, {ACC} 2014.
-\newblock USA: IEEE, USA: 2053--2058.
-
-\bibitem[Paulson(1993)]{cs-LO-9301106}
-PAULSON L~C, 1993.
-\newblock Isabelle: The next 700 theorem provers\allowbreak[J].
-\newblock CoRR, cs.LO/9301106.
-
-\bibitem[Peterson(1981)]{Peterson81}
-PETERSON G~L, 1981.
-\newblock Myths about the mutual exclusion problem\allowbreak[J].
-\newblock Inf. Process. Lett., 12\penalty0 (3): 115--116.
-
-\bibitem[Rajan\ et~al.(1995)Rajan, Shankar, and Srivas]{RajanSS95}
-RAJAN S, SHANKAR N, SRIVAS M~K, 1995.
-\newblock An integration of model checking with automated proof
-  checking\allowbreak[C]//\allowbreak{}Computer Aided Verification, 7th
-  International Conference, Li{\`{e}}ge, Belgium, July, 3-5, 1995, Proceedings.
-\newblock [S.l.: s.n.]: 84--97.
-
-\bibitem[Reynolds(1993)]{Reynolds93}
-REYNOLDS J~C, 1993.
-\newblock The discoveries of continuations\allowbreak[J].
-\newblock Lisp and Symbolic Computation, 6\penalty0 (3-4): 233--248.
-
-\bibitem[Sakurai\ et~al.(2011)Sakurai and Asai]{sakurai2011mikibeta}
-SAKURAI K, ASAI K, 2011.
-\newblock Mikibeta: A general {GUI} library for visualizing proof
-  trees\allowbreak[M]//\allowbreak{}Logic-Based Program Synthesis and
-  Transformation.
-\newblock [S.l.]: Springer: 84--98.
-
-\bibitem[Sarnat\ et~al.(2009)Sarnat and Sch{\"{u}}rmann]{SarnatS09}
-SARNAT J, SCH{\"{U}}RMANN C, 2009.
-\newblock Lexicographic path induction\allowbreak[C]//\allowbreak{}Proceedings
-  of Typed Lambda Calculi and Applications, 9th International Conference,
-  {TLCA} 2009.
-\newblock Brasilia, Brazil: Springer, Berlin: 279--293.
-
-\bibitem[Sestoft(2012)]{Sestoft12}
-SESTOFT P, 2012.
-\newblock Undergraduate topics in computer science: volume~50\quad programming
-  language concepts\allowbreak[M].
-\newblock Switzerland: Springer International Publishing.
-
-\bibitem[Steel(2005)]{steel2005visualising}
-STEEL G, 2005.
-\newblock Visualising first-order proof
-  search\allowbreak[C]//\allowbreak{}Proceedings of User Interfaces for Theorem
-  Provers: volume 2005.
-\newblock [S.l.: s.n.]: 179--189.
-
-\bibitem[Venkatesh(1985)]{Venkatesh85}
-VENKATESH G, 1985.
-\newblock A decision method for temporal logic based on
-  resolution\allowbreak[C]//\allowbreak{}Foundations of Software Technology and
-  Theoretical Computer Science, Fifth Conference, New Delhi, India, December
-  16-18, 1985, Proceedings.
-\newblock [S.l.: s.n.]: 272--289.
+\bibitem[Cavada\ et~al.(2014)Cavada, Cimatti, Dorigatti, Griggio, Mariotti,
+  Micheli, Mover, Roveri, and Tonetta]{CAVCDGMMMRT14}
+CAVADA R, CIMATTI A, DORIGATTI M, et~al.
+\newblock The nuxmv symbolic model
+  checker\allowbreak[C]//\allowbreak{}Proceedings of Computer Aided
+  Verification - 26th International Conference, {CAV} 2014.
+\newblock Vienna, Austria: Springer International Publishing, Switzerland,
+  2014: 334--342.
 
 \bibitem[Vergauwen\ et~al.(1993)Vergauwen and Lewi]{VergauwenL93}
-VERGAUWEN B, LEWI J, 1993.
+VERGAUWEN B, LEWI J.
 \newblock A linear local model checking algorithm for
   {CTL}\allowbreak[C]//\allowbreak{}Proceedings of {CONCUR} '93, 4th
   International Conference on Concurrency Theory.
-\newblock Hildesheim, Germany: Springer-Verlag, Berlin: 447--461.
+\newblock Hildesheim, Germany: Springer-Verlag, Berlin, 1993: 447--461.
 
-\bibitem[Zhang\ et~al.(2014)Zhang, Hustadt, and Dixon]{ZhangHD14}
-ZHANG L, HUSTADT U, DIXON C, 2014.
-\newblock A resolution calculus for the branching-time temporal logic
-  {CTL}\allowbreak[J].
-\newblock {ACM} Trans. Comput. Log., 15\penalty0 (1): 10:1--10:38.
+\bibitem[Bhat\ et~al.(1995)Bhat, Cleaveland, and Grumberg]{BCG95}
+BHAT G, CLEAVELAND R, GRUMBERG O.
+\newblock Efficient on-the-fly model checking for
+  $ctl^*$\allowbreak[C]//\allowbreak{}Proceedings of LICS'95.
+\newblock San Diego, California, USA: {IEEE} Computer Society, USA, 1995:
+  388--397.
+
+\bibitem[Reynolds(1993)]{Reynolds93}
+REYNOLDS J~C.
+\newblock The discoveries of continuations\allowbreak[J].
+\newblock Lisp and Symbolic Computation, 1993, 6\penalty0 (3-4): 233--248.
+
+\bibitem[Appel(2006)]{Appel06}
+APPEL A~W.
+\newblock Compiling with continuations (corr. version)\allowbreak[M].
+\newblock UK: Cambridge University Press, 2006.
+
+\bibitem[Sestoft(2012)]{Sestoft12}
+SESTOFT P.
+\newblock Undergraduate topics in computer science: volume~50\quad programming
+  language concepts\allowbreak[M].
+\newblock Switzerland: Springer International Publishing, 2012.
+
+\bibitem[Biere\ et~al.(1999)Biere, Cimatti, Clarke, and Zhu]{BCCZ99}
+BIERE A, CIMATTI A, CLARKE E, et~al.
+\newblock Symbolic model checking without
+  {BDD}s\allowbreak[C]//\allowbreak{}CLEAVELAND W~R.
+\newblock LNCS: volume 1579\quad Proceedings of TACAS'99.
+\newblock Amsterdam, the Netherlands: Springer, USA, 1999: 193--207.
+
+\bibitem[Peterson(1981)]{Peterson81}
+PETERSON G~L.
+\newblock Myths about the mutual exclusion problem\allowbreak[J].
+\newblock Inf. Process. Lett., 1981, 12\penalty0 (3): 115--116.
+
+\bibitem[Mu{\~{n}}oz\ et~al.(2004)Mu{\~{n}}oz, Dowek, and
+  Carre{\~{n}}o]{MunozDC04}
+MU{\~{N}}OZ C~A, DOWEK G, CARRE{\~{N}}O V.
+\newblock Modeling and verification of an air traffic concept of
+  operations\allowbreak[C]//\allowbreak{}Proceedings of the {ACM/SIGSOFT}
+  International Symposium on Software Testing and Analysis, {ISSTA} 2004.
+\newblock Boston, Massachusetts, USA: ACM, USA, 2004: 175--182.
+
+\bibitem[NASA/TM-2004-213006(2004)]{nasasats04}
+NASA/TM-2004-213006.
+\newblock Abstract model of sats concept of operations: Initial results and
+  recommendations\allowbreak[M].
+\newblock USA: NASA, 2004.
 
 \bibitem[Zhang(2014)]{Zhang14}
-ZHANG W, 2014.
+ZHANG W.
 \newblock {QBF Encoding of Temporal Properties and QBF-based
   Verification}\allowbreak[C]//\allowbreak{}Proceedings of IJCAR 2014.
-\newblock Vienna: Springer-Verlag, Berlin: 224--239.
+\newblock Vienna: Springer-Verlag, Berlin, 2014: 224--239.
+
+\bibitem[Garavel\ et~al.(2013)Garavel, Lang, Mateescu, and Serwe]{GaravelLMS13}
+GARAVEL H, LANG F, MATEESCU R, et~al.
+\newblock {CADP} 2011: a toolbox for the construction and analysis of
+  distributed processes\allowbreak[J].
+\newblock {STTT}, 2013, 15\penalty0 (2): 89--107.
 
 \end{thebibliography}

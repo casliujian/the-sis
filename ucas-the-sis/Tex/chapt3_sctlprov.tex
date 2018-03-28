@@ -1,6 +1,6 @@
 \chapter{定理证明工具\sctlprov{}}
 在本章中，我们介绍对\SCTL{}的证明搜索算法的一个编程实现---定理证明工具\sctlprov{}（图\ref{workflow}）以及该工具与其他模型检测工具的对比。
-\sctlprov{}的工作方式如下：首先，\sctlprov{}读入一个输入文件，并将该输入文件解析到一个Kripke模型以及若干个\SCTL{}公式；然后，对于每个公式，\sctlprov{}搜索该公式的证明，如果该公式可证，则并输出该证明（或者只输出True），如果该公式不可正，则输出该公式的非的证明（或者只输出False）。
+\sctlprov{}的工作方式如下：首先，\sctlprov{}读入一个输入文件，并将该输入文件解析到一个Kripke模型以及若干个\SCTL{}公式；然后，对于每个公式，\sctlprov{}搜索该公式的证明，如果该公式可证，则并输出该证明（或者只输出True），如果该公式不可证，则输出该公式的非的证明（或者只输出False）。
 
 \begin{figure}[h]
 	\centering
@@ -82,6 +82,34 @@
 	\caption{\sctl{}.}\label{workflow}
 \end{figure}
 
+\section{\sctlprov{}的输入语言}
+本节讨论的是\sctlprov{}的输入语言。在\sctlprov{}中，输入语言的作用是定义\sctlprov{}的输入文件内容，即对计算机系统进行形式化建模，并定义要验证的性质，然后，\sctlprov{}可在该模型上验证该性质。
+
+在绝大多数传统的\CTL{}模型检测工具的输入语言中，Kripke模型中的每个状态通常用固定个数的值来表示，其中值的类型通常相对较简单，比如布尔或枚举类型等。这类输入语言通常无法将状态表示为复杂的数据结构，比如任意有限长度的链表。在\sctlprov{}的输入语言中，我们可以利用多种类型的表达式来定义Kripke模型的状态，比如元组（tuple）、记录（record）、变体（variant）或者任意有限长度的链表等。当用这种表达式来表示状态时，状态之间的迁移则可用一个从状态映射到它的所有后继的函数来表示，而且原子公式（即状态的性质或者状态之间的关系）则可用一个从一个或者多个状态映射到一个布尔值的函数来表示。此类输入语言通常可以用来对复杂的系统进行建模，比如第\ref{subsc:sats}节中的小型飞机场运输系统。下面我们详细介绍\sctlprov{}的输入语言。
+
+\couic{In the input languages of most traditional model checkers, a state in a Kripke model is usually expressed as a bounded number of values, and the types of these value are rather simple, for instance, Booleans or enumerations of finite values, etc. Such kind of input languages usually cannot express states as complicated data structures such as lists with arbitrary finite length. In the input language of \sctlprov{}, we can define states as expressions of any types, for instance, tuples, records, variants, or lists with arbitrary finite length, etc. When expressing states in this way, transitions between states can be defined by any computable functions that mapping each state to a list of its successors, and atomic formulae (i.e., properties of a state or relations between states) can be defined as any computable functions that mapping a state, or a list of states into a Boolean value.
+Such kinf of a input language can be used in the modeling of complex systems such as the Small Aircraft Transportation System in Section \ref{subsc:sats}. For further information about the input language of \sctlprov{}, the readers may refer to the documentations in the source code folder of the tool.}
+
+\subsection{词法标记与关键字}
+输入文件中通常包含的是有限个依次排列的字符，这些字符通过词法解析器的解析生成有限个词法标记。在词法标记中，一个整数用有限个连续的数字来表示，而一个标识符以字母开头，紧跟着的是有限个连续的字母、数字或者下划线字符。所有的词法标记用空格、制表符或者换行符隔开。关键字是一种特殊的词法标记，也叫做保留字，用来在输入文件中表示特殊的含义。\sctlprov{}的输入语言中的关键字如下：
+\begin{center}\small
+	\begin{tabular}{cccccccc}
+		\code{Model} & \code{Var} & \code{Define} & \code{Init} & \code{Transition} & \code{Atomic} & \code{Fairness} & \code{Spec}\\
+		\code{int} & \code{bool} & \code{list} & \code{array} & \code{true} & \code{false} & \code{TRUE} & \code{FALSE}\\
+		\code{not} & \code{AX} & \code{EX} & \code{AF} & \code{AF} & \code{EG} & \code{AR} & \code{EU}\\
+		\code{datatype} & \code{value} & \code{function} & \code{let} & \code{match} & \code{with} & \code{if} & \code{then}\\
+		\code{else}\\
+	\end{tabular}
+\end{center}
+在输入文件中关键字不能用来定义值或者函数的名字。其他的词法标记及用法在接下来的语法描述中具体描述出来。
+\subsection{类型}
+\sctlprov{}的输入语言中有三种类型：基本类型、复合类型以及自定义类型。
+\paragraph{基本类型}
+基本类型包含以下几种：
+\begin{itemize}
+	\item \code{unit}: \code{unit}类型的值只有一个，即\code{()}。
+	\item \code{int}: \code{int}代表整数类型，一个值\
+\end{itemize}
 
 
 \section{其他\CTL{}模型检测方法的对比}
@@ -367,7 +395,7 @@
 	\end{center}
 \end{example}
 
-\subsection{案例二：小型飞机场运输系统}
+\subsection{案例二：小型飞机场运输系统}\label{subsc:sats}
 在本小节中，我们介绍对于一个工程问题的形式化验证：由美国国家航空与航天局（National Aeronautics and Space Administration，简称NASA）为主导提出的小型飞机场运输系统（Small Aircraft Transportation System，简称SATS）\cite{MunozDC04,nasasats04}。在\sctlprov{}中，我们对SATS系统进行形式化描述，并验证该系统的安全性。
 
 
@@ -423,7 +451,7 @@
 \end{itemize}
 在\sctlprov{}中，我们针对SCA建立一个Kripke模型：模型中的状态用15个状态变量来表示，分别代表SCA中15个子区域，每个状态变量都是列表类型，代表该子区域内的若干架飞机；模型中包含24条迁移规则，分别指代SCA中的所有飞机在每个子区域间的24种进出方式；要验证的性质是一个\ctlpm{}公式，即在每个状态上，SCA都满足安全性质。该模型的输入文件可在因特网\footnote{\url{https://github.com/terminatorlxj/SATS-model}}上下载。
 
-\sctlprov{}验证该模型用时26秒左右，运行环境为：Linux操作系统，内存3.0GB，2.93GHz$\times$4 CPU。验证过程中共访问54221个状态（Dowek，Mu\~noz和Carre\~no提出了的对SATS系统的一个简化版的PVS建模\cite{MunozDC04}中，该模型中可访问的状态数为2811）。
+\sctlprov{}验证该模型用时26秒左右，运行环境为：Linux操作系统，内存3.0GB，2.93GHz$\times$4 CPU。验证过程中共访问54221个状态（Dowek，Mu\~noz和Carre\~no提出了对SATS系统的一个简化版的PVS建模\cite{MunozDC04}，在该模型中可访问的状态数为2811）。
 经\sctlprov{}验证，该模型满足安全性性质。
 
 
@@ -1878,7 +1906,7 @@ $$EF_x(EG_y(Q(y))(x))((s_0,\cdot))$$
 \subsection{关于实验结果的讨论}
 由测试集一、二、三的实验结果可知，\nusmv{}、\nuxmv{}、\verds{}、\tool{iProver Modulo}、\sctl{}的实验数据主要受两方面因素影响：状态变量的个数和要验证的公式的类型。其中，\nusmv{}、\nuxmv{}的实验数据主要受状态变量个数的影响，而\verds{}、\tool{iProver Modulo}、\sctl{}的实验数据主要受公式类型的影响。当状态变量的个数较小的时候（比如测试集一），\nusmv{}和\nuxmv{}的表现往往优于\verds{}，\tool{iProver Modulo}以及\sctl{}；然而，在状态变量数较大的测试集中（比如测试集二、三），\verds{}、\tool{iProver Modulo}、\sctl{}的表现更好。如果在验证公式的过程中需要访问到几乎整个状态空间（比如一些$AG$性质），那么\nusmv{}和\nuxmv{}的表现优于\verds{}，\tool{iProver Modulo}以及\sctl{}；然而，在验证其他公式的时候，\verds{}，\tool{iProver Modulo}、\sctl{}的表现更好，这是因为在验证此类性质的时候\verds{}，\tool{iProver Modulo}以及\sctl{}不必访问整个状态空间。因此，\verds{}，\tool{iProver Modulo}、\sctl{}相比\nusmv{}、\nuxmv{}在状态变量个数上扩展性更好，其中\sctlprov{}在状态变量个数上比\verds{}和\tool{iProver Modulo}扩展性更好，而且在几乎所有能验证的例子上比\verds{}和\tool{iProver Modulo}占用资源更少。
 
-\couic{When the number of state variables is rather small (such as test cases in benchmark \#1), \nusmv{} and \nuxmv{} solves more test cases than \tool{iProver Modulo}, \verds{} and \sctl{}, but when the number of state variables becomes larger (such as test cases in benchmark \#2 and \#3), they performs worse than the other three tools.  When checking properties where nearly all states must be searched (such as $AG$ properties), \nusmv{} and \nuxmv{} usually perform better than \tool{iProver Modulo}, \verds{} and \sctl{}. However, for most properties, \tool{iProver Modulo}, \verds{} and \sctl{} usually search much less states than \nusmv{} and \nuxmv{} to check them, and are more time and space efficiency. Thus, \tool{iProver Modulo}, \verds{} and \sctl{} scale up better than \nusmv{} and \nuxmv{} when checking these properties. Moreover, \sctl{} scales up better than both \tool{iProver Modulo} and \verds{}, and outperforms these two tools in most solvable cases.}
 
 由测试集四的实验结果可知，\sctlprov{}和\CADP{}的实验数据也受两方面因素影响：状态空间的大小以及是否满足要验证的性质。当状态空间较小时，\sctlprov{}和\CADP{}均占用资源较少；而且当要验证的性质（死锁和活锁）满足的时候，\sctlprov{}和\CADP{}的占用资源也较少。同时，在超过一半的例子中，\sctlprov{}用时相比\CADP{}更少。另外，值得注意的是，在验证测试集四种的测试用例时，\sctlprov{}需要将\textsf{LTS}转换成Kripke模型，而在转换的过程中往往状态空间也会增大，因此在某些测试用例中\sctlprov{}的空间占用比\CADP{}大。如果\sctlprov{}能直接在\textsf{LTS}上进行验证，那么则可避免增大状态空间，这是本文的下一步工作。
 
+%{\bfseries\heiti{}测试黑体}

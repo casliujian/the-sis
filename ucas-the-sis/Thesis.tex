@@ -11,7 +11,7 @@
 %---------------------------------------------------------------------------%
 %->> Document class declaration
 %---------------------------------------------------------------------------%
-\documentclass[doublesided]{Style/ucasthesis}
+\documentclass[doublesided,fontset=fandol]{Style/ucasthesis}
 %- Multiple optional arguments:
 %- [<singlesided|doublesided|printcopy>]% set one or two sided eprint or print
 %- [showmj]% show confidential information
@@ -89,7 +89,7 @@
 %\newcommand\nusmv{\textsf{NuSMV}}
 %\newcommand\verds{\textsf{Verds}}
 %\newcommand\sctl{\textsf{S{\scriptsize CTL}ProV}}
-\newcommand{\couic}[1]{}
+%\newcommand{\couic}[1]{}
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\rsa}{\rightsquigarrow}
 \newcommand{\la}{\leftarrow}
@@ -128,11 +128,11 @@
 \def\ssucc{\mathrel{
 		\scalebox{.6}[1.0]{$\succ$}\mkern-4.5mu\scalebox{.8}[1.0]{$\succ$}}}
 
-\newtheorem{theorem}{\bf 定理}[section]
-\newtheorem{lemma}{\bf 引理}[section]
-\newtheorem{proposition}{\bf 命题}[section]
-\newtheorem{example}{\bf 例子}[section]
-\newtheorem{definition}{\bf 定义}[section]
+\newtheorem{theorem}{\bf 定理}[chapter]
+\newtheorem{lemma}{\bf 引理}[chapter]
+\newtheorem{proposition}{\bf 命题}[chapter]
+\newtheorem{example}{\bf 例子}[chapter]
+\newtheorem{definition}{\bf 定义}[chapter]
 
 \makeatletter
 \newcommand{\figcaption}{\def\@captype{figure}\caption}
@@ -145,14 +145,16 @@
 
 \input{Tex/Frontpages}
 
-\intotoc{\contentsname}% add a corresponding item to the contents table and bookmark
+\linespread{1.2}% local line space
+%\intotoc{\contentsname}% add a corresponding item to the contents table and bookmark
 \tableofcontents% contents catalog
-\intotoc{\listfigurename}% add a corresponding item to the contents table and bookmark
+%\intotoc{\listfigurename}% add a corresponding item to the contents table and bookmark
 \listoffigures% figures catalog
-\intotoc{\listtablename}% add a corresponding item to the contents table and bookmark
+%\intotoc{\listtablename}% add a corresponding item to the contents table and bookmark
 \listoftables% tables catalog
 
-\input{Tex/Prematter}% list of symbols, preface of books
+%\input{Tex/Prematter}% list of symbols, preface of books
+
 
 \mainmatter
 

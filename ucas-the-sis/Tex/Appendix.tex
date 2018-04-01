@@ -1,1 +1,293 @@
-\chapter{附录}
+\chapter{\sctlprov{}的输入语言描述}\label{chapt:sctl:input:language}
+
+\section{词法标记与关键字}
+输入文件中包含的是有限个依次排列的字符，这些字符通过词法解析器的解析生成有限个词法标记。在词法标记中，
+\begin{itemize}
+	\item 一个非负整数表示为有限个连续数字，而一个负整数则表示为在一个非负整数前添加符号“\code{-}”；
+	\begin{center}
+		\code{integer ::= [-]\{0...9\}+}
+	\end{center}
+	\item 一个非负浮点数表示为以符号“\code{.}”分隔的两个非负整数，其中当“\code{.}”后边的非负整数为\code{0}时可省略，而一个负浮点数则表示为在一个非负浮点数前添加符号“\code{-}”；
+	\begin{center}
+		\code{float	::= [-]\{0...9\}+.\{0...9\}*}
+	\end{center}
+	\item 一个标识符表示为以字母开头，并且有限个字母、数字、下划线以及符号“\code{-}”的组合，而且，在输入语言中区分以大写字母开头的标识符和以小写字母开头的标识符，不同标识符的详细用法可参考下面具体的语法描述。
+	\begin{center}
+		\begin{tabular}{lll}
+			\code{iden}&	\code{::=} &  \code{letter \{letter|uletter|0...9|\_|-\}*}\\
+			\code{uiden} & \code{::=}&  \code{uletter \{letter|uletter|0...9|\_|-\}*}\\
+			\code{letter} &	\code{::=} &  \code{a...z}\\
+			\code{uletter} & \code{::=} & \code{A...Z}
+		\end{tabular}	
+	\end{center}
+	\item 空白符和注释被用来增强程序的可读性，且在输入文件的语法分析阶段被忽略掉。其中，空格、制表符、回车符、换行符均为空白符。注释分为单行注释与多行注释，其中单行注释以“\code{//}”开头且以换行符结尾，而多行注释分为两种：以“\code{/*}”开头且以“\code{*/}”结尾，或以“\code{(*}”开头且以“\code{*)}”结尾。
+	
+\end{itemize}
+
+除了以上语法标记外，输入语言中还包括一系列关键字。关键字是一种特殊的词法标记，也叫做保留字，用于在输入文件中表示特殊的含义。输入语言中的关键字如下：
+\begin{center}\small
+	\begin{tabular}{cccccccc}
+		\code{Model} & \code{Var} & \code{Define} & \code{Init} & \code{Transition} & \code{Atomic} & \code{Fairness} & \code{Spec}\\
+		\code{int} & \code{bool} & \code{list} & \code{array} & \code{true} & \code{false} & \code{TRUE} & \code{FALSE}\\
+		\code{not} & \code{AX} & \code{EX} & \code{AF} & \code{AF} & \code{EG} & \code{AR} & \code{EU}\\
+		\code{datatype} & \code{value} & \code{function} & \code{let} & \code{match} & \code{with} & \code{if} & \code{then}\\
+		\code{else} &\code{(} &\code{)} &\code{[} & \code{]}& \code{\{} & \code{\}} & \code{=}\\
+		\code{!=} &\code{<}& \code{<=}& \code{>} &\code{>=}& \code{+}& \code{+.}& \code{-}\\ 
+		\code{-.}& \code{*}& \code{*.} &\code{/}& \code{/.}& \code{!}& \code{|}& \code{||} \\
+		\code{\&\&}& \code{->} &\code{:}& \code{::}& \code{,} &\code{;} &\code{.} 
+	\end{tabular}
+\end{center}
+在输入文件中，关键字不能用来定义值或者函数的名字。关键字的用法在接下来的语法描述中有具体描述。
+
+\section{值}
+在输入语言中，值通常被用来定义Kripke结构的状态。一个值通常具有以下几种形式：
+\begin{itemize}
+	\item 单位值：单位值\code{()}通常可看作一个空元组，是最简单的值。
+	\item 布尔值：布尔值有两种：\code{true}和\code{false}。
+	\item 数值：数值分为两种：整数值与浮点数值。数值的取值范围与OCaml编译器所能表示的相应值的取值范围一致，即：整数值的取值范围为$-2^{30}$到$2^{30}-1$（32位）或$-2^{62}$到$2^{62}-1$（64位）；浮点数值的取值范围符合IEEE 754\footnote{\url{https://en.wikipedia.org/wiki/IEEE_754}}标准。
+	\item 标量值：标量值也被称为枚举值，标量值通常由编程人员自定义且具有\code{\#iden}形式，即“\code{\#}”符号紧接着一个以小写字母为开头的标识符。
+	\item 数组和列表：与OCaml语言类似，数组在这里具有\code{[|v1,...,vn|]}形式，其中\code{v1},...,\code{vn}为$n\ge 0$个值；列表在这里具有\code{[v1,...,vn]}形式，其中\code{v1},...,\code{vn}为$n\ge 0$个值。
+	\item 元组：元组具有\code{v1,...,vn}，其中\code{v1},...,\code{vn}为$n\ge 1$个值。
+	\item 记录：记录可看作带标签的元组，记录具有\code{\{l1 = v1 ; ... ; ln = vn ;\}}形式，其中值\code{vi}的标签是\code{li}。
+	\item 变体：变体由变体构造子及若干个值构造而成。变体分两种：只包含构造子的变体（构造子的元数为0）以及构造子和元组构造而成的变体（构造子的元数为元组中值的个数）。
+\end{itemize}
+值的语法描述如下：
+\begin{center}
+	\begin{verbatim}
+	value ::= 
+	     ()
+	   | true | false
+	   | integer | float
+	   | #iden
+	   | [| value ; ... ; value |] | [ value ; ... ; value ]
+	   | ( value,...,value )
+	   | { iden = value ; ... ; iden = value ; }
+	   | uiden | uiden ( value , ... , value )
+	\end{verbatim}
+\end{center}
+\section{表达式与模式}
+Expressions are used to build complex values via evluations. The evaluations of expressions in our input language coincide with that of the corresponding OCaml expressions. Values can then be seen as the normal form of expressions, i.e., expressions that cannot be further evaluated.
+
+Patterns are used to match different cases of expressions. The way that patterns match expressions in our input language coincide with that in OCaml.
+\begin{center}
+	\begin{verbatim}
+	expr ::=
+	      value                        (*value*)
+	    | iden                         (*variable or name of a value*)
+	    | uiden [(expr,...,expr)]      (*variant expression*)
+	    | expr . iden                  (*select one field of a record*)
+	    | expr [ expr ]                (*select one field of a array*)
+	    | ! expr                       (*logical negation*)
+	    | expr && expr                 (*logical and*)
+	    | expr || expr                 (*logical or*)
+	    | - expr                       (*integer negation*)
+	    | expr + expr                 (*integer addition*)
+	    | expr - expr                 (*integer subtraction*)
+	    | expr * expr                 (*integer multiplication*)
+	    | -. expr                     (*float negation*)
+	    | expr +. expr                (*float addition*)
+	    | expr -. expr                (*float subtraction*)
+	    | expr *. expr                (*float multiplication*)
+	    | expr = expr                 (*expression equivalence*)
+	    | expr != expr                (*expression non-equivalence*)
+	    | expr < expr                 (*less than*)
+	    | expr <= expr                (*less than or equal*)
+	    | expr > expr                 (*larger than*)
+	    | expr >= expr                (*larger than or equal*)
+	    | ( expr )                    (*expression grouping*)
+	    | let pattern = expr          (*declare local variables*)
+	    | if expr then expr           (*if-then expression*)
+	    | if expr then expr else expr (*if-then-else expression *)
+	    | expr ; expr                 (*sequence of expressions*)
+	    | expr <- expr                (*assignment*)
+	    | match_expr                  (*pattern matching*)
+	    | expr with {iden = expr ; ... ; iden = expr [;]}  
+	                           (*a record with changed bindings*)
+	    | iden (expr , ..., expr)     (*a function call*)
+	
+	match_expr ::= match expr with {| pattern -> expr}+
+	
+	pattern ::= 
+	      iden 
+	    | constant
+	    | pattern :: pattern                    (*list*)
+	    | ( pattern ,..., pattern )             (*tuple*)
+	    | _                                     (*match any case*)
+	\end{verbatim}
+\end{center}
+
+\section{类型}
+Like in read world programming languages, the new input language consists of base types, compound types, and user defined types.
+
+Base types
+
+Base types are listed as follows.
+
+unit: the unit type. () the only one constant of type unit. Besides, the type of commands is also unit.
+int: integer type, whose range depends on the implementation platform of the prover SCTLProV.
+(min .. max): integer type within range. Any value v of the type (min .. max) is an integer value and that min <= v <= max.
+{#scalar1, #scalar2...,#scalarn}: scalar type that is used to define an enumeration of finite symbols.
+float: floating-point type, following the IEEE 754 standard.
+bool: boolean type, which consists two dinsguishable values: true and false.
+Compound types
+
+Array
+
+An array type is of the form array t, where t is a type.
+
+List
+
+A list type is of the form list t, where t is a type.
+
+Tuple
+
+A tuple type with n fields is of the form (t1, t2, ... , tn), where t1, t2, …, tn are n data types. An expression of a tuple type with n fields is of the form (e1, e2, ... ,en), where e1, e2, … , en are expressions of types t1, t2, …, tn, respectively.
+
+Record
+
+Records are tuples where each field has an identical name. A record with n fields is of the form {l1: t1; l2: t2; ... ; ln: tn}, where l1, l2, … , ln are name of the labels of each field.
+
+Variant
+
+A variant type consists of a finite number of variant constructors separated by the | symbol, each of which may be followed by a tuple type.
+
+Function type
+
+A function type is used in the declaration of functions, which is described later.
+
+The syntax of type is specified as follows.
+
+type ::= 
+unit | int | float | bool             (*base types*)
+| (min .. max)                          (*integer type with a range*)
+| {#iden, #iden...,#iden}               (*scalar type*)
+| (type1 , ... , typen)                 (*tuple type*)
+| array type                            (*array type*)
+| list type                             (*list type*)
+| record_type                           (*record type*)
+| variant_type                          (*variant type*)
+| type -> type                          (*function type*)
+
+variant_type ::= constructor | ... | constructor
+constructor  ::= uiden | uiden (type , ... , type) 
+
+record_type  ::= { iden : type ; ... ; iden : type ;}
+
+\section{值、类型以及函数的声明}
+
+\section{输入文件的结构}
+Programs are organized as modules. Each modules contains a set of declarations. Modules can be imported into others, while cyclic dependencies are not allowed.
+
+module ::= 
+import uiden ... import uiden
+decl ... decl
+decl   ::= type_decl | value_decl | fun_decl
+
+main_file ::= kripke_decl | module kripke_decl
+
+\cleardoublepage
+\chapter{\tool{VMDV}与定理证明工具的交互协议}\label{vmdv:json:protocol}
+\tool{VMDV}与不同的定理证明工具的交互是通过互相发送与解析JSON形式的消息来实现的，每个JSON对象代表一个消息，消息的详细说明如下：
+\begin{itemize}
+	\item \textbf{初始化显示窗口}（{定理证明器} $\longrightarrow$ \tool{VMDV}）：在\tool{VMDV}中，我们将每个显示窗口成为一个会话（Session）。当定理证明器需要可视化一个数据结构（比如证明树）的时候，定理证明器发送一个“create\_session”消息， 指定需要可视化的数据结构的名称（“session\_id”）、简介（“session\_descr”）及类型（“graph\_type”）。其中，定理证明器指定的可视化的数据结构的类型分为两种：树（“Tree”）和有向图（“DiGraph”），前者通常用来表示证明树，后者通常用来表示可能有环的有向图。\tool{VMDV}接收到该消息之后立即初始化并显示一个窗口，并等待定理证明器的进一步消息。
+	\begin{verbatim}
+	{
+	"type": "create_session",
+	"session_id": string,
+	"session_descr": string,
+	"graph_type": string
+	}
+	\end{verbatim}
+	\item \textbf{添加节点}（定理证明器 $\longrightarrow$ \tool{VMDV}）：向\tool{VMDV}相应的会话中加入一个节点，并指定节点的标识（“id”）、要显示的字符串（“label”）、状态（“state”）。其中，节点的状态分为两种：已证明（“Proved”）和未证明（“Not\_Proved”），不同状态的节点通常用不同的颜色高亮显示。\couic{已证明的节点通常默认高亮为绿色，而未证明的节点通常默认高亮为黄色。}
+	\begin{verbatim}
+	{
+	"type": "add_node",
+	"session_id": string,
+	"node":
+	{
+	"id": string,
+	"label": string,
+	"state": string
+	}
+	}
+	\end{verbatim}
+	\item \textbf{删除节点}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中删除一个指定的节点。
+	\begin{verbatim}
+	{
+	"type": "remove_node",
+	"session_id": string,
+	"node_id": string
+	}
+	\end{verbatim}
+	\item \textbf{添加边}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中添加一条由“from\_id”节点指向“to\_id”节点的边，同时指定该条边上要显示的字符串（“label”）。
+	\begin{verbatim}
+	{
+	"type": "add_edge",
+	"session_id": string,
+	"from_id": string,
+	"to_id": string,
+	"label": string
+	}
+	\end{verbatim}
+	\item \textbf{删除边}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中删除由“from\_id”节点指向“to\_id”节点的边。
+	\begin{verbatim}
+	{
+	"type": "remove_node",
+	"session_id": string,
+	"node_id": string
+	}
+	\end{verbatim}
+	\item \textbf{高亮节点}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：高亮节点消息可由定理证明器和\tool{VMDV}互相发送给对方。当定理证明器向\tool{VMDV}发送该消息时，\tool{VMDV}在相应的会话中将指定的节点用不同于节点当前的颜色高亮显示。当用户在\tool{VMDV}窗口中执行鼠标选中或者搜索操作时，被选中或者搜索到的节点在窗口中被高亮显示的同时，将所有节点的高亮消息发送到定理证明器。当定理证明器同时在\tool{VMDV}中可视化多个数据结构时，高亮节点消息的传递过程可用来实现多个数据结构的交互显示。比如，在可视化\sctlprov{}的证明结果的时候，\tool{VMDV}通常会初始化两个窗口，分别可视化当前公式的证明树，以及在搜索当前证明树的过程中所访问到的Kripke模型的状态。当用鼠标选中或搜索到证明树的某个或某些节点时，\tool{VMDV}将这些证明树节点的高亮信息发送给\sctlprov{}，同时\sctlprov{}识别相应的证明树节点，并计算出与这些证明树节点相关的状态，然后将这些状态节点的高亮信息发送给\tool{VMDV}，于是\tool{VMDV}在状态图窗口中高亮显示相应的状态。
+	
+	%	在指定的会话中删除由“from\_id”节点指向“to\_id”节点的边。
+	\begin{verbatim}
+	{
+	"type": "remove_node",
+	"session_id": string,
+	"node_id": string
+	}
+	\end{verbatim}
+	\item \textbf{取消高亮节点}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：同高亮节点消息一样，取消高亮节点的消息同样可由定理证明器和\tool{VMDV}互相发送给对方。
+	\begin{verbatim}
+	{
+	"type": "unhighlight_node",
+	"session_id": string,
+	"node_id": string
+	}
+	\end{verbatim}
+	\item \textbf{取消所有高亮}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：去掉所有节点的高亮颜色。
+	\begin{verbatim}
+	{
+	"type": "clear_color",
+	"session_id": string
+	}
+	\end{verbatim}
+	\item \textbf{删除会话} （定理证明器 $\longrightarrow$ \tool{VMDV}）：\tool{VMDV}收到删除会话消息后，销毁对应的窗口，结束一个数据结构的可视化过程。
+	\begin{verbatim}
+	{
+	"type": "remove_session",
+	"session_id": string
+	}
+	\end{verbatim}
+\end{itemize}
+
+当定理证明器或\tool{VMDV}收到对方发来的控制消息后，会发送回对方一个反馈消息，用来表明该控制消息是否被成功解析：
+\begin{itemize}
+	\item \textsf{成功解析}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：
+	\begin{verbatim}
+	{
+	"type": "feedback",
+	"session_id": string,
+	"status": "OK"
+	}
+	\end{verbatim}
+	\item \textbf{解析失败}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：
+	\begin{verbatim}
+	{
+	"type": "feedback",
+	"session_id": string,
+	"status": "Fail",
+	"error_msg": string
+	}
+	\end{verbatim}
+\end{itemize}

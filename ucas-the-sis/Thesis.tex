@@ -11,10 +11,11 @@
 %---------------------------------------------------------------------------%
 %->> Document class declaration
 %---------------------------------------------------------------------------%
-\documentclass[doublesided,fontset=fandol]{Style/ucasthesis}
+
+
+\documentclass[doublesided]{Style/ucasthesis}%
 %- Multiple optional arguments:
 %- [<singlesided|doublesided|printcopy>]% set one or two sided eprint or print
-%- [showmj]% show confidential information
 %- [draftversion]% show draft version information
 %- [fontset=<fandol|...>]% specify font set to replace automatic detection
 %- [scheme=plain]% thesis writing of international students
@@ -22,7 +23,43 @@
 %---------------------------------------------------------------------------%
 %->> Document settings
 %---------------------------------------------------------------------------%
-\usepackage[super,myhdr,tikz,math,numbers]{Style/artratex}
+
+\usepackage{comment}
+\usepackage{amsthm}
+\usepackage{moreverb}
+\usepackage{fancyvrb}
+%\usepackage{times}
+%\usepackage{helvet}
+%\usepackage{courier}
+%\usepackage{etex}
+\usepackage{bussproofs}
+%\usepackage{amssymb}
+%\usepackage{graphicx}
+%\usepackage{subfigure}
+\usepackage{url}
+\usepackage{qtree}
+\usepackage{multirow}
+\usepackage{proof}
+%\usepackage{color}
+%\usepackage[table]{xcolor}
+\usepackage{framed}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{makecell}
+%\usepackage{inputenc}
+\usepackage{pgfplots}
+%\usepackage{algorithmic}
+\usepackage{algpseudocode}
+%\usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+%\bibliographystyle{plainurl}
+
+%\usepackage{algorithmic}
+%\usepackage{algorithm}
+%\usepackage{algpseudocode}
+
+
+
+\usepackage[bibtex,numbers,myhdr,math]{Style/artratex}% document settings
 %- usage: \usepackage[option1,option2,...,optionN]{artratex}
 %- Multiple optional arguments:
 %- [bibtex|biber]% set bibliography processor and package
@@ -40,40 +77,14 @@
 %- [table]% provide complex tables via ctable package
 %- [list]% provide enhanced list environments for algorithm and coding
 %- [math]% enable some extra math packages
-\usepackage{Style/artracom}
-
-% packages from the SCTL paper.
-%\usepackage{amsthm,amsmath,amsfonts,amssymb}
-\usepackage{comment}
-\usepackage{amsthm}
-\usepackage{moreverb}
-%\usepackage{times}
-%\usepackage{helvet}
-%\usepackage{courier}
-%\usepackage{etex}
-\usepackage{bussproofs}
-%\usepackage{amssymb}
-\usepackage{graphicx}
-%\usepackage{subfigure}
-\usepackage{url}
-\usepackage{qtree}
-\usepackage{multirow}
-\usepackage{proof}
-\usepackage{color}
-\usepackage{framed}
-\usepackage{pgf}
-%\usepackage{tikz}
-\usepackage{makecell}
-%\usepackage{inputenc}
-\usepackage{pgfplots}
-%\usepackage{algorithmic}
-\usepackage{algpseudocode}
-%\usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
-%\bibliographystyle{plainurl}
-
-%\usepackage{algorithmic}
-%\usepackage{algorithm}
-%\usepackage{algpseudocode}
+\usepackage{Style/artracom}% user defined commands
+%---------------------------------------------------------------------------%
+%->> Document inclusion
+%---------------------------------------------------------------------------%
+%\includeonly{Tex/Chap_1,...,Tex/Chap_N}% selected files compilation
+%---------------------------------------------------------------------------%
+%->> Document content
+%---------------------------------------------------------------------------%
 \newcommand{\nextstate}[1]{\textsf{Next}({#1})}
 \newcommand{\lra}{\longrightarrow}
 \newcommand{\A}{\Rightarrow}
@@ -89,7 +100,7 @@
 %\newcommand\nusmv{\textsf{NuSMV}}
 %\newcommand\verds{\textsf{Verds}}
 %\newcommand\sctl{\textsf{S{\scriptsize CTL}ProV}}
-%\newcommand{\couic}[1]{}
+\newcommand{\couic}[1]{}
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\rsa}{\rightsquigarrow}
 \newcommand{\la}{\leftarrow}
@@ -138,45 +149,40 @@
 \newcommand{\figcaption}{\def\@captype{figure}\caption}
 \newcommand{\tabcaption}{\def\@captype{table}\caption}
 \makeatother
-
 \begin{document}
-
-\frontmatter
-
-\input{Tex/Frontpages}
-
+%-
+%-> Frontmatter: title page, abstract, content list, symbol list, preface
+%-
+\frontmatter% initialize the environment
+\input{Tex/Frontpages}% title page, abstract, dedication
+{% content list region
 \linespread{1.2}% local line space
-%\intotoc{\contentsname}% add a corresponding item to the contents table and bookmark
+%\intotoc{\contentsname}% add link to contents table and bookmark
 \tableofcontents% contents catalog
-%\intotoc{\listfigurename}% add a corresponding item to the contents table and bookmark
+%\intotoc{\listfigurename}% add link to contents table and bookmark
 \listoffigures% figures catalog
-%\intotoc{\listtablename}% add a corresponding item to the contents table and bookmark
+%\intotoc{\listtablename}% add link to contents table and bookmark
 \listoftables% tables catalog
-
-%\input{Tex/Prematter}% list of symbols, preface of books
-
-
-\mainmatter
-
-\input{Tex/Main_Content}%
-%%%%% --------------------------------------------------------------------------------
-%%
-%%%%******************************** Appendix ****************************************
-%%
-%% Some subordinate chapters.
-%\cleardoublepage
-%\appendix%
-%\input{Tex/Appendix}%
-%%%%% --------------------------------------------------------------------------------
-%%
-%%%%******************************* Backmatter ***************************************
-%%
-%% Matters of Bibliography, Glossary, Index.
-\backmatter
-
-\intotoc{\bibname}% add a corresponding item to the contents table and bookmark
-\bibliography{Biblio/thesis_references}%
-
-\input{Tex/Backmatter}
-
+}
+%\input{Tex/Prematter}% list of symbols, preface content
+%-
+%-> Mainmatter
+%-
+\mainmatter% initialize the environment
+\input{Tex/Mainmatter}% main content
+%-
+%-> Appendix
+%-
+\cleardoublepage%
+\appendix% initialize the environment
+\input{Tex/Appendix}% appendix content
+%-
+%-> Backmatter: bibliography, glossary, index
+%-
+\backmatter% initialize the environment
+\intotoc{\bibname}% add link to contents table and bookmark
+\bibliography{Biblio/thesis_references}% bibliography
+\input{Tex/Backmatter}% other information
 \end{document}
+%---------------------------------------------------------------------------%
+

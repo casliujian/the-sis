@@ -1,4 +1,5 @@
 \chapter{定理证明工具\sctlprov{}}
+在上一章中，我们针对\SCTL{}证明系统设计了一种证明搜索策略并给出了证明搜索算法的伪代码。
 在本章中，我们介绍对\SCTL{}的证明搜索算法的一个编程实现---定理证明工具\sctlprov{}（图\ref{workflow}）以及该工具与其他模型检测工具的对比。
 \sctlprov{}的工作方式如下：首先，\sctlprov{}读入一个输入文件，并将该输入文件解析到一个Kripke模型以及若干个\SCTL{}公式；然后，对于每个公式，\sctlprov{}搜索该公式的证明，如果该公式可证，则并输出该证明（或者只输出True），如果该公式不可证，则输出该公式的非的证明（或者只输出False）。
 
@@ -85,33 +86,15 @@
 \section{\sctlprov{}的输入语言}
 本节讨论的是\sctlprov{}的输入语言。在\sctlprov{}中，输入语言的作用是定义\sctlprov{}的输入文件内容，即对计算机系统进行形式化建模，并定义要验证的性质，然后，\sctlprov{}可在该模型上验证该性质。
 
-在绝大多数传统的\CTL{}模型检测工具的输入语言中，Kripke模型中的每个状态通常用固定个数的值来表示，其中值的类型通常相对较简单，比如布尔或枚举类型等。这类输入语言通常无法将状态表示为复杂的数据结构，比如任意有限长度的链表。在\sctlprov{}的输入语言中，我们可以利用多种类型的表达式来定义Kripke模型的状态，比如元组（tuple）、记录（record）、变体（variant）或者任意有限长度的链表等。当用这种表达式来表示状态时，状态之间的迁移则可用一个从状态映射到它的所有后继的函数来表示，而且原子公式（即状态的性质或者状态之间的关系）则可用一个从一个或者多个状态映射到一个布尔值的函数来表示。此类输入语言通常可以用来对复杂的系统进行建模，比如第\ref{subsc:sats}节中的小型飞机场运输系统。下面我们详细介绍\sctlprov{}的输入语言。
+在绝大多数传统的\CTL{}模型检测工具的输入语言中，Kripke模型中的每个状态通常用固定个数的值来表示，其中值的类型通常相对较简单，比如布尔或枚举类型等。这类输入语言通常无法将状态表示为复杂的数据结构，比如任意有限长度的链表。在\sctlprov{}的输入语言中，我们可以利用多种类型的表达式来定义Kripke模型的状态，比如元组（tuple）、记录（record）、变体（variant）或者任意有限长度的链表等。当用这种表达式来表示状态时，状态之间的迁移则可用一个从状态映射到它的所有后继的函数来表示，而且原子公式（即状态的性质或者状态之间的关系）则可用一个从一个或者多个状态映射到一个布尔值的函数来表示。此类输入语言通常可以用来对复杂的系统进行建模，比如第\ref{subsc:sats}节中的小型飞机场运输系统。\sctlprov{}的输入语言的详细描述见附录\ref{chapt:sctl:input:language}。
 
 \couic{In the input languages of most traditional model checkers, a state in a Kripke model is usually expressed as a bounded number of values, and the types of these value are rather simple, for instance, Booleans or enumerations of finite values, etc. Such kind of input languages usually cannot express states as complicated data structures such as lists with arbitrary finite length. In the input language of \sctlprov{}, we can define states as expressions of any types, for instance, tuples, records, variants, or lists with arbitrary finite length, etc. When expressing states in this way, transitions between states can be defined by any computable functions that mapping each state to a list of its successors, and atomic formulae (i.e., properties of a state or relations between states) can be defined as any computable functions that mapping a state, or a list of states into a Boolean value.
 Such kinf of a input language can be used in the modeling of complex systems such as the Small Aircraft Transportation System in Section \ref{subsc:sats}. For further information about the input language of \sctlprov{}, the readers may refer to the documentations in the source code folder of the tool.}
-
-\subsection{词法标记与关键字}
-输入文件中通常包含的是有限个依次排列的字符，这些字符通过词法解析器的解析生成有限个词法标记。在词法标记中，一个整数用有限个连续的数字来表示，而一个标识符以字母开头，紧跟着的是有限个连续的字母、数字或者下划线字符。所有的词法标记用空格、制表符或者换行符隔开。关键字是一种特殊的词法标记，也叫做保留字，用来在输入文件中表示特殊的含义。\sctlprov{}的输入语言中的关键字如下：
-\begin{center}\small
-	\begin{tabular}{cccccccc}
-		\code{Model} & \code{Var} & \code{Define} & \code{Init} & \code{Transition} & \code{Atomic} & \code{Fairness} & \code{Spec}\\
-		\code{int} & \code{bool} & \code{list} & \code{array} & \code{true} & \code{false} & \code{TRUE} & \code{FALSE}\\
-		\code{not} & \code{AX} & \code{EX} & \code{AF} & \code{AF} & \code{EG} & \code{AR} & \code{EU}\\
-		\code{datatype} & \code{value} & \code{function} & \code{let} & \code{match} & \code{with} & \code{if} & \code{then}\\
-		\code{else}\\
-	\end{tabular}
-\end{center}
-在输入文件中关键字不能用来定义值或者函数的名字。其他的词法标记及用法在接下来的语法描述中具体描述出来。
-\subsection{类型}
-\sctlprov{}的输入语言中有三种类型：基本类型、复合类型以及自定义类型。
-\paragraph{基本类型}
-基本类型包含以下几种：
-\begin{itemize}
-	\item \code{unit}: \code{unit}类型的值只有一个，即\code{()}。
-	\item \code{int}: \code{int}代表整数类型，一个值\
-\end{itemize}
-
-
+%pre \textbf{\code{bold}} \code{face} 
+%\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`_=8}]
+%\textbf{bold} face
+%\end{Verbatim}
+%post
 \section{其他\CTL{}模型检测方法的对比}
 在这里，我们讨论\sctlprov{}的证明搜索算法与其他\CTL{}模型检测方法的对比。
 
@@ -125,7 +108,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 与传统的\CTL{}即时模型检测方法不同，在\sctlprov{}中，公式和迁移规则均按需展开，而且验证算法基于连续（连续传递风格）而不是递归。基于连续的算法只需占用常数大小的栈空间\cite{Reynolds93,Appel06,Sestoft12}，而在递归算法中，栈空间的占用大小与递归深度成正比。
 
-由于目前没有完整的基于传统的即时模型检测算法的工具存在，因此，为了将其与\sctlprov{}的证明搜索算法进行对比，我们开发了一个递归版本的\sctlprov{}，即\sctlprovr{}\footnote{\url{https://github.com/terminatorlxj/SCTLProV_R}}。不同于\sctlprov{}，\sctlprovr{}利用基于递归的算法来证明子公式并搜索状态空间。\sctlprov{}与\sctlprovr{}的实验结果对比见第\ref{sec:case_exp}节。
+由于目前没有完整的基于传统的即时模型检测算法的工具存在，因此，为了将其与\sctlprov{}的证明搜索算法进行对比，我们开发了\sctlprov{}的一个递归版本，即\sctlprovr{}\footnote{\url{https://github.com/terminatorlxj/SCTLProV_R}}。不同于\sctlprov{}，\sctlprovr{}利用基于递归的算法来证明子公式并搜索状态空间。\sctlprov{}与\sctlprovr{}的实验结果对比见第\ref{sec:case_exp}节。
 
 \paragraph{限界模型检测}
 在传统的限界模型检测工具中，若要证明一个时序逻辑公式，首先需要人为规定（或程序给定）一个限界，并将Kripke模型的迁移规则在限界之内展开，然后判断该公式在迁移规则的有限步展开之内满足与否。若在当前的限界之内可以判断公式满足与否，则算法终止；否则，继续扩大限界。举例来说，若要判断${\cal M}, s_0 \models_{k+1} EF\phi$满足与否，则要先在限界$k+1$之内展开公式与迁移规则\cite{BCCZ99}：
@@ -1277,7 +1260,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 
 {
-	\begin{figure}[h!]\scriptsize
+	\begin{figure}[h!]\small
 		\setlength{\tabcolsep}{1pt}
 		\begin{center}
 			\begin{tabular}{| l | r | r | r |}
@@ -1483,13 +1466,13 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{| l | r | r | r | r |}
 		\hline
-		\textbf{Programs} & \verds{} & \nusmv{} & \nuxmv{} &  \sctl{} \\
+		\textbf{程序类型} & \verds{} & \nusmv{} & \nuxmv{} &  \sctl{} \\
 		\hline
-		\code{mutual exclusion} & 136 (59.1\%) & 50 (21.7\%) & 50 (21.7\%) & 191 (83.0\%)  \\
+		{互斥算法} & 136 (59.1\%) & 50 (21.7\%) & 50 (21.7\%) & 191 (83.0\%)  \\
 		\hline
-		\code{ring} & 16 (50.0\%) & 21 (65.6\%) & 21 (65.6\%) & 20 (62.5\%) \\
+		{环算法} & 16 (50.0\%) & 21 (65.6\%) & 21 (65.6\%) & 20 (62.5\%) \\
 		\hline
-		Sum & 152(58.0\%) & 71(27.1\%) & 71(27.1\%) & 211 (80.5\%)\\
+		总和 & 152(58.0\%) & 71(27.1\%) & 71(27.1\%) & 211 (80.5\%)\\
 		\hline
 	\end{tabular}	
 	\tabcaption{测试集三中各个工具能成功验证的测试用例的个数}
@@ -1505,13 +1488,13 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{| l | r | r | r |}
 		\hline
-		\textbf{Programs} & \verds{} & \nusmv{} & \nuxmv{}  \\
+		\textbf{程序类型} & \verds{} & \nusmv{} & \nuxmv{}  \\
 		\hline
-		\code{mutual exclusion} & 187 (81.3\%) & 191 (83.0\%) & 191 (83.0\%)   \\
+		{互斥算法} & 187 (81.3\%) & 191 (83.0\%) & 191 (83.0\%)   \\
 		\hline
-		\code{ring} & 13 (40.6\%) & 20 (62.5\%) & 20 (62.5\%)  \\
+		{环算法} & 13 (40.6\%) & 20 (62.5\%) & 20 (62.5\%)  \\
 		\hline
-		Sum & 200(76.3\%) & 211(80.5\%) & 211(80.5\%) \\
+		总和 & 200(76.3\%) & 211(80.5\%) & 211(80.5\%) \\
 		\hline
 	\end{tabular}
 	\tabcaption{测试集三中\sctl{}占用资源更少的的测试用例的个数}

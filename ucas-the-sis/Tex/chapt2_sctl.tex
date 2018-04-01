@@ -1,5 +1,5 @@
 \chapter{定理证明与模型检测的结合}\label{chapt:sctl}
-本章首先介绍逻辑系统\CTLP{}，\CTLP{}是计算树逻辑\CTL{}的一个扩展；然后介绍针对\CTLP{}的一个证明系统\SCTL{}; 之后介绍对证明系统\SCTL{}的一个实现\sctlprov，最后介绍案例分析以及相关实验结果的对比。
+本章首先介绍逻辑系统\CTLP{}，\CTLP{}是计算树逻辑\CTL{}的一个扩展；然后介绍针对\CTLP{}的一个证明系统\SCTL{}; 最后介绍针对证明系统\SCTL{}的一个证明搜索策略及其伪代码。
 
 \section{\CTLP{}}\label{sec:ctlp}
 我们用逻辑 \CTLP{($\cal M$)} 来刻画要验证的系统 $\cal M$ 的性质，其中 $\cal M$ 通常指的是一个 Kripke 结构，其定义如下。
@@ -210,7 +210,7 @@ only.
 \SCTL{$(\cal M)$} 的证明规则如图\ref{sctl_rules}所示。
 
 \begin{figure}[h!]
-	\footnotesize
+	\small
 	\centering
 	\noindent\framebox{\parbox{.98\textwidth}{\hspace*{-0.3cm}
 			$$
@@ -1234,7 +1234,7 @@ $\mathsf{ProveAX}$是$\mathsf{ProveEX}$的对偶情况，伪代码细节如图\r
 				
 			\end{algorithmic}
 	}}
-	\caption{$\mathsf{ProveEG (\Gamma\vdash EG_x(\phi_1)(s))}$ }
+	\caption{$\mathsf{ProveEG (}\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s))}$ }
 	\label{algorithm:eg}
 \end{figure}
 
@@ -1338,6 +1338,7 @@ $\mathsf{ProveAF}$是$\mathsf{ProveEG}$的对偶情况，伪代码细节如图\r
 
 \begin{figure}[h!]\footnotesize
 	\centering
+	
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
 				\State \textit{/* For notation purpose, here we refer ``k'' to $\mathit{AR_{x,y}(\phi_1,\phi_2)(\_)}$ and ``k(s)'' to $\mathit{AR_{x,y}(\phi_1,\phi_2)(s)}$,} 

@@ -15,7 +15,7 @@
 	\item \verds{}：
 	限界模型检测工具\verds{}由Zhang提出，不同于符号模型检测工具，\verds{}在验证公式的过程中首先规定一个界，然后在界内搜索模型的状态。在实际的验证过程中，相比于\nusmv{}，\verds{}通常只需访问较少的状态就能完成公式的验证。另外，不同于基于\textsf{SAT}\cite{BCCZ99}的限界模型检测工具工具，\verds{}在验证过程中将时序逻辑公式翻译到一个\textsf{QBF}（Quantified Boolean Formula），相比于\textsf{SAT}公式，\textsf{QBF}可用来表示更加复杂的时序逻辑公式。
 	\item \tool{SPIN}：\tool{SPIN}是在1980年由美国贝尔实验室的Holzmann等人编写，并在1991年免费开放的一种即时模型检测工具。不同于\nusmv{}和\verds{}，\tool{SPIN}更多的时候被用来验证分布式系统模型的线性时序逻辑（Linear Temporal Logic，简称\textsf{LTL}）性质。在\tool{SPIN}的验证过程不需要提前规定模型搜索的界，而是通过深度优先的方式逐个访问模型的状态，直到可以计算出\textsf{LTL}公式的可满足性为止。另外，不同于\nusmv{}和\verds{}，模型的状态在\tool{SPIN}中通常显式存储，不过由于需要访问的状态通常比前两种工具少，因此在某些模型的验证中空间占用比前两种工具更少。
-	\item \tool{CADP}：\tool{CADP}全称Construction and Analysis of Distributed Processes，是一系列用于通讯协议和分布式系统的设计和验证的工具的集合。\tool{CADP}由法国国家信息与自动化研究所的\textsf{CONVECS}开发（起初由\textsf{VASY}开发），并在工业界有广泛的应用。不同于验证Kripke模型的工具，\textsf{CADP}主要用来验证基于动作的形式化系统，比如符号迁移系统、马尔可夫链等。\CADP{}工具集中包含可验证多种时序逻辑公式的工具，并可以采用即时模型检测或符号模型检测的状态搜索策略。
+	\item \tool{CADP}：\tool{CADP}全称Construction and Analysis of Distributed Processes，是一系列用于通讯协议和分布式系统的设计和验证的工具的集合。\tool{CADP}目前由法国国家信息与自动化研究所的\textsf{CONVECS}小组开发（起初由\textsf{VASY}小组开发），并在工业界有广泛的应用。不同于验证Kripke模型的工具，\textsf{CADP}主要用来验证基于动作的形式化系统，比如符号迁移系统、马尔可夫链等。\CADP{}工具集中包含可验证多种时序逻辑公式的工具，并可以采用即时模型检测或符号模型检测的状态搜索策略。
 \end{itemize}
 
 模型检测的主要优点是验证过程完全自动化，主要缺点是状态爆炸问题，尤其是在对多进程的并发系统的验证过程中，随着进程数量的增长，系统状态的数量可能呈现指数级的增长。状态爆炸问题是困扰模型检测在大型系统的验证中应用的主要问题。
@@ -35,7 +35,7 @@
 \begin{itemize}
 	\item Rajan，Shankar和Srivas提出了一种基于\tool{PVS}的模型检测和定理证明的结合方法\cite{RajanSS95}。在这种方法中，作者首先在\tool{PVS}中定义了一个$\mu$-演算理论，并用$\mu$-演算定义了时序逻辑\textsf{CTL}的模态词，当证明\textsf{CTL}公式的时候，\tool{PVS}则会调用调用内置的模型检测命令来完成证明。在这种方法中，模型检测方法被用来完成\tool{PVS}证明的子目标，而不是贯穿于整个证明过程。这种将模型检测和定理证明相结合的方式最大的优点是利用了定理证明器强大的表达和抽象能力将系统抽象成一个有穷状态模型，然后利用模型检测算法在有穷状态模型中完成状态搜索。
 	\item 在证明\textsf{PLTL}公式方面，Cavalli和Cerro给出了一种基于经典的resolution的方法\cite{CavalliC84}。在这种方法中，作者将\textsf{PLTL}公式翻译到一种时序逻辑的合取范式，然后定义了一组这种合取范式的resolution规则。与这种方法类似，Venkatesh提出了一种基于resolution的判定\textsf{LTL}公式可满足性的方法\cite{Venkatesh85}。这种方法的特点是将给定的\textsf{LTL}公式转换成与该公式的可满足性等价的带有嵌套模态词的公式，然后在转换后的公式上应用经典的resolution规则。同样基于resolution的方法还有Fisher，Dixon和Peim提出的证明\textsf{LTL}公式有效性的方法\cite{FisherDP01}，以及Zhang，Hustadt和Dixon提出的证明\textsf{CTL}公式有效性的方法\cite{ZhangHD14}等。
-	\item Ji提出了一种基于resolution modulo方法的用于验证\textsf{CTL}公式的有效性的方法\cite{Ji15}。Resolution modulo方法首次由Dowek，Hardin和Kirchner提出\cite{DowekHK03,Dowek10}，基本思想是将一阶逻辑的resolution方法转换成重写系统，因此公式的推导过程更多的用计算来实现。Ji的方法已经在定理证明器\tool{iProver Modulo}中实现，并在与多个模型检测工具（\nusmv{}和\verds{}）的实验结果对比中表现良好。
+	\item Ji提出了一种基于resolution modulo方法的用于验证\textsf{CTL}公式的有效性的方法\cite{Ji15}。Resolution modulo方法首次由Dowek，Hardin和Kirchner提出\cite{DowekHK03,Dowek10}，基本思想是将一阶逻辑的resolution方法转换成重写系统，因此公式的推导过程更多的用计算来实现。Ji的方法已经在定理证明器\tool{iProver Modulo}中实现，并在与现有的模型检测工具（\nusmv{}和\verds{}）的实验结果对比中表现良好。
 \end{itemize}
 \section{本文的贡献和组织}
 本文的主要内容是研究模型检测和定理证明两种方法的结合，并不同于已有的工作，本文既没有将模型检测作为定理证明的一个判定过程，也没有将已有时序逻辑公式的模型检测问题转化到定理证明问题，而是提出基于传统的时序逻辑的一个扩展，并在保持模型检测完全自动化的优点的基础上可以验证更复杂的性质。本文的主要工作如下：

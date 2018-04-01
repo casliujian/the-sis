@@ -39,112 +39,11 @@
 
 下面我们分别介绍\tool{VMDV}与定理证明器和用户的交互。
 \subsection{\tool{VMDV}与定理证明器的交互}
-上面我们说到，\tool{VMDV}与定理证明器的交互是通过\textsf{TCP}数据包形式的消息传递来实现的。其中，每个\textsf{TCP}数据包都包含一个\textsf{JSON}格式的数据结构，不同的\textsf{JSON}数据结构可被解析为两种类型的消息：控制消息和反馈消息。
+上面我们说到，\tool{VMDV}与定理证明器的交互是通过\textsf{TCP}数据包形式的消息传递来实现的。其中，每个\textsf{TCP}数据包都包含一个\textsf{JSON}格式的数据结构。\tool{VMDV}与定理证明工具的交互协议的详细描述见附录\ref{vmdv:json:protocol}。
 
-首先，我们介绍控制消息：
-\begin{itemize}
-	\item \textbf{初始化显示窗口}（{定理证明器} $\longrightarrow$ \tool{VMDV}）：在\tool{VMDV}中，我们将每个显示窗口成为一个会话（Session）。当定理证明器需要可视化一个数据结构（比如证明树）的时候，定理证明器发送一个“create\_session”消息， 指定需要可视化的数据结构的名称（“session\_id”）、简介（“session\_descr”）及类型（“graph\_type”）。其中，定理证明器指定的可视化的数据结构的类型分为两种：树（“Tree”）和有向图（“DiGraph”），前者通常用来表示证明树，后者通常用来表示可能有环的有向图。\tool{VMDV}接收到该消息之后立即初始化并显示一个窗口，并等待定理证明器的进一步消息。
-	\begin{verbatim}
-	{
-	  "type": "create_session",
-	  "session_id": string,
-	  "session_descr": string,
-	  "graph_type": string
-	}
-	\end{verbatim}
-	\item \textbf{添加节点}（定理证明器 $\longrightarrow$ \tool{VMDV}）：向\tool{VMDV}相应的会话中加入一个节点，并指定节点的标识（“id”）、要显示的字符串（“label”）、状态（“state”）。其中，节点的状态分为两种：已证明（“Proved”）和未证明（“Not\_Proved”），不同状态的节点通常用不同的颜色高亮显示。\couic{已证明的节点通常默认高亮为绿色，而未证明的节点通常默认高亮为黄色。}
-	\begin{verbatim}
-	{
-	  "type": "add_node",
-	  "session_id": string,
-	  "node":
-	    {
-	      "id": string,
-	      "label": string,
-	      "state": string
-	    }
-	}
-	\end{verbatim}
-	\item \textbf{删除节点}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中删除一个指定的节点。
-	\begin{verbatim}
-	{
-	  "type": "remove_node",
-	  "session_id": string,
-	  "node_id": string
-	}
-	\end{verbatim}
-	\item \textbf{添加边}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中添加一条由“from\_id”节点指向“to\_id”节点的边，同时指定该条边上要显示的字符串（“label”）。
-	\begin{verbatim}
-	{
-	  "type": "add_edge",
-	  "session_id": string,
-	  "from_id": string,
-	  "to_id": string,
-	  "label": string
-	}
-	\end{verbatim}
-	\item \textbf{删除边}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中删除由“from\_id”节点指向“to\_id”节点的边。
-	\begin{verbatim}
-	{
-	  "type": "remove_node",
-	  "session_id": string,
-	  "node_id": string
-	}
-	\end{verbatim}
-	\item \textbf{高亮节点}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：高亮节点消息可由定理证明器和\tool{VMDV}互相发送给对方。当定理证明器向\tool{VMDV}发送该消息时，\tool{VMDV}在相应的会话中将指定的节点用不同于节点当前的颜色高亮显示。当用户在\tool{VMDV}窗口中执行鼠标选中或者搜索操作时，被选中或者搜索到的节点在窗口中被高亮显示的同时，将所有节点的高亮消息发送到定理证明器。当定理证明器同时在\tool{VMDV}中可视化多个数据结构时，高亮节点消息的传递过程可用来实现多个数据结构的交互显示。比如，在可视化\sctlprov{}的证明结果的时候，\tool{VMDV}通常会初始化两个窗口，分别可视化当前公式的证明树，以及在搜索当前证明树的过程中所访问到的Kripke模型的状态。当用鼠标选中或搜索到证明树的某个或某些节点时，\tool{VMDV}将这些证明树节点的高亮信息发送给\sctlprov{}，同时\sctlprov{}识别相应的证明树节点，并计算出与这些证明树节点相关的状态，然后将这些状态节点的高亮信息发送给\tool{VMDV}，于是\tool{VMDV}在状态图窗口中高亮显示相应的状态。
-	
-%	在指定的会话中删除由“from\_id”节点指向“to\_id”节点的边。
-	\begin{verbatim}
-	{
-	  "type": "remove_node",
-	  "session_id": string,
-	  "node_id": string
-	}
-	\end{verbatim}
-	\item \textbf{取消高亮节点}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：同高亮节点消息一样，取消高亮节点的消息同样可由定理证明器和\tool{VMDV}互相发送给对方。
-	\begin{verbatim}
-	{
-	  "type": "unhighlight_node",
-	  "session_id": string,
-	  "node_id": string
-	}
-	\end{verbatim}
-	\item \textbf{取消所有高亮}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：去掉所有节点的高亮颜色。
-	\begin{verbatim}
-	{
-	  "type": "clear_color",
-	  "session_id": string
-	}
-	\end{verbatim}
-	\item \textbf{删除会话} （定理证明器 $\longrightarrow$ \tool{VMDV}）：\tool{VMDV}收到删除会话消息后，销毁对应的窗口，结束一个数据结构的可视化过程。
-	\begin{verbatim}
-	{
-	  "type": "remove_session",
-	  "session_id": string
-	}
-	\end{verbatim}
-\end{itemize}
+%可被解析为两种类型的消息：控制消息和反馈消息。
 
-当定理证明器或\tool{VMDV}收到对方发来的控制消息后，会发送回对方一个反馈消息，用来表明该控制消息是否被成功解析：
-\begin{itemize}
-	\item \textsf{成功解析}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：
-	\begin{verbatim}
-	{
-	  "type": "feedback",
-	  "session_id": string,
-	  "status": "OK"
-	}
-	\end{verbatim}
-	\item \textbf{解析失败}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：
-	\begin{verbatim}
-	{
-	  "type": "feedback",
-	  "session_id": string,
-	  "status": "Fail",
-	  "error_msg": string
-	}
-	\end{verbatim}
-\end{itemize}
+%首先，我们介绍控制消息：
 \subsection{\tool{VMDV}与用户的交互}
 用户可通过鼠标和键盘实现与\tool{VMDV}的交互。用户通过鼠标可以实现3D图形的放缩、旋转、选中、高亮以及触发自定义操作等；通过键盘可以实现符合特定条件的节点的搜索。下面我们依次介绍这些交互。
 \paragraph{图形放大与缩小}

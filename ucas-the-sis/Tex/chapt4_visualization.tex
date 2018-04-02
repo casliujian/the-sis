@@ -49,15 +49,114 @@
 \paragraph{图形放大与缩小}
 在对于图形的所有操作中，放大和缩小是最简单直观的操作，此类操作通常由鼠标控制。在\tool{VMDV}中，我们用鼠标滚轮来控制图形的放大和缩小，通常滚轮向上滚动代表放大图形，滚轮向下滚动代表缩小图形。
 \paragraph{图形旋转}
-在可视化中，3D图形相比于2D图形最大的优势是可以旋转，从而变换角度详细观察图形的细节。带有旋转功能的3D图形相比于2D图形的另一个优势是前者通常可以显示更多的内容。虽然后者可通过延伸图形来利用更多平面空间，然而当要显示的内容过多时整个图形往往变得过于稀疏，从而难以观察图形的全局；当不通过延伸图形来显示更多的内容时，2D图形往往会有重叠显示的内容，从而使整个图形变得更加难以理解。因此，具有旋转功能的图形对于理解整个图形的内容是非常重要的。在\tool{VMDV}中，我们用鼠标左键来控制旋转，按住鼠标左键在图形上滑动即可实现图形的旋转。
+在可视化中，3D图形相比于2D图形最大的优势是可以旋转，从而变换角度详细观察图形的细节。带有旋转功能的3D图形相比于2D图形的另一个优势是前者通常可以显示更多的内容。虽然后者可通过延伸图形来利用更多平面空间，然而当要显示的内容过多时整个图形往往变得过于稀疏，从而难以观察图形的全局；当不通过延伸图形来显示更多的内容时，2D图形往往会有重叠显示的内容，从而使整个图形变得更加难以理解。因此，具有旋转功能的图形对于理解整个图形的内容是非常重要的。在\tool{VMDV}中，我们用鼠标左键来控制旋转，按住鼠标左键在图形上滑动即可实现图形的旋转（如图\ref{vmdv:prooftree:different:angle}）。
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=10cm]{Img/phi_prooftreegraph_angles.png}
+	\caption{从不同角度观察图形}
+	\label{vmdv:prooftree:different:angle}
+\end{figure}
 \paragraph{图形选中与高亮}
-通常在一个3D图形中，在需要呈现局部信息（比如公式的结构、Kripke模型中的状态等）时，我们需要用鼠标来选中，从而高亮某个节点，这时就可以观察被选中的节点的详细信息。\tool{VMDV}中的选中与高亮是可在不同的图形中同步进行的，比如当高亮一棵\sctlprov{}的证明树上的节点时，这个节点对应的公式的相关状态也会在显示Kripke模型的图形中高亮出来。 在\tool{VMDV}中，选中节点的操作既可以通过鼠标左键在节点上点击，也可以通过键盘搜索满足相应条件的节点。
+通常在一个3D图形中，在需要呈现局部信息（比如公式的结构、Kripke模型中的状态等）时，我们需要用鼠标来选中，从而高亮某个节点，这时就可以观察被选中的节点的详细信息。\tool{VMDV}中的选中与高亮是可在不同的图形中同步进行的，比如当高亮一棵\sctlprov{}的证明树上的节点时，这个节点对应的公式的相关状态也会在显示Kripke模型的图形中高亮出来。 在\tool{VMDV}中，选中节点的操作既可以通过鼠标左键在节点上点击，也可以通过键盘搜索满足相应条件的节点 （如图\ref{vmdv:prooftree:high:different}）。
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=10cm]{Img/high_different.png}
+	\caption{高亮图形的不同部分：(a) 高亮单个节点及其后继；(b) 高亮一棵子树；(c) 高亮一个节点的所有祖先；(d) 高亮所有同一类型的公式的子证明}
+	\label{vmdv:prooftree:high:different}
+\end{figure}
 \paragraph{触发自定义操作}
-
-
+除了以上介绍的用户操作之外，\tool{VMDV}还提供了一种功能来实现对图形的自定义操作。由于\tool{VMDV}可与不同的定理证明工具适配，因此，在一些常用操作之外，\tool{VMDV}中还应该定义一些与特定的定理证明工具相关的操作，比如在\sctlprov{}中，当高亮证明树上的节点时，状态图上的节点也随之自动高亮；在\tool{Coq}中，当选中证明树上的某个节点时，用户可自行选择是否继续证明该节点上的公式。
+在\tool{VMDV}中实现自定义操作的方式分为两步：第一步，详细定义自定义操作的方式，即对图形的操作；第二步，定义触发自定义操作的方式。在第一步中，我们利用Java语言的面向对象的特性，首先定义一个\code{AssistAffect}抽象类，然后将所有的对图形的操作均包装成\code{AssistAffect}的子类，这样在程序的编译过程中编译器不需要知道图形的操作的细节，而是在运行时按需调用相应的\code{AssistAffect}子类。由此，我们实现了主程序代码与自定义的图形操作代码的分离。在第二步中，我们同样将触发自定义操作的代码与主程序代码分离开来，具体做法是将触发自定义操作的代码定义为实现\tool{Java}接口\code{PopupItem}的类，由类的继承关系可知，所有实现接口\code{PopupItem}的类均可视为弹出菜单项，且可在窗口中通过鼠标右键触发。因此，当点击由鼠标右键触发的弹出菜单项时，相应的自定义操作即可执行（见图\ref{vmdv:prooftree:userdefined}）。
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=10cm]{Img/user_defined_operation}
+	\caption{\tool{VMDV}中的自定义操作}
+	\label{vmdv:prooftree:userdefined}
+\end{figure}
+\paragraph{节点搜索}
+在\tool{VMDV}中，虽然节点可通过鼠标逐个高亮显示，但这种方式往往效率过低。为了解决这个问题，我们在\tool{VMDV}中增加了节点搜索的功能以实现节点的批量高亮显示。\tool{VMDV}中的节点搜索是通过将每个节点的标签（即所代表的公式的字符串表示）与输入的正则表达式\footnote{\url{https://en.wikipedia.org/wiki/Regular_expression}}进行匹配，然后将匹配成功的节点高亮显示出来。
+（如图\ref{vmdv:prooftree:search}）。
+\begin{figure}
+	\centering
+	\includegraphics[width=10cm]{Img/vmdv_search.png}
+	\caption{\tool{VMDV}中搜索节点}
+	\label{vmdv:prooftree:search}
+\end{figure}
 
 \subsection{\tool{VMDV}中3D图形的动态布局算法}
+在3D图形的可视化系统中，布局算法的作用是计算图形的每个部分在3D空间坐标系中的坐标使得图形的每个部分尽量减少重叠。
+由于\tool{VMDV}中图形的所有节点均可动态添加或删除，因此\tool{VMDV}的布局算法必须是连续的，即算法是连续运行、随时更新的。
+而且，同样由于\tool{VMDV}的图形具有动态更新的特性，图形中的所有部分必须用同一种方式显示，比如所有的节点统一显示为实心球，所有的边统一显示为实线。同样，为了保持图形显示的统一性，图形的布局算法也必须是统一的，即图形的每个部分用同一种方式布局。
+\tool{VMDV}中的布局算法基于ForceAtlas2算法\cite{jacomy2014forceatlas2}，该算法同时满足了\tool{VMDV}对布局算法连续性和统一性的要求。类似的布局算法还有OpenOrd算法\cite{martin2011openord}以及Yifan Hu算法\cite{yifanhu05}。不同于ForceAtlas2算法，OpenOrd算法既不是连续的也不是统一的，而Yifan Hu算法是统一的，但不是连续的。与ForceAtlas2算法一样，\tool{VMDV}中的布局算法的基本原理为：首先，图形中每个部分的坐标是根据其受力的大小而变化的，其中每对节点之间具有斥力，力的大小与节点间距离的大小成反比，同时每对以边相连的节点之间具有相互的引力，引力大小与边的长度成正比；然后，当根据每个节点的受力情况更新完其坐标后，再根据新的坐标计算其在新位置上的受力，直至达到受力平衡状态。
 
 \section{\tool{VMDV}的应用}
+在本小节中，我们首先考虑\tool{VMDV}在定理证明工具\sctlprov{}的一个应用：可视化证明树和Kripke模型，然后，我们介绍如何将\tool{VMDV}应用在定理证明工具\tool{Coq}中。
+\paragraph{\tool{VMDV}在定理证明工具\sctlprov{}的一个应用}
+\begin{example} [过河问题]
+	一位农夫带着一头狼，一只羊和一筐白菜准备过河，河边有一条小船，农夫划船每次只能载狼、羊、白菜三者中的一个过河。农夫不在旁边时，狼会吃羊，羊会吃白菜。问农夫该如何过河。
+\end{example}	
+	过河问题可以被描述为一个模型检测问题：假设农夫准备带着狼、养、白菜从河岸A到达河岸B，Kripke模型中的每个状态由四个布尔类型的状态变量{$farmer$}、$wolf$、$goat$以及$cabbage$组成，分别代表农夫、狼、羊以及白菜在河岸A或者河岸B。，那么对于一个状态$s$，如果$farmer$的赋值为$true$，那么代表在状态$s$中农夫在河岸B，其他状态变量的赋值以此类推。因此，Kripke模型中的初始状态为：$$s_0=\{farmer := false, wolf := false, goat := false, cabbage := false\}$$
+	Kripke模型中的迁移则表示为农夫在过河过程中所有的状态变量的赋值的变化。该模型检测问题则可表述为是否存在一个由$s_0$可达的状态$s$使得
+	$$s=\{farmer := true, wolf := true, goat := true, cabbage := true\}$$
+	而且在从$s_0$到$s$的路径上的所有的状态$s'$上，狼不能单独和羊在一起，且羊不能单独和白菜在一起。
+	该模型检测问题可用\CTLP{}公式表示为：$$EU_{x,y}(safe(x), complete(y))(s_0)$$
+	其中$safe(x)$表示在状态$x$中狼不能单独和羊在一起，且羊不能单独和白菜在一起，而$complete(y)$表示在状态$y$中农夫、狼、羊以及白菜均安全到达河岸B。
+	
+	利用\tool{VMDV}，我们可以将\sctlprov{}对该问题的验证过程进行可视化（见图\ref{vmdv:river:step}），其中上述\CTLP{}公式的证明树在\tool{VMDV}中逐步显示出来，而且随着证明树的逐步显示（图\ref{vmdv:river:step}上半部分），该问题的Kripke模型也逐步构造出来（图\ref{vmdv:river:step}下半部分）。当证明构造完成之后，且将所有的对应于带有$EU$模态词的公式的节点进行高亮显示时，在状态图中则对应着一个路径的高亮显示，该路径即为从$s_0$到$s$的路径，即农夫、狼、羊以及白菜均安全从河岸A到达河岸B的过程（见图\ref{vmdv:river:path}）。
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=10cm]{Img/river_prooftreegraph_step.png}
+		\caption{过河问题的验证过程}
+		\label{vmdv:river:step}
+	\end{figure}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=10cm]{Img/river_prooftreegraph_state_highlight.png}
+		\caption{过河问题中证明树和状态图的高亮显示}
+		\label{vmdv:river:path}
+	\end{figure}
 
-
+	需要注意的是，在\sctlprov{}中，在对不同公式的验证过程中，需要访问的状态个数也往往不同，比如在上述过河问题中，对$EU$公式的验证意味着需要在Kripke模型中寻找一条满足特定条件的路径的过程，因此当对$EU$公式的验证结束并成功之后，相应的状态图中只包含该路径上的节点及其后继。然而，当验证非$EU$的公式，比如$AG$公式时，如果要验证的公式成立，那么\sctlprov{}往往需要访问Kripke模型的所有状态，这时状态图也会相对更大（见图\ref{vmdv:example:ag}），此时，由于$AG$公式的证明树及其状态图往往很大，我们可以利用\tool{VMDV}的局部选中功能，每次观察证明树的时候只观察选中的部分，相应的状态图中也只高亮显示相关的节点（见图\ref{vmdv:example:ag:part}）。
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=10cm]{Img/ag_proof_state.png}
+		\caption{一个$AG$公式的证明树及其状态图}
+		\label{vmdv:example:ag}
+	\end{figure}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=10cm]{Img/ag_part_detail.png}
+		\caption{证明树的部分选中以及状态图的部分高亮}
+		\label{vmdv:example:ag:part}
+	\end{figure}
+\paragraph{\tool{VMDV}与定理证明工具\tool{Coq}的结合}
+与\sctlprov{}不同，\tool{Coq}中的证明树不是自动生成的，而是由编程人员通过输入证明脚本（Proof Script）来人工干预证明树的产生过程，其中每个证明脚本又包含若干条证明语句。在\tool{Coq}中，每个需要证明的公式被称为一个目标，而该公式的所有前提则被称为该目标的子目标。一个目标的子目标是通过一条证明语句而生成的。
+因此，\tool{Coq}的证明树可表示为：将每个公式（目标）都看成证明树中的节点，而且将该公式的前提（子目标）看成相应的节点的后继，如果该公式没有前提，则其对应的节点为叶节点。
+为了将\tool{Coq}中的证明树在\tool{VMDV}中可视化，我们开发了一个用于协调\tool{VMDV}与\tool{Coq}之间通信的中间件\tool{Coqv}\footnote{\url{https://github.com/terminatorlxj/coqv}}：\tool{Coqv}与\tool{Coq}的通信遵循\tool{Coq}自定义的XML通讯协议\footnote{\url{https://github.com/siegebell/vscoq/wiki/XML-protocol}}；\tool{Coqv}与\tool{VMDV}的通信遵循\tool{VMDV}的JSON通讯协议。通过\tool{Coqv}，\tool{VMDV}可实现对\tool{Coq}中生成的证明树的可视化。
+例如，公式$$\forall A B C: Prop, (A\rightarrow(B\rightarrow C)\rightarrow ((A\rightarrow B)\rightarrow(A\rightarrow C)))$$的证明脚本如下。
+\begin{center}
+%	\centering
+%	\begin{tabular}{p{5cm}}
+		\begin{verbatim}
+		Proof.
+		    intros A B C.
+		    intros H1 H2 H3.
+		    apply H1. assumption.
+		    apply H2. assumption.
+		Qed.
+		\end{verbatim}
+%	\end{tabular}
+	
+%	\caption{一个公式在\tool{Coq}中的证明脚本}
+%	\label{vmdv:coq:proofscript}
+\end{center}
+该证明脚本所生成的证明树在\tool{VMDV}中可视化如图\ref{vmdv:coq:vis}所示。图中证明树的生成分别由6步完成，分别对应于证明脚本的6个命令。
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=7cm]{Img/coq_example.png}
+	\caption{\tool{Coq}中的一棵证明树的可视化}
+	\label{vmdv:coq:vis}
+\end{figure}
+目前，\tool{Coqv}的开发阶段已完成，目前正在根据\tool{Coq}的不同应用场景进行测试，并逐步完善功能，这也是本论文的下一步工作的其中一项。

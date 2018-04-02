@@ -117,6 +117,7 @@ Patterns are used to match different cases of expressions. The way that patterns
 \end{center}
 
 \section{类型}
+\couic{
 Like in read world programming languages, the new input language consists of base types, compound types, and user defined types.
 
 Base types
@@ -184,7 +185,7 @@ decl ... decl
 decl   ::= type_decl | value_decl | fun_decl
 
 main_file ::= kripke_decl | module kripke_decl
-
+}
 \cleardoublepage
 \chapter{\tool{VMDV}与定理证明工具的交互协议}\label{vmdv:json:protocol}
 \tool{VMDV}与不同的定理证明工具的交互是通过互相发送与解析JSON形式的消息来实现的，每个JSON对象代表一个消息，消息的详细说明如下：
@@ -291,3 +292,4 @@ main_file ::= kripke_decl | module kripke_decl
 	}
 	\end{verbatim}
 \end{itemize}
+

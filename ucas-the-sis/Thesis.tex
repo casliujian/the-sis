@@ -34,7 +34,7 @@
 %\usepackage{etex}
 \usepackage{bussproofs}
 %\usepackage{amssymb}
-%\usepackage{graphicx}
+\usepackage{graphicx}
 %\usepackage{subfigure}
 \usepackage{url}
 \usepackage{qtree}
@@ -181,6 +181,7 @@
 %-
 \backmatter% initialize the environment
 \intotoc{\bibname}% add link to contents table and bookmark
+\nocite{*}
 \bibliography{Biblio/thesis_references}% bibliography
 \input{Tex/Backmatter}% other information
 \end{document}

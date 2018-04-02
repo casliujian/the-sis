@@ -1,4 +1,4 @@
-\begin{thebibliography}{51}
+\begin{thebibliography}{87}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \providecommand{\href}[2]{\url{#2}}
@@ -18,10 +18,10 @@ BOUAJJANI A, JONSSON B, NILSSON M, et~al.
   Computer Aided Verification, 12th International Conference, {CAV} 2000.
 \newblock Chicago, IL, USA: Springer-Verlag, Berlin, 2000: 403--418.
 
-\bibitem[Baier\ et~al.(2008)Baier and Katoen]{BaierKatoen08}
+\bibitem[Baier\ et~al.(2008{\natexlab{a}})Baier and Katoen]{BaierKatoen08}
 BAIER C, KATOEN J.
 \newblock Principles of model checking\allowbreak[M].
-\newblock USA: {MIT} Press, 2008.
+\newblock USA: {MIT} Press, 2008{\natexlab{a}}.
 
 \bibitem[Cimatti\ et~al.(1999)Cimatti, Clarke, Giunchiglia, and
   Roveri]{CimattiCGR99}
@@ -335,5 +335,214 @@ BAJAJ C, KHANDELWAL S, MOORE J, et~al.
 冯艳林.
 \newblock 城市道路交通信息可视化及其应用研究\allowbreak[J].
 \newblock 黑龙江科技信息, 2015, 17: 180.
+
+\bibitem[Mathieu\ et~al.(2014)Mathieu, Tommaso, Sebastien, and
+  Bastian]{jacomy2014forceatlas2}
+MATHIEU J, TOMMASO V, SEBASTIEN H, et~al.
+\newblock Forceatlas2, a continuous graph layout algorithm for handy network
+  visualization designed for the gephi software\allowbreak[J].
+\newblock PLOS ONE, 2014, 9\penalty0 (6): e98679.
+
+\bibitem[Martin\ et~al.(2011)Martin, Brown, Klavans, and
+  Boyack]{martin2011openord}
+MARTIN S, BROWN W~M, KLAVANS R, et~al.
+\newblock Openord: an open-source toolbox for large graph layout\allowbreak[J].
+\newblock SPIE Proceedings, 2011, 7868.
+
+\bibitem[Hu(2005)]{yifanhu05}
+HU Y.
+\newblock Efficient and high quality force-directed graph
+  drawing\allowbreak[J].
+\newblock The Matematical Journal, 2005, 10: 149--160.
+
+\bibitem[Biere\ et~al.(2003{\natexlab{a}})Biere, Cimatti, Clarke, Strichman,
+  and Zhu]{BCCSZ03}
+BIERE A, CIMATTI A, CLARKE E~M, et~al.
+\newblock {Bounded Model Checking}\allowbreak[J].
+\newblock Advances in Computers, 2003, 58: 117--148.
+
+\bibitem[Bouajjani\ et~al.(1997{\natexlab{a}})Bouajjani, Esparza, and
+  Maler]{BEM97}
+BOUAJJANI A, ESPARZA J, MALER O.
+\newblock Reachability analysis of pushdown automata: Application to
+  model-checking\allowbreak[C]//\allowbreak{}Proceedings of {CONCUR'97:
+  Concurrency Theory}.
+\newblock Warsaw, Poland: Springer-Verlag, Berlin, 1997{\natexlab{a}}:
+  135--150.
+
+\bibitem[Girard(1989)]{Girard89}
+GIRARD J~Y.
+\newblock Proofs and types\allowbreak[M].
+\newblock [S.l.]: Cambridge University Press, UK, 1989.
+
+\bibitem[Kleene(2009)]{Kleene09}
+KLEENE S~C.
+\newblock Introduction to metamathematics\allowbreak[M].
+\newblock [S.l.]: Ishi Press, California, 2009.
+
+\bibitem[Bollig(2011)]{Bollig11}
+BOLLIG B.
+\newblock On the {OBDD} complexity of the most significant bit of integer
+  multiplication\allowbreak[J].
+\newblock Theoretical Computer Science, 2011, 412\penalty0 (18): 1686 -- 1695.
+
+\bibitem[Gabbay\ et~al.(2008)Gabbay and Pnueli]{GabbayP08}
+GABBAY D~M, PNUELI A.
+\newblock A sound and complete deductive system for ctl*
+  verification\allowbreak[J].
+\newblock Logic JOURNAL of the {IGPL}, 2008, 16\penalty0 (6): 499--536.
+
+\bibitem[Reynolds(2001)]{Reynolds01}
+REYNOLDS M.
+\newblock An axiomatization of full computation tree logic\allowbreak[J].
+\newblock J. Symb. Log., 2001, 66\penalty0 (3): 1011--1057.
+
+\bibitem[Friedmann(2008)]{Friedmann08}
+FRIEDMANN O.
+\newblock A proof system for $ctl^*$\allowbreak[D].
+\newblock [S.l.]: University of Munich, 2008.
+
+\bibitem[Holzmann(2004)]{Holzmann04}
+HOLZMANN G~J.
+\newblock The {SPIN} model checker - primer and reference manual\allowbreak[M].
+\newblock [S.l.]: Addison-Wesley, 2004.
+
+\bibitem[Burel(2011)]{Burel11}
+BUREL G.
+\newblock Experimenting with deduction
+  modulo\allowbreak[C]//\allowbreak{}SOFRONIE-STOKKERMANS V, BJ{\O}RNER N.
+\newblock Proceedings of CADE 2011.
+\newblock Wroclaw, Poland: Springer-Verlag, Berlin, 2011: 162--176.
+
+\bibitem[Davis\ et~al.(1960)Davis and Putnam]{DavisP60}
+DAVIS M, PUTNAM H.
+\newblock A computing procedure for quantification theory\allowbreak[J].
+\newblock J. {ACM}, 1960, 7\penalty0 (3): 201--215.
+
+\bibitem[Pnueli\ et~al.(2002)Pnueli and Kesten]{PnueliK02}
+PNUELI A, KESTEN Y.
+\newblock A deductive proof system for
+  {CTL}\allowbreak[C]//\allowbreak{}Proceedings of {CONCUR} 2002.
+\newblock Brno, Czech Republic: Springer-Verlag, Berlin, 2002: 24--40.
+
+\bibitem[Dowek\ et~al.(2013)Dowek and Jiang]{GY13}
+DOWEK G, JIANG Y.
+\newblock A logical approach to {CTL}\allowbreak[EB/OL].
+\newblock 2013.
+\newblock \url{http://www.lsv.ens-cachan.fr/~dowek/Publi/ctl.pdf}.
+
+\bibitem[Biere\ et~al.(2003{\natexlab{b}})Biere, Cimatti, Clarke, Strichman,
+  and Zhu]{BiereCCSZ03}
+BIERE A, CIMATTI A, CLARKE E~M, et~al.
+\newblock Bounded model checking\allowbreak[J].
+\newblock Advances in Computers, 2003, 58: 117--148.
+
+\bibitem[He\ et~al.(2010)He, Song, Hung, Gu, and Sun]{HeSHGS10}
+HE F, SONG X, HUNG W~N~N, et~al.
+\newblock Integrating evolutionary computation with abstraction refinement for
+  model checking\allowbreak[J].
+\newblock {IEEE} Trans. Computers, 2010, 59\penalty0 (1): 116--126.
+
+\bibitem[Crespi\ et~al.(2008)Crespi, Galstyan, and Lerman]{CrespiGL08}
+CRESPI V, GALSTYAN A, LERMAN K.
+\newblock Top-down vs bottom-up methodologies in multi-agent system
+  design\allowbreak[J].
+\newblock Auton. Robots, 2008, 24\penalty0 (3): 303--313.
+
+\bibitem[Lange\ et~al.(2002)Lange and Stirling]{LangeS02}
+LANGE M, STIRLING C.
+\newblock Model checking games for branching time logics\allowbreak[J].
+\newblock J. Log. Comput., 2002, 12\penalty0 (4): 623--639.
+
+\bibitem[Br{\"{u}}nnler\ et~al.(2008)Br{\"{u}}nnler and Lange]{BruennlerLange}
+BR{\"{U}}NNLER K, LANGE M.
+\newblock Cut-free sequent systems for temporal logic\allowbreak[J].
+\newblock J. Log. Algebr. Program., 2008, 76\penalty0 (2): 216--225.
+
+\bibitem[Dershowitz\ et~al.(1979)Dershowitz and Manna]{DershowitzM79}
+DERSHOWITZ N, MANNA Z.
+\newblock Proving termination with multiset orderings\allowbreak[J].
+\newblock Commun. {ACM}, 1979, 22\penalty0 (8): 465--476.
+
+\bibitem[Jouannaud\ et~al.(1982)Jouannaud and Lescanne]{JouannaudL82}
+JOUANNAUD J, LESCANNE P.
+\newblock On multiset orderings\allowbreak[J].
+\newblock Inf. Process. Lett., 1982, 15\penalty0 (2): 57--63.
+
+\bibitem[Dershowitz(1982)]{ND82}
+DERSHOWITZ N.
+\newblock Orderings for term-rewriting systems\allowbreak[J].
+\newblock Theor. Comput. Sci., 1982, 17: 279--301.
+
+\bibitem[Tufte\ et~al.(1983)Tufte and Graves-Morris]{tufte1983visual}
+TUFTE E~R, GRAVES-MORRIS P.
+\newblock The visual display of quantitative information:
+  volume~2\allowbreak[M].
+\newblock [S.l.]: Graphics press Cheshire, CT, 1983.
+
+\bibitem[Dowek\ et~al.(2014)Dowek and Jiang]{dowek2014cut}
+DOWEK G, JIANG Y.
+\newblock Cut-elimination and the decidability of reachability in alternating
+  pushdown systems\allowbreak[J/OL].
+\newblock arXiv preprint arXiv:1410.8470, 2014.
+\newblock \url{https://who.rocq.inria.fr/Gilles.Dowek/Publi/reachability.pdf}.
+
+\bibitem[Bouajjani\ et~al.(1997{\natexlab{b}})Bouajjani, Esparza, and
+  Maler]{bouajjani1997reachability}
+BOUAJJANI A, ESPARZA J, MALER O.
+\newblock Reachability analysis of pushdown automata: Application to
+  model-checking\allowbreak[M]//\allowbreak{}CONCUR'97: Concurrency Theory.
+\newblock [S.l.]: Springer, 1997{\natexlab{b}}: 135--150.
+
+\bibitem[Bertot\ et~al.(2013)Bertot and Cast{\'e}ran]{bertot2013interactive}
+BERTOT Y, CAST{\'E}RAN P.
+\newblock Interactive theorem proving and program development: Coq'art: The
+  calculus of inductive constructions\allowbreak[M].
+\newblock [S.l.]: Springer Science \& Business Media, 2013.
+
+\bibitem[Freeman\ et~al.(2004)Freeman, Robson, Bates, and
+  Sierra]{freeman2004head}
+FREEMAN E, ROBSON E, BATES B, et~al.
+\newblock Head first design patterns\allowbreak[M].
+\newblock [S.l.]: "O'Reilly Media, Inc.", 2004.
+
+\bibitem[Clarke\ et~al.(1999)Clarke, Grumberg, and Peled]{clarke1999model}
+CLARKE E~M, GRUMBERG O, PELED D.
+\newblock Model checking\allowbreak[M].
+\newblock [S.l.: s.n.], 1999.
+
+\bibitem[Bederson\ et~al.(2003)Bederson and Shneiderman]{bederson2003craft}
+BEDERSON B~B, SHNEIDERMAN B.
+\newblock The craft of information visualization: readings and
+  reflections\allowbreak[M].
+\newblock [S.l.]: Morgan Kaufmann, 2003.
+
+\bibitem[Trac\ et~al.(2007)Trac, Puzis, and Sutcliffe]{trac2007interactive}
+TRAC S, PUZIS Y, SUTCLIFFE G.
+\newblock An interactive derivation viewer\allowbreak[J].
+\newblock Electronic Notes in Theoretical Computer Science, 2007, 174\penalty0
+  (2): 109--123.
+
+\bibitem[Clarke\ et~al.(1995)Clarke, Grumberg, McMillan, and Zhao]{CGMZ}
+CLARKE E~M, GRUMBERG O, MCMILLAN K~L, et~al.
+\newblock Efficient generation of counterexamples and witnesses in symbolic
+  model checking\allowbreak[C]//\allowbreak{}{DAC}.
+\newblock [S.l.: s.n.], 1995: 427--432.
+
+\bibitem[Baier\ et~al.(2008{\natexlab{b}})Baier and Katoen]{CBJPK}
+BAIER C, KATOEN J.
+\newblock Principles of model checking\allowbreak[M].
+\newblock [S.l.]: {MIT} Press, 2008{\natexlab{b}}.
+
+\bibitem[Mazza(2009)]{Mazza09}
+MAZZA R.
+\newblock Introduction to information visualization\allowbreak[M].
+\newblock [S.l.]: Springer, 2009.
+
+\bibitem[Spence(2007)]{Spence07}
+SPENCE R.
+\newblock Information visualization: Design for interaction (2nd
+  edition)\allowbreak[M].
+\newblock [S.l.]: Prentice Hall, 2007.
 
 \end{thebibliography}

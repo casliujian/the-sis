@@ -132,11 +132,9 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 
 
-\section{案例分析与实验结果}\label{sec:case_exp}
+\section{案例分析}\label{sec:case_exp}
 
-在本节中，我们首先讨论\sctlprov{}的两个应用案例：一个进程互斥问题和一个针对NASA提出的小型飞机场控制系统的形式化验证问题；然后，分别对比\sctlprov{}和其他5个工具在5个测试集上的实验结果。
-被用于与\sctlprov{}对比的5个工具分别为：基于\BDD{}的符号模型检测工具\nusmv{}及\nuxmv，基于\QBF{}的限界模型检测工具\verds{}，基于消解（Resolution）的定理证明工具\tool{iProver Modulo}，以及形式验证工具包\CADP{}。
-本节所有工具的运行环境均为：Linux操作系统，内存3.0GB，2.93GHz$\times$4 CPU；每个测试用例的最大运行时间限制为20分钟。本节所有的测试用例均可在因特网\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}下载。
+在本节中，我们讨论\sctlprov{}的两个应用案例：一个进程互斥问题和一个针对NASA提出的小型飞机场控制系统的形式化验证问题。
 
 
 \subsection{案例一：进程互斥问题}\label{subsec:example}
@@ -310,7 +308,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 			\end{verbatim}
 		\end{tabular}
 		
-		\caption{修改后的进程互斥程序。}
+		\caption{修改后的进程互斥程序}
 		\label{illustrative:mutual:solution}	
 	\end{figure}
 	
@@ -493,7 +491,10 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 	rules and of properties.  So we have been able to check in
 	\sctl{} that the safety property holds on the model, and the
 	verification was executed in less than 30 seconds on the same machine as which the benchmarks are evaluated.}
-
+\section{与相关工具的实验结果对比}
+在本节中，我们分别对比\sctlprov{}和其他5个工具在4个测试集上的实验结果。
+被用于与\sctlprov{}对比的5个工具分别为：基于\BDD{}的符号模型检测工具\nusmv{}及\nuxmv，基于\QBF{}的限界模型检测工具\verds{}，基于消解（Resolution）的定理证明工具\tool{iProver Modulo}，以及形式验证工具包\CADP{}。
+本节所有工具的运行环境均为：Linux操作系统，内存3.0GB，2.93GHz$\times$4 CPU；每个测试用例的最大运行时间限制为20分钟。本节所有的测试用例均可在因特网\footnote{\url{https://github.com/terminatorlxj/ctl_benchmarks}}下载。
 \subsection{随机生成的布尔程序的验证}\label{subsec:random}
 本小节包含三个测试集：测试用例集一在首次提出\cite{Zhang14}时被用作对比限界模型检测工具\verds{}和符号模型检测工具\nusmv{}的性能；并紧接着被用作对比定理证明器\tool{iProver Modulo}与\verds{}的性能；在测试集一的基础上，我们通过增大模型中的状态变量的个数而得到测试集二与测试集三。每个测试集中均包含2880个测试用例，每个测试用例的Kripke模型都是随机生成的，每个模型中的状态变量绝大多数为布尔类型。大量的随机的测试用例对于\sctlprov{}与不同的工具来说都是相对公平的，而且通过对比不同工具的实验结果数据，我们可以清晰的得出有关各个工具在验证不同的模型以及不同的性质时的优势与劣势的结论。
 
@@ -609,7 +610,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 在测试集一、二上，我们分别对比了\sctlprov{}与\tool{iProver Modulo}、\verds{}、\nusmv{}，以及\nuxmv{}的实验结果。
 
 \paragraph{测试集一的实验结果}
-由表\ref{tabl:solvable}与表\ref{tabl:compare}可知：在测试集一的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证1816（63.1\%）、2230（77.4\%）、2880（100\%）、2880（100\%）、2862（99.4\%）个测试用例；同时\sctlprov{}分别在2823（98.2\%）、2858（99.2\%）、2741（95.2\%）、2763（95.9\%）个测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory}所示。
+由表\ref{tabl:solvable}与表\ref{tabl:compare}可知：在测试集一的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证1816（63.1\%）、2230（77.4\%）、2880（100\%）、2880（100\%）、2862（99.4\%）个测试用例；同时\sctlprov{}分别在2823（98.2\%）、2858（99.2\%）、2741（95.2\%）、2763（95.9\%）个测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time:extended}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory:extended}所示。
 
 
 \begin{table}[!h]\small
@@ -684,6 +685,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 	%	\end{tabular}
 \end{table}
 
+\couic{
 \begin{figure}[h!]\centering
 	%		\begin{subfigure}\centering
 	\begin{tabular}{c}
@@ -877,7 +879,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 	\caption{在测试集一上各个工具的平均占用内存}
 	\label{fig:average_memory}
 \end{figure}
-
+}
 
 \paragraph{测试集二的实验结果}
 由表\ref{tabl:solvable:extended}与表\ref{tabl:compare:extended}可知：在测试集二的5760个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证2748（44.7\%）、2226（38.6\%）、728（12.6\%）、736（12.8\%）、4441（77.1\%）个测试用例；同时\sctlprov{}分别在4441（77.1\%）、4438（77.0\%）、4432（76.9\%）、4432（76.9\%）个测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time:extended}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory:extended}所示。

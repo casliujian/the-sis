@@ -519,12 +519,12 @@ only.
 
 
 \begin{example}
-	根据重写规则，我们将例子\ref{example:exp2}中公式的证明搜索过程表示为图\ref{fig:cpt:rewriting}中的重写步骤。下边我们分别解释每一步重写。
+	根据重写规则，我们将例子\ref{example:exp2}中公式的证明搜索过程表示为图\ref{fig:cpt:rewriting}中的重写步骤。
 	
-	\begin{figure}
+	\begin{figure}[h!]
 		\centering
-		\scriptsize
-		\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.1cm}
+		\footnotesize
+		\noindent\framebox{\parbox{.90\textwidth}{\hspace*{-0.1cm}
 				
 				$
 				\Tree [.{$\vdash AF_x(P(x))(a)$} [.{$\mathfrak{t}$} ] [.{$\mathfrak{f}$} ] ]  
@@ -535,9 +535,9 @@ only.
 				\stackrel{3}\rsa
 				\Tree [.{$\vdash P(b)$} [.{$\Gamma_1\vdash AF_x(P(x))(c)$} [.{$\mathfrak{t}$} ] [.{$\mathfrak{f}$} ] ] [.{$\Gamma_2\vdash AF_x(P(x))(d)$} [.{$\Gamma_1\vdash AF_x(P(x))(c)$} [.{$\mathfrak{t}$} ] [.{$\mathfrak{f}$} ] ] [.{$\quad\quad\mathfrak{f}\quad$} ]  ] ]   
 				\stackrel{4}\rsa
-				\Tree [.{$\Gamma_1\vdash AF_x(P(x))(c)$} [.{$\mathfrak{t}$} ] [.{$ \mathfrak{f}$} ] ] 
+				\Tree [.{$\Gamma_1\vdash AF_x(P(x))(c)$} [.{$\mathfrak{t}$} ] [.{$ \mathfrak{f}$} ] ] \\
 				\stackrel{5} \rsa
-				\Tree [.{$\vdash P(c)$} [.{$\mathfrak{t}$} ] [.{$\quad \quad \Gamma_3\vdash AF_x(P(x))(d)$} [.{$\mathfrak{t}$} ] [.{$\mathfrak{f}$} ] ] ] \\ 
+				\Tree [.{$\vdash P(c)$} [.{$\mathfrak{t}$} ] [.{$\quad \quad \Gamma_3\vdash AF_x(P(x))(d)$} [.{$\mathfrak{t}$} ] [.{$\mathfrak{f}$} ] ] ]
 				\stackrel{6}\rsa
 				\mathfrak{t}. \\
 				(\Gamma_1 = \{AF_x(P(x))(a)\}, \Gamma_2 = \Gamma_1 \cup \{AF_x(P(x))(b)\}, \Gamma_3 = \Gamma_1 \cup \{AF_x(P(x))(c)\}.)
@@ -547,50 +547,15 @@ only.
 		\caption{一个重写\textsf{CPT}的例子}
 		\label{fig:cpt:rewriting}
 	\end{figure}
-	
-	
-	
-	
-	\hspace{-0.5cm}
-	{\it Step 1}. 
-	At this step, on the left side of $\stackrel{1}\rsa$, the root of the \textsf{CPT} is $\vdash AF_x(P(x))(a)$.
-	We need to decide whether $\vdash AF_x(P(x))(a)$ is provable, which is not known at that moment yet. 
-	So we have to decide first whether $P(a)$ is provable, 
-	and then both $AF_x(P(x))(a)\vdash AF_x(P(x))(b)$ and $AF_x(P(x))(a)\vdash AF_x(P(x))(c)$ are successively provable, 
-	by applying the $\mathbf{AF}$-{$\mathsf{R_1}$} rule and the $\mathbf{AF}$-{$\mathsf{R_2}$} rule, respectively. 
-	We encode those two steps in a single \textsf{CPT}, which is the one on the right side of $\stackrel{1}\rsa$.
-	
-	\hspace{-0.5cm}
-	{\it Step 2}. 
-	Since the atomic formula $P(a)$ is not provable, 
-	the \textsf{CPT} on the left side of $\stackrel{2}\rsa$ reduces to its right sub-tree ($\mathfrak{f}$-continuation), 
-	which is the \textsf{CPT} on the right side of $\stackrel{2}\rsa$.
-	
-	\hspace{-0.5cm}
-	{\it Step 3}. 
-	Like at step 1, we need to decide whether $AF_x(P(x))(a)\vdash AF_x(P(x))(b)$ is provable, which is not known at that moment yet.
-	So we encode the left sub-tree ($\mathfrak{t}$-continuation) of the \textsf{CPT} which is on the left side of $\stackrel{3}\rsa$, 
-	and, by the $\mathbf{AF}$-{$\mathsf{R_1}$} rule and the $\mathbf{AF}$-{$\mathsf{R_2}$} rule,  
-	the two steps to find successively the proofs of $\vdash P(b)$ and of $AF_x(P(x))(a), AF_x(P(x))(b)\vdash AF_x(P(x))(d)$ into the \textsf{CPT} 
-	which is on the right side of $\stackrel{3}\rsa$.
-	
-	\hspace{-0.5cm}
-	{\it Step 4}. 
-	Like at step 2, we can judge that the atomic formula $P(b)$ is provable immediately.
-	So the \textsf{CPT} on the left side of $\stackrel{4}\rsa$ reduces to its left sub-tree ($\mathfrak{t}$-continuation) 
-	which is on the right side of $\stackrel{4}\rsa$.
-	
-	\hspace{-0.5cm}
-	{\it Step 5}. 
-	Like at step 1 and 3, we can not judge that whether the sequent $AF_x(P(x))(a)\vdash AF_x(P(x))(c)$ is provable immediately, 
-	so we encode the two steps to find successively the proofs of $\vdash P(c)$ and $AF_x(P(x))(a), AF_x(P(x))(c)\vdash AF_x(P(x))(d)$
-	into the \textsf{CPT} which is on the right side of $\stackrel{5}\rsa$;
-	
-	\hspace{-0.5cm}
-	{\it Step 6}. 
-	Like at step 2 and 4, as the atomic formula $P(c)$ is provable, 
-	so the \textsf{CPT} on the left side of $\stackrel{6}\rsa$ reduces to its left sub-tree ($\mathfrak{t}$-continuation) which is $\mathfrak{t}$,
-	Now, the proof search of $\vdash AF_x(P(x))(a)$ terminates, and we can judge that this sequent is provable.
+	下边我们分别解释图\ref{fig:cpt:rewriting}中的每一步重写。
+	\begin{enumerate}
+		\item 在这一步中，$\stackrel{1}\rsa$左侧的\CPT{}中的根节点为$\vdash AF_x(P(x))(a)$。我们暂时还无法判定$\vdash AF_x(P(x))(a)$是否可证，因此根据证明规则，我们需要首先判定$\vdash P(a)$是否可证，如果$\vdash P(a)$可证，则$\vdash AF_x(P(x))(a)$可证；否则，我们需要依次判定$AF_x(P(x))(a)\vdash AF_x(P(x))(b)$和$AF_x(P(x))(a)\vdash AF_x(P(x))(c)$是否可证，如果$AF_x(P(x))(a)\vdash AF_x(P(x))(b)$和$AF_x(P(x))(a)\vdash AF_x(P(x))(c)$均可证，则$\vdash AF_x(P(x))(a)$可证，否则$\vdash AF_x(P(x))(a)$可证不可证。我们将以上介绍的判定 $\vdash AF_x(P(x))(a)$ 是否可证过程编码到$\stackrel{1}\rsa$右侧的\CPT{}中。
+		\item 在这一步中，由于$\vdash P(a)$时不可证的，因此将$\stackrel{2}\rsa$左侧的\CPT{}重写到它的右子树（$\mathfrak{f}$-连续），即$\stackrel{2}\rsa$右侧的\CPT{}。
+		\item 这一步与第1步类似，我们暂时无法判定$AF_x(P(x))(a)\vdash AF_x(P(x))(b)$是否可证，因此根据证明规则，我们需要首先判定$\vdash P(b)$是否可证，如果$\vdash P(b)$可证，那么$AF_x(P(x))(a)\vdash AF_x(P(x))(b)$可证，然后接着第2步证明$\stackrel{3}\rsa$左侧的 \CPT{} 的左子树；否则，我们需要判定$AF_x(P(x))(a), AF_x(P(x))(b)\vdash AF_x(P(x))(d)$ 是否可证，若$AF_x(P(x))(a), AF_x(P(x))(b)\vdash AF_x(P(x))(d)$可证，则接着第2步证明$\stackrel{3}\rsa$左侧的\CPT{}的左子树，若$AF_x(P(x))(a), AF_x(P(x))(b)\vdash AF_x(P(x))(d)$不可证，则$AF_x(P(x))(a)\vdash AF_x(P(x))(b)$不可证。我们将以上介绍的判定 $AF_x(P(x))(a)\vdash AF_x(P(x))(b)$ 是否可证过程编码到$\stackrel{3}\rsa$右侧的\CPT{}中。
+		\item 这一步与第2步类似，我们可以判定$\vdash P(b)$可证，因此$\stackrel{4}\rsa$左侧的\CPT{}重写到它的左子树，即$\stackrel{4}\rsa$右侧的\CPT{}。
+		\item 这一步与第1、3步类似，我们暂时无法判定$AF_x(P(x))(a)\vdash AF_x(P(x))(c)$是否可证，因此我们需要首先判定$\vdash P(c)$是否可证，若$\vdash P(c)$可证，则$AF_x(P(x))(a)\vdash AF_x(P(x))(c)$可证；否则，判定$AF_x(P(x))(a), AF_x(P(x))(c)\vdash AF_x(P(x))(d)$是否可证，若$AF_x(P(x))(a), AF_x(P(x))(c)\vdash AF_x(P(x))(d)$可证，则$AF_x(P(x))(a)\vdash AF_x(P(x))(c)$可证。我们将以上介绍的判定 $AF_x(P(x))(a)\vdash AF_x(P(x))(c)$ 是否可证过程编码到$\stackrel{5}\rsa$右侧的\CPT{}中。
+		\item 在这一步中，由于$\vdash P(c)$可证，因此$\stackrel{6}\rsa$左侧的\CPT{}重写到它的左子树，即$\mathfrak{t}$。至此，判定$\vdash AF_x(P(x))(a)$是否可证的过程结束，$\vdash AF_x(P(x))(a)$可证。
+	\end{enumerate}
 \end{example}
 
 
@@ -643,7 +608,7 @@ only.
 		\multicolumn{2}{|l|}{$ \textsf{cpt}(\vdash(s/y)\phi_2, c_1, \textsf{cpt}(\vdash(s/x)\phi_1,\textsf{cpt}(\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_1), c_1, \textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_n),$}\\
 		\multicolumn{2}{|l|}{$ c_1, c_2)...)), c_2))~~~~\left[\{s_1,...,s_n\}=\textsf{Next}(s), EU_{x,y}(\phi_1,\phi_2)(s)\notin \Gamma, \textup{ and } \Gamma'=\Gamma, EU_{x,y}(\phi_1,\phi_2)(s)\right]$} \\ \hline
 	\end{tabular}
-	\caption{\textsf{CPT}的重写规则.}\label{fig:rewriting}
+	\caption{\textsf{CPT}的重写规则}\label{fig:rewriting}
 \end{figure}
 
 \subsection{证明搜索策略的可终止性}

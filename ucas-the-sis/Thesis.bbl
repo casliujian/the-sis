@@ -1,4 +1,4 @@
-\begin{thebibliography}{87}
+\begin{thebibliography}{90}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \providecommand{\href}[2]{\url{#2}}
@@ -188,6 +188,26 @@ DOWEK G.
   Proceedings.
 \newblock [S.l.: s.n.], 2010: 182--196.
 
+\bibitem[Pnueli(1977)]{Pnueli77}
+PNUELI A.
+\newblock The temporal logic of programs\allowbreak[C]//\allowbreak{}18th
+  Annual Symposium on Foundations of Computer Science, Providence, Rhode
+  Island, USA, 31 October - 1 November 1977.
+\newblock [S.l.: s.n.], 1977: 46--57.
+
+\bibitem[Clarke\ et~al.(2008)Clarke and Emerson]{ClarkeE08}
+CLARKE E~M, EMERSON E~A.
+\newblock Design and synthesis of synchronization skeletons using branching
+  time temporal logic\allowbreak[C]//\allowbreak{}25 Years of Model Checking -
+  History, Achievements, Perspectives.
+\newblock [S.l.: s.n.], 2008: 196--215.
+
+\bibitem[Emerson\ et~al.(1986)Emerson and Halpern]{EmersonH86}
+EMERSON E~A, HALPERN J~Y.
+\newblock "sometimes" and "not never" revisited: on branching versus linear
+  time temporal logic\allowbreak[J].
+\newblock J. {ACM}, 1986, 33\penalty0 (1): 151--178.
+
 \bibitem[Emerson\ et~al.(1982)Emerson and Clarke]{EmersonC82}
 EMERSON E~A, CLARKE E~M.
 \newblock Using branching time temporal logic to synthesize synchronization
@@ -235,125 +255,6 @@ SARNAT J, SCH{\"{U}}RMANN C.
   of Typed Lambda Calculi and Applications, 9th International Conference,
   {TLCA} 2009.
 \newblock Brasilia, Brazil: Springer, Berlin, 2009: 279--293.
-
-\bibitem[Cavada\ et~al.(2014)Cavada, Cimatti, Dorigatti, Griggio, Mariotti,
-  Micheli, Mover, Roveri, and Tonetta]{CAVCDGMMMRT14}
-CAVADA R, CIMATTI A, DORIGATTI M, et~al.
-\newblock The nuxmv symbolic model
-  checker\allowbreak[C]//\allowbreak{}Proceedings of Computer Aided
-  Verification - 26th International Conference, {CAV} 2014.
-\newblock Vienna, Austria: Springer International Publishing, Switzerland,
-  2014: 334--342.
-
-\bibitem[Vergauwen\ et~al.(1993)Vergauwen and Lewi]{VergauwenL93}
-VERGAUWEN B, LEWI J.
-\newblock A linear local model checking algorithm for
-  {CTL}\allowbreak[C]//\allowbreak{}Proceedings of {CONCUR} '93, 4th
-  International Conference on Concurrency Theory.
-\newblock Hildesheim, Germany: Springer-Verlag, Berlin, 1993: 447--461.
-
-\bibitem[Bhat\ et~al.(1995)Bhat, Cleaveland, and Grumberg]{BCG95}
-BHAT G, CLEAVELAND R, GRUMBERG O.
-\newblock Efficient on-the-fly model checking for
-  $ctl^*$\allowbreak[C]//\allowbreak{}Proceedings of LICS'95.
-\newblock San Diego, California, USA: {IEEE} Computer Society, USA, 1995:
-  388--397.
-
-\bibitem[Reynolds(1993)]{Reynolds93}
-REYNOLDS J~C.
-\newblock The discoveries of continuations\allowbreak[J].
-\newblock Lisp and Symbolic Computation, 1993, 6\penalty0 (3-4): 233--248.
-
-\bibitem[Peterson(1981)]{Peterson81}
-PETERSON G~L.
-\newblock Myths about the mutual exclusion problem\allowbreak[J].
-\newblock Inf. Process. Lett., 1981, 12\penalty0 (3): 115--116.
-
-\bibitem[Mu{\~{n}}oz\ et~al.(2004)Mu{\~{n}}oz, Dowek, and
-  Carre{\~{n}}o]{MunozDC04}
-MU{\~{N}}OZ C~A, DOWEK G, CARRE{\~{N}}O V.
-\newblock Modeling and verification of an air traffic concept of
-  operations\allowbreak[C]//\allowbreak{}Proceedings of the {ACM/SIGSOFT}
-  International Symposium on Software Testing and Analysis, {ISSTA} 2004.
-\newblock Boston, Massachusetts, USA: ACM, USA, 2004: 175--182.
-
-\bibitem[NASA/TM-2004-213006(2004)]{nasasats04}
-NASA/TM-2004-213006.
-\newblock Abstract model of sats concept of operations: Initial results and
-  recommendations\allowbreak[M].
-\newblock USA: NASA, 2004.
-
-\bibitem[Byrnes\ et~al.(2009)Byrnes, Buchanan, Ernst, Miller, Roberts, and
-  Keller]{byrnes2009visualizing}
-BYRNES J, BUCHANAN M, ERNST M, et~al.
-\newblock Visualizing proof search for theorem prover
-  development\allowbreak[J].
-\newblock Electronic Notes in Theoretical Computer Science, 2009, 226: 23--38.
-
-\bibitem[Libal\ et~al.(2014)Libal, Riener, and Rukhaia]{LibalRR14}
-LIBAL T, RIENER M, RUKHAIA M.
-\newblock Advanced proof viewing in
-  prooftool\allowbreak[C]//\allowbreak{}Proceedings Eleventh Workshop on User
-  Interfaces for Theorem Provers, {UITP} 2014, Vienna, Austria, 17th July 2014.
-\newblock [S.l.: s.n.], 2014: 35--47.
-
-\bibitem[Sakurai\ et~al.(2011)Sakurai and Asai]{sakurai2011mikibeta}
-SAKURAI K, ASAI K.
-\newblock Mikibeta: A general {GUI} library for visualizing proof
-  trees\allowbreak[M]//\allowbreak{}Logic-Based Program Synthesis and
-  Transformation.
-\newblock [S.l.]: Springer, 2011: 84--98.
-
-\bibitem[Steel(2005)]{steel2005visualising}
-STEEL G.
-\newblock Visualising first-order proof
-  search\allowbreak[C]//\allowbreak{}Proceedings of User Interfaces for Theorem
-  Provers: volume 2005.
-\newblock [S.l.: s.n.], 2005: 179--189.
-
-\bibitem[Farmer\ et~al.(2009)Farmer and Grigorov]{Farmer200939}
-FARMER W~M, GRIGOROV O~G.
-\newblock Panoptes: An exploration tool for formal proofs\allowbreak[J].
-\newblock Electr. Notes Theor. Comput. Sci., 2009, 226: 39--48.
-
-\bibitem[Bajaj\ et~al.(2003)Bajaj, Khandelwal, Moore, and
-  Siddavanahalli]{bajaj2003interactive}
-BAJAJ C, KHANDELWAL S, MOORE J, et~al.
-\newblock Interactive symbolic visualization of semi-automatic theorem
-  proving\allowbreak[M].
-\newblock [S.l.]: Computer Science Department, University of Texas at Austin,
-  2003.
-
-\bibitem[张敏\ et~al.(2016)张敏, 霍朝光, 霍帆帆, and
-  吴郁松]{ZHHW16}
-张敏, 霍朝光, 霍帆帆, et~al.
-\newblock
-  国际信息可视化知识族群：演化、聚类及迁徙研究\allowbreak[J].
-\newblock 情报科学, 2016, 4: 13--17.
-
-\bibitem[冯艳林(2015)]{FYL15}
-冯艳林.
-\newblock 城市道路交通信息可视化及其应用研究\allowbreak[J].
-\newblock 黑龙江科技信息, 2015, 17: 180.
-
-\bibitem[Mathieu\ et~al.(2014)Mathieu, Tommaso, Sebastien, and
-  Bastian]{jacomy2014forceatlas2}
-MATHIEU J, TOMMASO V, SEBASTIEN H, et~al.
-\newblock Forceatlas2, a continuous graph layout algorithm for handy network
-  visualization designed for the gephi software\allowbreak[J].
-\newblock PLOS ONE, 2014, 9\penalty0 (6): e98679.
-
-\bibitem[Martin\ et~al.(2011)Martin, Brown, Klavans, and
-  Boyack]{martin2011openord}
-MARTIN S, BROWN W~M, KLAVANS R, et~al.
-\newblock Openord: an open-source toolbox for large graph layout\allowbreak[J].
-\newblock SPIE Proceedings, 2011, 7868.
-
-\bibitem[Hu(2005)]{yifanhu05}
-HU Y.
-\newblock Efficient and high quality force-directed graph
-  drawing\allowbreak[J].
-\newblock The Matematical Journal, 2005, 10: 149--160.
 
 \bibitem[Biere\ et~al.(2003{\natexlab{a}})Biere, Cimatti, Clarke, Strichman,
   and Zhu]{BCCSZ03}
@@ -419,6 +320,18 @@ DAVIS M, PUTNAM H.
 \newblock A computing procedure for quantification theory\allowbreak[J].
 \newblock J. {ACM}, 1960, 7\penalty0 (3): 201--215.
 
+\bibitem[Reynolds(1993)]{Reynolds93}
+REYNOLDS J~C.
+\newblock The discoveries of continuations\allowbreak[J].
+\newblock Lisp and Symbolic Computation, 1993, 6\penalty0 (3-4): 233--248.
+
+\bibitem[Bhat\ et~al.(1995)Bhat, Cleaveland, and Grumberg]{BCG95}
+BHAT G, CLEAVELAND R, GRUMBERG O.
+\newblock Efficient on-the-fly model checking for
+  $ctl^*$\allowbreak[C]//\allowbreak{}Proceedings of LICS'95.
+\newblock San Diego, California, USA: {IEEE} Computer Society, USA, 1995:
+  388--397.
+
 \bibitem[Pnueli\ et~al.(2002)Pnueli and Kesten]{PnueliK02}
 PNUELI A, KESTEN Y.
 \newblock A deductive proof system for
@@ -430,6 +343,27 @@ DOWEK G, JIANG Y.
 \newblock A logical approach to {CTL}\allowbreak[EB/OL].
 \newblock 2013.
 \newblock \url{http://www.lsv.ens-cachan.fr/~dowek/Publi/ctl.pdf}.
+
+\bibitem[Cavada\ et~al.(2014)Cavada, Cimatti, Dorigatti, Griggio, Mariotti,
+  Micheli, Mover, Roveri, and Tonetta]{CAVCDGMMMRT14}
+CAVADA R, CIMATTI A, DORIGATTI M, et~al.
+\newblock The nuxmv symbolic model
+  checker\allowbreak[C]//\allowbreak{}Proceedings of Computer Aided
+  Verification - 26th International Conference, {CAV} 2014.
+\newblock Vienna, Austria: Springer International Publishing, Switzerland,
+  2014: 334--342.
+
+\bibitem[Peterson(1981)]{Peterson81}
+PETERSON G~L.
+\newblock Myths about the mutual exclusion problem\allowbreak[J].
+\newblock Inf. Process. Lett., 1981, 12\penalty0 (3): 115--116.
+
+\bibitem[Vergauwen\ et~al.(1993)Vergauwen and Lewi]{VergauwenL93}
+VERGAUWEN B, LEWI J.
+\newblock A linear local model checking algorithm for
+  {CTL}\allowbreak[C]//\allowbreak{}Proceedings of {CONCUR} '93, 4th
+  International Conference on Concurrency Theory.
+\newblock Hildesheim, Germany: Springer-Verlag, Berlin, 1993: 447--461.
 
 \bibitem[Biere\ et~al.(2003{\natexlab{b}})Biere, Cimatti, Clarke, Strichman,
   and Zhu]{BiereCCSZ03}
@@ -454,10 +388,24 @@ LANGE M, STIRLING C.
 \newblock Model checking games for branching time logics\allowbreak[J].
 \newblock J. Log. Comput., 2002, 12\penalty0 (4): 623--639.
 
+\bibitem[Mu{\~{n}}oz\ et~al.(2004)Mu{\~{n}}oz, Dowek, and
+  Carre{\~{n}}o]{MunozDC04}
+MU{\~{N}}OZ C~A, DOWEK G, CARRE{\~{N}}O V.
+\newblock Modeling and verification of an air traffic concept of
+  operations\allowbreak[C]//\allowbreak{}Proceedings of the {ACM/SIGSOFT}
+  International Symposium on Software Testing and Analysis, {ISSTA} 2004.
+\newblock Boston, Massachusetts, USA: ACM, USA, 2004: 175--182.
+
 \bibitem[Br{\"{u}}nnler\ et~al.(2008)Br{\"{u}}nnler and Lange]{BruennlerLange}
 BR{\"{U}}NNLER K, LANGE M.
 \newblock Cut-free sequent systems for temporal logic\allowbreak[J].
 \newblock J. Log. Algebr. Program., 2008, 76\penalty0 (2): 216--225.
+
+\bibitem[NASA/TM-2004-213006(2004)]{nasasats04}
+NASA/TM-2004-213006.
+\newblock Abstract model of sats concept of operations: Initial results and
+  recommendations\allowbreak[M].
+\newblock USA: NASA, 2004.
 
 \bibitem[Dershowitz\ et~al.(1979)Dershowitz and Manna]{DershowitzM79}
 DERSHOWITZ N, MANNA Z.
@@ -479,6 +427,35 @@ TUFTE E~R, GRAVES-MORRIS P.
 \newblock The visual display of quantitative information:
   volume~2\allowbreak[M].
 \newblock [S.l.]: Graphics press Cheshire, CT, 1983.
+
+\bibitem[Byrnes\ et~al.(2009)Byrnes, Buchanan, Ernst, Miller, Roberts, and
+  Keller]{byrnes2009visualizing}
+BYRNES J, BUCHANAN M, ERNST M, et~al.
+\newblock Visualizing proof search for theorem prover
+  development\allowbreak[J].
+\newblock Electronic Notes in Theoretical Computer Science, 2009, 226: 23--38.
+
+\bibitem[Sakurai\ et~al.(2011)Sakurai and Asai]{sakurai2011mikibeta}
+SAKURAI K, ASAI K.
+\newblock Mikibeta: A general {GUI} library for visualizing proof
+  trees\allowbreak[M]//\allowbreak{}Logic-Based Program Synthesis and
+  Transformation.
+\newblock [S.l.]: Springer, 2011: 84--98.
+
+\bibitem[Bajaj\ et~al.(2003)Bajaj, Khandelwal, Moore, and
+  Siddavanahalli]{bajaj2003interactive}
+BAJAJ C, KHANDELWAL S, MOORE J, et~al.
+\newblock Interactive symbolic visualization of semi-automatic theorem
+  proving\allowbreak[M].
+\newblock [S.l.]: Computer Science Department, University of Texas at Austin,
+  2003.
+
+\bibitem[Steel(2005)]{steel2005visualising}
+STEEL G.
+\newblock Visualising first-order proof
+  search\allowbreak[C]//\allowbreak{}Proceedings of User Interfaces for Theorem
+  Provers: volume 2005.
+\newblock [S.l.: s.n.], 2005: 179--189.
 
 \bibitem[Dowek\ et~al.(2014)Dowek and Jiang]{dowek2014cut}
 DOWEK G, JIANG Y.
@@ -517,11 +494,42 @@ BEDERSON B~B, SHNEIDERMAN B.
   reflections\allowbreak[M].
 \newblock [S.l.]: Morgan Kaufmann, 2003.
 
+\bibitem[Farmer\ et~al.(2009)Farmer and Grigorov]{Farmer200939}
+FARMER W~M, GRIGOROV O~G.
+\newblock Panoptes: An exploration tool for formal proofs\allowbreak[J].
+\newblock Electr. Notes Theor. Comput. Sci., 2009, 226: 39--48.
+
 \bibitem[Trac\ et~al.(2007)Trac, Puzis, and Sutcliffe]{trac2007interactive}
 TRAC S, PUZIS Y, SUTCLIFFE G.
 \newblock An interactive derivation viewer\allowbreak[J].
 \newblock Electronic Notes in Theoretical Computer Science, 2007, 174\penalty0
   (2): 109--123.
+
+\bibitem[Mathieu\ et~al.(2014)Mathieu, Tommaso, Sebastien, and
+  Bastian]{jacomy2014forceatlas2}
+MATHIEU J, TOMMASO V, SEBASTIEN H, et~al.
+\newblock Forceatlas2, a continuous graph layout algorithm for handy network
+  visualization designed for the gephi software\allowbreak[J].
+\newblock PLOS ONE, 2014, 9\penalty0 (6): e98679.
+
+\bibitem[Martin\ et~al.(2011)Martin, Brown, Klavans, and
+  Boyack]{martin2011openord}
+MARTIN S, BROWN W~M, KLAVANS R, et~al.
+\newblock Openord: an open-source toolbox for large graph layout\allowbreak[J].
+\newblock SPIE Proceedings, 2011, 7868.
+
+\bibitem[Hu(2005)]{yifanhu05}
+HU Y.
+\newblock Efficient and high quality force-directed graph
+  drawing\allowbreak[J].
+\newblock The Matematical Journal, 2005, 10: 149--160.
+
+\bibitem[Libal\ et~al.(2014)Libal, Riener, and Rukhaia]{LibalRR14}
+LIBAL T, RIENER M, RUKHAIA M.
+\newblock Advanced proof viewing in
+  prooftool\allowbreak[C]//\allowbreak{}Proceedings Eleventh Workshop on User
+  Interfaces for Theorem Provers, {UITP} 2014, Vienna, Austria, 17th July 2014.
+\newblock [S.l.: s.n.], 2014: 35--47.
 
 \bibitem[Clarke\ et~al.(1995)Clarke, Grumberg, McMillan, and Zhao]{CGMZ}
 CLARKE E~M, GRUMBERG O, MCMILLAN K~L, et~al.
@@ -544,5 +552,17 @@ SPENCE R.
 \newblock Information visualization: Design for interaction (2nd
   edition)\allowbreak[M].
 \newblock [S.l.]: Prentice Hall, 2007.
+
+\bibitem[张敏\ et~al.(2016)张敏, 霍朝光, 霍帆帆, and
+  吴郁松]{ZHHW16}
+张敏, 霍朝光, 霍帆帆, et~al.
+\newblock
+  国际信息可视化知识族群：演化、聚类及迁徙研究\allowbreak[J].
+\newblock 情报科学, 2016, 4: 13--17.
+
+\bibitem[冯艳林(2015)]{FYL15}
+冯艳林.
+\newblock 城市道路交通信息可视化及其应用研究\allowbreak[J].
+\newblock 黑龙江科技信息, 2015, 17: 180.
 
 \end{thebibliography}

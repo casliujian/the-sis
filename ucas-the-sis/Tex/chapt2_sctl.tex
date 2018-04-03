@@ -1,30 +1,83 @@
-\chapter{定理证明与模型检测的结合}\label{chapt:sctl}
-本章首先介绍逻辑系统\CTLP{}，\CTLP{}是计算树逻辑\CTL{}的一个扩展；然后介绍针对\CTLP{}的一个证明系统\SCTL{}; 最后介绍针对证明系统\SCTL{}的一个证明搜索策略及其伪代码。
+\chapter{模型检测与定理证明的结合}\label{chapt:sctl}
+在本章中，我们介绍一种将模型检测与定理证明两种形式化验证方法的结合：首先，将模型检测中常用的时序逻辑---计算树逻辑\CTL{}进行扩展，我们将扩展后的逻辑称为\CTLP{}；然后，针对\CTLP{}逻辑建立一个带参的证明系统\sctlm{}，其中参数$\cal M$是任意的Kripke模型，并使得一个\CTLP{}公式在\sctlm{}中是可证的当且仅当该公式在$\cal M$中成立。
 
-\section{\CTLP{}}\label{sec:ctlp}
-我们用逻辑 \CTLP{($\cal M$)} 来刻画要验证的系统 $\cal M$ 的性质，其中 $\cal M$ 通常指的是一个 Kripke 结构，其定义如下。
-\begin{definition}[Kripke 结构]
-	一个 Kripke 结构 $\cal M = (S, \lra, \mathcal{P})$ 包含如下三个部分：
+本章内容安排如下：首先介绍Kripke模型以及计算树逻辑\CTL{}；接着介绍\CTLP{} 逻辑；然后介绍证明系统\SCTL{}; 最后介绍针对证明系统\SCTL{}的一个证明搜索策略及其伪代码。
+
+\section{Kripke模型和计算树逻辑\CTL{}}
+在对计算机系统进行形式化验证之前，我们首先需要
+\begin{enumerate}
+	\item 针对要验证的计算机系统建立一个形式化模型；
+	\item 将要验证的性质用一种逻辑公式表示出来。
+\end{enumerate}
+在模型检测领域，一个计算机系统的形式化模型通常是一个Kripke模型，而模型的性质通常用时序逻辑公式来表示。模型检测的基本流程则可概述为：对于一个给定的Kripke模型$M$和一个时序逻辑公式$f$，判断Kripke模型是否满足性质$f$，如果是则返回$true$，否则返回一个反例来代表性质不满足的原因。
+其中，模型检测中的经典的Kripke模型的定义如下：
+\begin{definition}[经典的Kripke模型]
+	设$AP$是一个有穷的原子命题集合，$AP$上的一个经典的Kripke模型可表示为一个四元组$M=(S,S_0,\lra,L)$，其中
 	\begin{enumerate}
-		\item $S$ 是一个有穷的状态集合；
-		\item $\lra\;\subseteq S \times S$ 是一个一个二元关系 ；对于每一个状态 $s\in S$，至少存在一个 $s'\in S$ 使得 $s\lra s'$;
-		\item $\mathcal{P}$ 是一个有穷的关系符号的集合；对于每个关系符号 $P\in \mathcal{P}$，都存在自然数 $n$ 使得$P\in S^n$ 。
+		\item $S$是一个有穷状态集合；
+		\item $S_0\subseteq S$是初始状态集合；
+		\item $\lra\subseteq S\times S$是一个二元关系，同时对$\forall s\in S$，都存在一个状态$s'\in S$使得$s\lra s'$；
+		\item $L:S\rightarrow 2^{AP}$是一个标签函数，$L$将$S$中的每个状态都映射到一个$AP$的子集。
 	\end{enumerate}
 \end{definition}
-对于一个状态 $s\in S$，我们将 $s$ 的所有的下一个状态的集合定义为
+在Kripke模型$M$中，我们将一条从状态$s$出发的一条无穷序列$\pi=s_0,s_1,...$称为一条\textit{路径}，其中$s=s_0$，而且对于任意$i\ge 0$，都有$s_i\lra s_{i+1}$。
+
+根据所需要描述的系统性质的不同，模型检测中常用的时序逻辑有线性时序逻辑\textsf{LTL}\cite{Pnueli77}、计算树逻辑\CTL{}\cite{ClarkeE08}以及\textsf{LTL}与\textsf{CTL}的超集\textsf{CTL$^*$}\cite{EmersonH86}。本文着重介绍计算树逻辑\CTL{}以及基于\CTL{}的扩展。
+\begin{definition}[计算树逻辑\CTL{}]
+	设$AP$是一个有穷的原子命题集合，那么基于$AP$的所有\CTL{}公式可表示为：
+	$$\phi ::= \top\mid\bot\mid P\mid \neg\phi\mid \phi_1\wedge\phi_2\mid\phi_1\vee\phi_2\mid AX\phi\mid EX\phi\mid AF\phi\mid EG\phi\mid A[\phi_1 R \phi_2]\mid E[\phi_1 U \phi_2]$$
+	其中$\top$表示永真，$\bot$表示永假，$P\in AP$是一个原子命题。
+\end{definition}
+然后，我们可以在经典的Kripke模型上定义\CTL{}的语义。
+\begin{definition}[\CTL{}的语义]
+	设$M=(S,S_0,\lra,L)$是在$AP$上的一个经典的Kripke模型。我们用$M,s\models \phi$来表示\CTL{}公式$\phi$在状态$s$上满足。$\models$的归纳定义如下。
+	\begin{itemize}
+		\item $M,s\models \top$永远成立；
+		\item $M,s\models \bot$永远不成立；
+		\item $M,s\models P$当且仅当$p\in L(s)$；
+		\item $M,s\models \neg\phi$当且仅当$M,s\not\models\phi$；
+		\item $M,s\models \phi_1\wedge\phi_2$当且仅当$M,s\models\phi_1$且$M,s\models\phi_2$；
+		\item $M,s\models \phi_1\vee\phi_2$当且仅当$M,s\models\phi_1$或$M,s\models\phi_2$；
+		\item $M,s\models AX\phi$当且仅当$\forall s'\in \{s'\in S\mid s\lra s'\}$，$M,s'\models \phi$；
+		\item $M,s\models EX\phi$当且仅当$\exists s'\in \{s'\in S\mid s\lra s'\}$，$M,s'\models \phi$；
+		\item $M,s\models AF\phi$当且仅当对于任意从$s$出发的路径$s_0,s_1,...$都存在$i\ge 0$使得$M,s_i\models \phi$；
+		\item $M,s\models AF\phi$当且仅当存在从$s$出发的路径$s_0,s_1,...$使得对于任意$i\ge 0$都有$M,s_i\models \phi$；
+		\item $M,s\models A[\phi_1 R\phi_2]$当且仅当对于任意从$s$出发的路径$s_0,s_1,...$：如果存在$j\ge 0$使得$M,s_j\models\phi_1$成立，那么对于所有的$0\le i\le j$都有$M,s_i\models\phi_2$成立；否则，对任意$i\ge 0$都有$M,s_i\models\phi_2$成立。
+		\item $M,s\models E[\phi_1 U\phi_2]$当且仅当存在从$s$出发的路径$s_0,s_1,...$使得：存在$j\ge 0$使得$M,s_j\models\phi_2$成立且对于所有的$0\le i< j$都有$M,s_i\models\phi_1$成立；
+	\end{itemize}
+\end{definition}
+
+一个\CTL{}模型检测问题则可表示为对于给定的Kripke模型$M$以及初始状态$s_0$，判定$M,s_0\models \phi$是否成立，其中$\phi$是一个\CTL{}公式。当$\phi$为原子命题$P$时，上述\CTL{}模型检测问题则为$M,s\models P$。这时，我们不仅仅将$P$看作一个原子命题，而且可以将$P$看作为一个一元谓词，因而上述模型检测问题可表示为：$M\models P(s)$。不仅如此，当谓词的元数大于1时，我们甚至可以表示多个状态之间的关系，比如$M\models Q(s_1,...,s_n)$。其他的\CTL{}公式的可满足性同样可用这种方式表示，比如$M,s\models EX P$可表示为$M\models EX_x(P(x))(s)$，其中$P$是一个一元谓词，而且变量$x$由模态词$EX$绑定。这种表示\CTL{}公式的方式可以用来定义一个对\CTL{}的扩展，即不仅能表示状态的时序性质，而且能表达状态之间的“空间”性质。比如，对于一个Kripke模型上的路径$s_0,s_1,...$，在状态$s_m$上，某个人捡到一只鞋，而且在$s_m$之后的某个状态$s_n$上，这个人又捡到跟之前的鞋成对的另一只，其中$0\le m<n$。这个性质可表示为公式$EF_x(EF_y(Pair(x,y))(x))(s_0)$。
+接下来，我们来详细定义这种针对\CTL{}的扩展。
+
+\section{针对计算树逻辑\CTL{}的扩展：\CTLP{}}\label{sec:ctlp}
+为了能在公式中表达多元谓词，首先我们需要在经典的Kripke模型的定义的基础上添加多元谓词的定义，同时使新模型的定义包含经典的Kripke模型的定义。为了叙述方便起见，我们也称新模型为Kripke模型，新的Kripke模型定义如下：
+
+\begin{definition}[本文中的Kripke 模型]
+	一个 Kripke 结构 $\cal M = (S, S_0,\lra, \mathcal{P})$ 包含如下四个部分：
+	\begin{enumerate}
+		\item $S$ 是一个有穷的状态集合；
+		\item $S_0\subseteq S$是初始状态集合；
+		\item $\lra\;\subseteq S \times S$ 是一个一个二元关系 ；对于每一个状态 $s\in S$，至少存在一个 $s'\in S$ 使得 $s\lra s'$;
+		\item $\mathcal{P}$ 是一个有穷的谓词符号的集合；对于每个谓词符号 $P\in \mathcal{P}$，都存在自然数 $n$ 使得$P\in S^n$ 。
+	\end{enumerate}
+\end{definition}
+由以上定义可知，当$\cal P$中的所有谓词符号均为一元时，以上定义与经典的 Kripke 模型的定义等价。
+除此之外，对于一个状态 $s\in S$，我们将 $s$ 的所有的下一个状态的集合定义为
 \begin{center}
 	$\nextstate{s} = \{s'\mid s\lra s'\}$。 
 \end{center} 
-一个路径是一个有穷或无穷的状态序列，通常形式为 $s_0,...,s_n$ 或者 $s_0,s_1,...$ ，其中，对于任意自然数$i$，如果 $s_i$ 不是该序列的最后一个元素，那么就有 $s_{i+1}\in \nextstate{s_i}$ 。
-
+一个\textit{路径}是一个有穷或无穷的状态序列，通常形式为 $s_0,...,s_n$ 或者 $s_0,s_1,...$ ，其中，对于任意自然数$i$，如果 $s_i$ 不是该序列的最后一个元素，那么就有 $s_{i+1}\in \nextstate{s_i}$ 。
 我们称 $T$ 是一棵\textit{路径树}当且仅当对于 $T$ 上的所有由 $s$ 标记的非叶子节点，该节点的所有后继节点正好由 $\nextstate{s}$ 中的所有元素一一标记。一棵路径树上的所有节点既可以是有穷个也可以是无穷个。
 
+我们用逻辑 \CTLP{($\cal M$)} 来刻画要验证的Kripke模型 $\cal M$ 的性质，其定义如下。
 
-\paragraph{语法。}一个Kripke 结构 $\cal M$ 的性质由 \CTLP{}$(\cal M)$ 公式表示：
-\begin{definition}\label{def:ctlp}
-    对于一个给定的Kripke模型 $\cal M = (S, \lra, \mathcal{P})$，\CTLP{}$(\cal M)$公式的语法定义如下：
+%\paragraph{语法。}一个Kripke 结构 $\cal M$ 的性质由 \CTLP{}$(\cal M)$ 公式表示：
+\begin{definition}[\CTLP{}]
+	\label{def:ctlp}
+    对于一个给定的Kripke模型 $\cal M = (S, S_0,\lra, \mathcal{P})$，\CTLP{}$(\cal M)$公式的语法定义如下：
 %    \begin{center}
-        $$\phi \ :=
+        $$\phi \ ::=
         \left\{\begin{array}{l}
         \top\ | \ \bot \ | \ P(t_1, ..., t_n)\  | \neg P(t_1, ..., t_n)\  | \ \phi  \wedge \phi \ |\ \phi \vee \phi \ | \\
         \ AX_x(\phi)(t)\ | \ EX_x(\phi)(t) \ | \ AF_x(\phi)(t) \ | \ EG_x(\phi)(t) \ |\\
@@ -47,13 +100,15 @@
 \end{itemize}
 我们称模态词 $AF$，$EF$，$AU$，以及 $EU$ 为\textit{归纳模态词}；
 模态词 $AR$，$ER$，$AG$，以及 $EG$ 为\textit{余归纳模态词}。
+最外层模态词为归纳模态词的公式被称为\textit{归纳公式}；
+最外层模态词为余归纳模态词的公式被称为\textit{余归纳公式}。
 
-\paragraph{语义。}相应地，对于一个给定的 Kripke 模型 $\cal M$，\CTLP{($\cal M$)}的语义定义如下：
+相应地，对于一个给定的 Kripke 模型 $\cal M$，\CTLP{($\cal M$)}公式的语义定义如下：
 \begin{itemize}
-	\item ${\cal M}\models P(s_1,...,s_n)$：如果$\langle s_1,...,s_n\rangle\in P$，而且$P$是一个$\cal M$上的$n$元关系；
-	\item ${\cal M}\models \neg P(s_1,...,s_n)$：如果$\langle s_1,...,s_n\rangle\notin P$，而且$P$是一个$\cal M$上的$n$元关系；
 	\item ${\cal M}\models \top$ 永远成立；
 	\item ${\cal M}\models \bot$ 永远不成立；
+	\item ${\cal M}\models P(s_1,...,s_n)$：如果$\langle s_1,...,s_n\rangle\in P$，而且$P$是一个$\cal M$上的$n$元关系；
+	\item ${\cal M}\models \neg P(s_1,...,s_n)$：如果$\langle s_1,...,s_n\rangle\notin P$，而且$P$是一个$\cal M$上的$n$元关系；
 	\item ${\cal M}\models \phi_1\wedge\phi_2$：如果${\cal M}\models \phi_1$和 ${\cal M}\models \phi_2$同时成立；
 	\item ${\cal M}\models \phi_1\vee\phi_2$：如果${\cal M}\models \phi_1$成立，或者 ${\cal M}\models \phi_2$成立；
 	\item ${\cal M}\models AX_x(\phi_1)(s)$：如果对于每个状态$s'\in\textsf{Next}(s)$，都有${\cal M}\models (s'/x)\phi_1$成立；
@@ -85,7 +140,7 @@
 例子\ref{example:unmanned}中的性质可以很容易由 \CTLP{} 中的公式进行刻画，然而很难用传统的时序逻辑的公式进行表示。原因是在传统的时序逻辑的语法中通常没有表述一个特定的状态或者多个状态之间的关系的机制，即使在语义中，传统的时序逻辑通常只考虑当前的状态，而无法考虑多个状态之间的关系。
 
 \section{\CTLP{}的证明系统：\SCTL{}}\label{sec:sctl}
-在本节，我们针对逻辑 \CTLP$(\cal M)$ 给出一个证明系统 \sctlm{} （Sequent-calculus-like proof system for \CTLP{}）。在通常意义下的证明系统中，一个公式是可证的当且仅当该公式在所有的模型中都成立，而在 \sctlm{} 中，一个公式是可证的当且仅当该公式在模型 $\cal M$ 中是可证的。
+在本节，我们针对逻辑 \CTLP$(\cal M)$ 给出一个证明系统 \sctlm{} （Sequent-calculus-like proof system for \CTLP{}）。在通常意义下的证明系统中，一个公式是可证的当且仅当该公式在所有的模型中都成立，而在 \sctlm{} 中，一个公式是可证的当且仅当该公式在模型 $\cal M$ 中成立。
 
 首先，让我们考虑一个\ctlpm{}公式 $AF_x(P(x))(s)$。该公式在模型 $\cal M$ 中成立当且仅当存在一个路径树 $T$，$T$ 的根节点由 $s$ 标记，而且 $T$ 上的每个叶子节点都满足 $P$。\couic{这样的路径树 $T$ 可被用来验证公式 $AF_x(P(x))(s)$ 的成立。}
 
@@ -325,7 +380,7 @@ only.
 		\begin{itemize}		
 			\item 如果$\pi$的最后一条规则为$\mathbf{AF}$-$\mathsf{R_1}$，而且$\rho$为$\vdash(s/x)\phi_1$的证明，则路径树$|\pi|$只包含一个节点$s$；
 			
-			\item 如果$\pi$的最后一条规则为$\mathbf{AF}$-$\mathsf{R_2}$，而且$\pi_1,...,\pi_n$分别为$\vdash AF_x(\phi_1)(s_1),\\...,AF_x(\phi_n)(s_n)$的证明，其中$\{s_1,...,s_n\}=\mathsf{Next}(s)$，那么令$|\pi|$等于$s(|\pi_1|,...,|\pi_n|)$。
+			\item 如果$\pi$的最后一条规则为$\mathbf{AF}$-$\mathsf{R_2}$，而且$\pi_1,...,\pi_n$分别为 \\$\vdash AF_x(\phi_1)(s_1),...,AF_x(\phi_n)(s_n)$ 的证明，其中$\{s_1,...,s_n\}=\mathsf{Next}(s)$，则令 $|\pi|$ 等于 $s(|\pi_1|,...,|\pi_n|)$。
 		\end{itemize}
 		%		The path-tree $|\pi|$ has root $s$, and for each leaf $s'$ of $|\pi|$, the sequent $\vdash (s'/x)\phi_1$ has a proof smaller than $\pi$. By induction hypothesis, for each leaf $s'$ of $|\pi|$, $\models (s'/x)\phi_1$. Hence $\models AF_x(\phi_1)(s)$.
 		
@@ -342,7 +397,7 @@ only.
 			
 			%			\item If the proof $\pi$ ends with the $\mathbf{EG}$-\textsf{R} rule, with subproofs $\rho$ and $\pi_1$ of the sequents $\vdash (s/x)\phi_1$ and $\Gamma, EG_x(\phi_1)(s)\vdash EG_x(\phi_1)(s')$, respectively, then $|\pi|$ is the sequence $s|\pi_1|$.
 			
-			\item 如果$\pi$的最后一条规则为$\mathbf{EG}$-\textsf{R}，而且$\rho$和$\pi_1$分别为$\vdash(s/x)\phi_1$和$\Gamma,EG_x(\phi_1)(s)\vdash EG_x(\phi_1)(s')$的证明，其中$s'\in\mathsf{Next}(s)$，那么令$|\pi|$等于$s|\pi_1|$。
+			\item 如果$\pi$的最后一条规则为$\mathbf{EG}$-\textsf{R}，而且$\rho$和$\pi_1$分别为$\vdash(s/x)\phi_1$ 和 $\Gamma,EG_x(\phi_1)(s)\vdash EG_x(\phi_1)(s')$ 的证明，其中$s'\in\mathsf{Next}(s)$，那么令$|\pi|$等于$s|\pi_1|$。
 		\end{itemize}
 		%		The sequent $|\pi| = s_0,s_1,...,s_n$ is such that $s_0=s$; for all $i$ between $0$ and $n-1$, $s_i\longrightarrow s_{i+1}$; for all $i$ between $0$ and $n$, the sequent $\vdash (s_i/x)\phi_1$ has a proof smaller than $\pi$; and $s_n$ is equal to $s_p$ for some $p$ between $0$ and $n-1$. By induction hypothesis, for all $i$, we have $\models (s_i/x)\phi_1$. Using Proposition \ref{prop:fis}, there exists an infinite sequence $s_0',s_1',...$ such that for all $i$, we have $s_i'\longrightarrow s_{i+1}'$, and $\models (s_i'/x)\phi_1$. Hence, $\models EG_x(\phi_1)(s)$.
 		
@@ -355,13 +410,13 @@ only.
 			%			\item If the proof $\pi$ ends with the $\mathbf{AR}$-$\mathsf{R_1}$ rule with subproofs $\rho_1$ and $\rho_2$ of the sequents $\vdash (s/x)\phi_1$  and $\vdash (s/x)\phi_2$, respectively, or with the
 			%			$\mathbf{AR}$-merge rule, then the path-tree contains a single node $s$.
 			
-			\item 如果$\pi$的最后一条规则为$\mathbf{AR}$-$\mathsf{R_1}$，而且$\rho_1$和$\rho_2$分别为$\vdash (s/x)\phi_1$和$\vdash (s/x)\phi_2$的证明，那么$|\pi|$只包含一个节点$s$；
+			\item 如果$\pi$的最后一条规则为$\mathbf{AR}$-$\mathsf{R_1}$，而且$\rho_1$和$\rho_2$分别为 $\vdash (s/x)\phi_1$ 和 $\vdash (s/x)\phi_2$ 的证明，那么$|\pi|$只包含一个节点$s$；
 			\item 如果$\pi$的最后一条规则为$\mathbf{AR}$-merge，那么$|\pi|$只包含一个节点$s$；
 			
 			
 			%			\item If the proof $\pi$ ends with the $\mathbf{AR}$-$\mathsf{R_2}$ rule, with subproofs $\rho, \pi_1,...,\pi_n$ of the sequents $\vdash (s/y)\phi_2$, $\Gamma, AR_{x,y}(\phi_1, \phi_2)(s) \vdash AR_{x,y}(\phi_1, \phi_2)(s_1),...,$ \\$\Gamma, AR_{x,y}(\phi_1, \phi_2)(s)\vdash AR_{x,y}(\phi_1, \phi_2)(s_n)$, respectively, then $|\pi|$ is the path-tree $s(|\pi_1|, ..., |\pi_n|)$.
 			
-			\item 如果$\pi$的最后一条规则为$\mathbf{AR}$-$\mathsf{R_2}$，而且$\rho, \pi_1,...,\pi_n$分别为$\vdash (s/y)\phi_2$, $\Gamma, AR_{x,y}(\phi_1, \phi_2)(s) \vdash AR_{x,y}(\phi_1, \phi_2)(s_1),...,\Gamma, AR_{x,y}(\phi_1, \phi_2)(s)\vdash AR_{x,y}(\phi_1, \phi_2)(s_n)$的证明，其中$\{s_1,...,s_n\}=\mathsf{Next}(s)$，那么令$|\pi|$等于$s(|\pi_1|, ..., |\pi_n|)$。
+			\item 如果$\pi$的最后一条规则为$\mathbf{AR}$-$\mathsf{R_2}$，而且$\rho, \pi_1,...,\pi_n$分别为 $\vdash (s/y)\phi_2$， $\Gamma, AR_{x,y}(\phi_1, \phi_2)(s) \vdash AR_{x,y}(\phi_1, \phi_2)(s_1),...,\Gamma, AR_{x,y}(\phi_1, \phi_2)(s)\vdash AR_{x,y}(\phi_1, \phi_2)(s_n)$ 的证明，其中 $\{s_1,...,s_n\}=\mathsf{Next}(s)$，那么令$|\pi|$等于$s(|\pi_1|, ..., |\pi_n|)$。
 			
 		\end{itemize}
 		路径树$|\pi|$以$s$为根结点，而且对于$|\pi|$的每个节点$s'$来说，$\vdash (s'/y)\phi_2$都有一个比$\pi$小的证明；对于$|\pi|$的任意叶子节点$s'$来说，$\vdash (s'/x)\phi_1$有一个比$\pi$小的证明，或者在从$|\pi|$的根结点到当前叶子节点的分支上存在一个节点，使得$s'$标记此节点。根据归纳假设，对于$|\pi|$的任意节点$s'$，$\models (s'/y)\phi_2$成立，而且对于$|\pi|$的任意叶子节点$s'$，$\models (s'/x)\phi_1$成立，或者在从$|\pi|$的根结点到当前叶子节点的分支上存在一个节点，使得$s'$标记此节点。根据命题\ref{prop:fit}，存在一个可能无穷的路径树$T'$，使得对于$T'$的每个节点$s'$，都有$\models (s'/y)\phi_2$成立，而且对于$T'$的每个叶子节点$s'$，都有$\models (s'/x)\phi_1$成立。因此，$\models AR_{x,y}(\phi_1, \phi_2)(s)$成立。
@@ -428,10 +483,10 @@ only.
 		\begin{itemize}
 			%			\item If $T'$ contains a single node $s'$, then the proof $|T|$ is built with the $\mathbf{AF}$-$\mathsf{R_1}$ rule from the proof of $\vdash (a/x)\phi_1$ given by the induction hypothesis.
 			
-			\item 如果$T'$只包含一个节点$s'$，那么$|T'|$的最后一条规则为$\mathbf{AF}$-$\mathsf{R_1}$，同时$|T'|$中包含$\vdash (s'/x)\phi_1$的证明；
+			\item 如果$T'$只包含一个节点$s'$，那么$|T'|$的最后一条规则为$\mathbf{AF}$-$\mathsf{R_1}$，同时 $|T'|$ 中包含$\vdash (s'/x)\phi_1$的证明；
 			%			\item If $T' = s'(T_1, ..., T_n)$, then the proof $|T|$ is built with the $\mathbf{AF}$-$\mathsf{R_2}$ rule from the proofs $|T_1|, ..., |T_n|$ of the sequents $\vdash AF_x(\phi_1)(s_1), ..., \vdash AF_x(\phi_1)(s_n)$, respectively, where $s_1, ..., s_n$ are the elements of $\textsf{Next}(s')$.
 			
-			\item 如果$T' = s'(T_1, ..., T_n)$，那么$|T'|$的最后一条规则为$\mathbf{AF}$-$\mathsf{R_2}$，同时$|T_1'|,...,|T_n'|$分别为$\vdash AF_x(\phi_1)(s_1), ..., \vdash AF_x(\phi_1)(s_n)$的证明，其中\\$\{s_1, ..., s_n\}=$ $\mathsf{Next}(s)$。 
+			\item 如果$T' = s'(T_1, ..., T_n)$，那么$|T'|$的最后一条规则为$\mathbf{AF}$-$\mathsf{R_2}$，同时， \\$|T_1'|,...,|T_n'|$ 分别为 $\vdash AF_x(\phi_1)(s_1), ..., \vdash AF_x(\phi_1)(s_n)$ 的证明，其中 \\$\{s_1, ..., s_n\}=$ $\mathsf{Next}(s)$。 
 		\end{itemize}
 		
 		%		This way, the proof $|T|$ is a proof of the sequent $\vdash AF_x(\phi_1)(s)$.
@@ -444,7 +499,7 @@ only.
 
 				\item $|s_n|$的最后一条规则为$\mathbf{EG}$-merge；
 				
-				\item 如果$i \le n-1$，根据归纳假设，由于$\vdash (s_i/x)\phi_1$是可证的，而且$|s_{i+1}, ..., s_n|$是$EG_x(\phi_1)(s_0), ..., EG_x(\phi_1)(s_i) \vdash EG_x(\phi_1)(s_{i+1})$的一个证明。因此，$|s_i, ..., s_n|$是$EG_x(\phi_1)(s_0),\ldots, EG_x(\phi_1)(s_{i-1}) \vdash EG_x(\phi_1)(s_i)$的一个证明，而且最后一条规则为$\mathbf{EG}$-\textsf{R}。
+				\item 如果$i \le n-1$，根据归纳假设，由于$\vdash (s_i/x)\phi_1$是可证的，而且 $|s_{i+1}, ..., s_n|$ 是 $EG_x(\phi_1)(s_0), ..., EG_x(\phi_1)(s_i) \vdash EG_x(\phi_1)(s_{i+1})$的一个证明。因此， $|s_i, ..., s_n|$ 是 $EG_x(\phi_1)(s_0),\ldots, EG_x(\phi_1)(s_{i-1}) \vdash EG_x(\phi_1)(s_i)$的一个证明，而且最后一条规则为$\mathbf{EG}$-\textsf{R}。
 				
 		\end{itemize}
 			
@@ -460,9 +515,9 @@ only.
 			
 			\item 如果$T' = s'(T_1, ..., T_n)$，那么根据归纳假设，$|T_1|,...,|T_n|$分别为
 			\begin{center}
-				$AR_{x,y}(\phi_1,\phi_2)(s_1),...,AR_{x,y}(\phi_1,\phi_2)(s_m)$, $AR_{x,y}(\phi_1,\phi_2)(s')\vdash AR_{x, y}(\phi_1,\phi_2)(s_1')$\\
+				$AR_{x,y}(\phi_1,\phi_2)(s_1),...,AR_{x,y}(\phi_1,\phi_2)(s_m)$, \\$AR_{x,y}(\phi_1,\phi_2)(s')\vdash AR_{x, y}(\phi_1,\phi_2)(s_1')$\\
 				...\\
-				$AR_{x,y}(\phi_1,\phi_2)(s_1),...,AR_{x,y}(\phi_1,\phi_2)(s_m)$, $AR_{x,y}(\phi_1,\phi_2)(s')\vdash AR_{x, y}(\phi_1,\phi_2)(s_n')$
+				$AR_{x,y}(\phi_1,\phi_2)(s_1),...,AR_{x,y}(\phi_1,\phi_2)(s_m)$, \\$AR_{x,y}(\phi_1,\phi_2)(s')\vdash AR_{x, y}(\phi_1,\phi_2)(s_n')$
 			\end{center}
 			的证明，同时$|T'|$的最后一条规则为$\mathbf{AR}$-$\mathsf{R_2}$，其中$s_1',...,s_n'=\mathsf{Next}(s')$。
 			
@@ -669,7 +724,7 @@ only.
 		\item 如果$\phi= \top, \bot,  P(s_1,...,s_m)$或$\neg P(s_1,...,s_m)$，那么由于$c_1$和$c_2$是$\textsf{cpt}(\Gamma\vdash\phi,c_1, c_2)$的子项，因此，$\textsf{cpt}(\Gamma\vdash\phi,c_1, c_2) \succ_{\mathsf{lpo}} c_1$以及$\textsf{cpt}(\Gamma\vdash\phi,c_1, c_2) \succ_{\mathsf{lpo}} c_2$。
 		\item 如果$\phi = \phi_1\wedge\phi_2$, 那么由$\succ_{\mathsf{lpo}}$的定义可知，由于$\vdash\phi_1\wedge\phi_2 \succ \;\vdash\phi_1$， $\textsf{cpt}(\vdash\phi_1\wedge\phi_2, c_1, c_2)\succ_{\mathsf{lpo}} \textsf{cpt}(\vdash\phi_2, c_1, c_2)$以及 $\textsf{cpt}(\vdash\phi_1\wedge\phi_2, c_1, c_2)\succ_{\mathsf{lpo}} c_2$， 因此$\textsf{cpt}(\vdash\phi_1\wedge\phi_2, c_1, c_2)\succ_{\mathsf{lpo}} \textsf{cpt}(\vdash\phi_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2), c_2)$；
 		\item 如果$\phi = \phi_1\vee\phi_2$，那么由$\succ_{\mathsf{lpo}}$的定义可知，由于$\vdash\phi_1\vee\phi_2 \succ \;\vdash\phi_1$， $\textsf{cpt}(\vdash\phi_1\wedge\phi_2, c_1, c_2)\succ_{\mathsf{lpo}} c_1$以及$\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1, c_2)\succ_{\mathsf{lpo}} \textsf{cpt}(\vdash\phi_2, c_1, c_2)$，因此 $\textsf{cpt}(\vdash\phi_1\vee\phi_2, c_1, c_2)\succ_{\mathsf{lpo}} \textsf{cpt}(\vdash\phi_1, c_1, \textsf{cpt}(\vdash\phi_2, c_1, c_2))$；
-		\item 如果$\phi =AX_x(\phi_1)(s)$，那么根据$\succ_{\mathsf{lpo}}$的定义可知，由于$\Gamma\vdash AX_x(\phi_1)(s)\succ\; \vdash(s_i/x)\phi_1$以及 $\textsf{cpt}(\Gamma\vdash AX_x(\phi_1)(s), c_1, c_2)\succ_{\mathsf{lpo}} \textsf{cpt}(\vdash(s_i/x)\phi_1, \textsf{cpt}(...\textsf{cpt}(\vdash(s_n/x)\phi_1, c_1, c_2)..., c_2), c_2)$，因此$\textsf{cpt}(\Gamma\vdash AX_x(\phi_1)(s), c_1, c_2) \succ_{\mathsf{lpo}} \textsf{cpt}(\vdash(s_1/x)\phi_1,\\ \textsf{cpt}(...\textsf{cpt}(\vdash(s_n/x)\phi_1, c_1, c_2),...,c_2), c_2)$，其中$\textsf{Next}(s)=\{s_1,...,s_n\}$，而且$i\in\{1,...,n\}$；
+		\item 如果$\phi =AX_x(\phi_1)(s)$，那么根据$\succ_{\mathsf{lpo}}$的定义可知，由于$\Gamma\vdash AX_x(\phi_1)(s)\succ\; \vdash(s_i/x)\phi_1$以及 $\textsf{cpt}(\Gamma\vdash AX_x(\phi_1)(s), c_1, c_2)\succ_{\mathsf{lpo}} \textsf{cpt}(\vdash(s_i/x)\phi_1, \textsf{cpt}(...\textsf{cpt}(\vdash(s_n/x)\phi_1, \\c_1, c_2)..., c_2), c_2)$，因此$\textsf{cpt}(\Gamma\vdash AX_x(\phi_1)(s), c_1, c_2) \succ_{\mathsf{lpo}} \textsf{cpt}(\vdash(s_1/x)\phi_1, \textsf{cpt}(...\textsf{cpt}(\vdash(s_n/x)\phi_1, c_1, c_2),...,c_2), c_2)$，其中$\textsf{Next}(s)=\{s_1,...,s_n\}$，而且$i\in\{1,...,n\}$；
 		\item 对于$EX$情况的分析与$AX$类似；
 		\item 如果$\phi = EG_x(\phi_1)(s)$，那么
 		\begin{itemize}
@@ -760,7 +815,7 @@ only.
 			c_2)...), c_2)\rsa^*\\
 			\textsf{cpt}(\vdash\psi_{s_i},
 			\textsf{cpt}(...\textsf{cpt}(\vdash\psi_{s_n}, c_1,
-			c_2)...), c_2)\not\rsa^*\\
+			c_2)...), c_2)\not\rsa^*
 			c_1$。因此，由证明系统的规则可知，$\vdash AX_x(\psi)(s)$是可证的。
 			\item $(\Leftarrow)$ 如果$\vdash AX_x(\psi)(s)$是可证的，那么由证明系统的规则可知，$\vdash(s_1/x)\psi,...,\vdash(s_n/x)\psi$都是可证的，那么根据归纳假设，对任意两个不同的\textsf{CPT} $c_1$和$c_2$都有（我们用$\vdash\psi_{s_i}$表示$\vdash(s_i/x)\psi$） 
 			
@@ -968,7 +1023,7 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 			\draw[->] (4,-0.9) arc (-10:-325:-0.3);
 			\end{tikzpicture}
 		\end{center}
-		在该模型中，我们考虑公式$EG_x(P(x))(s_0)$的验证，为了验证该公式，我们需要重写\CPT{} $\textsf{cpt}(\vdash EG_x(P(x))(s_0), \mathfrak{t},\mathfrak{f})$。设在集合$\textsf{Next}(s_0)$中，对状态$s_{1,1}$的搜索在状态$s_{2,0}$之前；对于任意的$0\le i\le n-1$，在集合$\textsf{Next}(s_{2,i})$中，对状态$s_{1,1}$的搜索在状态$s_{2,i+1}$之前。重写步骤如图\ref{example:globalmerge:fig}所示，其中，令{$$\Gamma_0=\{EG_{x}(P(x))(s_0)\},$$} {$$ \Gamma_{1,i}=\{EG_x(P(x))(s_0), EG_x(P(x))(s_{1,0}),\ldots,EG_x(P(x))(s_{1,i})\},$$} 以及 {$$\Gamma_{2,i}=\{EG_x(P(x))(s_0), EG_x(P(x))(s_{2,0}),\ldots,\\EG_x(P(x))(s_{2,i})\}$$}
+		在该模型中，我们考虑公式$EG_x(P(x))(s_0)$的验证，为了验证该公式，我们需要重写\CPT{} $\textsf{cpt}(\vdash EG_x(P(x))(s_0), \mathfrak{t},\mathfrak{f})$。设在集合$\textsf{Next}(s_0)$中，对状态$s_{1,1}$的搜索在状态$s_{2,0}$之前；对于任意的$0\le i\le n-1$，在集合$\textsf{Next}(s_{2,i})$中，对状态$s_{1,1}$的搜索在状态$s_{2,i+1}$之前。重写步骤如图\ref{example:globalmerge:fig}所示，其中，令{$$\Gamma_0=\{EG_{x}(P(x))(s_0)\},$$} {$$ \Gamma_{1,i}=\{EG_x(P(x))(s_0), EG_x(P(x))(s_{1,1}),\ldots,EG_x(P(x))(s_{1,i})\},$$} 以及 {$$\Gamma_{2,i}=\{EG_x(P(x))(s_0), EG_x(P(x))(s_{2,0}),\ldots,\\EG_x(P(x))(s_{2,i})\}$$}
 		\begin{figure}[h!]
 			\centering
 			
@@ -978,7 +1033,7 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 				\textsf{cpt}(\vdash EG_x(P(x))(s_0),\mathfrak{t},\mathfrak{f}) \rsa^*$\\
 				$\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{1,1}),\mathfrak{t},\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{2,0}), \mathfrak{t},\mathfrak{f}))\rsa^*
 				$\\
-				$\textsf{cpt}(\Gamma_{1,0}\vdash EG_x(P(x))(s_{1,2}),\mathfrak{t},\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{2,0}), \mathfrak{t},\mathfrak{f}))\rsa^*
+				$\textsf{cpt}(\Gamma_{1,1}\vdash EG_x(P(x))(s_{1,2}),\mathfrak{t},\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{2,0}), \mathfrak{t},\mathfrak{f}))\rsa^*
 				$\\
 				$\ldots\rsa^*$\\
 				$\textsf{cpt}(\Gamma_{1,n-1}\vdash EG_x(P(x))(s_{1,n}),\mathfrak{t},\textsf{cpt}(\Gamma_{0}\vdash EG_x(P(x))(s_{2,0}), \mathfrak{t},\mathfrak{f}))\rsa^*$\\
@@ -1142,7 +1197,7 @@ $\mathsf{ProveOr}$是$\mathsf{ProveAnd}$的对偶情况，伪代码细节如图\
 	\caption{$\mathsf{ProveEX (\vdash EX_x(\phi_1)(s))}$}
 	\label{algorithm:ex}
 \end{figure}
-$\mathsf{ProveEX}$的伪代码细节如图\ref{algorithm:ex}所示，其中令$\{s_1,...,s_n\}=\textsf{Next}(s)$。$\mathsf{ProveEX}$与$\mathsf{ProveAnd}$的分析过程类似，不同点在于第4、5行，当$\mathsf{c'}$重写到第$i$个$\mathsf{c_1}$的时候，$\mathsf{\vdash (s_i/x)\phi_1}$应该作为$\mathsf{\vdash EX_x(\phi_1)(s)}$的子节点被加入到证明树中（第3行）；相反，当$\mathsf{c'}$重写到$\mathsf{c_2}$的时候，$\mathsf{\vdash (s_1/x)\phi_1}, ... , \mathsf{\vdash (s_n/x)\phi_1}$ 都应该作为$\mathsf{\vdash EX_x(\phi_1)(s)}$的子节点被加入到反例中（第2行）。
+$\mathsf{ProveEX}$的伪代码细节如图\ref{algorithm:ex}所示，其中令$\{s_1,...,s_n\}=\textsf{Next}(s)$。$\mathsf{ProveEX}$ 与 $\mathsf{ProveAnd}$的分析过程类似，不同点在于第4、5行，当$\mathsf{c'}$重写到第$i$个$\mathsf{c_1}$的时候，$\mathsf{\vdash (s_i/x)\phi_1}$应该作为$\mathsf{\vdash EX_x(\phi_1)(s)}$的子节点被加入到证明树中（第3行）；相反，当$\mathsf{c'}$重写到$\mathsf{c_2}$的时候，$\mathsf{\vdash (s_1/x)\phi_1}, ... , \mathsf{\vdash (s_n/x)\phi_1}$ 都应该作为$\mathsf{\vdash EX_x(\phi_1)(s)}$的子节点被加入到反例中（第2行）。
 
 
 
@@ -1246,7 +1301,7 @@ $\mathsf{ProveEG}$的解释如下：
 	另外，由于状态的访问是深度优先的，因此将所有的访问过的除了在$\mathsf{\Gamma}$出现的状态之外都加入集合$\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中。
 	\item 第21行： \textsf{CPT} $\mathsf{c'}$的构造方式如下：
 	\begin{enumerate}
-		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash(s/x)\phi_1}$是不可证的，因此将$\mathsf{\vdash(s/x)\phi_1}$作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加到反例中（第10行）。另外，如果$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$是不可证的，那么不存在以$s$开头的无穷路径使得该路径上的所有状态都满足$\phi_1$，在这种情况下，我们将$s$加入到 $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中（第19、20行）。
+		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash(s/x)\phi_1}$是不可证的，因此将$\mathsf{\vdash(s/x)\phi_1}$作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加到反例中（第10行）。另外，如果 $\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$ 是不可证的，那么不存在以$s$开头的无穷路径使得该路径上的所有状态都满足$\phi_1$，在这种情况下，我们将$s$加入到 $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中（第19、20行）。
 		
 		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_1)}, ... , \Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_n)}$都是不可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加入到反例中（第11行）。
 		\item 如果$\mathsf{c'}$重写到第$i$个$\mathsf{c_1}$，那么$\mathsf{\vdash(s/x)\phi_1}$和$\mathsf{\Gamma'\vdash EG_x(\phi_1)(s_i)}$都是可证的，因此将其都作为$\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$的子节点加入到证明树中（第12、13行）。 
@@ -1344,17 +1399,17 @@ $\mathsf{ProveAF}$是$\mathsf{ProveEG}$的对偶情况，伪代码细节如图\r
 \end{figure}
 $\mathsf{ProveEU}$的伪代码细节要比$\mathsf{ProveEG}$更加复杂。原因是，对于后者我们只需找到一个满足某个公式的环即可，而对于前者我们需要找到一条终点状态满足某公式的有穷路径，而且在找到这条路径之前可能已访问若干个环。$\mathsf{ProveEU}$的伪代码细节如图\ref{algorithm:eu}所示。
 在$\mathsf{ProveEG}$中，我们令$\{s_1,...,s_n\}=\textsf{Next}(s)$；
-令$\mathsf{reachable(S)}$表示能经过有穷路径到达$\mathsf{S}$的某个状态的状态集合。$\mathsf{ProveEU}$的解释如下：
+令 $\mathsf{reachable(S)}$ 表示能经过有穷路径到达$\mathsf{S}$的某个状态的状态集合。$\mathsf{ProveEU}$的解释如下：
 \begin{itemize}
 	\item 第3、4行： 如果$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$是可证的，那么将$\mathsf{c}$重写到$\mathsf{c_1}$。
 	\item 第5、6行：如果$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$是不可证的，或者$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)\in}\;\Gamma$，那么将$\mathsf{c}$重写到$\mathsf{c_2}$。
 	\item 第26、27行：\textsf{CPT} $\mathsf{c'}$的构造方式如下：
 	\begin{enumerate}
 		\item 如果$\mathsf{c'}$将来能重写到第一个$\mathsf{c_1}$，那么$\mathsf{\vdash(s/y)\phi_2}$是可证的，因此将其作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加到证明树中（第9行）。与此同时，由于$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$是可证的，那么对于任意访问过的状态$s'$，如果存在以$s'$为起点的有穷路径而$s$在这条路径上，那么$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s')}$也是可证的。因此，可将状态集合$\mathsf{reachable(states(}\Gamma\mathsf{)\cup\{s\})}$中的所有状态加入到 $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$中（第10行）。每个$\mathsf{reachable(states(}\Gamma\mathsf{)\cup\{s\})}$中的状态$\mathsf{s'}$或者在 $\mathsf{states(}\Gamma\mathsf{)\cup\{s\}}$中，或者在与 $\mathsf{states(}\Gamma\mathsf{)\cup\{s\}}$重叠的某个环上。因此，通过记录并选取与$\mathsf{states(}\Gamma\mathsf{)\cup\{s\}}$重叠的所有的环，就可以计算状态集合 $\mathsf{reachable(states(}\Gamma\mathsf{)\cup\{s\})}$了。然后，我们将所有被访问过的状态加入到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中，然后去掉可经过有穷路径到达$\mathsf{states(}\Gamma\mathsf{)\cup\{s\}}$中某个状态的状态（第11行）。
-		\item 如果$\mathsf{c'}$能重写到第$i$个其他的$\mathsf{c_1}$，那么$\vdash(s/x)\phi_1$和 $\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_i)}$是可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到证明树中（第16行）。与此同时，$\mathsf{reachable(states(}\Gamma'\mathsf{)\cup\{s_i\})}$中的所有状态都应加到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$中（第17行）；所有被访问过的状态都加到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中并且去掉可经过有穷路径到达$\mathsf{states(}\Gamma'\mathsf{)\cup\{s_i\}}$中某个状态的状态（第18行）。 
+		\item 如果$\mathsf{c'}$能重写到第$i$个其他的$\mathsf{c_1}$，那么$\vdash(s/x)\phi_1$和 $\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_i)}$是可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到证明树中（第16行）。与此同时，$\mathsf{reachable(states(}\Gamma'\mathsf{)\cup\{s_i\})}$中的所有状态都应加到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$ 中（第17行）；所有被访问过的状态都加到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$ 中并且去掉可经过有穷路径到达 $\mathsf{states(}\Gamma'\mathsf{)\cup\{s_i\}}$ 中某个元素的状态（第18行）。 
 		
 		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash (s/x)\phi_1}$和$\mathsf{\vdash (s/y)\phi_2}$是不可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第12行）。
-		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_1)},...,\;\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_n)}$都是不可证的，因此将其全部作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第13行）。
+		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_1)},...,\;\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_n)}$ 都是不可证的，因此将其全部作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第13行）。
 		\item 如果$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$是不可证的，那么将$s$加入到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中，并以此在对这个$EU$公式的证明搜索中避免重复访问$\mathsf{s}$（第24、25行）。值得注意的是$\mathsf{s}$可从$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$被移除（第11 -- 18行）。这种情况只当存在${\Gamma'}$和$\mathsf{s'}$使得$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s')}$是可证的，$\mathsf{s'}$, $\mathsf{\vdash (s'/y)\phi_2}$是可证的，以及$\mathsf{s\in reachable(states(}\Gamma'\mathsf{)\cup \{s'\})}$的时候发生。
 	\end{enumerate}
 	\item 第28行：将$\mathsf{c}$重写到$\mathsf{c'}$。
@@ -1369,7 +1424,7 @@ $\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，伪代码细节如图\r
 在并发系统的形式化验证中，公平性性质是一类比较重要的性质。在验证公平性性质时，模型检测算法通常会规避系统的一些不切实际的行为\cite{BaierKatoen08}，比如在两个进程的互斥模型中，我们通常只考虑没有进程饿死的情况，即没有永远处在等待状态的进程。在这类模型的验证中，我们就可以添加一个公平性限制来规避模型的不公平的迁移（即在该模型中的状态迁移过程中有进程饿死），从而只在对两个进程都公平的前提下进行状态迁移并验证模型的性质。
 
 
-由于无法描述特定路径的性质，因此带有公平性前提的性质无法用\CTL{}或\CTLP{}公式来表示。然而，我们仍然可以利用\SCTL{}系统的证明搜索策略来完成公平性性质的验证。本文中公平性的定义与McMillan提出的公平性定义\cite{mcmillan93}一致，即一个无穷路径是公平的指的是某种性质在该路径上无穷次成立。一个带有公平性前提的性质通常具有$E_Cf$或者$A_Cf$形式，其中$C$表示一个\CTLP{}公式的集合，而$f$表示路径的性质。在本文中，$E_CG(\phi)(s)$在给定的Kripke模型中成立当且仅当存在以$s$为起始状态的一个无穷路径，集合$C$中的每个公式在该路径上的无穷次成立，而且在该路径上的每个状态上$\phi$都成立，而且集合$C$中的每个公式$\phi'$，$\phi'$在$\pi$上的无穷个状态上都是成立的；$A_CF(\phi)(s)$在给定的Kripke模型中是有效的当且仅当对于所有以$s$为起始状态的无穷路径，集合$C$中的每个公式都在每条路径上无穷次成立，而且每条路径上都存在一个状态，使得$\phi$在该状态上成立。另外，与McMillan的定义类似，带有别的模态词的公平性性质可用$E_CG$与$A_CF$公式进行定义：
+由于无法描述特定路径的性质，因此带有公平性前提的性质无法用 \CTL{} 或 \CTLP{} 公式来表示。然而，我们仍然可以利用\SCTL{}系统的证明搜索策略来完成公平性性质的验证。本文中公平性的定义与McMillan提出的公平性定义\cite{mcmillan93}一致，即一个无穷路径是公平的指的是某种性质在该路径上无穷次成立。一个带有公平性前提的性质通常具有$E_Cf$或者$A_Cf$形式，其中$C$表示一个\CTLP{}公式的集合，而$f$表示路径的性质。在本文中，$E_CG(\phi)(s)$在给定的Kripke模型中成立当且仅当存在以$s$为起始状态的一个无穷路径，集合$C$中的每个公式在该路径上的无穷次成立，而且在该路径上的每个状态上$\phi$都成立，而且集合$C$中的每个公式$\phi'$，$\phi'$在$\pi$上的无穷个状态上都是成立的；$A_CF(\phi)(s)$在给定的Kripke模型中是有效的当且仅当对于所有以$s$为起始状态的无穷路径，集合$C$中的每个公式都在每条路径上无穷次成立，而且每条路径上都存在一个状态，使得$\phi$在该状态上成立。另外，与McMillan的定义类似，带有别的模态词的公平性性质可用$E_CG$与$A_CF$公式进行定义：
 
 
 \begin{small}
@@ -1400,6 +1455,10 @@ $\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，伪代码细节如图\r
 	令$\sigma = s_0,...,s_{p-1},s_p,...,s_{n-1},...$ 
 	即可得证。
 \end{proof}
+
+\section{本章小节}
+在本章中，我们首先定义了一个针对计算树逻辑\CTL{}的扩展：\CTLP{}逻辑；接着定义了一个针对\CTLP{}的证明系统\SCTL{}并证明了\SCTL{}的可靠性和完备性；然后，我们针对\SCTL{}提出了一种基于连续的证明搜索策略，并以重写系统的形式给出，同时证明了该证明搜索策略的可终止性与正确性；最后，我们给出一个完全自动化的、线性的证明搜索算法，并以伪代码的形式给出。
+通过本章内容可知，我们不仅扩展了在传统的模型检测中常用的\CTL{}逻辑，还给出了在扩展后的逻辑中的一种自动地、高效的证明搜索算法。由此，我们则可设计一种基于扩展后的逻辑的定理证明工具，即本章的内容可作为下一章内容的理论基础。
 
 
 

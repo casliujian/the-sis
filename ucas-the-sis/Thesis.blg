@@ -1,3 +1,47 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: Thesis.aux
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: Thesis.aux
 The style file: Biblio/gbt7714-unsrt.bst
 Database file #1: Biblio/thesis_references.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 90 entries,
+            3424 wiz_defined-function locations,
+            1338 strings with 19568 characters,
+and the built_in function-call counts, 496786 in all, are:
+= -- 51624
+> -- 50380
+< -- 50414
++ -- 16522
+- -- 553
+* -- 2828
+:= -- 54525
+add.period$ -- 274
+call.type$ -- 90
+change.case$ -- 355
+chr.to.int$ -- 14779
+cite$ -- 90
+duplicate$ -- 1867
+empty$ -- 5249
+format.name$ -- 1135
+if$ -- 143105
+int.to.chr$ -- 4
+int.to.str$ -- 91
+missing$ -- 0
+newline$ -- 463
+num.names$ -- 272
+pop$ -- 21877
+preamble$ -- 1
+purify$ -- 90
+quote$ -- 0
+skip$ -- 58977
+stack$ -- 0
+substring$ -- 17212
+swap$ -- 203
+text.length$ -- 714
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 740
+warning$ -- 0
+while$ -- 1015
+width$ -- 0
+write$ -- 1337

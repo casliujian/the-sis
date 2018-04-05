@@ -1,0 +1,96 @@
+
+\chapter{证明搜索策略的正确性}
+\subsection{证明搜索策略的正确性}\label{subsec:cpt:correctness}
+证明搜索策略的正确性可由以下命题来表示。
+\begin{proposition}[证明搜索策略的正确性]
+	对于给定闭公式$\phi$， 
+	$\textsf{cpt}(\vdash\phi, \mathfrak{t}, \mathfrak{f}) \rsa^* \mathfrak{t}$ 当且仅当$\vdash \phi$是可证的。
+\end{proposition}
+
+\begin{proof}
+	
+	在证明该命题之前，需要注意的是，对任意不同的两个\CPT{} $c_1$和$c_2$，$\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2)$总会在有限步之内重写到$c_1$或$c_2$。这是由于根据\CPT{}重写系统的终止性，
+	$\textsf{cpt}(\vdash\phi, \mathfrak{t}, \mathfrak{f})$总会在有限步之内重写到 $\mathfrak{t}$或$\mathfrak{f}$，而且在重写$\textsf{cpt}(\vdash\phi, c_1, c_2)$的过程中;$c_1$和$c_2$的结构都不会影响重写的步骤，直到需要重写$c_1$或者$c_2$本身。因此，我们可以在$\textsf{cpt}(\Gamma \vdash\phi, \mathfrak{t}, \mathfrak{f})$的重写步骤中将$\mathfrak{t}$替换成$c_1$，将$\mathfrak{f}$替换成$c_2$，并由此得到一个由$\textsf{cpt}(\Gamma \vdash\phi, c_1, c_2)$重写到$c_1$或$c_2$的步骤。
+	
+	为了保持证明的简洁性，我们证明一个更一般化的命题，即：
+	对于一个给定的公式$\phi$, 以及任意不同的两个\CPT{} $c_1$和$c_2$，$\textsf{cpt}(\vdash\phi, c_1, c_2)$在有限步内首先重写到$c_1$而不是$c_2$当且仅当$\Gamma \vdash \phi$是可证的。 
+	
+	本证明由两部分组成：
+	\begin{enumerate}
+		\item $\Rightarrow$：对于一个给定的公式$\phi$, 以及任意不同的两个\CPT{} $c_1$和$c_2$，如果$\textsf{cpt}(\vdash\phi, c_1, c_2)$在有限步内首先重写到$c_1$而不是$c_2$，那么$\Gamma \vdash \phi$是可证的。
+		\item $\Leftarrow$：对于一个给定的公式$\phi$, 以及任意不同的两个\CPT{} $c_1$和$c_2$，如果$\Gamma \vdash \phi$是可证的，那么$\textsf{cpt}(\vdash\phi, c_1, c_2)$在有限步内首先重写到$c_1$而不是$c_2$。
+	\end{enumerate}
+
+	两个部分的证明都是在公式$\phi$的结构上作归纳。
+	
+	在第一部分中，我们证明$\Rightarrow$，其中假设$c_1$和$c_2$是两个不同的\CPT：
+	\begin{itemize}
+		\item 如果$\phi=\top$ 或 $\bot$，显然得证。
+		\item 如果$\phi=P(s_1,...,s_n)$，其中 $P(s_1,...,s_n)$是一个原子公式，而且\\$\textsf{cpt}(\vdash P(s_1,...,s_n), c_1, c_2)$ 在有限步内首先重写到$c_1$而不是$c_2$，那么 $\textsf{cpt}(\vdash P(s_1,...,s_n), c_1, c_2)\rsa c_1$，其中$\langle s_1,...,s_n\rangle\in P$，因而$\vdash P(s_1,...,s_n)$是可证的。
+		\item 如果$\phi=\neg P(s_1,...,s_n)$，其中 $P(s_1,...,s_n)$是一个原子公式，而且\\$\textsf{cpt}(\vdash \neg P(s_1,...,s_n),c_1,c_2)$在有限步内首先重写到$c_1$而不是$c_2$，那么 $\textsf{cpt}(\vdash \neg P(s_1,...,s_n), c_1, c_2)\rsa c_1$，其中$\langle s_1,...,s_n\rangle \notin P$，因而$\vdash \neg P(s_1,...,s_n)$是可证的。
+		\item 如果$\phi=\phi_1\wedge\phi_2$，而且 $\textsf{cpt}(\vdash\phi_1\wedge\phi_2,c_1,c_2)$在有限步内首先重写到$c_1$而不是$c_2$，那么 $\textsf{cpt}(\vdash\phi_1\wedge\phi_2,c_1,c_2)\rsa\textsf{cpt}(\vdash \phi_1, \textsf{cpt}(\vdash\phi_2,c_1,c_2), c_2)\rsa^*\textsf{cpt}(\vdash\phi_2,c_1,c_2)\rsa^*c_1$，然后由归纳假设可知，$\vdash\phi_1$和 $\vdash\phi_2$均可证，否则, 如果$\vdash\phi_1$ 或$\vdash\phi_2$不可证，那么 $\textsf{cpt}(\vdash \phi_1, \textsf{cpt}(\vdash\phi_2,c_1,c_2), c_2)$ 会在有限步内首先重写到$c_2$而不是$c_1$。由证明规则可知，$\vdash\phi_1\wedge\phi_2$是可证的。
+		\item 如果$\phi = \phi_1\vee\phi_2$，那么有两种方法使得 $\textsf{cpt}(\vdash\phi_1\vee\phi_2,c_1,c_2)$ 在有限步内首先重写到$c_1$而不是$c_2$：
+		\begin{enumerate}
+			\item $\textsf{cpt}(\vdash\phi_1\vee\phi_2,c_1,c_2)\rsa\textsf{cpt}(\vdash\phi_1,c_1,\textsf{cpt}(\vdash\phi_2,c_1,c_2))$，而且 $\textsf{cpt}(\vdash\phi_1,c_1,\textsf{cpt}(\vdash\phi_2,c_1,c_2))$在有限步内首先重写到$c_1$而不是 $\textsf{cpt}(\vdash\phi_2,c_1,c_2)$。由归纳假设可知，$\vdash\phi_1$是可证的，然后由证明规则可知，$\vdash\phi_1\vee\phi_2$是可证的。
+			\item $\textsf{cpt}(\vdash\phi_1\vee\phi_2,c_1,c_2)\rsa\textsf{cpt}(\vdash\phi_1,c_1,\textsf{cpt}(\vdash\phi_2,c_1,c_2))$， $\textsf{cpt}(\vdash\phi_1,c_1,\textsf{cpt}(\vdash\phi_2,c_1,c_2))$在有限步内首先重写到$\textsf{cpt}(\vdash\phi_2,c_1,c_2)$ 而不是$c_1$，而且$\textsf{cpt}(\vdash\phi_2,c_1,c_2)$在有限步内首先重写到$c_1$而不是$c_2$。由归纳假设可知，$\vdash\phi_1$是不可证的，而$\vdash\phi_2$是可证的，然后由证明系统的规则可知，$\vdash\phi_1\vee\phi_2$是可证的。
+		\end{enumerate}
+		
+		\item 如果$\phi = EX_x(\phi_1)(s)$，而且$\{s_1,...,s_n\}=\textsf{Next}(s)$，那么$\textsf{cpt}(\vdash EX_x(\phi_1)(s),c_1,c_2)$在有限步内首先重写到$c_1$而不是$c_2$可以推出：存在 $s_i\in\textsf{Next}(s)$使得 $\vdash(s_i/x)\phi_1$是可证的。否则，如果对所有$s_i\in\textsf{Next}(s)$， $\vdash(s_i/x)\phi_1$都是不可证的，那么由归纳假设可知，\\
+		$\textsf{cpt}(\vdash EX_x(\phi_1)(s),c_1,c_2)\rsa\\
+		\textsf{cpt}(\vdash(s_1/x)\phi_1,c_1,\textsf{cpt}(...\textsf{cpt}(\vdash(s_n/x)\phi_1,c_1,c_2)...))\\\rsa^*\ldots\rsa^*\\
+		\textsf{cpt}(\vdash (s_n/x)\phi_1,c_1,c_2)\rsa^*c_2$，而且在上述步骤中没有对$c_1$的重写。因此，由证明系统的规则可知，$\vdash EX_x(\phi_1)(s)$是可证的。
+		
+		\item 如果$\phi = AX_x(\phi_1)(s)$，那么由于$EX$是$AX$的对偶，因此对这种情况的分析与$EX$类似。
+		
+		\item 如果$\phi = EG_x(\phi_1)(s)$，而且 $\{s_1,...,s_n\}=\textsf{Next}(s)$，那么 $\textsf{cpt}(\vdash EG_x(\phi_1)(s), c_1, c_2)$在有限步内首先重写到$c_1$而不是$c_2$可推出： 存在一条起始于$s$的无穷路径，使得对于这条路径上的任意状态$s'$，$\vdash(s'/x)\phi_1$都是可证的。 这是由于，根据重写系统的规则可知，如果$\textsf{cpt}(\vdash EG_x(\phi_1)(s), c_1, c_2)\rsa^*c'$，其中$c'$为$c_1$或$c_2$而且还未被重写，那么在以上的重写步骤中，$c_1$不是以上出现过的任何\CPT{}的$\mathfrak{f}$-连续，而只可能作为具有$\textsf{cpt}(\Gamma'\vdash EG_x(\phi_1)(s'), c_1, c_2')$形式的\CPT{}的$\mathfrak{t}$-连续。因此，只有一种方式使得$\textsf{cpt}(\vdash EG_x(\phi_1)(s), c_1, c_2)$在有限步内首先重写到$c_1$而不是$c_2$，即$\textsf{cpt}(\Gamma'\vdash EG_x(\phi_1)(s'), c_1, c_2')\rsa c_1$形式的重写是上述重写步骤的一部分，其中$EG_x(\phi_1)(s')\in\Gamma'$。在这种情况下，根据证明系统的规则可知，所有的公式 $EG_x(\phi_1)(s')\in\Gamma'$, $\vdash(s'/x)\phi_1$都是可证的。因此，存在一条无穷路径使得对于该路径上的任意节点$s'$，$\vdash(s'/x)\phi_1$都是可证的，由于证明系统是可靠和完备的，因此$\vdash EG_x(\phi_1)(s)$是可证的。
+		
+		\item 
+		如果$\phi = AF_x(\phi_1)(s)$，那么由于$EG$是$AF$的对偶，因此对这种情况的分析与$EG$类似。
+		
+		\item 如果$\phi = EU_{x,y}(\phi_1,\phi_2)(s)$，而且$\{s_1,...,s_n\}=\textsf{Next}(s)$，那么\\$\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1,c_2)$在有限步内首先重写到$c_1$而不是$c_2$可推出：存在一条起始于$s$的有穷路径使得对于该路径上的最后一个状态$s'$，$\vdash (s'/y)\phi_2$是可证的，且对于该路径上的所有其他（如果存在）状态$s''$，$\vdash(s''/x)\phi_1$是可证的。这是由于，对于重写步骤$\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1,c_2)\rsa^*c'$，其中$c'$为$c_1$或$c_2$且还未被重写，由重写系统的规则可知，$c_1$不是以上步骤中出现过的任何\CPT{}的$\mathfrak{f}$-连续，而只可能作为具有 \\$\textsf{cpt}(\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_1), c_1, c_2')$或 $\textsf{cpt}(\vdash (s_2/x)\phi_2, c_1, c_2'')$形式的\CPT{}的$\mathfrak{t}$-连续，且具有前者形式的\CPT{}总会重写到具有后者形式的\CPT{}。因此，只有一种方式使得$\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1, c_2)$在有限步内首先重写到$c_1$而不是$c_2$，即具有$\textsf{cpt}(\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s'), c_1, c_2')\rsa \textsf{cpt}(\vdash (s'/y)\phi_2, c_1,c_2'')\rsa^* c_1$形式的重写是以上重写步骤的不一份。在这种情况下，由归纳假设可知，$\vdash (s'/y)\phi_2$是可证的，而且由重写规则可知，对于所有的公式$EU_{x,y}(\phi_1,\phi_2)(s_1)\in\Gamma'$， $\vdash (s_1/x)\phi_1$是可证的。因此，存在一条起始于$s$的有穷路径，使得对于该路径上的最后一个状态$s'$，$\vdash (s'/y)\phi_2$是可证的，而且对于该路径上的任意其他（如果存在）状态$s''$，$\vdash(s''/x)\phi_1$是可证的。 然后，由证明系统的可靠性和完备性可知，$\vdash EU_{x,y}(\phi_1,\phi_2)(s)$是可证的。
+		
+		\item 
+		如果$\phi = AR_{x,y}(\phi_1,\phi_2)(s)$，那么由于$EU$是$AR$的对偶，因此对这种情况的分析与$EU$类似。
+	\end{itemize}
+	
+	在第二部分中，我们证明$\Leftarrow$，其中假设$c_1$和$c_2$是两个不同的\CPT：
+	\begin{itemize}
+		\item 如果$\phi=\top$或$\bot$，显然得证。
+		
+		\item 如果$\phi=P(s_1,...,s_n)$，其中$P(s_1,...,s_n)$ 是一个原子公式，且$\vdash P(s_1,...,s_n)$是可证的，那么$\langle s_1,...,s_n\rangle\in P$，因此 $\textsf{cpt}(\vdash P(s_1,...,s_n), c_1, c_2)\rsa c_1$。
+		
+		\item 如果$\phi=\neg P(s_1,...,s_n)$，其中 $P(s_1,...,s_n)$是一个原子公式，且$\vdash \neg P(s_1,...,s_n)$是可证的，那么$\langle s_1,...,s_n\rangle \notin P$，因此 $\textsf{cpt}(\vdash \neg P(s_1,...,s_n), c_1, c_2)\rsa c_1$。
+		
+		\item 如果$\phi=\phi_1\wedge\phi_2$且 $\vdash\phi$是可证的，那么由证明系统的规则可知，$\vdash\phi_1$和$\vdash\phi_2$均可证，那么由归纳假设可知， $\textsf{cpt}(\vdash\phi_1\wedge\phi_2,c_1,c_2)\rsa\textsf{cpt}(\vdash \phi_1, \textsf{cpt}(\vdash\phi_2,c_1,c_2), c_2)\rsa^*\textsf{cpt}(\vdash\phi_2,c_1,c_2)\rsa^*c_1$，而且$c_2$在上述步骤中未被重写。
+		
+		\item 如果$\phi = \phi_1\vee\phi_2$且 $\vdash\phi$是可证的，那么由证明系统的规则可知，$\vdash\phi_1$或$\vdash\phi_2$是可证的：
+		\begin{enumerate}
+			\item 如果$\vdash\phi_1$是可证的，那么由归纳假设可知， $\textsf{cpt}(\vdash\phi_1\vee\phi_2,c_1,c_2)\rsa \textsf{cpt}(\vdash \phi_1,c_1,\textsf{cpt}(\vdash\phi_2,c_1,c_2))\rsa^*c_1$，而且$c_2$在上述步骤中未被重写。
+			\item 如果$\vdash\phi_1$是不可证的，而$\vdash\phi_2$ 是可证的，那么由归纳假设可知，$\textsf{cpt}(\vdash\phi_1\vee\phi_2,c_1,c_2)\rsa \textsf{cpt}(\vdash \phi_1,c_1,\textsf{cpt}(\vdash\phi_2,c_1,c_2))\rsa^*\textsf{cpt}(\vdash\phi_2,c_1,c_2)\rsa^*c_1$，而且$c_2$在上述步骤中未被重写。
+		\end{enumerate}
+		
+		\item 如果$\phi = EX_x(\phi_1)(s)$，$\{s_1,...,s_n\} = \textsf{Next}(s)$，而且 $\vdash\phi$是可证的，那么由证明系统的规则可知，存在$s_i\in\textsf{Next}(s)$使得 $\vdash(s_i/x)\phi_1$是可证的，而且对于任意$1\le j<i$，$\vdash(s_j/x)\phi_1$是不可证的。 那么，由归纳假设可知， \\$\textsf{cpt}(\vdash EX_x(\phi_1)(s),c_1,c_2)\rsa \\\textsf{cpt}(\vdash(s_1/x)\phi_1, c_1, \textsf{cpt}(...\textsf{cpt}(\vdash(s_n/x)\phi_1, c_1, c_2)...))\\\rsa^*\ldots\rsa^*\\
+		\textsf{cpt}(\vdash(s_i/x)\phi_1, c_1, \textsf{cpt}(...\textsf{cpt}(\vdash(s_n/x)\phi_1, c_1, c_2)...))\\\rsa^* c_1$，而且$c_2$在上述步骤中未被重写。
+		
+		\item
+		如果$\phi = AX_x(\phi_1)(s)$，那么由于$EX$是$AX$的对偶，因此对这种情况的分析与$EX$类似。
+		
+		\item 如果$\phi = EG_x(\phi_1)(s)$，$\{s_1,...,s_n\}=\textsf{Next}(s)$，而且$\vdash EG_x(\phi_1)(s)$是可证的，那么由证明系统的可靠性和完备性可知，存在一条起始于$s$的无穷路径，使得对于这条路径上的任意状态$s'$，$\vdash(s'/x)\phi_1$是可证的。
+		由重写规则可知，在对$EG$公式的证明搜索过程中，对于状态的访问是按照深度优先的方式进行的，而且对于每个分支，有新的状态加入该分支只有当在该分支的最后一个状态上$\phi_1$是满足的，而且该分支不包含重复的状态。由于搜索到的状态总数是有穷的，因此对于搜索到的每个分支，在该分支的最后一个状态上$\phi_1$不满足，或者该分支包含重复的状态。
+		那么，假设$\textsf{cpt}(\vdash EG_x(\phi_1)(s),c_1,c_2)$在有限步内首先重写到$c_2$ 而不是$c_1$，那么，所有搜索到的分支均不包含重复的状态，否则具有$\textsf{cpt}(\Gamma'\vdash EG_x(\phi_1)(s'), c_1,c_2')\rsa c_1$形式的重写是上述重写步骤的一部分，其中$EG_x(\phi_1)(s')\in\Gamma'$，从而使得 $\textsf{cpt}(\vdash EG_x(\phi_1)(s),c_1,c_2)$在有限步内首先重写到$c_1$而不是$c_2$。 由此，我们可知，在每一个搜索到的分支的最后一个节点上，$\phi_1$均不满足，从而不存在一个无穷路径使得对于该路径上的任意状态$s'$，$\vdash (s'/x)\phi_1$是可证的。由此，我们可以得出结论，$\textsf{cpt}(\vdash EG_x(\phi_1)(s),c_1,c_2)$总会在有限步内首先重写到$c_1$而不是$c_2$。
+		
+		\item
+		如果$\phi = AF_x(\phi_1)(s)$，那么由于$EG$是$AF$的对偶，因此对这种情况的分析与$EG$类似。
+		
+		\item 如果$\phi=EU_{x,y}(\phi_1,\phi_2)(s)$， $\{s_1,...,s_n\}= \textsf{Next}(s)$而且$\vdash \phi$是可证的，那么由证明系统的可靠性和完备性可知，存在一条起始于$s$的有穷路径使得对于该路径上的最后一个状态$s'$，$\vdash(s'/y)\phi_2$是可证的，而且对于此路径上的任意其他（如果存在）状态$s''$，$\vdash(s''/x)\phi_1$是可证的。
+		由重写规则可知，在对$EU$公式的证明搜索中的每个状态分支，有新的状态加入该分支仅当在该分支的最后一个状态上$\phi_1$满足且$\phi_2$不满足，而且该分支不包含重复的状态。因此，对于在$EU$公式的证明搜索过程中所有搜索过的分支，在该分支的最后一个状态上，$\phi_2$满足，或者$\phi_1$不满足，或者该分支包含重复的状态。
+		假设$\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1, c_2)$在有限步内首先重写到$c_2$而不是$c_1$，那么对于在该重写步骤中每个搜索到的状态分支，在该分支的最后一个状态上$\phi_1$不满足，或者该分支包含重复的状态。否则，如果在该分支的最后一个状态上，$\phi_2$满足，那么由重写规则可知，具有\\ 
+		$\textsf{cpt}(\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s'), c_1, c_2')\rsa^*\\
+		\textsf{cpt}(\vdash (s'/y)\phi_2, c_1,c_2'')\rsa^*c_1$形式的重写出现在上述重写步骤中。
+		因此，如果$\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1, c_2)$在有限步内首先重写到$c_2$而不是$c_1$，那么不存在一条有穷的路径使得在该路径的最后一个状态上，$\phi_2$满足，而且在该路径上的所有其他（如果存在）状态上，$\phi_1$满足。因此，我们可以得出结论，$\textsf{cpt}(\vdash EU_{x,y}(\phi_1,\phi_2)(s), c_1, c_2)$在有限步内首先重写到$c_1$而不是$c_2$。
+		
+		\item
+		如果$\phi = AR_{x,y}(\phi_1,\phi_2)(s)$，那么由于$EU$是$AR$的对偶，因此对这种情况的分析与$EU$类似。
+	\end{itemize}
+	
+\end{proof}

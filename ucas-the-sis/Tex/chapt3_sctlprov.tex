@@ -1,4 +1,4 @@
-\chapter{定理证明工具\sctlprov{}}
+\chapter{定理证明工具\sctlprov{}}\label{chapt:sctlprov}
 在上一章中，我们针对\SCTL{}证明系统设计了一种证明搜索策略并给出了证明搜索算法的伪代码。
 在本章中，我们介绍对\SCTL{}的证明搜索算法的一个编程实现---定理证明工具\sctlprov{}（图\ref{workflow}）以及该工具与其他模型检测工具的对比。
 \sctlprov{}的工作方式如下：首先，\sctlprov{}读入一个输入文件，并将该输入文件解析到一个Kripke模型以及若干个\SCTL{}公式；然后，对于每个公式，\sctlprov{}搜索该公式的证明，如果该公式可证，则并输出该证明（或者只输出True），如果该公式不可证，则输出该公式的非的证明（或者只输出False）。

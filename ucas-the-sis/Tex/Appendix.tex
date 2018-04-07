@@ -66,9 +66,10 @@
 	\end{verbatim}
 \end{center}
 \section{表达式与模式}
-Expressions are used to build complex values via evluations. The evaluations of expressions in our input language coincide with that of the corresponding OCaml expressions. Values can then be seen as the normal form of expressions, i.e., expressions that cannot be further evaluated.
+在\sctlprov{}的输入语言中，我们通过表达式的形式来定义复杂的值，即表达式通过有限步规约得到值。为了使表达式更容易理解，我们令表达式的规约顺序与OCaml语言中表达式的规约顺序一致。另外，在模式匹配表达式中，模式的作用是为了匹配不同形式的表达式，其中所定义的模式的匹配形式也与OCaml中一致。
+\couic{Expressions are used to build complex values via evluations. The evaluations of expressions in our input language coincide with that of the corresponding OCaml expressions. Values can then be seen as the normal form of expressions, i.e., expressions that cannot be further evaluated.
 
-Patterns are used to match different cases of expressions. The way that patterns match expressions in our input language coincide with that in OCaml.
+Patterns are used to match different cases of expressions. The way that patterns match expressions in our input language coincide with that in OCaml.}
 \begin{center}
 	\begin{verbatim}
 	expr ::=
@@ -117,64 +118,47 @@ Patterns are used to match different cases of expressions. The way that patterns
 \end{center}
 
 \section{类型}
-\couic{
-Like in read world programming languages, the new input language consists of base types, compound types, and user defined types.
-
-Base types
-
-Base types are listed as follows.
-
-unit: the unit type. () the only one constant of type unit. Besides, the type of commands is also unit.
-int: integer type, whose range depends on the implementation platform of the prover SCTLProV.
-(min .. max): integer type within range. Any value v of the type (min .. max) is an integer value and that min <= v <= max.
-{#scalar1, #scalar2...,#scalarn}: scalar type that is used to define an enumeration of finite symbols.
-float: floating-point type, following the IEEE 754 standard.
-bool: boolean type, which consists two dinsguishable values: true and false.
-Compound types
-
-Array
-
-An array type is of the form array t, where t is a type.
-
-List
-
-A list type is of the form list t, where t is a type.
-
-Tuple
-
-A tuple type with n fields is of the form (t1, t2, ... , tn), where t1, t2, …, tn are n data types. An expression of a tuple type with n fields is of the form (e1, e2, ... ,en), where e1, e2, … , en are expressions of types t1, t2, …, tn, respectively.
-
-Record
-
-Records are tuples where each field has an identical name. A record with n fields is of the form {l1: t1; l2: t2; ... ; ln: tn}, where l1, l2, … , ln are name of the labels of each field.
-
-Variant
-
-A variant type consists of a finite number of variant constructors separated by the | symbol, each of which may be followed by a tuple type.
-
-Function type
-
-A function type is used in the declaration of functions, which is described later.
-
-The syntax of type is specified as follows.
-
+与传统的编程语言类似，\sctlprov{}的输入语言同样包含类型的定义。类型分为基本类型与复合类型。
+\paragraph{基本类型}
+\begin{itemize}
+	\item 单元类型：单元类型是最简单的类型，记作\code{unit}。这种类型的值只有一个，即\code{()}。
+	\item 布尔类型：布尔类型记作\code{bool}，该类型的值有两个：\code{true}和 \code{false}。
+	\item 整数类型：整数类型可记作\code{int}或者\code{(min .. max)}，当记作\code{int}时，该整数类型的取值范围与OCaml的整数取值范围一致；当记作\code{(min .. max)}时，在不超过OCaml的整数类型取值范围的基础上，该整数类型的取值范围为$[min,max]$，其中$min$和$max$均为整数。
+	\item 浮点数类型：浮点数类型记作\code{float}，与OCaml的浮点数类型的取值范围一致。
+	\item 标量类型：标量类型用来表示对有穷个符号的枚举，记作\code{\#iden$_1$, ... , \#iden$_n$}，其中\code{iden$_1$, ... , iden$_n$}为任意$n$个符号，即以小写字母开头的标识符。
+\end{itemize}
+\paragraph{复合类型}
+\begin{itemize}
+	\item 数组类型：数组类型记作\code{array t}，其中\code{t}是一个类型。
+	\item 列表类型：列表类型记作\code{list t}，其中\code{t}是一个类型。
+	\item 元组类型：远足类型记作\code{(t$_1$, ... , t$_n$)}，其中\code{t$_1$, ... , t$_n$}为$n>1$个类型。
+	\item 记录类型：记录类型可看作带标签的元组类型，记作\code{iden$_1$: t$_1$; ... ; iden$_n$: t$_n$;}，其中\code{t$_1$, ... , t$_n$}为$n\ge 1$个类型，而\code{iden$_1$, ... , iden$_n$}为与其对应的$n\ge 1$个标签。
+	\item 变体类型：变体类型由若干个变体构造子组成，记作\code{constr$_1$ | ... | constr$_n$}，其中\code{constr$_1$ , ... , constr$_n$}为$n\ge 1$个变体构造子，每个构造子具有两种形式：\code{uiden}和\code{uiden t}，其中\code{uiden}为以大写字母开头的标识符，而\code{t}为一个类型。
+	\item 函数类型：函数类型记作\code{t$_1$ -> t$_2$}，其中\code{t$_1$}为参数类型，而\code{t$_2$}为返回值类型。
+\end{itemize}
+类型的语法定义如下：
+\begin{verbatim}
 type ::= 
-unit | int | float | bool             (*base types*)
-| (min .. max)                          (*integer type with a range*)
-| {#iden, #iden...,#iden}               (*scalar type*)
-| (type1 , ... , typen)                 (*tuple type*)
-| array type                            (*array type*)
-| list type                             (*list type*)
-| record_type                           (*record type*)
-| variant_type                          (*variant type*)
-| type -> type                          (*function type*)
+    unit | int | float | bool          (*base types*)
+  | (min .. max)                       (*integer type with a range*)
+  | {#iden, #iden...,#iden}            (*scalar type*)
+  | (type1 , ... , typen)              (*tuple type*)
+  | array type                         (*array type*)
+  | list type                          (*list type*)
+  | record_type                        (*record type*)
+  | variant_type                       (*variant type*)
+  | type -> type                       (*function type*)
 
-variant_type ::= constructor | ... | constructor
-constructor  ::= uiden | uiden (type , ... , type) 
+variant_type ::= constr | ... | constr
+constr  ::= uiden | uiden type
 
 record_type  ::= { iden : type ; ... ; iden : type ;}
+\end{verbatim}
+\section{值、类型以及函数的定义}
 
-\section{值、类型以及函数的声明}
+\couic{
+
+
 
 \section{输入文件的结构}
 Programs are organized as modules. Each modules contains a set of declarations. Modules can be imported into others, while cyclic dependencies are not allowed.
@@ -292,4 +276,320 @@ main_file ::= kripke_decl | module kripke_decl
 	}
 	\end{verbatim}
 \end{itemize}
+\cleardoublepage
+\chapter{部分实验结果的详细数据}\label{appendix:detail:data}
+
+\begin{figure}[h!]\scriptsize
+	\centering
+	%	\begin{tabular}{p{6.8cm} p{6.8cm}}
+	%	\begin{figure}
+	%		\setlength{\tabcolsep}{2pt}
+	%		\renewcommand{\arraystretch}{1.0}
+	%		\begin{minipage}[b]{0.5\linewidth}
+	\setlength{\tabcolsep}{8pt}
+	\renewcommand\arraystretch{0.8}
+	\begin{tabular}{| r | r | r | r | r | r | r | r | r | r |}
+		\hline
+		\textbf{性质} & \textbf{进程数} & \multicolumn{8}{c|}{互斥算法} \\
+		\hline
+		{} & {} & \multicolumn{2}{c|}{\verds{}} & \multicolumn{2}{c|}{\nusmv{}} & \multicolumn{2}{c|}{\nuxmv{}} &  \multicolumn{2}{c|}{\sctl{}} \\
+		\hline
+		{} & {} & sec & MB & sec & MB & sec & MB &  sec & MB \\
+		\hline
+		\multirow{6}{*}{$P_1$} & 6 & 0.286 & 321.99 & 0.153 & 9.07 & 0.270 & 21.18 & 0.005 & 2.25 \\
+		%			\hline
+		{} & 12 & 1.278 & 322.08 & 19.506 & 76.98 & 21.848 & 89.25 & 0.016 & 3.70  \\
+		%			\hline
+		{} & 18 & 4.719 & 426.45 & - & - & - & - & 0.037 & 5.44  \\
+		%			\hline
+		{} & 24 & 11.989 & 601.55 & - & - & - & - & 0.091 & 9.36  \\
+		%			\hline
+		{} & 30 & 26.511 & 926.25 & - & - & - & - & 0.200 & 16.49  \\
+		%			\hline
+		{} & 36 & 52.473 & 1287.57 & - & - & - & - & 0.418 & 27.46  \\
+		%			\hline
+		{} & 42 & 100.071 & 1944.95 & - & - & - & - & 0.682 & 48.28  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & 1.119 & 66.63  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & 1.392 & 82.32  \\
+		\hline
+		\multirow{6}{*}{$P_2$} & 6 & 0.375 & 322.07 & 0.054 & 9.07 & 0.048 & 21.31 & 0.012 & 3.07  \\
+		%			\hline
+		{} & 12 & 2.011 & 322.02 & 22.774 & 76.96 & 21.733 & 89.24 & 0.035 & 4.44  \\
+		%			\hline
+		{} & 18 & 7.958 & 446.71 & - & - & - & - & 0.101 & 8.09  \\
+		%			\hline
+		{} & 24 & 23.448 & 692.30 & - & - & - & - & 0.252 & 14.57  \\
+		%			\hline
+		{} & 30 & 48.800 & 1026.48 & - & - & - & - & 0.509 & 23.61  \\
+		%			\hline
+		{} & 36 & 105.183 & 1619.01 & - & - & - & - & 1.005 & 50.49  \\
+		%			\hline
+		{} & 42 & - & - & - & - & - & - & 1.791 & 57.93  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & 2.679 & 86.67  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & 3.453 & 129.83  \\
+		\hline
+		\multirow{6}{*}{$P_3$} & 6 & 0.331 & 322.02 & 0.089 & 9.04 & 0.033 & 21.27 & 0.012 & 3.03  \\
+		%			\hline
+		{} & 12 & 2.059 & 322.07 & 22.749 & 76.91 & 21.897 & 89.22 & 0.035 & 4.93  \\
+		%			\hline
+		{} & 18 & 7.995 & 449.13 & - & - & - & - & 0.110 & 9.59  \\
+		%			\hline
+		{} & 24 & 23.578 & 696.74 & - & - & - & - & 0.286 & 21.04  \\
+		%			\hline
+		{} & 30 & 51.774 & 1138.27 & - & - & - & - & 0.643 & 30.09  \\
+		%			\hline
+		{} & 36 & 106.027 & 1628.84 & - & - & - & - & 1.287 & 66.14  \\
+		%			\hline
+		{} & 42 & - & - & - & - & - & - & 2.138 & 86.29  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & 3.369 & 170.94  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & 4.333 & 149.03  \\
+		\hline
+		\multirow{6}{*}{$P_4$} & 6 & 0.446 & 321.97 & 0.089 & 9.04 & 0.033 & 21.27 & 0.039 & 3.38  \\
+		%			\hline
+		{} & 12 & 8.289 & 552.62 & 22.749 & 76.91 & 21.897 & 89.22 & 150.115 & 986.64  \\
+		%			\hline
+		{} & 18 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 24 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 30 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 36 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 42 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & - & -  \\
+		\hline
+		\multirow{6}{*}{$P_5$} & 6 & 0.430 & 322.03 & 0.031 & 9.09 & 0.047 & 21.19 & 0.011 & 3.10  \\
+		%			\hline
+		{} & 12 & 3.398 & 363.78 & 22.747 & 77.01 & 22.029 & 89.17 & 0.040 & 4.81  \\
+		%			\hline
+		{} & 18 & 18.176 & 783.24 & - & - & - & - & 0.115 & 10.99  \\
+		%			\hline
+		{} & 24 & 87.432 & 2382.82 & - & - & - & - & 0.322 & 18.68  \\
+		%			\hline
+		{} & 30 & - & - & - & - & - & - & 1.414 & 47.68  \\
+		%			\hline
+		{} & 36 & - & - & - & - & - & - & 1.287 & 66.35  \\
+		%			\hline
+		{} & 42 & - & - & - & - & - & - & 2.405 & 142.86  \\
+		%			\hline
+		{} & 48 & - & - & - & - & - & - & 4.848 & 225.55  \\
+		%			\hline
+		{} & 51 & - & - & - & - & - & - & 5.177 & 225.66  \\
+		\hline
+	\end{tabular}
+	\tabcaption{测试集三中互斥算法测试用例的实验数据}
+	\label{tabl:data:mutual}
+\end{figure}
+
+\begin{figure}[h!]\scriptsize
+	\centering
+	\setlength{\tabcolsep}{8pt}
+	\renewcommand\arraystretch{0.8}
+	\begin{tabular}{| r | r | r | r | r | r | r | r | r | r |}
+		\hline
+		\textbf{性质} & \textbf{进程数} & \multicolumn{8}{c|}{环算法} \\
+		\hline
+		{} & {} & \multicolumn{2}{c|}{\verds{}} & \multicolumn{2}{c|}{\nusmv{}} & \multicolumn{2}{c|}{\nuxmv{}} &  \multicolumn{2}{c|}{\sctl{}} \\
+		\hline
+		{} & {} & sec & MB & sec & MB & sec & MB & sec & MB \\
+		\hline
+		\multirow{6}{*}{$P_1$} & 3 & 0.168 & 322.09 & 0.040 & 10.02 & 0.045 & 22.08 & 4.622 & 62.22  \\
+		%			\hline
+		{} & 4 & 0.216 & 322.12 & 0.299 & 22.46 & 0.255 & 34.96 & - & -  \\
+		%			\hline
+		{} & 5 & 0.301 & 322.07 & 2.421 & 59.31 & 1.195 & 71.53 & - & -  \\
+		%			\hline
+		{} & 6 & 0.449 & 322.13 & 22.127 & 80.49 & 17.967 & 92.82 & - & -  \\
+		%			\hline
+		{} & 7 & 0.740 & 322.19 & 147.895 & 224.17 & 131.735 & 236.50 & - & -  \\
+		%			\hline
+		{} & 8 & 1.115 & 322.09 & 1135.882 & 865.04 & 1083.48 & 877.36 & - & -  \\
+		%			\hline
+		{} & 9 & 1.646 & 322.07 & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 10 & 2.232 & 321.96 & - & - & - & - & - & -  \\
+		\hline
+		\multirow{6}{*}{$P_2$} & 3 & - & - & 0.058 & 10.74 & 0.068 & 22.73 & 0.031 & 3.22  \\
+		%			\hline
+		{} & 4 & - & - & 0.583 & 40.29 & 0.562 & 52.61 & 0.125 & 3.73  \\
+		%			\hline
+		{} & 5 & - & - & 5.164 & 62.29 & 5.295 & 74.62 & 0.444 & 4.05  \\
+		%			\hline
+		{} & 6 & - & - & 39.085 & 81.85 & 37.969 & 93.96 & 1.373 & 4.71  \\
+		%			\hline
+		{} & 7 & - & - & 246.123 & 229.07 & 241.375 & 241.15 & 3.745 & 6.03  \\
+		%			\hline
+		{} & 8 & - & - & - & - & - & - & 9.154 & 7.61  \\
+		%			\hline
+		{} & 9 & - & - & - & - & - & - & 19.997 & 10.07  \\
+		%			\hline
+		{} & 10 & - & - & - & - & - & - & 40.331 & 13.05  \\
+		\hline
+		\multirow{6}{*}{$P_3$} & 3 & - & - & 0.045 & 10.03 & 0.071 & 22.32 & 0.022 & 3.20  \\
+		%			\hline
+		{} & 4 & - & - & 0.296 & 22.46 & 0.299 & 34.96 & 0.820 & 13.11  \\
+		%			\hline
+		{} & 5 & - & - & 2.357 & 59.31 & 2.526 & 71.63 & 111.96 & 676.29  \\
+		%			\hline
+		{} & 6 & - & - & 22.147 & 80.49 & 21.304 & 92.93 & - & -  \\
+		%			\hline
+		{} & 7 & - & - & 147.567 & 224.17 & 141.134 & 236.74 & - & -  \\
+		%			\hline
+		{} & 8 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 9 & - & - & - & - & - & - & - & -  \\
+		%			\hline
+		{} & 10 & - & - & - & - & - & - & - & -  \\
+		\hline
+		\multirow{6}{*}{$P_4$} & 3 & 0.158 & 322.09 & 0.066 & 10.00 & 0.171 & 22.32 & 0.024 & 3.24  \\
+		%			\hline
+		{} & 4 & 0.190 & 322.05 & 0.356 & 22.46 & 0.367 & 34.95 & 0.104 & 3.82  \\
+		%			\hline
+		{} & 5 & 0.263 & 322.04 & 2.726 & 59.31 & 2.781 & 71.63 & 0.385 & 3.99  \\
+		%			\hline
+		{} & 6 & 0.385 & 322.07 & 27.013 & 80.48 & 24.794 & 94.95 & 1.289 & 4.57  \\
+		%			\hline
+		{} & 7 & 0.528 & 322.07 & 181.007 & 224.16 & 166.725 & 236.61 & 3.727 & 5.29  \\
+		%			\hline
+		{} & 8 & 0.815 & 322.14 & - & - & - & - & 9.525 & 7.14  \\
+		%			\hline
+		{} & 9 & 1.138 & 322.19 & - & - & - & - & 21.568 & 9.31  \\
+		%			\hline
+		{} & 10 & 1.574 & 321.98 & - & - & - & - & 45.097 & 12.95  \\
+		\hline
+	\end{tabular}
+	%		\end{minipage}
+	
+	%	\end{figure}
+	%	\end{tabular}
+	\tabcaption{测试集三中环算法测试用例的实验数据}
+	\label{tabl:data:ring}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\scriptsize
+	\setlength{\tabcolsep}{8pt}
+	\begin{tabular}{| l | c | r | r | r | r |}
+		\hline
+		\multirow{2}{1.3cm}{\textbf{测试用例}} & \multirow{2}{1cm}{\textbf{有死锁}} & \multicolumn{2}{c|}{\sctlprov{}} & \multicolumn{2}{c|}{\CADP{}}\\
+		\cline{3-6}
+		{}&{} & sec & MB & sec & MB\\
+		\hline
+		vasy\_0\_1 & No & 0.13 &	27.16 &	0.40 &	10.95\\\hline
+		cwi\_1\_2 & No & 0.13 &	27.67 &	0.39 &	10.80\\\hline
+		vasy\_1\_4 	& No & 0.14 &	27.75 &	0.39 &	10.71\\\hline
+		cwi\_3\_14 	& Yes & 0.14 &	25.70 &	0.40 &	10.82\\\hline
+		vasy\_5\_9 	& Yes &	0.14 &	25.70 &	0.40 &	10.82\\\hline
+		vasy\_8\_24 & No &	0.17 & 	28.90 &	0.43 &	10.79\\\hline
+		vasy\_8\_38 & Yes &	0.14 &	25.76 &	0.39 &	10.74\\\hline
+		vasy\_10\_56 &	No & 0.20 &	29.90 &	0.43 &	10.86\\\hline
+		vasy\_18\_73 &	No & 0.24 &	31.68 &	0.47 &	11.81\\\hline
+		vasy\_25\_25 &	Yes & 0.97 & 33.52 & 2.18 &	23.26\\\hline
+		vasy\_40\_60 &	No &	0.21 &	29.42 &	0.46 &	15.08\\\hline
+		vasy\_52\_318 &	No &	0.59 &	41.09 &	0.65 &	16.69\\\hline
+		vasy\_65\_2621 & No &	1.41 &	77.02 &	2.09 &	109.03\\\hline
+		vasy\_66\_1302 & No &	0.89 &	34.92 &	1.25 &  14.13\\\hline
+		vasy\_69\_520 &	Yes &	0.23 &	27.47 &	0.51 &	11.84\\\hline
+		vasy\_83\_325 &	Yes &	0.21 &	27.96 &	0.48 &	11.32\\\hline
+		vasy\_116\_368 & No &	0.67 &	35.27 &	0.77 &	14.40\\\hline
+		cwi\_142\_925 & Yes &	0.28 &	28.33 &	0.57 &	12.72\\\hline
+		vasy\_157\_297 & Yes &	0.18 &	27.14 &	0.45 &	11.48\\\hline
+		vasy\_164\_1619 & No &	2.53 &	48.39 &	1.53 &	22.90\\\hline
+		vasy\_166\_651 & Yes &	0.29 &	31.19 &	0.55 &	13.30\\\hline
+		cwi\_214\_684 &	Yes &	0.39 &	34.39 &	0.63 &	22.94\\\hline
+		cwi\_371\_641 &	No &	1.36 &	40.41 &	1.24 &	42.92\\\hline
+		vasy\_386\_1171 & No &	2.14 &	74.11 &	1.66 &	45.12\\\hline
+		cwi\_566\_3984 & Yes &	0.78 &	38.53 &	1.11 &	21.92\\\hline
+		vasy\_574\_13561 &	No & 18.23 &	246.97 &	9.72 &	188.21\\\hline
+		vasy\_720\_390 	& Yes &	0.23 &	28.49 &	0.48 &	12.89\\\hline
+		vasy\_1112\_5290 & No &	10.2 &	89.81 &	6.54 & 97.47\\\hline
+		cwi\_2165\_8723 &	No &16.51 &	166.74 &14.55 &	185.58 \\\hline
+		cwi\_2416\_17605 &	Yes &3.19 &	87.61 &	3.38 &	71.80 \\\hline
+		vasy\_2581\_11442 &	Yes &2.40 &	74.11 &	2.68 &	58.43 \\\hline
+		vasy\_4220\_13944 &	Yes &2.85 &	89.50 &	3.20 &	73.82 \\\hline
+		vasy\_4338\_15666 &	Yes &3.41 &	96.21 &	3.83 &	80.59 \\\hline
+		vasy\_6020\_19353 &	No &37.19 &	456.34 &	74.24 &	649.41 \\\hline
+		vasy\_6120\_11031 &	Yes &2.35 &	82.57 	&2.60 &	67.01 \\\hline
+		cwi\_7838\_59101 &	No &72.76 &	1013.67 &	140.21 &1019.55\\\hline
+		vasy\_8082\_42933 &	No & 7.85 &	309.74 	&7.82 &	240.69 	\\\hline
+		vasy\_11026\_24660 & Yes & 4.82 &149.80 &5.15 &	134.17 \\\hline
+		vasy\_12323\_27667 	&Yes &5.40 &	164.73 & 5.67 &	149.09 \\\hline
+		cwi\_33949\_165318 	&	No &	366.51 &	2368.22 &	636.39 &2972.61 
+		\\\hline
+		
+		\hline
+		
+	\end{tabular}
+	\tabcaption{\sctlprov{}与\CADP{}分别验证测试集四中测试用例的死锁性质的实验数据}
+	\label{benchmark:vlts:deadlock}
+	%\caption{}
+\end{figure}
+
+
+\begin{figure}[h!]
+	\centering
+	\scriptsize
+	\setlength{\tabcolsep}{8pt}
+	\begin{tabular}{| l | c | r | r | r | r |}
+		\hline
+		\multirow{2}{1.3cm}{\textbf{测试用例}} & \multirow{2}{1cm}{\textbf{有活锁}} & \multicolumn{2}{c|}{\sctlprov{}} & \multicolumn{2}{c|}{\CADP{}}\\
+		\cline{3-6}
+		{}&{} & sec & MB & sec & MB\\
+		\hline
+		
+		vasy\_0\_1 & No &0.13 &	27.45 &	0.48 &	14.57 \\\hline
+		cwi\_1\_2 & No &0.14 &	27.74 &	0.50 &	14.61 \\\hline
+		vasy\_1\_4 	& No &0.14& 	27.70& 	0.48 &	14.66 \\\hline
+		cwi\_3\_14 	& No &0.16 &	28.18 &	0.50 &	14.57 \\\hline
+		vasy\_5\_9 	& No &0.16 	&28.08 &	0.51 &	14.68 \\\hline
+		vasy\_8\_24 & No &0.18 	&29.09 &	0.53 &	14.75 \\\hline
+		vasy\_8\_38 & No &0.20 	&28.86 	&0.52 &	14.73 \\\hline
+		vasy\_10\_56 &	No &0.23 &	30.33 &	0.55 &	15.34 \\\hline
+		vasy\_18\_73 &	No &0.28 &	33.07 &	0.56 &	16.25 \\\hline
+		vasy\_25\_25 &	No &0.96 &	33.54 &	2.25 &	27.84 \\\hline
+		vasy\_40\_60 &	No &0.26 &	30.23 &	0.57 &	19.65 \\\hline
+		vasy\_52\_318 &	Yes &0.21 &	27.66 &	0.55 &	15.45 \\\hline
+		vasy\_65\_2621 & No &5.31 &	280.57 &	1.98 &	113.40 \\\hline
+		vasy\_66\_1302 & No &2.40 &	38.33 &	1.30 &	18.50 \\\hline
+		vasy\_69\_520 &	No &1.04 &	33.41 &	0.85 &	16.39 \\\hline
+		vasy\_83\_325 &	No &0.83 &	39.27 &	0.76 &	19.40 \\\hline
+		vasy\_116\_368 & No &1.19 &	42.14 &	0.86 &	15.74 \\\hline
+		cwi\_142\_925 & No &2.67 &	46.30 &	1.22 &	17.89 \\\hline
+		vasy\_157\_297 & No &0.80 &	33.99 &	0.78 &	17.91 \\\hline
+		vasy\_164\_1619 & No &3.69 &	53.30 &	1.51& 	23.44 \\\hline
+		vasy\_166\_651 & No &1.60 	&49.98 &	1.02 &	26.02 \\\hline
+		cwi\_214\_684 &	Yes &0.26 	&29.93 &	0.63 &	16.81 \\\hline
+		cwi\_371\_641 &	Yes &0.26 	&30.63 &	0.62 &	17.41 \\\hline
+		vasy\_386\_1171 & No &2.91 	&80.16 &	1.55 &	41.75 \\\hline
+		cwi\_566\_3984 & No &13.32 	&106.25 &	3.95 &	54.08 \\\hline
+		vasy\_574\_13561 &	No &27.02& 	272.11 &	8.17 &	188.69 \\\hline
+		vasy\_720\_390 	& No &	0.86 &	31.45 	&0.76 &	17.45 \\\hline
+		vasy\_1112\_5290 & No &10.49 &	89.86 &	5.24 &	97.93 \\\hline
+		cwi\_2165\_8723 &	Yes &1.87 &	61.94 &	2.15 &	48.80 \\\hline
+		cwi\_2416\_17605 &	Yes &3.10 &	87.61 &	3.44 &	76.30 \\\hline
+		vasy\_2581\_11442 &	No &32.70 &	326.38 &	14.78& 	214.93 \\\hline
+		vasy\_4220\_13944 &	No &43.93 &	423.03 	&24.71 &	330.85 \\\hline
+		vasy\_4338\_15666 &	No &47.55 &	479.15 	&28.06 &	344.64 \\\hline
+		vasy\_6020\_19353 &	Yes &3.23 &	100.24 	&3.57 &	106.43 \\\hline
+		vasy\_6120\_11031 &	No &30.59 &	425.64 	&38.37 &	437.71 \\\hline
+		cwi\_7838\_59101 &	Yes &11.34 &	250.68 &	11.58 &	236.09 \\\hline
+		vasy\_8082\_42933 &	No & 119.77 &	1123.85 &	106.49& 	908.29 \\\hline
+		vasy\_11026\_24660 &	No &60.86& 	698.85 &	108.97 &	804.34 \\\hline
+		vasy\_12323\_27667 	&	No &68.50 &	793.83 &	134.44 	&898.61 \\\hline
+		cwi\_33949\_165318 	&	Yes &33.89 &	732.05& 	34.60& 	738.78 \\\hline
+	\end{tabular}
+	\tabcaption{\sctlprov{}与\CADP{}分别验证测试集四中测试用例的活锁性质的实验数据}
+	\label{benchmark:vlts:livelock}
+\end{figure}
 

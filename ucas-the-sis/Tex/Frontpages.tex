@@ -62,13 +62,25 @@
 本文的第三个工作是，实现了一个3D证明可视化工具\textsf{VMDV}（Visualization for Modeling, Demonstration, and Verification）。 目前，\textsf{VMDV}可以完整的显示定理证明工具 \sctlprov{} 的输出（证明树以及Kripke模型）以及高亮显示\sctlprov{}的证明过程。与此同时，\textsf{VMDV}是一个一般化的证明可视化工具，并提供了一个统一的接口用来与不同的定理证明器（比如\tool{Coq}）协同工作。
 
 
-\keywords{形式化验证；模型检测；定理证明；工具实现}
+\keywords{形式化验证，模型检测，定理证明，工具实现}
 %-
 %-> 英文摘要
 %-
 \chapter*{Abstract}\chaptermark{Abstract}% 摘要标题
 
-This paper is a help documentation for the \LaTeX{} class ucasthesis, which is  a thesis template for the University of Chinese Academy of Sciences. The main content is about how to use the ucasthesis, as well as how to write thesis efficiently by using \LaTeX{}.
+Model checking and automated theorem proving are two pillars of formal methods. The advantage of model checking is its complete automaticity, while the main obstacle is the state-explosion problem. Theorem proving usually does not enumerate the states of a system, thus does not have the state-explosion problem. However, theorem proving usually cannot be fully automatic. The main content of this thesis is to investigate model checking from an automated theorem proving perspective, aiming at combining the expressiveness of automated theorem proving and the complete automaticity of model checking.
 
-\englishkeywords{University of Chinese Academy of Sciences (UCAS), Thesis, \LaTeX{} Template}% 英文关键词
+The first work of the thesis is to build a logic \CTLP{}, which is a slight extension of the Computation Tree Logic (\CTL{}). Then, we build a sequent-calculus-like proof system for \CTLP{}, called \SCTL{}. \SCTL{} is parameterized by a Kripke model, and unlike the usual sequent calculus, a \CTLP{} formula is provable in \SCTL($\cal M$) if and only if the formula is valid in the given Kripke model $\cal M$. The soundness and completeness of \SCTL{} are also proved. In order to search proofs efficiently, we present a proof search method for \SCTL{}, which is based on the notion of continuation, and a proof search algorithm based on the proof search method.
+
+
+The second work of the thesis is the implementation of a theorem prover, called \sctlprov{}. For a given input file, which consists of a Kripke model and its properties specified, \sctlprov{} searches for a proof for each of the properties for the given Kripke model using the proof search algorithm presented. 
+\sctlprov{} can be seen as either a theorem prover, or a model checker. 
+Comparing with traditional theorem provers, \sctlprov{} can use more optimization strategies in the model checking of \CTL{} properties, such as using \BDD{} to store visited states to reduce space occupation; comparing with traditional model checkers, the output of \sctlprov{} is much more expressive: 
+instead of expressing counterexamples as sequences of states when the verified property does not hold, \sctlprov{} outputs a proof tree of the given property when the verification succeeds, and a proof tree of the negation of the given property otherwise.
+
+The third work of the thesis is an implementation of a 3D visualization tool, called \tool{VMDV}. Using \tool{VMDV}, we can visualize the proof produced by \sctlprov{} and the Kripke model for a better comprehension of the verification results. Furthermore, \tool{VMDV} provides a generalized protocol for integration with various kinds of theorem provers, such as \tool{Coq}.
+
+
+%\keywords{形式化验证；模型检测；定理证明；工具实现}
+\englishkeywords{Formal Verification, Model Checking, Theorem Proving, Implementation}% 英文关键词
 %---------------------------------------------------------------------------%

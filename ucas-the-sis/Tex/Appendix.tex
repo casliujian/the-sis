@@ -151,11 +151,79 @@ type ::=
 
 variant_type ::= constr | ... | constr
 constr  ::= uiden | uiden type
-
 record_type  ::= { iden : type ; ... ; iden : type ;}
 \end{verbatim}
-\section{值、类型以及函数的定义}
+\section{值、类型以及函数的声明}
+在\sctlprov{}的输入文件中，为了程序的可读性以及方便书写，我们可用标识符来代指先前所定义的值与类型以及声明函数。
 
+\begin{itemize}
+	\item 值与类型的声明：值的声明语法如下。
+	\begin{verbatim}
+	value_def ::= value iden = expr		(*value definition*)
+	\end{verbatim}
+	类型的声明语法如下。
+	\begin{verbatim}
+	type_decl ::=  datatype iden = type (*to define new types*)
+	\end{verbatim}
+	\item 函数的声明：函数的声明语法如下。
+	\begin{verbatim}
+	fun_decl   ::=  
+	     function iden ( parameter,...,parameter ) : type = expr
+	parameter  ::=  iden | ( parameter,...,parameter )
+	\end{verbatim}
+\end{itemize}
+
+\section{Kripke模型的声明}
+以上介绍的所有语法结构的目的是为了定义Kripke模型。在\sctlprov{}的输入语言中，一个Kripke模型的定义分为6个部分：状态变量声明、初始状态、迁移规则、原子公式、公平性约束以及性质描述。
+\begin{enumerate}
+	\item 状态变量声明：在传统的模型检测工具的输入语言中，状态被定义为对若干个状态变量的赋值，对状态变量的不同赋值代表了不同的状态。在\sctlprov{}的输入语言中同样保留了这种定义状态的方式。然而，一个更一般化的定义状态的方式是将状态定义为值，即用一个值来表示一个状态。这样定义的状态就可以具有更复杂的类型，从而在表示复杂系统的建模中更方便。因此，状态变量声明在输入文件中被作为一个可选项。
+	\item 初始状态：当输入文件中存在状态变量声明，那么Kripke模型中必须有初始状态的定义。此时，初始状态被定义为对所声明的所有状态变量的一个赋值。当输入文件中不存在状态变量的声明时，初始状态就可用值的声明来定义。
+	\item 迁移规则：迁移规则的定义分为两种，第一种类似于传统的模型检测工具的输入语言中的定义，即列出若干个布尔表达式及其对应的状态变换方式，依次规约布尔表达式，并且当布尔表达式规约到值\code{true}时依据其对应的状态变换方式进行状态的迁移；第二种定义迁移规则的方式则更一般化：将要迁移的状态作为参数传递给一个函数，该函数会返回一个状态的列表，那么该列表中的所有状态则为当前要迁移的状态的后继。
+	\item 原子公式：原子公式被定义为布尔表达式，判断原子公式的满足性时，需将若干个状态作为参数带入到相应的布尔表达式中，如果代入后的布尔表达式可规约到值\code{true}则该原子公式为真，否则为假。
+	\item 公平性约束：公平性约束指的是若干个\CTLP{}公式的定义。
+	\item 性质描述：Kripke模型的性质同样被定义为若干个\CTLP{}公式，不同于公平性约束，在性质描述种，为了可读性与叙述验证结果方便，通常将每个性质绑定到一个标识符上。
+\end{enumerate}
+Kripke模型声明的语法如下。
+\begin{verbatim}
+kripke_decl ::=  
+   Model { 
+     (*Define states as lists of state variable bindings (a record), 
+     this is optional.*)
+     Vars { iden : type ; ... ; iden : type ; }
+     (*Define the initial state (refered to as either "ini" or 
+     "init"), also optional.*)
+     Init { iden := expr ; ... ; iden := expr ; }
+     (*Define the transition relation.*)
+     Transition { next iden := transitions }
+     (*Define atomic formulae.*)
+     Atomic { {iden ( iden , ... , iden ) := expr ;}* }		
+     (*Define fairness constraints, optional.*)
+     Fairness { formula ; ... ; formula }
+     (*Define the specification.*)
+     Spec { iden := formula ; ... ; iden := formula ;}
+   }
+trasitions ::= expr | expr : expr ; ... ; expr : expr ;
+formula ::= 
+     iden ( iden , ... , iden )
+   | not formula
+   | formula /\ formula
+   | formula \/ formula
+   | EX ( iden , formula , expr )
+   | AX ( iden , formula , expr )
+   | EG ( iden , formula , expr )
+   | AF ( iden , formula , expr )
+   | EU ( iden , iden , formula , formula , expr )
+   | AR ( iden , iden , formula , formula , expr )
+\end{verbatim}
+\section{输入文件的结构}
+\sctlprov{}在每次验证过程中可接受一个或多个输入文件。当只有一个输入文件时，那么该输入文件被作为主文件输入到\sctlprov{}中。主文件中包含若干个值、类型以及函数的声明，以及一个Kripke模型的声明。当有多个输入文件中，除了一个主文件以外，还有若干个模块文件，模块文件中只可包含值、类型或者函数的定义，而不包含Kripke模型的定义。多个输入文件利用\code{import}语句来确定依赖关系，即一个模块文件的内容可通过\code{import}引入到别的输入文件中。\code{import}语句的参数为以大写字母开头的标识符，这个标识符代表的即为要引入的模块文件的文件名（如果文件名以小写字母开头，则将其起始字母变为大写字母）。
+\begin{verbatim}
+module ::= 
+    import uiden ... import uiden
+    decl ... decl
+decl   ::= type_decl | value_decl | fun_decl
+main_file ::= kripke_decl | module kripke_decl
+\end{verbatim}
 \couic{
 
 
@@ -163,63 +231,61 @@ record_type  ::= { iden : type ; ... ; iden : type ;}
 \section{输入文件的结构}
 Programs are organized as modules. Each modules contains a set of declarations. Modules can be imported into others, while cyclic dependencies are not allowed.
 
-module ::= 
-import uiden ... import uiden
-decl ... decl
-decl   ::= type_decl | value_decl | fun_decl
 
-main_file ::= kripke_decl | module kripke_decl
 }
 \cleardoublepage
+
+%\input{Tex/appendix_sats}
+
 \chapter{\tool{VMDV}与定理证明工具的交互协议}\label{vmdv:json:protocol}
 \tool{VMDV}与不同的定理证明工具的交互是通过互相发送与解析JSON形式的消息来实现的，每个JSON对象代表一个消息，消息的详细说明如下：
 \begin{itemize}
 	\item \textbf{初始化显示窗口}（{定理证明器} $\longrightarrow$ \tool{VMDV}）：在\tool{VMDV}中，我们将每个显示窗口成为一个会话（Session）。当定理证明器需要可视化一个数据结构（比如证明树）的时候，定理证明器发送一个“create\_session”消息， 指定需要可视化的数据结构的名称（“session\_id”）、简介（“session\_descr”）及类型（“graph\_type”）。其中，定理证明器指定的可视化的数据结构的类型分为两种：树（“Tree”）和有向图（“DiGraph”），前者通常用来表示证明树，后者通常用来表示可能有环的有向图。\tool{VMDV}接收到该消息之后立即初始化并显示一个窗口，并等待定理证明器的进一步消息。
 	\begin{verbatim}
 	{
-	"type": "create_session",
-	"session_id": string,
-	"session_descr": string,
-	"graph_type": string
+	    "type": "create_session",
+	    "session_id": string,
+	    "session_descr": string,
+	    "graph_type": string
 	}
 	\end{verbatim}
 	\item \textbf{添加节点}（定理证明器 $\longrightarrow$ \tool{VMDV}）：向\tool{VMDV}相应的会话中加入一个节点，并指定节点的标识（“id”）、要显示的字符串（“label”）、状态（“state”）。其中，节点的状态分为两种：已证明（“Proved”）和未证明（“Not\_Proved”），不同状态的节点通常用不同的颜色高亮显示。\couic{已证明的节点通常默认高亮为绿色，而未证明的节点通常默认高亮为黄色。}
 	\begin{verbatim}
 	{
-	"type": "add_node",
-	"session_id": string,
-	"node":
-	{
-	"id": string,
-	"label": string,
-	"state": string
-	}
+	    "type": "add_node",
+	    "session_id": string,
+	    "node":
+	    {
+	        "id": string,
+	        "label": string,
+	        "state": string
+	    }
 	}
 	\end{verbatim}
 	\item \textbf{删除节点}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中删除一个指定的节点。
 	\begin{verbatim}
 	{
-	"type": "remove_node",
-	"session_id": string,
-	"node_id": string
+	    "type": "remove_node",
+	    "session_id": string,
+	    "node_id": string
 	}
 	\end{verbatim}
 	\item \textbf{添加边}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中添加一条由“from\_id”节点指向“to\_id”节点的边，同时指定该条边上要显示的字符串（“label”）。
 	\begin{verbatim}
 	{
-	"type": "add_edge",
-	"session_id": string,
-	"from_id": string,
-	"to_id": string,
-	"label": string
+	    "type": "add_edge",
+	    "session_id": string,
+	    "from_id": string,
+	    "to_id": string,
+	    "label": string
 	}
 	\end{verbatim}
 	\item \textbf{删除边}（定理证明器 $\longrightarrow$ \tool{VMDV}）：在指定的会话中删除由“from\_id”节点指向“to\_id”节点的边。
 	\begin{verbatim}
 	{
-	"type": "remove_node",
-	"session_id": string,
-	"node_id": string
+	    "type": "remove_node",
+	    "session_id": string,
+	    "node_id": string
 	}
 	\end{verbatim}
 	\item \textbf{高亮节点}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：高亮节点消息可由定理证明器和\tool{VMDV}互相发送给对方。当定理证明器向\tool{VMDV}发送该消息时，\tool{VMDV}在相应的会话中将指定的节点用不同于节点当前的颜色高亮显示。当用户在\tool{VMDV}窗口中执行鼠标选中或者搜索操作时，被选中或者搜索到的节点在窗口中被高亮显示的同时，将所有节点的高亮消息发送到定理证明器。当定理证明器同时在\tool{VMDV}中可视化多个数据结构时，高亮节点消息的传递过程可用来实现多个数据结构的交互显示。比如，在可视化\sctlprov{}的证明结果的时候，\tool{VMDV}通常会初始化两个窗口，分别可视化当前公式的证明树，以及在搜索当前证明树的过程中所访问到的Kripke模型的状态。当用鼠标选中或搜索到证明树的某个或某些节点时，\tool{VMDV}将这些证明树节点的高亮信息发送给\sctlprov{}，同时\sctlprov{}识别相应的证明树节点，并计算出与这些证明树节点相关的状态，然后将这些状态节点的高亮信息发送给\tool{VMDV}，于是\tool{VMDV}在状态图窗口中高亮显示相应的状态。
@@ -227,31 +293,31 @@ main_file ::= kripke_decl | module kripke_decl
 	%	在指定的会话中删除由“from\_id”节点指向“to\_id”节点的边。
 	\begin{verbatim}
 	{
-	"type": "remove_node",
-	"session_id": string,
-	"node_id": string
+	    "type": "remove_node",
+	    "session_id": string,
+	    "node_id": string
 	}
 	\end{verbatim}
 	\item \textbf{取消高亮节点}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：同高亮节点消息一样，取消高亮节点的消息同样可由定理证明器和\tool{VMDV}互相发送给对方。
 	\begin{verbatim}
 	{
-	"type": "unhighlight_node",
-	"session_id": string,
-	"node_id": string
+	    "type": "unhighlight_node",
+	    "session_id": string,
+	    "node_id": string
 	}
 	\end{verbatim}
 	\item \textbf{取消所有高亮}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：去掉所有节点的高亮颜色。
 	\begin{verbatim}
 	{
-	"type": "clear_color",
-	"session_id": string
+	    "type": "clear_color",
+	    "session_id": string
 	}
 	\end{verbatim}
 	\item \textbf{删除会话} （定理证明器 $\longrightarrow$ \tool{VMDV}）：\tool{VMDV}收到删除会话消息后，销毁对应的窗口，结束一个数据结构的可视化过程。
 	\begin{verbatim}
 	{
-	"type": "remove_session",
-	"session_id": string
+	    "type": "remove_session",
+	    "session_id": string
 	}
 	\end{verbatim}
 \end{itemize}
@@ -261,18 +327,18 @@ main_file ::= kripke_decl | module kripke_decl
 	\item \textsf{成功解析}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：
 	\begin{verbatim}
 	{
-	"type": "feedback",
-	"session_id": string,
-	"status": "OK"
+	    "type": "feedback",
+	    "session_id": string,
+	    "status": "OK"
 	}
 	\end{verbatim}
 	\item \textbf{解析失败}（定理证明器 $\longleftrightarrow$ \tool{VMDV}）：
 	\begin{verbatim}
 	{
-	"type": "feedback",
-	"session_id": string,
-	"status": "Fail",
-	"error_msg": string
+	    "type": "feedback",
+	    "session_id": string,
+	    "status": "Fail",
+	    "error_msg": string
 	}
 	\end{verbatim}
 \end{itemize}

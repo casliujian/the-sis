@@ -12,18 +12,14 @@
 %->> Identification
 %---------------------------------------------------------------------------%
 \NeedsTeXFormat{LaTeX2e}%
-\ProvidesPackage{artratex}[2014/10/01 v0.1 LaTeX macros package]%
+\RequirePackage{expl3}% syntax for LaTeX3 turned on via \ProvidesExplxxxx
+\ProvidesExplPackage{\ExplFileName}{\ExplFileDate}{1.0}{\ExplFileDescription}%
 %---------------------------------------------------------------------------%
 %->> Declare options
 %---------------------------------------------------------------------------%
 %-
 %-> Platform fontset <windows>, <mac>, <adobe>, <times>, <others>
 %-
-\RequirePackage{expl3}% LaTeX3 programming environment
-\ExplSyntaxOn%
-\providecommand{\g__ctex_fontset_tl}{}% platform fontset state variable
-\edef\artxfontset{\g__ctex_fontset_tl}% expanded platform fontset state variable
-\ExplSyntaxOff%
 \newif\ifartx@windows \artx@windowsfalse
 \newif\ifartx@mac \artx@macfalse
 \newif\ifartx@adobe \artx@adobefalse
@@ -31,6 +27,8 @@
 \newif\ifartx@others \artx@othersfalse
 \RequirePackage{etoolbox}% a toolbox of programming facilities
 \newcommand{\artxifstreq}{\expandafter\ifstrequal\expandafter}% expansion control
+\providecommand{\g__ctex_fontset_tl}{}% platform fontset state variable
+\edef\artxfontset{\g__ctex_fontset_tl}% expanded platform fontset state variable
 \artxifstreq{\artxfontset}{windows}{\artx@windowstrue\artx@timestrue}{%
 \artxifstreq{\artxfontset}{mac}{\artx@mactrue\artx@timestrue}{%
 \artxifstreq{\artxfontset}{adobe}{\artx@adobetrue\artx@timestrue}{%
@@ -220,24 +218,18 @@
     %\RequirePackage{unicode-math}% another math symbol font configuration
     %\setmathfont{XITS Math}% a complete symbol set for STIX math fonts
     \ifartx@windows%
-        \setCJKmainfont[AutoFakeBold,ItalicFont=KaiTi]{SimSun}%
-        \setCJKsansfont[AutoFakeBold]{SimHei}%
-        \setCJKmonofont{FangSong}%
+        \setCJKmainfont[AutoFakeBold,ItalicFont=KaiTi]{SimSun}
     \else\ifartx@mac%
-        \setCJKmainfont[ItalicFont=Kaiti SC,BoldItalicFont=Kaiti SC Bold]{Songti SC Light}%
-        \setCJKsansfont{Heiti SC}%
-        \setCJKmonofont{STFangsong}%
+        \setCJKmainfont[BoldFont=Songti~SC~Bold,ItalicFont=Kaiti~SC]{Songti~SC~Light}
     \else\ifartx@adobe%
-        \setCJKmainfont[AutoFakeBold,ItalicFont=AdobeKaitiStd-Regular]{AdobeSongStd-Light}%
-        \setCJKsansfont[AutoFakeBold]{AdobeHeitiStd-Regular}%
-        \setCJKmonofont{AdobeFangsongStd-Regular}%
+        \setCJKmainfont[AutoFakeBold,ItalicFont=AdobeKaitiStd-Regular]{AdobeSongStd-Light}
     \fi\fi\fi
     \ifartx@times%
-        \setmainfont[NFSSFamily=entextrm]{Times New Roman}%
-        \setsansfont[NFSSFamily=entextsf]{Times New Roman}%
+        \setmainfont[NFSSFamily=entextrm]{Times~New~Roman}
+        \setsansfont[NFSSFamily=entextsf]{Times~New~Roman}
     \else
-        \setmainfont[NFSSFamily=entextrm]{FreeSerif}%
-        \setsansfont[NFSSFamily=entextsf]{FreeSerif}%
+        \setmainfont[NFSSFamily=entextrm]{FreeSerif}
+        \setsansfont[NFSSFamily=entextsf]{FreeSerif}
     \fi
 \fi
 %-
@@ -299,7 +291,7 @@
     \ifartx@alpha% enable alpha citation style
         \RequirePackage[style=alphabetic]{biblatex}%
     \fi
-    \addbibresource{ref.bib}%
+    \addbibresource{thesis_references.bib}%
 \fi
 %-
 %-> Figure environment support
@@ -590,5 +582,5 @@
     \pagecolor{backgroundcolor}% background color
 \fi
 %---------------------------------------------------------------------------%
-\endinput
+%\endinput
 

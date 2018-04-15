@@ -1,4 +1,4 @@
-\begin{thebibliography}{90}
+\begin{thebibliography}{91}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \providecommand{\href}[2]{\url{#2}}
@@ -188,6 +188,12 @@ DOWEK G.
   Proceedings.
 \newblock [S.l.: s.n.], 2010: 182--196.
 
+\bibitem[Dowek\ et~al.(2013)Dowek and Jiang]{GY13}
+DOWEK G, JIANG Y.
+\newblock A logical approach to {CTL}\allowbreak[EB/OL].
+\newblock 2013.
+\newblock \url{http://www.lsv.ens-cachan.fr/~dowek/Publi/ctl.pdf}.
+
 \bibitem[Pnueli(1977)]{Pnueli77}
 PNUELI A.
 \newblock The temporal logic of programs\allowbreak[C]//\allowbreak{}18th
@@ -255,6 +261,12 @@ SARNAT J, SCH{\"{U}}RMANN C.
   of Typed Lambda Calculi and Applications, 9th International Conference,
   {TLCA} 2009.
 \newblock Brasilia, Brazil: Springer, Berlin, 2009: 279--293.
+
+\bibitem[Silberschatz\ et~al.(2014)Silberschatz, Galvin, and Gagne]{ASPBG14}
+SILBERSCHATZ A, GALVIN P~B, GAGNE G.
+\newblock Operating system concepts - international student version, 9th
+  edition\allowbreak[M].
+\newblock [S.l.]: Wiley, 2014.
 
 \bibitem[Cavada\ et~al.(2014)Cavada, Cimatti, Dorigatti, Griggio, Mariotti,
   Micheli, Mover, Roveri, and Tonetta]{CAVCDGMMMRT14}
@@ -444,12 +456,6 @@ PNUELI A, KESTEN Y.
 \newblock A deductive proof system for
   {CTL}\allowbreak[C]//\allowbreak{}Proceedings of {CONCUR} 2002.
 \newblock Brno, Czech Republic: Springer-Verlag, Berlin, 2002: 24--40.
-
-\bibitem[Dowek\ et~al.(2013)Dowek and Jiang]{GY13}
-DOWEK G, JIANG Y.
-\newblock A logical approach to {CTL}\allowbreak[EB/OL].
-\newblock 2013.
-\newblock \url{http://www.lsv.ens-cachan.fr/~dowek/Publi/ctl.pdf}.
 
 \bibitem[Biere\ et~al.(2003{\natexlab{b}})Biere, Cimatti, Clarke, Strichman,
   and Zhu]{BiereCCSZ03}

@@ -9,6 +9,8 @@
 	\item 针对要验证的计算机系统建立一个形式化模型；
 	\item 将要验证的性质用一种逻辑公式表示出来。
 \end{enumerate}
+在完成这两步之后，则需要利用计算机算法来判断所描述的性质在给出的形式化模型上是否可满足。
+
 在模型检测领域，一个计算机系统的形式化模型通常是一个Kripke模型，而模型的性质通常用时序逻辑公式来表示。模型检测的基本流程则可概述为：对于一个给定的Kripke模型$M$和一个时序逻辑公式$f$，判断Kripke模型是否满足性质$f$，如果是则返回$true$，否则返回一个反例来代表性质不满足的原因。
 其中，模型检测中的经典的Kripke模型的定义如下：
 \begin{definition}[经典的Kripke模型]
@@ -231,35 +233,9 @@ structural rules, if we start with a sequent $\vdash \phi$ where the formula $\p
 sequent in the proof has one formula on the right of $\vdash$ and none
 on the left.
 }
-在\SCTL{}中，每个相继式都有$\Gamma\vdash\phi$形式，其中$\Gamma$是一个可能为空的\SCTL{}公式集合，$\phi$是一个\SCTL{}公式。 不同于通常的相继式演算，
+在\SCTL{}中，每个相继式都有$\Gamma\vdash\phi$形式，其中$\Gamma$是一个可能为空的\CTLP{}公式的集合，$\phi$是一个\CTLP{}公式。当$\Gamma$为空时，$\Gamma\vdash\phi$也可记作$\vdash \phi$。在不包含余归纳子公式的相继式的证明中，每个相继式中$\vdash$左侧均为空。在证明以余归纳公式开头的相继式时，往往需要访问无穷路径，比如若要证明$\vdash EG_x(P(x))(s)$，则必须找到一个以$s$为起始的无穷路径使得$P$在这条无穷路径上的所有状态上都成立。为了可以在有穷步内完成以余归纳公式开头的相继式的证明，我们引入\textsf{merge}规则，即利用$\vdash$左侧的$\Gamma$来记录已访问过的状态，进一步，为了区分相对于不同余归纳公式的\textsf{merge}规则，我们用$\Gamma$来记录已在证明中出现过的余归纳公式。由于Kripke模型中的状态是有穷的，因此每个$\Gamma$只包含有穷个公式。
 %如果 $P$ 是一个原子公式，那么 $P$ 是可证的或者 $\neg P$ 是可证的。
 
-So, as all sequents have the form $\vdash \phi$, the left rules and
-the axiom rule can be dropped as well.  In other words, unlike the
-usual sequent calculus and like Hilbert systems, \SCTL{} is tailored for
-deduction, not for hypothetical deduction.
-
-
-
-As the left-hand side of sequents is not used to record hypotheses, 
-we will use it to record a different kind of information, that occur
-in the case of co-inductive modalities, such as the modality $EG$. 
-
-Indeed, the case of the co-inductive formula, for example $EG_x(P(x))(s)$, is
-more complex than that of the inductive one, such as $AF_x(P(x))(s)$.
-To justify its validity, one needs to provide an infinite sequence starting from $s$, and each state in the infinite sequence
-verifies $P$. However, as the model is finite, we can always restrict to
-regular sequences and use a finite representation of such sequences. This
-leads us to introduce a rule, called
-$\mathbf{EG}$-\textsf{merge}, that permits to prove a sequent
-of the form $\vdash EG_x(P(x))(s)$, provided such a sequent already
-occurs lower in the proof. To make this rule local, we re-introduce
-hypotheses $\Gamma$ to record part of the history of the proof. The
-sequent have therefore the form $\Gamma\vdash\phi$, with a non empty
-$\Gamma$ in this particular case only, and the
-$\mathbf{EG}$-\textsf{merge} rule is then just an instance of
-the axiom rule, that must be re-introduced in this particular case
-only.
 
 
 \SCTL{$(\cal M)$} 的证明规则如图\ref{sctl_rules}所示。
@@ -548,9 +524,9 @@ only.
 \section{证明搜索策略}
 在本节，我们介绍一种在\SCTL{}中进行证明搜索的策略，然后，我们证明该证明搜索策略的终止性和正确性，然后，我们提出两种针对该证明搜索策略的优化方法，最后，我们将该证明搜索策略以伪代码的形式给出。
 
-该证明搜素策略如下：首先，对于要证明的相继式，以及\SCTL{}规则将该公式的所有的前提给定一个序；然后，依次对这些前提进行证明搜索。我们将以上证明搜索方法定义成一系列对于连续传递树（定义\ref{CPT}）的重写规则。下面我们介绍连续传递树的概念。
+该证明搜素策略如下：首先，对于要证明的相继式，以及\SCTL{}规则将该公式的所有的前提给定一个序；然后，依次对这些前提进行证明搜索。我们将以上证明搜索方法定义成一系列对于连续传递树（定义\ref{CPT}）的重写规则。下面我们介绍连续传递树的定义。
 \subsubsection{连续传递树}
-在连续传递树中，连续一个基本的概念。在计算机程序设计语言理论\cite{Appel06,Sestoft12}中，连续是计算机程序将要执行的部分的显示表示。
+连续传递树的定义是基于连续的概念。在计算机程序设计语言理论\cite{Appel06,Sestoft12}中，连续指的是计算机程序将要执行的部分，一个函数被成为具有\textit{连续传递风格}（Continuation-Passing Style）指的是将计算机程序将要执行的部分在函数的定义中显示表示出来。
 
 \begin{definition}[连续传递树]\label{CPT}
 	一个连续传递树（Continuation Passing Tree，简写为\CPT{}）指的是一棵同时满足以下条件的二叉树：
@@ -1172,7 +1148,7 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 				\State $\mathsf{c:=\textsf{cpt}^\emptyset(\vdash\psi,\mathfrak{t}^\emptyset,\mathfrak{f}^\emptyset)}$
 				\State $\mathsf{pt := ce := \langle}$tree with a single node: $\mathsf{\vdash\psi\rangle}$
 				\State $\mathsf{M^t := M^f := visited := \langle}$empty hash table$\mathsf{\rangle}$
-				\While{$\mathsf{c = \textsf{cpt}^{A_0}(\Gamma\vdash\phi,c_1^{A_1},c_2^{A_2})}$}
+				\While{$\mathsf{c}$ has the form  $\mathsf{\textsf{cpt}^{A_0}(}\Gamma\;\mathsf{\vdash\phi,c_1^{A_1},c_2^{A_2})}$}
 				\State {$\mathsf{\forall a\in A_0}$, perform $\mathsf{a}$}
 				\State\textbf{case} $\phi$ \textbf{is}
 				\State~~$\mathsf{\top}$: $\mathsf{c:=c_1^{A_1}}$
@@ -1183,12 +1159,12 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 				\State~~~~~~\textbf{if} $\mathsf{\langle s_1,...,s_n\rangle\in P}$ \textbf{then} $\mathsf{c:=c_1^{A_2}}$ \textbf{else} $\mathsf{c:=c_1^{A_1}}$ \textbf{end if}
 				\State~~$\mathsf{\phi_1\wedge\phi_2: ProveAnd (\vdash \phi_1\wedge\phi_2)}$
 				\State~~$\mathsf{\phi_1\vee\phi_2: ProveOr (\vdash \phi_1\vee\phi_2)}$
-				\State~~$\mathsf{EX_x(\phi_1)(s): ProveEX (\Gamma\vdash EX_x(\phi_1)(s))}$
-				\State~~$\mathsf{AX_x(\phi_1)(s): ProveAX (\Gamma\vdash AX_x(\phi_1)(s))}$
-				\State~~$\mathsf{EG_x(\phi_1)(s): ProveEG (\Gamma\vdash EG_x(\phi_1)(s))}$
-				\State~~$\mathsf{AF_x(\phi_1)(s): ProveAF (\Gamma\vdash AF_x(\phi_1)(s))}$
-				\State~~$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s): ProveEU (\Gamma\vdash EU_{x,y}(\phi_1,\phi_2)(s))}$
-				\State~~$\mathsf{AR_{x,y}(\phi_1,\phi_2)(s): ProveAR (\Gamma\vdash AR_{x,y}(\phi_1,\phi_2)(s))}$
+				\State~~$\mathsf{EX_x(\phi_1)(s): ProveEX (\vdash EX_x(\phi_1)(s))}$
+				\State~~$\mathsf{AX_x(\phi_1)(s): ProveAX (\vdash AX_x(\phi_1)(s))}$
+				\State~~$\mathsf{EG_x(\phi_1)(s): ProveEG (}\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s))}$
+				\State~~$\mathsf{AF_x(\phi_1)(s): ProveAF (}\Gamma\;\mathsf{\vdash AF_x(\phi_1)(s))}$
+				\State~~$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s): ProveEU (}\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s))}$
+				\State~~$\mathsf{AR_{x,y}(\phi_1,\phi_2)(s): ProveAR (}\Gamma\;\mathsf{\vdash AR_{x,y}(\phi_1,\phi_2)(s))}$
 				\State\textbf{end case}
 				\EndWhile
 				\If{$\mathsf{c=\mathfrak{t}^{A}}$}
@@ -1385,14 +1361,14 @@ $\mathsf{ProveEG}$的伪代码细节如图\ref{algorithm:eg}所示，其中，$\
 $\mathsf{ProveEG}$的解释如下：
 \begin{itemize}
 	\item 第3、4行： 如果已知$\mathsf{EG_x(\phi_1)(s)}$是不可证的，那么将$\mathsf{c}$重写到$\mathsf{c_2}$。
-	\item 第5 -- 8行：如果已知$\mathsf{EG_x(\phi_1)(s)}$是可证的，或者可应用merge规则，那么将$\mathsf{c}$重写到$\mathsf{c_1}$，同时，由于$\mathsf{\Gamma}$中的每个公式都是可证的，因此将$\mathsf{\Gamma}$中出现的所有状态加入到$\mathsf{M_{EG_x(\phi_1)(\_)}^t}$中。
-	另外，由于状态的访问是深度优先的，因此将所有的访问过的除了在$\mathsf{\Gamma}$出现的状态之外都加入集合$\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中。
+	\item 第5 -- 8行：如果已知$\mathsf{EG_x(\phi_1)(s)}$是可证的，或者可应用merge规则，那么将$\mathsf{c}$重写到$\mathsf{c_1}$，同时，由于${\Gamma}$中的每个公式都是可证的，因此将${\Gamma}$中出现的所有状态加入到$\mathsf{M_{EG_x(\phi_1)(\_)}^t}$中。
+	另外，由于状态的访问是深度优先的，因此将所有的访问过的除了在${\Gamma}$出现的状态之外都加入集合$\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中。
 	\item 第21行： \textsf{CPT} $\mathsf{c'}$的构造方式如下：
 	\begin{enumerate}
 		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash(s/x)\phi_1}$是不可证的，因此将$\mathsf{\vdash(s/x)\phi_1}$作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加到反例中（第10行）。另外，如果 $\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$ 是不可证的，那么不存在以$s$开头的无穷路径使得该路径上的所有状态都满足$\phi_1$，在这种情况下，我们将$s$加入到 $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中（第19、20行）。
 		
 		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_1)}, ... , \Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_n)}$都是不可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加入到反例中（第11行）。
-		\item 如果$\mathsf{c'}$重写到第$i$个$\mathsf{c_1}$，那么$\mathsf{\vdash(s/x)\phi_1}$和$\mathsf{\Gamma'\vdash EG_x(\phi_1)(s_i)}$都是可证的，因此将其都作为$\mathsf{\Gamma\vdash EG_x(\phi_1)(s)}$的子节点加入到证明树中（第12、13行）。 
+		\item 如果$\mathsf{c'}$重写到第$i$个$\mathsf{c_1}$，那么$\mathsf{\vdash(s/x)\phi_1}$和$\Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_i)}$都是可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加入到证明树中（第12、13行）。 
 	\end{enumerate}
 	\item 第22行：将$\mathsf{c}$重写到$\mathsf{c'}$。
 \end{itemize}
@@ -1411,11 +1387,11 @@ $\mathsf{ProveAF}$是$\mathsf{ProveEG}$的对偶情况，伪代码细节如图\r
 				\State \textit{and let $\Gamma'$ be $\Gamma\cup\{k(s)\}$.*/}
 				\If{$\mathsf{s\in M^t_k}$}
 				\State $\mathsf{c:=c_1^{A_1}}$
-				\ElsIf{$\mathsf{s\in M^f_k}$ or $\mathsf{k_s\in \Gamma}$}
+				\ElsIf{$\mathsf{s\in M^f_k}$ or $\mathsf{k_s\in}\; \Gamma$}
 				\State $\mathsf{c:=c_2^{A_2}}$;
 				\Else 
 				\State let $\mathsf{A_{10}=A_1\cup\{}$
-				\State~~~~$\mathsf{ac(pt, \Gamma\vdash k(s),\{\vdash(s/y)\phi_2\}),}$
+				\State~~~~$\mathsf{ac(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/y)\phi_2\}),}$
 				\State~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup \{s\}),}$
 				\State ~~~~$\mathsf{M^f_k := (M^f_k\cup \mathsf{visited}_k)\setminus \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup \{s\})}$
 				\State let $\mathsf{A_{20}=A_2\cup\{\mathsf{ac}(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1, \vdash(s/y)\phi_2\})\}}$
@@ -1505,7 +1481,7 @@ $\mathsf{ProveEU}$的伪代码细节要比$\mathsf{ProveEG}$更加复杂。原�
 
 $\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，伪代码细节如图\ref{algorithm:ar}所示。
 %}
-
+\couic{
 \section{公平性性质的验证}
 在这一小节中，我们介绍如何利用以上介绍的证明搜索策略完成公平性性质的验证。
 
@@ -1543,7 +1519,7 @@ $\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，伪代码细节如图\r
 	令$\sigma = s_0,...,s_{p-1},s_p,...,s_{n-1},...$ 
 	即可得证。
 \end{proof}
-
+}
 \section{本章小节}
 在本章中，我们首先定义了一个针对计算树逻辑\CTL{}的扩展：\CTLP{}逻辑；接着定义了一个针对\CTLP{}的证明系统\SCTL{}并证明了\SCTL{}的可靠性和完备性；然后，我们针对\SCTL{}提出了一种基于连续的证明搜索策略，并以重写系统的形式给出，同时证明了该证明搜索策略的可终止性与正确性；最后，我们给出一个完全自动化的、线性的证明搜索算法，并以伪代码的形式给出。
 通过本章内容可知，我们不仅扩展了在传统的模型检测中常用的\CTL{}逻辑，还给出了在扩展后的逻辑中的一种自动地、高效的证明搜索算法。由此，我们则可设计一种基于扩展后的逻辑的定理证明工具，即本章的内容可作为下一章内容的理论基础。

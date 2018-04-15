@@ -1,3 +1,53 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: Thesis.aux
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: Thesis.aux
 The style file: Biblio/gbt7714-unsrt.bst
 Database file #1: Biblio/thesis_references.bib
+I was expecting a `,' or a `}'---line 933 of file Biblio/thesis_references.bib
+ :  
+ :  isbn      = {978-1-118-09375-7}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 91 entries,
+            3424 wiz_defined-function locations,
+            1343 strings with 19714 characters,
+and the built_in function-call counts, 504752 in all, are:
+= -- 52453
+> -- 51212
+< -- 51246
++ -- 16796
+- -- 561
+* -- 2859
+:= -- 55394
+add.period$ -- 277
+call.type$ -- 91
+change.case$ -- 360
+chr.to.int$ -- 15028
+cite$ -- 91
+duplicate$ -- 1886
+empty$ -- 5302
+format.name$ -- 1152
+if$ -- 145402
+int.to.chr$ -- 4
+int.to.str$ -- 92
+missing$ -- 0
+newline$ -- 468
+num.names$ -- 275
+pop$ -- 22254
+preamble$ -- 1
+purify$ -- 91
+quote$ -- 0
+skip$ -- 59932
+stack$ -- 0
+substring$ -- 17474
+swap$ -- 206
+text.length$ -- 724
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 744
+warning$ -- 0
+while$ -- 1027
+width$ -- 0
+write$ -- 1350
+(There was 1 error message)

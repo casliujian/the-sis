@@ -1,61 +1,15 @@
 \chapter{模型检测与定理证明的结合}\label{chapt:sctl}
 在本章中，我们给出一种将模型检测与定理证明两种形式化验证方法的结合：首先，将模型检测中常用的时序逻辑---计算树逻辑\CTL{}进行扩展，我们将扩展后的逻辑称为\CTLP{}；然后，针对\CTLP{}逻辑建立一个带参的证明系统\sctlm{}，其中参数$\cal M$是任意的Kripke模型，并使得一个\CTLP{}公式在\sctlm{}中是可证的当且仅当该公式在$\cal M$中成立。
+本章内容安排如下：首先介绍介绍\CTLP{} 逻辑；然后介绍证明系统\SCTL{}; 最后介绍针对证明系统\SCTL{}的一个证明搜索策略及其伪代码。
 
-本章内容安排如下：首先介绍Kripke模型以及计算树逻辑\CTL{}；接着介绍\CTLP{} 逻辑；然后介绍证明系统\SCTL{}; 最后介绍针对证明系统\SCTL{}的一个证明搜索策略及其伪代码。
 
-\section{Kripke模型和计算树逻辑\CTL{}}
-在对计算机系统进行形式化验证之前，我们首先需要
-\begin{enumerate}
-	\item 针对要验证的计算机系统建立一个形式化模型；
-	\item 将要验证的性质用一种逻辑公式表示出来。
-\end{enumerate}
-在完成这两步之后，则需要利用计算机算法来判断所描述的性质在给出的形式化模型上是否可满足。
-
-在模型检测领域，一个计算机系统的形式化模型通常是一个Kripke模型，而模型的性质通常用时序逻辑公式来表示。模型检测的基本流程则可概述为：对于一个给定的Kripke模型$M$和一个时序逻辑公式$f$，判断Kripke模型是否满足性质$f$，如果是则返回$true$，否则返回一个反例来代表性质不满足的原因。
-其中，模型检测中的经典的Kripke模型的定义如下：
-\begin{definition}[经典的Kripke模型]
-	设$AP$是一个有穷的原子命题集合，$AP$上的一个经典的Kripke模型可表示为一个四元组$M=(S,S_0,\lra,L)$，其中
-	\begin{enumerate}
-		\item $S$是一个有穷状态集合；
-		\item $S_0\subseteq S$是初始状态集合；
-		\item $\lra\subseteq S\times S$是一个二元关系，同时对$\forall s\in S$，都存在一个状态$s'\in S$使得$s\lra s'$；
-		\item $L:S\rightarrow 2^{AP}$是一个标签函数，$L$将$S$中的每个状态都映射到一个$AP$的子集。
-	\end{enumerate}
-\end{definition}
-在Kripke模型$M$中，我们将一条从状态$s$出发的一条无穷序列$\pi=s_0,s_1,...$称为一条\textit{路径}，其中$s=s_0$，而且对于任意$i\ge 0$，都有$s_i\lra s_{i+1}$。
-
-根据所需要描述的系统性质的不同，模型检测中常用的时序逻辑有线性时序逻辑\textsf{LTL}\cite{Pnueli77}、计算树逻辑\CTL{}\cite{ClarkeE08}以及\textsf{LTL}与\textsf{CTL}的超集\textsf{CTL$^*$}\cite{EmersonH86}。本文着重介绍计算树逻辑\CTL{}以及基于\CTL{}的扩展。
-\begin{definition}[计算树逻辑\CTL{}]
-	设$AP$是一个有穷的原子命题集合，那么基于$AP$的所有\CTL{}公式可表示为：
-	$$\phi ::= \top\mid\bot\mid P\mid \neg\phi\mid \phi_1\wedge\phi_2\mid\phi_1\vee\phi_2\mid AX\phi\mid EX\phi\mid AF\phi\mid EG\phi\mid A[\phi_1 R \phi_2]\mid E[\phi_1 U \phi_2]$$
-	其中$\top$表示永真，$\bot$表示永假，$P\in AP$是一个原子命题。
-\end{definition}
-然后，我们可以在经典的Kripke模型上定义\CTL{}的语义。
-\begin{definition}[\CTL{}的语义]
-	设$M=(S,S_0,\lra,L)$是在$AP$上的一个经典的Kripke模型。我们用$M,s\models \phi$来表示\CTL{}公式$\phi$在状态$s$上满足。$\models$的归纳定义如下。
-	\begin{itemize}
-		\item $M,s\models \top$永远成立；
-		\item $M,s\models \bot$永远不成立；
-		\item $M,s\models P$当且仅当$p\in L(s)$；
-		\item $M,s\models \neg\phi$当且仅当$M,s\not\models\phi$；
-		\item $M,s\models \phi_1\wedge\phi_2$当且仅当$M,s\models\phi_1$且$M,s\models\phi_2$；
-		\item $M,s\models \phi_1\vee\phi_2$当且仅当$M,s\models\phi_1$或$M,s\models\phi_2$；
-		\item $M,s\models AX\phi$当且仅当$\forall s'\in \{s'\in S\mid s\lra s'\}$，$M,s'\models \phi$；
-		\item $M,s\models EX\phi$当且仅当$\exists s'\in \{s'\in S\mid s\lra s'\}$，$M,s'\models \phi$；
-		\item $M,s\models AF\phi$当且仅当对于任意从$s$出发的路径$s_0,s_1,...$都存在$i\ge 0$使得$M,s_i\models \phi$；
-		\item $M,s\models AF\phi$当且仅当存在从$s$出发的路径$s_0,s_1,...$使得对于任意$i\ge 0$都有$M,s_i\models \phi$；
-		\item $M,s\models A[\phi_1 R\phi_2]$当且仅当对于任意从$s$出发的路径$s_0,s_1,...$：如果存在$j\ge 0$使得$M,s_j\models\phi_1$成立，那么对于所有的$0\le i\le j$都有$M,s_i\models\phi_2$成立；否则，对任意$i\ge 0$都有$M,s_i\models\phi_2$成立。
-		\item $M,s\models E[\phi_1 U\phi_2]$当且仅当存在从$s$出发的路径$s_0,s_1,...$使得：存在$j\ge 0$使得$M,s_j\models\phi_2$成立且对于所有的$0\le i< j$都有$M,s_i\models\phi_1$成立；
-	\end{itemize}
-\end{definition}
-
-一个\CTL{}模型检测问题则可表示为对于给定的Kripke模型$M$以及初始状态$s_0$，判定$M,s_0\models \phi$是否成立，其中$\phi$是一个\CTL{}公式。当$\phi$为原子命题$P$时，上述\CTL{}模型检测问题则为$M,s\models P$。这时，我们不仅仅将$P$看作一个原子命题，而且可以将$P$看作为一个一元谓词，因而上述模型检测问题可表示为：$M\models P(s)$。不仅如此，当谓词的元数大于1时，我们甚至可以表示多个状态之间的关系，比如$M\models Q(s_1,...,s_n)$。其他的\CTL{}公式的可满足性同样可用这种方式表示，比如$M,s\models EX P$可表示为$M\models EX_x(P(x))(s)$，其中$P$是一个一元谓词，而且变量$x$由模态词$EX$绑定。这种表示\CTL{}公式的方式可以用来定义一个对\CTL{}的扩展，即不仅能表示状态的时序性质，而且能表达状态之间的“空间”性质。比如，对于一个Kripke模型上的路径$s_0,s_1,...$，在状态$s_m$上，某个人捡到一只鞋，而且在$s_m$之后的某个状态$s_n$上，这个人又捡到跟之前的鞋成对的另一只，其中$0\le m<n$。这个性质可表示为公式$EF_x(EF_y(Pair(x,y))(x))(s_0)$。
+在形式化方法中，一个\CTL{}模型检测问题则可表示为对于给定的Kripke模型$M$以及初始状态$s_0$，判定$M,s_0\models \phi$是否成立，其中$\phi$是一个\CTL{}公式。当$\phi$为原子命题$P$时，上述\CTL{}模型检测问题则为$M,s\models P$。这时，我们不仅仅将$P$看作一个原子命题，而且可以将$P$看作为一个一元谓词，因而上述模型检测问题可表示为：$M\models P(s)$。不仅如此，当谓词的元数大于1时，我们甚至可以表示多个状态之间的关系，比如$M\models Q(s_1,...,s_n)$。其他的\CTL{}公式的可满足性同样可用这种方式表示，比如$M,s\models EX P$可表示为$M\models EX_x(P(x))(s)$，其中$P$是一个一元谓词，而且变量$x$由模态词$EX$绑定。这种表示\CTL{}公式的方式可以用来定义一个对\CTL{}的扩展，即不仅能表示状态的时序性质，而且能表达状态之间的“空间”性质。比如，对于一个Kripke模型上的路径$s_0,s_1,...$，在状态$s_m$上，某个人捡到一只鞋，而且在$s_m$之后的某个状态$s_n$上，这个人又捡到跟之前的鞋成对的另一只，其中$0\le m<n$。这个性质可表示为公式$EF_x(EF_y(Pair(x,y))(x))(s_0)$。
 接下来，我们来详细定义这种针对\CTL{}的扩展。
 
 \section{针对计算树逻辑\CTL{}的扩展：\CTLP{}}\label{sec:ctlp}
 为了能在公式中表达多元谓词，首先我们需要在经典的Kripke模型的定义的基础上添加多元谓词的定义，同时使新模型的定义包含经典的Kripke模型的定义。为了叙述方便起见，我们也称新模型为Kripke模型，新的Kripke模型定义如下：
 
-\begin{definition}[本文中的Kripke 模型]
+\begin{definition}[Kripke 模型]
 	一个 Kripke 结构 ${\cal M} = (S, S_0,\lra, \mathcal{P})$ 包含如下四个部分：
 	\begin{enumerate}
 		\item $S$ 是一个有穷的状态集合；
@@ -122,7 +76,7 @@
 \end{itemize}
 
 
-\paragraph{\CTL{} vs. \CTLP{}。}在计算树逻辑（\CTL）\cite{EmersonC82,EmersonH85} 的语法中，原子公式通常用命题符号来表示，而命题符号在计算树逻辑的语义中通常解释为一个 Kripke 结构上的状态集合。在逻辑系统\CTLP{}中，相比于计算树逻辑，我们通过引入多元谓词来增加逻辑系统中公式的表达能力。\CTLP{}相比于\CTL{}的表达能力的提升可由如下的例子表示出来：
+\paragraph{\CTL{} vs. \CTLP{}}在计算树逻辑（\CTL）\cite{EmersonC82,EmersonH85} 的语法中，原子公式通常用命题符号来表示，而命题符号在计算树逻辑的语义中通常解释为一个 Kripke 结构上的状态集合。在逻辑系统\CTLP{}中，相比于计算树逻辑，我们通过引入多元谓词来增加逻辑系统中公式的表达能力。\CTLP{}相比于\CTL{}的表达能力的提升可由如下的例子表示出来：
 
 \begin{example}\label{example:unmanned}
 	本例子受多机器人路径规划系统\cite{Craig89,PartoviL14}启发。在原例子中，多机器人路径规划系统的规范可以写成 \CTL{} 公式：在一个多个区块的地图上，每从初始位置出发的机器人都能到达指定的最终位置，而且在行进的同时，每个机器人都会避免经过某些位置。
@@ -1481,14 +1435,23 @@ $\mathsf{ProveEU}$的伪代码细节要比$\mathsf{ProveEG}$更加复杂。原�
 
 $\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，伪代码细节如图\ref{algorithm:ar}所示。
 %}
-\couic{
 \section{公平性性质的验证}
-在这一小节中，我们介绍如何利用以上介绍的证明搜索策略完成公平性性质的验证。
 
-在并发系统的形式化验证中，公平性性质是一类比较重要的性质。在验证公平性性质时，模型检测算法通常会规避系统的一些不切实际的行为\cite{BaierKatoen08}，比如在两个进程的互斥模型中，我们通常只考虑没有进程饿死的情况，即没有永远处在等待状态的进程。在这类模型的验证中，我们就可以添加一个公平性限制来规避模型的不公平的迁移（即在该模型中的状态迁移过程中有进程饿死），从而只在对两个进程都公平的前提下进行状态迁移并验证模型的性质。
+在并发系统的形式化验证中，公平性是比较重要的一个方面。在状态搜索中，公平性前提通常可以避免一些不切实际的无穷的路径，即忽略掉一些不切实际的系统行为\cite{BaierKatoen08}。然而，无论是\CTL{}还是\CTLP{}均无法在语法中表示公平性假设。这是由于在这两种逻辑中缺乏描述特定路径的性质的机制。即使如此，我们仍然可以基于本章中介绍的证明搜索策略来完成带有公平性前提的\CTLP{}公式的验证。
 
 
-由于无法描述特定路径的性质，因此带有公平性前提的性质无法用 \CTL{} 或 \CTLP{} 公式来表示。然而，我们仍然可以利用\SCTL{}系统的证明搜索策略来完成公平性性质的验证。本文中公平性的定义与McMillan提出的公平性定义\cite{mcmillan93}一致，即一个无穷路径是公平的指的是某种性质在该路径上无穷次成立。一个带有公平性前提的性质通常具有$E_Cf$或者$A_Cf$形式，其中$C$表示一个\CTLP{}公式的集合，而$f$表示路径的性质。在本文中，$E_CG(\phi)(s)$在给定的Kripke模型中成立当且仅当存在以$s$为起始状态的一个无穷路径，集合$C$中的每个公式在该路径上的无穷次成立，而且在该路径上的每个状态上$\phi$都成立，而且集合$C$中的每个公式$\phi'$，$\phi'$在$\pi$上的无穷个状态上都是成立的；$A_CF(\phi)(s)$在给定的Kripke模型中是有效的当且仅当对于所有以$s$为起始状态的无穷路径，集合$C$中的每个公式都在每条路径上无穷次成立，而且每条路径上都存在一个状态，使得$\phi$在该状态上成立。另外，与McMillan的定义类似，带有别的模态词的公平性性质可用$E_CG$与$A_CF$公式进行定义：
+
+在本节中，我们介绍\CTLP{}中公平性的定义，以及如何完成对公平性性质的验证。
+
+\subsection{公平性}
+在介绍公平性之前，让我们首先看如下的例子。
+
+\begin{example} [进程调度的公平性]
+	假设有一个具有$n+1$个进程的计算机系统，其中，进程$Server$为服务端进程，进程$P_1,...,P_n$为$n$个客户端进程。在系统的运行过程中，每个客户端进程可向服务端进程发出请求，而服务端进程则会根据收到的请求来为相应的客户端进程提供服务。该系统的一个可能的进程调度策略如下：系统从$P_1$到$P_n$依次检查是否有客户端进程发出请求，如果是，则$Server$为第一个系统找到的发出请求的客户端进程提供服务，当$Server$服务完成后，系统重复上述过程。
+	
+	在该系统中，如果客户端进程$P_1$持续向服务端进程$Server$发出请求，那么根据系统的进程调度策略，$Server$将持续为$P_1$提供服务，而忽略其他客户端进程的请求。这样的进程调度策略就被称为是\textit{不公平}的。在一个公平的进程调度策略中，当一个客户端进程发出请求后，服务端进程总会在有限时间内提供服务，而不会让发出请求的客户端进程无限等待。比如，在轮询调度（Round-Robin Scheduling）\cite{ASPBG14}中，系统按照轮询的顺序依次检查每个进程是否发出请求，而且当处理完一个进程的请求后，再按照顺序检查下一个进程。经过轮询调度的进程不会饿死（即无限等待），因此轮询调度是一种公平的进程调度策略。
+\end{example}
+本文中公平性的定义与McMillan提出的公平性定义\cite{mcmillan93}一致，即一个无穷路径是公平的指的是某种性质在该路径上无穷次成立。一个带有公平性前提的性质通常具有$E_Cf$或者$A_Cf$形式，其中$C$表示一个\CTLP{}公式的集合，而$f$表示路径的性质。在本文中，$E_CG(\phi)(s)$在给定的Kripke模型中成立当且仅当存在以$s$为起始状态的一个无穷路径，集合$C$中的每个公式在该路径上的无穷次成立，而且在该路径上的每个状态上$\phi$都成立，而且集合$C$中的每个公式$\phi'$，$\phi'$在$\pi$上的无穷个状态上都是成立的；$A_CF(\phi)(s)$在给定的Kripke模型中是有效的当且仅当对于所有以$s$为起始状态的无穷路径，集合$C$中的每个公式都在每条路径上无穷次成立，而且每条路径上都存在一个状态，使得$\phi$在该状态上成立。另外，与McMillan的定义类似，带有其他模态词的公平性性质可用$E_CG$与$A_CF$公式进行定义：
 
 
 \begin{small}
@@ -1498,10 +1461,9 @@ $\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，伪代码细节如图\r
 	$$A_CR_{x,y}(\phi_1,\phi_2)(t) = AR_{x,y}(\phi_1, \phi_2\vee A_CF_z(\bot)(y))(t)$$
 \end{small}
 
-根据以上定义可知，要验证公式$E_CG_x(\phi)(s)$，只需找到一条以$s$为起始状态的公平的无穷路径使得$\phi$在这条路径上永远成立；要验证公式$A_CF(\phi)(s)$，只需确定不存在一条以$s$为其实状态的无穷路径使得$\phi$在这条路径上永远不成立。因此，要利用\SCTL{}的证明搜索策略来验证公平性性质，只需要一个机制来判断公平的无穷路径的存在与否。
+\subsection{验证带有公平性假设的公式}
+根据上一小节内容可知，要使得公式$E_CG_x(\phi)(s)$成立，只需找到一条以$s$为起始状态的公平的无穷路径使得$\phi$在这条路径上永远成立；要使得公式$A_CF(\phi)(s)$成立，只需确定不存在一条以$s$为其实状态的无穷路径使得$\phi$在这条路径上永远不成立。因此，要验证公平性性质，只需要一个机制来判断公平的无穷路径的存在与否。若要达到此目的，我们需要证明以下两个命题。
 \couic{Given that \SCTL{} is sound and complete, to prove $E_CG_x(\phi)(t)$ is equivalent to prove $EG_x(\phi)(t)$ where only fair paths are considered, i.e., to prove the existence of a fair path on which $\phi$ is always provable. Similarly, to prove $A_CF_x(\phi)(t)$ is equivalent to prove $AF_x(\phi)(t)$ where only fair paths are considered, i.e., to prove the absence of a fair path on which $\phi$ is always not provable. Thus, to prove \SCTL{} formulae with fairness constraints, we need a mechanism to decide the existence of fair paths.}
-
-由命题\ref{prop:fair_if}与命题\ref{prop:fair_fi}可知，我们可以在证明搜索中利用merge来判断公平的无穷路径的存在与否：存在一条具有公平性前提$C$的无穷路径当且仅当存在一个merge，使得$C$中的每个公式都在该merge上的环中的某个状态上成立。
 
 
 
@@ -1519,8 +1481,46 @@ $\mathsf{ProveAR}$是$\mathsf{ProveEU}$的对偶情况，伪代码细节如图\r
 	令$\sigma = s_0,...,s_{p-1},s_p,...,s_{n-1},...$ 
 	即可得证。
 \end{proof}
-}
-\section{本章小节}
+
+
+由命题\ref{prop:fair_if}与命题\ref{prop:fair_fi}可知，我们可以在证明搜索中利用merge来判断公平的无穷路径的存在与否：存在一条具有公平性前提$C$的无穷路径当且仅当存在一个merge，使得$C$中的每个公式都在该merge上的环中的某个状态上成立。
+
+这种判断公平性性质的可满足性的过程可用以下重写规则来刻画。
+
+\begin{center}
+	\footnotesize
+	%	\centering
+	\begin{tabular}{|ll|}
+		
+		\hline
+		\multicolumn{2}{|l|}{$\textsf{cpt}(\Gamma\vdash A_CF_x(\phi)(s), c_1, c_2)\rsa c_2 ~~~ $}\\ 
+		\multicolumn{2}{|l|}{$\left[A_CF_x(\phi)(s)\in \Gamma,\; \textup{and}\; \forall \psi\in C,\exists s\in cycle(\Gamma),\psi\; \textup{holds}\; \textup{on}\; s\right]~~~~~~$}\\
+		\hline
+		\multicolumn{2}{|l|}{$\textsf{cpt}(\Gamma\vdash A_CF_x(\phi)(s), c_1, c_2)\rsa c_1 ~~~ $}\\ 
+		\multicolumn{2}{|l|}{$\left[A_CF_x(\phi)(s)\in \Gamma,\; \textup{and}\; \exists \psi\in C,\forall s\in cycle(\Gamma),\psi\; \textup{does}\;\textup{not}\; \textup{hold}\; \textup{on}\; s\right]~~~~~~$}\\
+		\hline
+		\multicolumn{2}{|l|}{$\textsf{cpt}(\Gamma\vdash A_CF_x(\phi)(s), c_1, c_2)\rsa$}\\
+		\multicolumn{2}{|l|}{$\textsf{cpt}(\vdash(s/x)\phi, c_1, \textsf{cpt}(\Gamma'\vdash A_CF_x(\phi)(s_1), \textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash A_CF_x(\phi)(s_n), c_1, c_2)..., c_2), c_2))$}\\
+		\multicolumn{2}{|l|}{$\left[\{s_1,...,s_n\}=\textsf{Next}(s), A_CF_x(\phi)(s)\notin \Gamma, \textup{and}\; \Gamma'=\Gamma,A_CF_x(\phi)(s)\right]$}\\ 
+		\hline
+		\multicolumn{2}{|l|}{$\textsf{cpt}(\Gamma\vdash E_CG_x(\phi)(s), c_1, c_2)\rsa c_1 ~~~ $}\\ 
+		\multicolumn{2}{|l|}{$\left[E_CG_x(\phi)(s)\in \Gamma,\; \textup{and}\; \forall \psi\in C,\exists s\in cycle(\Gamma),\psi\; \textup{holds}\; \textup{on}\; s\right]~~~~~~$}\\
+		\hline
+		\multicolumn{2}{|l|}{$\textsf{cpt}(\Gamma\vdash E_CG_x(\phi)(s), c_1, c_2)\rsa c_2 ~~~ $}\\ 
+		\multicolumn{2}{|l|}{$\left[E_CG_x(\phi)(s)\in \Gamma,\; \textup{and}\; \exists \psi\in C,\forall s\in cycle(\Gamma),\psi\; \textup{does}\;\textup{not}\; \textup{hold}\; \textup{on}\; s\right]~~~~~~$}\\
+		\hline
+		\multicolumn{2}{|l|}{$\textsf{cpt}(\Gamma\vdash E_CG_x(\phi)(s), c_1, c_2)\rsa$}\\
+		\multicolumn{2}{|l|}{$\textsf{cpt}(\vdash(s/x)\phi, \textsf{cpt}(\Gamma'\vdash E_CG_x(\phi)(s_1), c_1, \textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash E_CG_x(\phi)(s_n), c_1, c_2)...)), c_2)$}\\
+		\multicolumn{2}{|l|}{$\left[\{s_1,...,s_n\}=\textsf{Next}(s), E_CG_x(\phi)(s)\notin \Gamma, \textup{and}\; \Gamma'=\Gamma, E_CG_x(\phi)(s)\right]$}\\ 
+		\hline
+		
+	\end{tabular}
+	%	\caption{Rewritings over \textsf{CPT}s}\label{fig:rewriting}
+\end{center}
+在上述重写规则中，$cycle(\Gamma)$代表在$\Gamma$中出现的环上的状态集合。当同时应用上述重写规则与图\ref{fig:rewriting}中的重写规则来进行证明搜索时，即可实现对于公平性性质的验证。
+
+
+\section{本章总结}
 在本章中，我们首先定义了一个针对计算树逻辑\CTL{}的扩展：\CTLP{}逻辑；接着定义了一个针对\CTLP{}的证明系统\SCTL{}并证明了\SCTL{}的可靠性和完备性；然后，我们针对\SCTL{}提出了一种基于连续的证明搜索策略，并以重写系统的形式给出，同时证明了该证明搜索策略的可终止性与正确性；最后，我们给出一个完全自动化的、线性的证明搜索算法，并以伪代码的形式给出。
 通过本章内容可知，我们不仅扩展了在传统的模型检测中常用的\CTL{}逻辑，还给出了在扩展后的逻辑中的一种自动地、高效的证明搜索算法。由此，我们则可设计一种基于扩展后的逻辑的定理证明工具，即本章的内容可作为下一章内容的理论基础。
 

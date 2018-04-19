@@ -1,0 +1,49 @@
+\chapter{预备知识}\label{chapt:preliminary}
+本章介绍的是本文中用到的一些相关的预备知识。
+\section{Kripke模型和计算树逻辑\CTL{}}
+在对计算机系统进行形式化验证之前，我们首先需要
+\begin{enumerate}
+	\item 针对要验证的计算机系统建立一个形式化模型；
+	\item 将要验证的性质用一种逻辑公式表示出来。
+\end{enumerate}
+在完成这两步之后，则需要利用计算机算法来判断所描述的性质在给出的形式化模型上是否可满足。
+
+在模型检测领域，一个计算机系统的形式化模型通常是一个Kripke模型，而模型的性质通常用时序逻辑公式来表示。模型检测的基本流程则可概述为：对于一个给定的Kripke模型$M$和一个时序逻辑公式$f$，判断Kripke模型是否满足性质$f$，如果是则返回$true$，否则返回一个反例来代表性质不满足的原因。
+其中，模型检测中的经典的Kripke模型的定义如下：
+\begin{definition}[经典的Kripke模型]
+	设$AP$是一个有穷的原子命题集合，$AP$上的一个经典的Kripke模型可表示为一个四元组$M=(S,S_0,\lra,L)$，其中
+	\begin{enumerate}
+		\item $S$是一个有穷状态集合；
+		\item $S_0\subseteq S$是初始状态集合；
+		\item $\lra\subseteq S\times S$是一个二元关系，同时对$\forall s\in S$，都存在一个状态$s'\in S$使得$s\lra s'$；
+		\item $L:S\rightarrow 2^{AP}$是一个标签函数，$L$将$S$中的每个状态都映射到一个$AP$的子集。
+	\end{enumerate}
+\end{definition}
+在Kripke模型$M$中，我们将一条从状态$s$出发的一条无穷序列$\pi=s_0,s_1,...$称为一条\textit{路径}，其中$s=s_0$，而且对于任意$i\ge 0$，都有$s_i\lra s_{i+1}$。
+
+根据所需要描述的系统性质的不同，模型检测中常用的时序逻辑有线性时序逻辑\textsf{LTL}\cite{Pnueli77}、计算树逻辑\CTL{}\cite{ClarkeE08}以及\textsf{LTL}与\textsf{CTL}的超集\textsf{CTL$^*$}\cite{EmersonH86}。本文着重介绍计算树逻辑\CTL{}以及基于\CTL{}的扩展。
+\begin{definition}[计算树逻辑\CTL{}]
+	设$AP$是一个有穷的原子命题集合，那么基于$AP$的所有\CTL{}公式可表示为：
+	$$\phi ::= \top\mid\bot\mid P\mid \neg\phi\mid \phi_1\wedge\phi_2\mid\phi_1\vee\phi_2\mid AX\phi\mid EX\phi\mid AF\phi\mid EG\phi\mid A[\phi_1 R \phi_2]\mid E[\phi_1 U \phi_2]$$
+	其中$\top$表示永真，$\bot$表示永假，$P\in AP$是一个原子命题。
+\end{definition}
+然后，我们可以在经典的Kripke模型上定义\CTL{}的语义。
+\begin{definition}[\CTL{}的语义]
+	设$M=(S,S_0,\lra,L)$是在$AP$上的一个经典的Kripke模型。我们用$M,s\models \phi$来表示\CTL{}公式$\phi$在状态$s$上满足。$\models$的归纳定义如下。
+	\begin{itemize}
+		\item $M,s\models \top$永远成立；
+		\item $M,s\models \bot$永远不成立；
+		\item $M,s\models P$当且仅当$p\in L(s)$；
+		\item $M,s\models \neg\phi$当且仅当$M,s\not\models\phi$；
+		\item $M,s\models \phi_1\wedge\phi_2$当且仅当$M,s\models\phi_1$且$M,s\models\phi_2$；
+		\item $M,s\models \phi_1\vee\phi_2$当且仅当$M,s\models\phi_1$或$M,s\models\phi_2$；
+		\item $M,s\models AX\phi$当且仅当$\forall s'\in \{s'\in S\mid s\lra s'\}$，$M,s'\models \phi$；
+		\item $M,s\models EX\phi$当且仅当$\exists s'\in \{s'\in S\mid s\lra s'\}$，$M,s'\models \phi$；
+		\item $M,s\models AF\phi$当且仅当对于任意从$s$出发的路径$s_0,s_1,...$都存在$i\ge 0$使得$M,s_i\models \phi$；
+		\item $M,s\models AF\phi$当且仅当存在从$s$出发的路径$s_0,s_1,...$使得对于任意$i\ge 0$都有$M,s_i\models \phi$；
+		\item $M,s\models A[\phi_1 R\phi_2]$当且仅当对于任意从$s$出发的路径$s_0,s_1,...$：如果存在$j\ge 0$使得$M,s_j\models\phi_1$成立，那么对于所有的$0\le i\le j$都有$M,s_i\models\phi_2$成立；否则，对任意$i\ge 0$都有$M,s_i\models\phi_2$成立。
+		\item $M,s\models E[\phi_1 U\phi_2]$当且仅当存在从$s$出发的路径$s_0,s_1,...$使得：存在$j\ge 0$使得$M,s_j\models\phi_2$成立且对于所有的$0\le i< j$都有$M,s_i\models\phi_1$成立；
+	\end{itemize}
+\end{definition}
+\section{相继式演算}
+\section{信息可视化}

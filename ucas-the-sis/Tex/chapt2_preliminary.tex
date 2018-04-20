@@ -1,15 +1,26 @@
 \chapter{预备知识}\label{chapt:preliminary}
 本章介绍的是本文中用到的一些相关的预备知识。
-\section{Kripke模型和计算树逻辑\CTL{}}
-在对计算机系统进行形式化验证之前，我们首先需要
+\section{模型检测的一般流程}
+如图\ref{modelchecking:overview}所示，利用模型检测方法来对计算机软硬件系统进行形式化验证的一般流程可总结为：
 \begin{enumerate}
-	\item 针对要验证的计算机系统建立一个形式化模型；
-	\item 将要验证的性质用一种逻辑公式表示出来。
+	\item 针对要验证的软硬件系统建立一个形式化模型；
+	\item 将要验证的性质用一种逻辑公式表示出来；
+	\item 利用算法来判断要验证的性质是否在给定的形式化模型上是可满足的，如果要验证的性质在给定的形式化模型上可满足，则输出$True$，否则输出$False$并给出反例来说明性质不满足的原因。
+%	\item 当验证结束后，输出验证结果，
 \end{enumerate}
-在完成这两步之后，则需要利用计算机算法来判断所描述的性质在给出的形式化模型上是否可满足。
+%在完成这两步之后，则需要利用计算机算法来判断所描述的性质在给出的形式化模型上是否可满足。
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=12cm]{Img/model_checking_overview.png}
+	\caption{模型检测流程}
+	\label{modelchecking:overview}
+\end{figure}
+\subsection{形式化模型}
+在模型检测中，要验证软硬件系统的性质，首先必须针对该系统建立一个形式化模型。在这里，一个形式化模型通常指的是一个Kripke模型。模型检测中的经典的Kripke模型的定义如下：
+%在现实世界中，系统的形式化模型既可以用常用的编程语言（比如C以及Java等），也可以利用模型检测工具的输入语言来描述。虽然
 
-在模型检测领域，一个计算机系统的形式化模型通常是一个Kripke模型，而模型的性质通常用时序逻辑公式来表示。模型检测的基本流程则可概述为：对于一个给定的Kripke模型$M$和一个时序逻辑公式$f$，判断Kripke模型是否满足性质$f$，如果是则返回$true$，否则返回一个反例来代表性质不满足的原因。
-其中，模型检测中的经典的Kripke模型的定义如下：
+%，而模型的性质通常用时序逻辑公式来表示。模型检测的基本流程则可概述为：对于一个给定的Kripke模型$M$和一个时序逻辑公式$f$，判断Kripke模型是否满足性质$f$，如果是则返回$true$，否则返回一个反例来代表性质不满足的原因。
+
 \begin{definition}[经典的Kripke模型]
 	设$AP$是一个有穷的原子命题集合，$AP$上的一个经典的Kripke模型可表示为一个四元组$M=(S,S_0,\lra,L)$，其中
 	\begin{enumerate}
@@ -21,7 +32,12 @@
 \end{definition}
 在Kripke模型$M$中，我们将一条从状态$s$出发的一条无穷序列$\pi=s_0,s_1,...$称为一条\textit{路径}，其中$s=s_0$，而且对于任意$i\ge 0$，都有$s_i\lra s_{i+1}$。
 
-根据所需要描述的系统性质的不同，模型检测中常用的时序逻辑有线性时序逻辑\textsf{LTL}\cite{Pnueli77}、计算树逻辑\CTL{}\cite{ClarkeE08}以及\textsf{LTL}与\textsf{CTL}的超集\textsf{CTL$^*$}\cite{EmersonH86}。本文着重介绍计算树逻辑\CTL{}以及基于\CTL{}的扩展。
+\subsection{性质}
+Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要描述的系统性质类型的不同，模型检测中常用的时序逻辑有线性时序逻辑\textsf{LTL}\cite{Pnueli77}、计算树逻辑\CTL{}\cite{ClarkeE08}以及\textsf{LTL}与\textsf{CTL}的超集\textsf{CTL$^*$}\cite{EmersonH86}。
+本文着重介绍计算树逻辑\CTL{}以及基于\CTL{}的扩展。
+%\subsubsection{\textsf{LTL}}
+
+%\subsubsection{\CTL{}}
 \begin{definition}[计算树逻辑\CTL{}]
 	设$AP$是一个有穷的原子命题集合，那么基于$AP$的所有\CTL{}公式可表示为：
 	$$\phi ::= \top\mid\bot\mid P\mid \neg\phi\mid \phi_1\wedge\phi_2\mid\phi_1\vee\phi_2\mid AX\phi\mid EX\phi\mid AF\phi\mid EG\phi\mid A[\phi_1 R \phi_2]\mid E[\phi_1 U \phi_2]$$
@@ -45,5 +61,10 @@
 		\item $M,s\models E[\phi_1 U\phi_2]$当且仅当存在从$s$出发的路径$s_0,s_1,...$使得：存在$j\ge 0$使得$M,s_j\models\phi_2$成立且对于所有的$0\le i< j$都有$M,s_i\models\phi_1$成立；
 	\end{itemize}
 \end{definition}
+
+\subsection{验证}
+对于给定的Kripke模型$M$，状态$s$和\CTL{}公式$\phi$，\CTL{}模型检测的验证过程即判断$M,s\models \phi$是否成立。如果要验证的性质在给定的形式化模型上可满足，则输出$True$，否则输出$False$并给出反例来说明性质不满足的原因。对于以“$A*$”形式模态词开头的\CTL{}公式，一个反例指的是一条路径。比如如果$M,s\not\models AF\phi$，那么模型检测工具给出的反例是一条无穷路径，其中对于该无穷路径上的任意状态$s'$都有$M,s'\not\models \phi$。对于以“$E*$”形式模态词开头的\CTL{}公式，一个反例指的是一系列路径。比如如果$M,s\not\models E[\phi_1 U\phi_2]$，那么模型检测工具给出的反例是所有满足以下条件的路径：即以$s$为起始状态，而且如果该路径为有穷路径，那么对于该路径上的最后一个状态$s'$有$M,s'\not\models\phi_1$且$M,s'\not\models\phi_2$，同时对于该路径上的任意其他状态（如果存在）$s''$有$M,s''\models \phi_1$；如果该路径为无穷路径，那么对于该路径上的任意状态$s'$有$M,s'\models \phi_1$且$M,s'\not\models \phi_2$。另外，值得注意的是，当要验证的\CTL{}公式以“$E*$”形式模态词开头时，一个更自然的选择是：当该公式在给定的Kripke模型上不满足时不给出反例，而当该公式在给定的Kripke模型上满足时，给出一个证据（witness）来说明该公式可满足的原因\cite{BaierKatoen08}。比如，如果$M,s\models E[\phi_1 U\phi_2]$，那么模型检测工具通常给出一个以$s$为起始状态的有穷路径，使得对于该路径上的最后一个状态$s'$有$M,s'\models\phi_2$，而且对于该路径上的任意其他状态（如果存在）$s''$有$M,s''\models\phi_1$。满足这个条件的路径即为$M,s\models E[\phi_1 U\phi_2]$的证据。
+
+
 \section{相继式演算}
 \section{信息可视化}

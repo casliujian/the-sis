@@ -66,5 +66,63 @@ Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要�
 对于给定的Kripke模型$M$，状态$s$和\CTL{}公式$\phi$，\CTL{}模型检测的验证过程即判断$M,s\models \phi$是否成立。如果要验证的性质在给定的形式化模型上可满足，则输出$True$，否则输出$False$并给出反例来说明性质不满足的原因。对于以“$A*$”形式模态词开头的\CTL{}公式，一个反例指的是一条路径。比如如果$M,s\not\models AF\phi$，那么模型检测工具给出的反例是一条无穷路径，其中对于该无穷路径上的任意状态$s'$都有$M,s'\not\models \phi$。对于以“$E*$”形式模态词开头的\CTL{}公式，一个反例指的是一系列路径。比如如果$M,s\not\models E[\phi_1 U\phi_2]$，那么模型检测工具给出的反例是所有满足以下条件的路径：即以$s$为起始状态，而且如果该路径为有穷路径，那么对于该路径上的最后一个状态$s'$有$M,s'\not\models\phi_1$且$M,s'\not\models\phi_2$，同时对于该路径上的任意其他状态（如果存在）$s''$有$M,s''\models \phi_1$；如果该路径为无穷路径，那么对于该路径上的任意状态$s'$有$M,s'\models \phi_1$且$M,s'\not\models \phi_2$。另外，值得注意的是，当要验证的\CTL{}公式以“$E*$”形式模态词开头时，一个更自然的选择是：当该公式在给定的Kripke模型上不满足时不给出反例，而当该公式在给定的Kripke模型上满足时，给出一个证据（witness）来说明该公式可满足的原因\cite{BaierKatoen08}。比如，如果$M,s\models E[\phi_1 U\phi_2]$，那么模型检测工具通常给出一个以$s$为起始状态的有穷路径，使得对于该路径上的最后一个状态$s'$有$M,s'\models\phi_2$，而且对于该路径上的任意其他状态（如果存在）$s''$有$M,s''\models\phi_1$。满足这个条件的路径即为$M,s\models E[\phi_1 U\phi_2]$的证据。
 
 
-\section{相继式演算}
+\section{相继式演算（Sequent Calculus）}
+在本文中，我们需要用到相继式演算的概念。在数理逻辑与证明论中，相继式演算指的是一系列具有特定形式的证明系统：每个证明判断（proof judgement）包含两部分：上下文（context）和命题（proposition）。在相继式演算中，证明判断被称为相继式（sequent）。例如，在$\Gamma\vdash A$形式的相继式中，命题集合$\Gamma$是上下文，$A$是命题。$\Gamma\vdash A$可非形式化地解释为：若$\Gamma$中所有的命题均为真，那么命题$A$为真。
+在某些相继式演算中，$\vdash$后也可有多个命题，被称为多结论的相继式演算，比如$\Gamma\vdash A_1,...,A_n$，这种形式的相继式可非形式化地解释为：若$\Gamma$中所有命题均为真，那么$A_1,...,A_n$中存在某个为真的命题。在本文中，我们用到的是单结论的相继式演算，即每个相继式中$\vdash$之后只有一个命题。
+
+下面，我们在谓词逻辑中形式化地解释相继式演算的概念。在这之前，我们先介绍谓词逻辑语言、项、命题以及相继式的概念。
+\begin{definition}[谓词逻辑语言]
+	一个谓词逻辑语言$\mathcal{L}$可用一个三元组$(\mathcal{S}, \mathcal{F}, \mathcal{P})$来表示，其中
+	\begin{itemize}
+		\item $\mathcal{S}$是一个非空的有穷集合，集合的元素被称为项的类别（term sort）；
+		\item $\mathcal{F}$是函数符号的集合；
+		\item $\mathcal{P}$是谓词符号的集合。
+	\end{itemize}
+	每个函数符号都有一个元数（arity），用$S$上的一个$(n+1)$-元组来表示；每个谓词符号也具有一个元数，用$S$上的一个$n$-元组来表示。
+	
+\end{definition}
+
+\begin{definition}[项]
+	假设一个谓词逻辑语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，并且令$(\mathcal{V}_s)_{s\in S}$为一系列无穷的变量集合，并由项的类别$s$区分开来。$\mathcal{L}$中项的集合由如下的方式归纳定义：
+		\begin{itemize}
+		\item 对于每个类别$s\in S$，$\mathcal{V}_s$中的每个变量都是具有类别$s$的项；
+		\item 对于每个函数符号$f\in\mathcal{F}$，假设$f$的元数为$(s_1,...,s_n, s')$，那么对于任意$n$个项$t_1,...,t_n$，其中$t_i$的类别为$s_i$，$f(t_1,...,t_n)$是具有类别$s'$的项。
+	\end{itemize}
+\end{definition}
+
+\begin{definition}[命题]
+		假设一个谓词逻辑语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，并且令$(\mathcal{V}_s)_{s\in S}$为一系列无穷的变量集合，并由项的类别$s$区分开来。那么$\mathcal{L}$中基于$(\mathcal{V}_s)_{s\in S}$的命题的集合由如下的方式归纳定义：
+		\begin{itemize}
+			\item 对于每个谓词符号$P\in\mathcal{P}$，假设$P$的元数为$(s_1,...,s_n)$，那么对于任意$n$个项$t_1,...,t_n$，其中$t_i$的类别为$s_i$，$P(t_1,...,t_n)$是一个命题；
+			\item $\top$和$\bot$均为命题；
+			\item 如果$A$是一个命题，那么$\neg A$也是一个命题；
+			\item 如果$A$和$B$均为命题，那么$A\wedge B$、$A\vee B$、$A\Rightarrow B$都是命题；
+			\item 如果$A$是一个命题，且$x$是一个变量，那么$\forall x A$和$\exists x A$均为命题。
+		\end{itemize}
+\end{definition}
+对于一个谓词语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，如果$\mathcal{S}$只包含一个元素，那么$\mathcal{L}$中函数符号和谓词符号的元数可简单地表示为自然数，即参数的个数。
+\begin{definition}[相继式]
+	一个相继式被表示为一个具有$\Gamma\vdash A$形式的二元组，其中$\Gamma$是一个命题的有穷集合，$A$是一个命题。
+\end{definition}
+相继式的证明是基于规则的，相继式演算的证明规则如下。
+\begin{definition}[相继式演算的规则]
+	证明规则如下方框中所示：\\
+%	见图\ref{preliminary:sequent:calculus}
+%	\newline
+%	\begin{figure}
+	\begin{center}
+			\begin{tabular}{|ll|}
+			\hline
+			$$
+			\infer[^{\mbox{$\mathbf{AR}$-{$\mathsf{R_2}$}}}]{\Gamma \vdash AR_{x,y}(\phi_1,\phi_2)(s)}{\vdash (s/x)\phi_1 & \vdash (s/y)\phi_2}$$
+			&
+			$$\infer[^{\mbox{$\mathbf{AR}$-\textsf{merge}}}_{AR_{x,y}(\phi_1,\phi_2)(s)\in \Gamma}]{\Gamma \vdash AR_{x,y}(\phi_1,\phi_2)(s)}{}
+			$$\\
+			\hline
+		\end{tabular}
+	\end{center}
+%	\label{preliminary:sequent:calculus}
+%	\end{figure}
+
+\end{definition}
 \section{信息可视化}

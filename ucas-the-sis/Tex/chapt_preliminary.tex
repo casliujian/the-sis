@@ -99,30 +99,107 @@ Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要�
 			\item 如果$A$和$B$均为命题，那么$A\wedge B$、$A\vee B$、$A\Rightarrow B$都是命题；
 			\item 如果$A$是一个命题，且$x$是一个变量，那么$\forall x A$和$\exists x A$均为命题。
 		\end{itemize}
+	
 \end{definition}
-对于一个谓词语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，如果$\mathcal{S}$只包含一个元素，那么$\mathcal{L}$中函数符号和谓词符号的元数可简单地表示为自然数，即参数的个数。
+在命题中，量词符号$\forall$、$\exists$被用来绑定变量：对于$\forall x A$和$\exists y B$形式的命题，量词$\forall$绑定$A$中自由出现的变量$x$，量词$\exists$绑定$B$中自由出现的变量$y$，而一个变量在命题中自由出现指的是该变量在该命题中不被任何量词绑定。一个命题是闭命题（closed proposition）指的是该命题中不存在自由出现的变量。
+
+%\begin{remark}
+	对于一个谓词语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，如果$\mathcal{S}$只包含一个元素，那么$\mathcal{L}$中函数符号和谓词符号的元数可简单地表示为自然数，即参数的个数。
+%\end{remark}
+
+接下来，我们介绍一种方法来区分可证的命题（比如$\exists x(x=0+1)$）以及不可证的命题（比如$\exists x(0=x+1)$）。在这里，我们将可证的命题的集合利用规则进行归纳定义。命题的可证性是基于相继式的概念，相继式的证明规则如图\ref{preliminary:sequent:calculus}所示。
+
+%命题的证明是基于相继式演算的。
 \begin{definition}[相继式]
 	一个相继式被表示为一个具有$\Gamma\vdash A$形式的二元组，其中$\Gamma$是一个命题的有穷集合，$A$是一个命题。
 \end{definition}
-相继式的证明是基于规则的，相继式演算的证明规则如下。
-\begin{definition}[相继式演算的规则]
-	证明规则如下方框中所示：\\
-%	见图\ref{preliminary:sequent:calculus}
-%	\newline
-%	\begin{figure}
-	\begin{center}
+
+\begin{definition}[相继式的证明]
+	相继式$\Gamma\vdash A$的一个证明是一棵树：根节点被标记为$\Gamma\vdash A$，而且对于这棵树上所有标记为$\Gamma'\vdash B$的节点，如果该节点的所有子节点分别被标记为$\Gamma_1\vdash C_1,...,\Gamma_n\vdash C_n$，那么由相继式的证明规则可以从$\Gamma_1\vdash C_1,...,\Gamma_n\vdash C_n$推导出$\Gamma'\vdash B$；如果标记为$\Gamma'\vdash B$的节点为叶节点，那么$B\in \Gamma'$，或者$B=\top$，或者$B$具有$B_1\vee\neg B_1$形式。
+\end{definition}
+
+\begin{definition}[理论]
+	一个理论指的是一个闭命题的有穷或无穷集合，理论中的每个元素被称为公理。
+\end{definition}
+%下面，我们来说明如何定义一个可证的命题。
+\begin{definition}[可证的命题]
+	一个命题在理论$\mathcal{T}$中是可证的指的是存在$\mathcal{T}$的有穷子集$\Gamma$使得相继式$\Gamma\vdash A$存在一个证明。
+	
+	一个可证的命题也可被称为一个定理。
+\end{definition}
+\begin{figure}[!h]
+	\centering
+		\small
+		\renewcommand\arraystretch{1.7}
 			\begin{tabular}{|ll|}
 			\hline
 			$$
-			\infer[^{\mbox{$\mathbf{AR}$-{$\mathsf{R_2}$}}}]{\Gamma \vdash AR_{x,y}(\phi_1,\phi_2)(s)}{\vdash (s/x)\phi_1 & \vdash (s/y)\phi_2}$$
+			\infer[A\in\Gamma]{\Gamma\vdash A}{}
+			$$
 			&
-			$$\infer[^{\mbox{$\mathbf{AR}$-\textsf{merge}}}_{AR_{x,y}(\phi_1,\phi_2)(s)\in \Gamma}]{\Gamma \vdash AR_{x,y}(\phi_1,\phi_2)(s)}{}
+			$$
+			\infer[\top\mathsf{-intro}]{\Gamma\vdash\top}{}
 			$$\\
+			$$
+			\infer[\bot\mathsf{-elim}]{\Gamma\vdash A}{\Gamma\vdash \bot}
+			$$
+			&
+			$$
+			\infer[\wedge\mathsf{-intro}]{\Gamma\vdash A\wedge B}{\Gamma\vdash A & \Gamma\vdash B}
+			$$\\
+			$$
+			\infer[\wedge\mathsf{-elim}]{\Gamma\vdash A}{\Gamma\vdash A\wedge B}
+			$$
+			&
+			$$
+			\infer[\vee\mathsf{-intro}]{\Gamma\vdash A\vee B}{\Gamma\vdash A}
+			$$\\
+			$$
+			\infer[\vee\mathsf{-intro}]{\Gamma\vdash A\vee B}{\Gamma\vdash B}
+			$$
+			&
+			$$
+			\infer[\vee\mathsf{-elim}]{\Gamma\vdash C}{\Gamma\vdash A\vee B & \Gamma,A\vdash C & \Gamma, B\vdash C}
+			$$\\
+			$$
+			\infer[\Rightarrow\mathsf{-intro}]{\Gamma\vdash A\Rightarrow B}{\Gamma, A\vdash B}
+			$$
+			&
+			$$
+			\infer[\Rightarrow\mathsf{-elim}]{\Gamma\vdash B}{\Gamma\vdash A\Rightarrow B & \Gamma\vdash A}
+			$$\\
+			$$
+			\infer[\neg\mathsf{-intro}]{\Gamma\vdash\neg A}{\Gamma,A\vdash \bot}
+			$$
+			&
+			$$
+			\infer[\neg\mathsf{-elim}]{\Gamma\vdash \bot}{\Gamma\vdash A & \Gamma\vdash \neg A}
+			$$\\
+			$$
+			\infer[{\forall\mathsf{-intro},}\;{x\;\mathsf{not}\;\mathsf{free}\;\mathsf{in}\;\Gamma}]{\Gamma\vdash\forall x A}{\Gamma\vdash A}
+			$$
+			&
+			$$
+			\infer[\forall\mathsf{-elim}]{\Gamma\vdash (t/x)A}{\Gamma\vdash A}
+			$$\\
+			$$
+			\infer[\exists\mathsf{-intro}]{\Gamma\vdash\exists x A}{\Gamma\vdash (t/x)A}
+			$$
+			&
+			$$
+			\infer[\exists\mathsf{-elim,}x\;\mathsf{not}\;\mathsf{free}\;\mathsf{in}\;\Gamma,B]{\Gamma\vdash B}{\Gamma\vdash\exists x A & \Gamma,A\vdash B}
+			$$\\
+			$$
+			\infer[\mathsf{excluded}\;\mathsf{middle}]{\Gamma\vdash A\vee\neg A}{}
+			$$&{}
+			\\
 			\hline
 		\end{tabular}
-	\end{center}
-%	\label{preliminary:sequent:calculus}
-%	\end{figure}
+	\caption{相继式演算的规则}
+	\label{preliminary:sequent:calculus}
+\end{figure}
 
-\end{definition}
 \section{信息可视化}
+信息可视化是一个研究如何利用计算机图形学技术将数据中的抽象信息可视化的研究领域。抽象信息的可视化表达可以用来帮助人们揭示数据的隐匿模式，用来帮助更好地理解和发现数据中的规律。得益于计算机图形学理论的日益成熟以及计算机硬件的飞速发展，信息可视化系统能可视化越来越大的数据集以及越来越复杂的数据结构，并在许多行业中发挥着举足轻重的作用。比如，在知识管理领域，信息可视化系统可以用来研究不同学科领域知识之间的关系和演化\cite{ZHHW16}；在城市交通系统的研究中，信息可视化系统可以将城市的公共交通工具的卫星定位数据进行可视化，以帮助人们研究和改善公共交通的效率\cite{FYL15}。绝大多数信息可视化系统是基于\textsf{OpenGL}的。
+\textsf{OpenGL}，全称Open Graphics Library，是一个跨编程语言并且跨平台的编程接口的标准。在计算机系统中，通常由显卡提供\textsf{OpenGL}的实现。一个典型的基于\textsf{OpenGL}的3D图形的显示过程为：首先，用户程序通过调用\textsf{OpenGL}的绘图\textsf{API}（Application Programming Interface）来定义一组要显示的图形的数据和命令，并将这些数据和命令存储在计算机的主内存（RAM）中；然后，计算机的中央处理器（CPU）会通过CPU时钟将这些数据和命令发送到显卡的显存（VRAM）中，并在图形处理器（GPU）的控制下完成图形的渲染；最后，图形渲染的结果会被存入帧缓冲区中，而帧缓冲区中的帧则最终被发送到计算机的显示器上，并显示出结果。
+

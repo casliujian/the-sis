@@ -1,4 +1,4 @@
-\begin{thebibliography}{92}
+\begin{thebibliography}{94}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \providecommand{\href}[2]{\url{#2}}
@@ -22,6 +22,31 @@ BOUAJJANI A, JONSSON B, NILSSON M, et~al.
 BAIER C, KATOEN J.
 \newblock Principles of model checking\allowbreak[M].
 \newblock USA: {MIT} Press, 2008{\natexlab{a}}.
+
+\bibitem[Emerson\ et~al.(1986)Emerson and Halpern]{EmersonH86}
+EMERSON E~A, HALPERN J~Y.
+\newblock "sometimes" and "not never" revisited: on branching versus linear
+  time temporal logic\allowbreak[J].
+\newblock J. {ACM}, 1986, 33\penalty0 (1): 151--178.
+
+\bibitem[Clarke\ et~al.(2008)Clarke and Emerson]{ClarkeE08}
+CLARKE E~M, EMERSON E~A.
+\newblock Design and synthesis of synchronization skeletons using branching
+  time temporal logic\allowbreak[C]//\allowbreak{}25 Years of Model Checking -
+  History, Achievements, Perspectives.
+\newblock [S.l.: s.n.], 2008: 196--215.
+
+\bibitem[Pnueli(1977)]{Pnueli77}
+PNUELI A.
+\newblock The temporal logic of programs\allowbreak[C]//\allowbreak{}18th
+  Annual Symposium on Foundations of Computer Science, Providence, Rhode
+  Island, USA, 31 October - 1 November 1977.
+\newblock [S.l.: s.n.], 1977: 46--57.
+
+\bibitem[Hennessy\ et~al.(1985)Hennessy and Milner]{HennessyM85}
+HENNESSY M, MILNER R.
+\newblock Algebraic laws for nondeterminism and concurrency\allowbreak[J].
+\newblock J. {ACM}, 1985, 32\penalty0 (1): 137--161.
 
 \bibitem[Cimatti\ et~al.(1999)Cimatti, Clarke, Giunchiglia, and
   Roveri]{CimattiCGR99}
@@ -200,25 +225,17 @@ DOWEK G, JIANG Y.
 \newblock 2013.
 \newblock \url{http://www.lsv.ens-cachan.fr/~dowek/Publi/ctl.pdf}.
 
-\bibitem[Pnueli(1977)]{Pnueli77}
-PNUELI A.
-\newblock The temporal logic of programs\allowbreak[C]//\allowbreak{}18th
-  Annual Symposium on Foundations of Computer Science, Providence, Rhode
-  Island, USA, 31 October - 1 November 1977.
-\newblock [S.l.: s.n.], 1977: 46--57.
+\bibitem[张敏\ et~al.(2016)张敏, 霍朝光, 霍帆帆, and
+  吴郁松]{ZHHW16}
+张敏, 霍朝光, 霍帆帆, et~al.
+\newblock
+  国际信息可视化知识族群：演化、聚类及迁徙研究\allowbreak[J].
+\newblock 情报科学, 2016, 4: 13--17.
 
-\bibitem[Clarke\ et~al.(2008)Clarke and Emerson]{ClarkeE08}
-CLARKE E~M, EMERSON E~A.
-\newblock Design and synthesis of synchronization skeletons using branching
-  time temporal logic\allowbreak[C]//\allowbreak{}25 Years of Model Checking -
-  History, Achievements, Perspectives.
-\newblock [S.l.: s.n.], 2008: 196--215.
-
-\bibitem[Emerson\ et~al.(1986)Emerson and Halpern]{EmersonH86}
-EMERSON E~A, HALPERN J~Y.
-\newblock "sometimes" and "not never" revisited: on branching versus linear
-  time temporal logic\allowbreak[J].
-\newblock J. {ACM}, 1986, 33\penalty0 (1): 151--178.
+\bibitem[冯艳林(2015)]{FYL15}
+冯艳林.
+\newblock 城市道路交通信息可视化及其应用研究\allowbreak[J].
+\newblock 黑龙江科技信息, 2015, 17: 180.
 
 \bibitem[Emerson\ et~al.(1982)Emerson and Clarke]{EmersonC82}
 EMERSON E~A, CLARKE E~M.
@@ -361,18 +378,6 @@ BAJAJ C, KHANDELWAL S, MOORE J, et~al.
   proving\allowbreak[M].
 \newblock [S.l.]: Computer Science Department, University of Texas at Austin,
   2003.
-
-\bibitem[张敏\ et~al.(2016)张敏, 霍朝光, 霍帆帆, and
-  吴郁松]{ZHHW16}
-张敏, 霍朝光, 霍帆帆, et~al.
-\newblock
-  国际信息可视化知识族群：演化、聚类及迁徙研究\allowbreak[J].
-\newblock 情报科学, 2016, 4: 13--17.
-
-\bibitem[冯艳林(2015)]{FYL15}
-冯艳林.
-\newblock 城市道路交通信息可视化及其应用研究\allowbreak[J].
-\newblock 黑龙江科技信息, 2015, 17: 180.
 
 \bibitem[Mathieu\ et~al.(2014)Mathieu, Tommaso, Sebastien, and
   Bastian]{jacomy2014forceatlas2}
@@ -576,5 +581,13 @@ SPENCE R.
 \newblock Information visualization: Design for interaction (2nd
   edition)\allowbreak[M].
 \newblock [S.l.]: Prentice Hall, 2007.
+
+\bibitem[{De Nicola}\ et~al.(1990){De Nicola} and Vaandrager]{NicolaV90}
+{De Nicola} R, VAANDRAGER F~W.
+\newblock Action versus state based logics for transition
+  systems\allowbreak[C]//\allowbreak{}Semantics of Systems of Concurrent
+  Processes, {LITP} Spring School on Theoretical Computer Science, La Roche
+  Posay, France, April 23-27, 1990, Proceedings.
+\newblock [S.l.: s.n.], 1990: 407--419.
 
 \end{thebibliography}

@@ -30,7 +30,7 @@ The compiled mode acts as a proof checker taking a file containing a whole devel
 \tool{Coq}的用户接口的作用是辅助用户编写Vernacular命令，并实时显示\tool{Coq}对命令的解析状态，反过来帮助用户完成余下的命令的编写。目前最常用的\tool{Coq}用户接口为\tool{Proof General}\footnote{\url{https://proofgeneral.github.io}}和\tool{CoqIDE}\footnote{\url{https://github.com/coq/coq/wiki/CoqIde}}。\tool{Proof General}是一个基于Emacs\footnote{\url{https://www.gnu.org/software/emacs/}}的定理证明工具的前端（front end），并提供了一个统一的接口来适配不同的定理证明工具。不同于\tool{Proof General}，\tool{CoqIDE}是一个独立的，专门针对\tool{Coq}的图形用户界面系统。
 在这两个用户接口程序中都可实现\tool{Coq}的交互和编译两种模式的证明。
 
-\subsection{\tool{Coq}对Vernacular命令的解析}
+\subsection{解析Vernacular命令}
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=12cm]{Img/coq_stm.png}
@@ -38,12 +38,18 @@ The compiled mode acts as a proof checker taking a file containing a whole devel
 	\label{coq:stm}
 \end{figure}
 
-无论是交互模式还是编译模式，\tool{Coq}都需要对一系列Vernacular命令进行逐个解析。在\tool{Coq}内部有一个被称为系统状态（system state）的概念，\tool{Coq}将每对每条命令的解析看作为从当前的系统状态到下一个系统状态的迁移，当实现回退操作时，系统需要抛弃当前的状态，而重新从上一个状态开始解析命令。自从8.5版本开始，\tool{Coq}利用有向无环图（Directed Acyclic Graph，简称DAG）来记录系统状态：DAG中的点是系统状态，而点与点之间的有向边则标记为一条命令。\tool{Coq}中操作有向无环图的模块被称为状态处理机（State Transaction Machine，简称STM），在STM中，每条命令的解析是自动的、原子的，即命令解析的中间状态是不可见的。例如，在图\ref{coq:stm}中，STM从系统状态0开始依次处理6条命令，每条命令对应着一条有向边，当处理完所有命令后，状态6变为当前的状态（master指针所指向的状态）。其中，生成状态1、2、6的命令为全局命令（全局有效的定义或声明），而生成状态3、4、5的命令为局部命令（证明当前命题的策略）。
+无论是交互模式还是编译模式，\tool{Coq}都需要对一系列Vernacular命令进行逐个解析。在\tool{Coq}内部有一个被称为系统状态（system state）的概念，\tool{Coq}将每对每条命令的解析看作为从当前的系统状态到下一个系统状态的迁移，当实现回退操作时，系统需要抛弃当前的状态，而重新从上一个状态开始解析命令。自从8.5版本开始，\tool{Coq}利用有向无环图（Directed Acyclic Graph，简称DAG）来记录系统状态：DAG中的点是系统状态，而点与点之间的有向边则标记为一条命令。\tool{Coq}中操作有向无环图的模块被称为状态处理机（State Transaction Machine，简称STM），在STM中，每条命令的解析是自动的、原子的，即命令解析的中间状态是不可见的。
+根据作用域的不同，命令可分为两类：局部命令和全局命令。
+\begin{itemize}
+	\item 局部命令指的是只针对当前的证明起作用的命令。这类命令包括证明策略（证明规则）以及证明处理（开启证明、撤回证明、重启证明、放弃证明、聚焦局部证明、结束证明等）命令。
+	\item 全局命令指的是非局部命令。这类命令有：信息显示、设置环境变量、查询环境变量、加载文件、编译文件、设置加载路径、回溯、退出等。
+\end{itemize}
+例如，在图\ref{coq:stm}中，STM从系统状态0开始依次处理6条命令，每条命令对应着一条有向边，当处理完所有命令后，状态6变为当前的状态（master指针指向的状态）。其中，生成状态1、2、6的命令为全局命令，而生成状态3、4、5的命令为局部命令。
 
 
 
 
-\section{\tool{Coq}中证明树的构造与可视化}
+\section{构造与可视化证明树}
 \tool{Coq}中的证明可以展现成证明树的形式：每个当前需要证明的命题被称为目标（goal），当应用一条规则，而且该命题匹配当前规则的结论，那么利用与命题和规则的结论同样的匹配方式去例化当前规则的假设，从而得到0个或多个命题，这些新生成的命题被成为子目标（subgoal），然后在新生成的命题上利用相同的证明方式去产生更多的子目标，直到无法生成更多的子目标为止。在这种形式的证明中，每个目标可看作证明树中的一个节点，而其子目标则可看作该节点的子节点。在\tool{Coq}中对一个命题的证明过程则可看作一棵证明树的构造过程，在此过程中所应用的规则即证明脚本中的策略。
 
 然而，无论在\tool{Coq}中，还是在其用户接口\tool{Proof General}和\tool{CoqIDE}中，都不存在构造以及保存证明树的机制，因此这种状况给用户在证明过程中增添了一种无形的负担，即需要自行在脑海中想象当前证明树的完整形状。随着证明操作越来越复杂，比如需要回退操作以及在不同子目标之间相互跳转时等，用户所依赖的信息只有\tool{Coq}给出的当前需要证明的命题的信息，而越来越难以建立起完整的证明树的概念。
@@ -69,3 +75,19 @@ The compiled mode acts as a proof checker taking a file containing a whole devel
 
 需要注意的是，如果在图\ref{coqv:overview}中去掉\tool{VMDV}相关的部分，则\tool{Coqv}的功能与\tool{Proof General}和\tool{CoqIDE}一致，即都是作为\tool{Coq}的用户接口。因此，相比于其他针对\tool{Coq}的用户接口，\tool{Coqv}增加了构造证明树，以及将证明树的构造信息发送到\tool{VMDV}以进行可视化的功能。
 
+\subsection{在\tool{Coqv}中构造证明树}
+在上一小节我们提到，\tool{Coqtop}内置了一个XML协议用来与用户接口进行通讯。该XML协议规定了用户接口向\tool{Coqtop}发送的请求以及\tool{Coqtop}发送给用户接口的反馈。
+根据该协议，\tool{Coqv}将要发送的Vernacular命令包装成一个Add请求，其中除了要发送的命令$cmd$之外，一个Add请求还包括当前的系统状态的ID $stateid$以通知STM在当前的状态ID为$stateid$时解析命令$cmd$。如果\tool{Coqtop}成功解析$cmd$命令，则向\tool{Coqv}发送一个反馈，反馈中包括下一个系统状态的ID以及提示信息；如果\tool{Coqtop}解析$cmd$命令失败（即$cmd$有语法错误），也向\tool{Coqv}发送一个反馈，反馈中包含错误信息。
+当\tool{Coqv}完成Add请求的发送并收到\tool{Coqtop}的正面反馈后，\tool{Coqv}会根据发送的命令$cmd$的类型来构造证明树。构造方式如下：
+\begin{itemize}
+	\item 如果$cmd$是一个全局命令，则不更新证明树。这是由于在\tool{Coq}中，一个命题的证明以$Proof.$命令开始，并以$Qed.$结束（当放弃证明的时候以$Admitted.$结束），而且所有这两个命令之间的证明细节对于外部程序是不可见的，只有命题的类型是对外可见的。因此，证明是一个局部的概念，即外部程序只记录命题是否可证，而不记录证明的细节。因此，全局命令无法作用于局部的证明细节，无法影响证明树的构造。
+	\item 如果$cmd$是一个局部命令，那么\tool{Coqv}发送一个Goal请求，然后\tool{Coqtop}会返回所有当前的目标（goal），然后\tool{Coqv}根据接收到的当前目标来对证明树进行构造。
+	对于不同的局部命令，证明树构造的方式也不一样。
+	\begin{itemize}
+		\item 对于证明处理命令，如果$cmd$为$Proof.$，那么将当前要证明的命题作为根节点加入证明树中，并将此节点设为焦点；如果$cmd$为$Qed.$，那么结束证明树的构造；如果$cmd$为其他证明处理命令，则本次接收到的所有目标皆已在证明树中存在，那么将这些目标所对应的节点都设为叶子节点，即删除这些节点的所有后代节点，另外，将接收到的第一个目标对应的节点设为焦点。
+		\item 对于证明策略，将接收到的所有目标都作为当前焦点节点的子节点加入证明树中，并将接收到的第一个目标对应的节点设为焦点。
+	\end{itemize}
+\end{itemize}
+在\tool{Coqv}发送的所有的命令中，只有证明处理命令$Proof.$和证明策略会对应着产生证明树的新节点，前者对应着证明树的初始化，后者对应着证明树的增长。
+
+\subsection{在\tool{VMDV}中可视化证明树}

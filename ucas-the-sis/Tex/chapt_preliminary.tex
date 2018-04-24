@@ -33,7 +33,7 @@
 在Kripke模型$M$中，我们将一条从状态$s$出发的一条无穷序列$\pi=s_0,s_1,...$称为一条\textit{路径}，其中$s=s_0$，而且对于任意$i\ge 0$，都有$s_i\lra s_{i+1}$。
 
 \subsection{性质}
-Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要描述的系统性质类型的不同，模型检测中常用的时序逻辑有线性时序逻辑\textsf{LTL}\cite{Pnueli77}、计算树逻辑\CTL{}\cite{ClarkeE08}以及\textsf{LTL}与\textsf{CTL}的超集\textsf{CTL$^*$}\cite{EmersonH86}。
+Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要描述的系统性质类型的不同，常用的时序逻辑有线性时序逻辑\textsf{LTL}\cite{Pnueli77}、计算树逻辑\CTL{}\cite{ClarkeE08}以及\textsf{LTL}与\textsf{CTL}的超集\textsf{CTL$^*$}\cite{EmersonH86}。
 本文着重介绍计算树逻辑\CTL{}以及基于\CTL{}的扩展。
 %\subsubsection{\textsf{LTL}}
 
@@ -70,9 +70,9 @@ Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要�
 在本文中，我们需要用到相继式演算的概念。在数理逻辑与证明论中，相继式演算指的是一系列具有特定形式的证明系统：每个证明判断（proof judgement）包含两部分：上下文（context）和命题（proposition）。在相继式演算中，证明判断被称为相继式（sequent）。例如，在$\Gamma\vdash A$形式的相继式中，命题集合$\Gamma$是上下文，$A$是命题。$\Gamma\vdash A$可非形式化地解释为：若$\Gamma$中所有的命题均为真，那么命题$A$为真。
 在某些相继式演算中，$\vdash$后也可有多个命题，被称为多结论的相继式演算，比如$\Gamma\vdash A_1,...,A_n$，这种形式的相继式可非形式化地解释为：若$\Gamma$中所有命题均为真，那么$A_1,...,A_n$中存在某个为真的命题。在本文中，我们用到的是单结论的相继式演算，即每个相继式中$\vdash$之后只有一个命题。
 
-下面，我们在谓词逻辑中形式化地解释相继式演算的概念。在这之前，我们先介绍谓词逻辑语言、项、命题以及相继式的概念。
-\begin{definition}[谓词逻辑语言]
-	一个谓词逻辑语言$\mathcal{L}$可用一个三元组$(\mathcal{S}, \mathcal{F}, \mathcal{P})$来表示，其中
+下面，我们在一阶逻辑中形式化地解释相继式演算的概念。在这之前，我们先介绍一阶语言、项、命题以及相继式的概念。
+\begin{definition}[一阶语言]
+	一个一阶语言$\mathcal{L}$可用一个三元组$(\mathcal{S}, \mathcal{F}, \mathcal{P})$来表示，其中
 	\begin{itemize}
 		\item $\mathcal{S}$是一个非空的有穷集合，集合的元素被称为项的类别（term sort）；
 		\item $\mathcal{F}$是函数符号的集合；
@@ -83,7 +83,7 @@ Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要�
 \end{definition}
 
 \begin{definition}[项]
-	假设一个谓词逻辑语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，并且令$(\mathcal{V}_s)_{s\in S}$为一系列无穷的变量集合，并由项的类别$s$区分开来。$\mathcal{L}$中项的集合由如下的方式归纳定义：
+	假设一个一阶语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，并且令$(\mathcal{V}_s)_{s\in S}$为一系列无穷的变量集合，并由项的类别$s$区分开来。$\mathcal{L}$中项的集合由如下的方式归纳定义：
 		\begin{itemize}
 		\item 对于每个类别$s\in S$，$\mathcal{V}_s$中的每个变量都是具有类别$s$的项；
 		\item 对于每个函数符号$f\in\mathcal{F}$，假设$f$的元数为$(s_1,...,s_n, s')$，那么对于任意$n$个项$t_1,...,t_n$，其中$t_i$的类别为$s_i$，$f(t_1,...,t_n)$是具有类别$s'$的项。
@@ -91,7 +91,7 @@ Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要�
 \end{definition}
 
 \begin{definition}[命题]
-		假设一个谓词逻辑语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，并且令$(\mathcal{V}_s)_{s\in S}$为一系列无穷的变量集合，并由项的类别$s$区分开来。那么$\mathcal{L}$中基于$(\mathcal{V}_s)_{s\in S}$的命题的集合由如下的方式归纳定义：
+		假设一个一阶语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，并且令$(\mathcal{V}_s)_{s\in S}$为一系列无穷的变量集合，并由项的类别$s$区分开来。那么$\mathcal{L}$中基于$(\mathcal{V}_s)_{s\in S}$的命题的集合由如下的方式归纳定义：
 		\begin{itemize}
 			\item 对于每个谓词符号$P\in\mathcal{P}$，假设$P$的元数为$(s_1,...,s_n)$，那么对于任意$n$个项$t_1,...,t_n$，其中$t_i$的类别为$s_i$，$P(t_1,...,t_n)$是一个命题；
 			\item $\top$和$\bot$均为命题；
@@ -104,7 +104,7 @@ Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要�
 在命题中，量词符号$\forall$、$\exists$被用来绑定变量：对于$\forall x A$和$\exists y B$形式的命题，量词$\forall$绑定$A$中自由出现的变量$x$，量词$\exists$绑定$B$中自由出现的变量$y$，而一个变量在命题中自由出现指的是该变量在该命题中不被任何量词绑定。一个命题是闭命题（closed proposition）指的是该命题中不存在自由出现的变量。
 
 %\begin{remark}
-	对于一个谓词语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，如果$\mathcal{S}$只包含一个元素，那么$\mathcal{L}$中函数符号和谓词符号的元数可简单地表示为自然数，即参数的个数。
+	对于一个一阶语言$\mathcal{L}=(\mathcal{S}, \mathcal{F}, \mathcal{P})$，如果$\mathcal{S}$只包含一个元素，那么$\mathcal{L}$中函数符号和谓词符号的元数可简单地表示为自然数，即参数的个数。
 %\end{remark}
 
 接下来，我们介绍一种方法来区分可证的命题（比如$\exists x(x=0+1)$）以及不可证的命题（比如$\exists x(0=x+1)$）。在这里，我们将可证的命题的集合利用规则进行归纳定义。命题的可证性是基于相继式的概念，相继式的证明规则如图\ref{preliminary:sequent:calculus}所示。

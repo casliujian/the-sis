@@ -22,12 +22,13 @@
 \subsection{\tool{VMDV}的架构}
 \begin{figure}[!h]
 	\scriptsize
-	%\vspace{2.5cm}
+	
 	\centering
-	\includegraphics[width=12cm]{./Img/architecture.png}
 	\caption{\textsf{VMDV}的架构}
 	%\vspace{-10pt}
 	\label{fig:architecture}
+	\includegraphics[width=12cm]{./Img/architecture.png}
+	
 \end{figure}
 如图\ref{fig:architecture}所示，\tool{VMDV}可同时在多个程序窗口中显示3D图形，在\tool{VMDV}中，每个程序窗口都分别包含一个3D渲染器和一个由多个点和边组成的图。3D渲染器的作用是读入图中的点和边的信息，然后根据布局算法确定点和边的位置，最后在3D空间中将图渲染出来。其中，图中的点和边可以通过接收定理证明器传递的消息来动态的添加、删除以及更改，同时3D渲染器对图的更改进行动态的显示，然后向定理证明器发送反馈消息。在3D渲染器工作的同时，\tool{VMDV}同样接收用户传递的交互消息（键盘或鼠标消息），并及时地在3D渲染器中做出反应。
 
@@ -49,35 +50,39 @@
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=10cm]{Img/phi_prooftreegraph_angles.png}
 	\caption{从不同角度观察图形}
 	\label{vmdv:prooftree:different:angle}
+	\includegraphics[width=10cm]{Img/phi_prooftreegraph_angles.png}
+	
 \end{figure}
 \paragraph{图形选中与高亮}
 通常在一个3D图形中，在需要呈现局部信息（比如公式的结构、Kripke模型中的状态等）时，我们需要用鼠标来选中，从而高亮某个节点，这时就可以观察被选中的节点的详细信息。\tool{VMDV}中的选中与高亮是可在不同的图形中同步进行的，比如当高亮一棵\sctlprov{}的证明树上的节点时，这个节点对应的公式的相关状态也会在显示Kripke模型的图形中高亮出来。 在\tool{VMDV}中，选中节点的操作既可以通过鼠标左键在节点上点击，也可以通过键盘搜索满足相应条件的节点 （如图\ref{vmdv:prooftree:high:different}）。
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=10cm]{Img/high_different.png}
 	\caption{高亮图形的不同部分：(a) 高亮单个节点及其后继；(b) 高亮一棵子树；(c) 高亮一个节点的所有祖先；(d) 高亮所有同一类型的公式的子证明}
 	\label{vmdv:prooftree:high:different}
+	\includegraphics[width=10cm]{Img/high_different.png}
+	
 \end{figure}
 \paragraph{触发自定义操作}
 除了以上介绍的用户操作之外，\tool{VMDV}还提供了一种功能来实现对图形的自定义操作。由于\tool{VMDV}可与不同的定理证明工具适配，因此，在一些常用操作之外，\tool{VMDV}中还应该定义一些与特定的定理证明工具相关的操作，比如在\sctlprov{}中，当高亮证明树上的节点时，状态图上的节点也随之自动高亮；在\tool{Coq}中，当选中证明树上的某个节点时，用户可自行选择是否继续证明该节点上的公式。
 在\tool{VMDV}中实现自定义操作的方式分为两步：第一步，详细定义自定义操作的方式，即对图形的操作；第二步，定义触发自定义操作的方式。在第一步中，我们利用Java语言的面向对象的特性，首先定义一个\code{AssistAffect}抽象类，然后将所有的对图形的操作均包装成\code{AssistAffect}的子类，这样在程序的编译过程中编译器不需要知道图形的操作的细节，而是在运行时按需调用相应的\code{AssistAffect}子类。由此，我们实现了主程序代码与自定义的图形操作代码的分离。在第二步中，我们同样将触发自定义操作的代码与主程序代码分离开来，具体做法是将触发自定义操作的代码定义为实现\tool{Java}接口\code{PopupItem}的类，由类的继承关系可知，所有实现接口\code{PopupItem}的类均可视为弹出菜单项，且可在窗口中通过鼠标右键触发。因此，当点击由鼠标右键触发的弹出菜单项时，相应的自定义操作即可执行（如图\ref{vmdv:prooftree:userdefined}）。
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=10cm]{Img/user_defined_operation}
 	\caption{\tool{VMDV}中的自定义操作}
 	\label{vmdv:prooftree:userdefined}
+	\includegraphics[width=10cm]{Img/user_defined_operation}
+	
 \end{figure}
 \paragraph{节点搜索}
 在\tool{VMDV}中，虽然节点可通过鼠标逐个高亮显示，但这种方式往往效率过低。为了解决这个问题，我们在\tool{VMDV}中增加了节点搜索的功能以实现节点的批量高亮显示。\tool{VMDV}中的节点搜索是通过将每个节点的标签（即所代表的公式的字符串表示）与输入的正则表达式\footnote{\url{https://en.wikipedia.org/wiki/Regular_expression}}进行匹配，然后将匹配成功的节点高亮显示出来。
 （如图\ref{vmdv:prooftree:search}）。
 \begin{figure}
 	\centering
-	\includegraphics[width=10cm]{Img/vmdv_search.png}
 	\caption{\tool{VMDV}中搜索节点}
 	\label{vmdv:prooftree:search}
+	\includegraphics[width=10cm]{Img/vmdv_search.png}
+	
 \end{figure}
 
 \subsection{\tool{VMDV}中3D图形的动态布局算法}
@@ -103,29 +108,33 @@
 	
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=10cm]{Img/river_prooftreegraph_step.png}
 		\caption{过河问题的验证过程}
 		\label{vmdv:river:step}
+		\includegraphics[width=10cm]{Img/river_prooftreegraph_step.png}
+		
 	\end{figure}
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=10cm]{Img/river_prooftreegraph_state_highlight.png}
 		\caption{过河问题中证明树和状态图的高亮显示}
 		\label{vmdv:river:path}
+		\includegraphics[width=10cm]{Img/river_prooftreegraph_state_highlight.png}
+		
 	\end{figure}
 
 	需要注意的是，在\sctlprov{}中，在对不同公式的验证过程中，需要访问的状态个数也往往不同，比如在上述过河问题中，对$EU$公式的验证意味着需要在Kripke模型中寻找一条满足特定条件的路径的过程，因此当对$EU$公式的验证结束并成功之后，相应的状态图中只包含该路径上的节点及其后继。然而，当验证非$EU$的公式，比如$AG$公式时，如果要验证的公式成立，那么\sctlprov{}往往需要访问Kripke模型的所有状态，这时状态图也会相对更大（见图\ref{vmdv:example:ag}），此时，由于$AG$公式的证明树及其状态图往往很大，我们可以利用\tool{VMDV}的局部选中功能，每次观察证明树的时候只观察选中的部分，相应的状态图中也只高亮显示相关的节点（见图\ref{vmdv:example:ag:part}）。
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=10cm]{Img/ag_proof_state.png}
 		\caption{一个$AG$公式的证明树及其状态图}
 		\label{vmdv:example:ag}
+		\includegraphics[width=10cm]{Img/ag_proof_state.png}
+	
 	\end{figure}
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=10cm]{Img/ag_part_detail.png}
 		\caption{证明树的部分选中以及状态图的部分高亮}
 		\label{vmdv:example:ag:part}
+		\includegraphics[width=10cm]{Img/ag_part_detail.png}
+		
 	\end{figure}
 \paragraph{\tool{VMDV}与定理证明工具\tool{Coq}的结合}
 与\sctlprov{}不同，\tool{Coq}中的证明树不是自动生成的，而是由编程人员通过输入证明脚本（Proof Script）来人工干预证明树的产生过程，其中每个证明脚本又包含若干条证明语句。在\tool{Coq}中，每个需要证明的公式被称为一个目标，而该公式的所有前提则被称为该目标的子目标。一个目标的子目标是通过一条证明语句而生成的。
@@ -151,9 +160,10 @@
 该证明脚本所生成的证明树在\tool{VMDV}中可视化如图\ref{vmdv:coq:vis}所示。图中证明树的生成分别由6步完成，分别对应于证明脚本的6个命令。
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=7cm]{Img/coq_example.png}
 	\caption{\tool{Coq}中的一棵证明树的可视化}
 	\label{vmdv:coq:vis}
+	\includegraphics[width=7cm]{Img/coq_example.png}
+	
 \end{figure}
 目前，\tool{Coqv}的开发阶段已完成，目前正在根据\tool{Coq}的不同应用场景进行测试，并逐步完善功能，这也是本论文的其中一项未来工作。
 

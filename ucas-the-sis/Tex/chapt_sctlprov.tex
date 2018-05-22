@@ -5,6 +5,7 @@
 
 \begin{figure}[h]
 	\centering
+	\caption{\sctl{}}\label{workflow}
 	\makebox[0.60\textwidth][c]{%
 		\tiny
 		\begin{tikzpicture}[
@@ -80,7 +81,7 @@
 		\draw[outpt](4.5,1)--(prooftree);
 		\end{tikzpicture}}
 	
-	\caption{\sctl{}}\label{workflow}
+
 \end{figure}
 
 \section{\sctlprov{}的输入语言}
@@ -144,6 +145,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 	
 	\begin{figure}[h!]
 		\centering
+		\caption{进程$A$和进程$B$的一个简单描述}\label{illustrative:mutual}
 		\small
 		\begin{tabular}{p{5.3cm}p{3.8cm}}
 			\begin{verbatim}
@@ -167,11 +169,13 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 			\end{verbatim}
 		\end{tabular}
 		
-		\caption{进程$A$和进程$B$的一个简单描述}\label{illustrative:mutual}
+		
 	\end{figure}
 	
 	\begin{figure}[!h]
 		\centering
+		\caption{输入文件“mutual.model”}
+		\label{fig:mutual}
 		\scriptsize
 		%		\framebox{
 		\begin{boxedverbatim}
@@ -206,8 +210,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 			}
 		\end{boxedverbatim}
 		%	}
-		\caption{输入文件“mutual.model”}
-		\label{fig:mutual}
+		
 	\end{figure}
 	如图\ref{fig:mutual}所示，输入文件"mutual.model"中变量$a$和变量$b$分别指代进程$A$和进程$B$的程序计数器（Program Counter），变量$ini$指代初始状态。本例中要验证的性质为：是否存在程序执行的某个时刻使得两个进程同时进入临界区。利用\sctlprov{}，我们可以在计算机的命令行中输入以下命令来验证该性质。
 	\begin{center}
@@ -273,10 +276,10 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 	如图\ref{fig:visualize:illustrative}所示，\sctlprov{}验证该例子时的输出（证明树和Kripke模型）可由可视化工具\tool{VMDV}（Visualization for Modeling, Demonstration, and Verification）实现三维可视化显示。
 	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=10cm]{./illustrative_example2.png}
 		\caption{进程互斥问题的验证中证明树和模型的可视化}
-		%		\caption{Visualization of the proof tree and the Kripke model in the illustrative example.}
 		\label{fig:visualize:illustrative}
+		\includegraphics[width=10cm]{./illustrative_example2.png}
+		
 	\end{figure}
 	
 	通过对原程序进行修改\cite{Peterson81}，可以使程序满足进程互斥性质，修改后的程序如图\ref{illustrative:mutual:solution}所示。修改后的程序可形式化描述为图\ref{fig:mutual:solution}所示的输入文件。在此输入文件中，变量$x$和变量$y$均为布尔变量，分别指代当前状态下进程$A$和进程$B$是否在运行，而$turn$则表示进程$A$和进程$B$轮流处在临界区内。
@@ -284,6 +287,8 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 	\begin{figure}[!h]
 		\centering
 		\small
+		\caption{修改后的进程互斥程序}
+		\label{illustrative:mutual:solution}
 		\begin{tabular}{p{5.8cm}p{4.8cm}}
 			\begin{verbatim}
 			/* Process A */
@@ -308,16 +313,14 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 			\end{verbatim}
 		\end{tabular}
 		
-		\caption{修改后的进程互斥程序}
-		\label{illustrative:mutual:solution}	
+			
 	\end{figure}
 	
 	\begin{figure}[h!]
 		\centering
 		\scriptsize
-		%		\begin{tabular}{|c|}
-		
-		%		\begin{minipage}{10cm}
+		\caption{输入文件“mutual\_solution.model”}
+		\label{fig:mutual:solution}
 		\begin{boxedverbatim}
 			Model mutual()
 			{
@@ -357,10 +360,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 			}
 			
 		\end{boxedverbatim}
-		%	\end{minipage}
-		%	\end{tabular}
-		\caption{输入文件“mutual\_solution.model”}
-		\label{fig:mutual:solution}
+		
 	\end{figure}
 	
 	%	The verification result of this model would be as follows.
@@ -383,10 +383,9 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 \begin{figure}
 	\centering
-	\includegraphics[width=9cm]{./sca.jpg}
 	\caption{飞机场自我控制区域的划分（以飞行员视角区分左右）}
-	%	\caption{SCA zones, where right and left are relative to the pilot facing the runway, i.e., opposite from the reader point of view \cite{MunozDC04}.}
 	\label{fig:example:sats:sca}
+	\includegraphics[width=9cm]{./sca.jpg}
 \end{figure}
 
 在SATS系统中，整个飞机场区域被称为自我控制区（Self Control Area，简称SCA）。如图\ref{fig:example:sats:sca}所示，该模型将SCA被分为15个子区域：
@@ -575,6 +574,8 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 \begin{figure}[!h]
 	\centering
+	\caption{测试集一中需要验证的性质$P_{01}$至$P_{12}$}
+	\label{fig:properties}
 	{
 		\begin{tabular}{|l|l||l|l|}
 			\hline
@@ -596,8 +597,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 			\hline
 		\end{tabular}
 	}
-	\caption{测试集一中需要验证的性质$P_{01}$至$P_{12}$}
-	\label{fig:properties}
+	
 \end{figure}
 
 \subsubsection{测试集二}
@@ -614,9 +614,8 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 
 \begin{table}[!h]\small
-	%	\begin{tabular}{c c}
-	%\renewcommand{\arraystretch}{1.0}
-	%		\begin{minipage}[b]{0.5\linewidth}
+	\tabcaption{测试集一中5个工具能成功验证的测试用例个数}
+	\label{tabl:solvable}
 	\centering
 	\setlength{\tabcolsep}{1pt}
 	\begin{tabular}{| l | r | r | r | r | r |}
@@ -648,15 +647,12 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 		Sum & 1816(63.1\%) & 2230(77.4\%) & 2880(100\%) & 2880(100\%) & 2862(99.4\%)\\
 		\hline
 	\end{tabular}
-	\tabcaption{测试集一中5个工具能成功验证的测试用例个数}
-	\label{tabl:solvable}
+	
 	\vspace{0.5cm}
 \end{table}
 \begin{table}[!h]\small
-	%	\centering
-	%	\setlength{\tabcolsep}{1pt}
-	%			\centering
-	%			\setlength{\tabcolsep}{1pt}
+\tabcaption{测试集一中\sctl{}相比其他工具占用资源（时间和空间）少的测试用例个数}
+\label{tabl:compare}
 	\centering
 	\setlength{\tabcolsep}{1pt}
 	\begin{tabular}{| l | r | r | r | r |}
@@ -679,215 +675,17 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 		\hline
 	\end{tabular}
 	
-	\tabcaption{测试集一中\sctl{}相比其他工具占用资源（时间和空间）少的测试用例个数}
-	\label{tabl:compare}
+	
 	%		\end{minipage}
 	%	\end{tabular}
 \end{table}
-
-\couic{
-\begin{figure}[h!]\centering
-	%		\begin{subfigure}\centering
-	\begin{tabular}{c}
-		\scriptsize
-		\begin{tikzpicture}[scale=0.7]
-		\begin{axis}[title={\small{CP}},legend pos=north west, 
-		% small,
-		xlabel = {\normalsize Number of state variables},
-		ylabel = {\normalsize Time [seconds]}
-		]
-		\addplot [color=red, mark=x] coordinates
-		{
-			(12,0.011)
-			(24,0.010)
-			(36,0.057)     
-		};
-		\addplot [color=green, mark=triangle] coordinates
-		{
-			(12,6.293)
-			(24,14.648)
-			(36,16.351)
-		};
-		\addplot [color=blue, mark=o] coordinates
-		{
-			(12,1.904)
-			(24,0.714)
-			(36,19.200)
-		};
-		\addplot [color=black,mark=*] coordinates
-		{
-			(12,0.014)
-			(24,2.202)
-			(36,135.202)
-		};
-		\addplot [color=black,mark=square] coordinates
-		{
-			(12,0.018)
-			(24,2.100)
-			(36,130.268)
-		};
-		{\legend{\sctl{},\tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}}
-		\end{axis}
-		\end{tikzpicture}
-		
-	\end{tabular}
-	%		\end{subfigure}
-	%		\begin{subfigure}
-	%			\centering
-	\begin{tabular}{c}
-		\scriptsize
-		\begin{tikzpicture}[scale=0.7]
-		\begin{axis}[title={\small{CSP}},legend pos=north west, 
-		%small,
-		xlabel = {\normalsize Number of state variables},
-		ylabel = {\normalsize Time [seconds]}
-		]
-		\addplot [color=red, mark=x] coordinates
-		{
-			(12,0.006)
-			(16,0.007)
-			(20,0.374)      
-		};
-		\addplot [color=green, mark=triangle] coordinates
-		{
-			(12,4.995)
-			(16,3.997)
-			(20,4.424)
-		};
-		\addplot [color=blue, mark=o] coordinates
-		{
-			(12,20.203)
-			(16,75.741)
-			(20,136.387)
-		};
-		\addplot [color=black,mark=*] coordinates
-		{
-			(12,0.105)
-			(16,2.036)
-			(20,53.195)
-		};
-		\addplot [color=black,mark=square] coordinates
-		{
-			(12,0.107)
-			(16,1.957)
-			(20,49.144)
-		};
-		{\legend{\sctl{},\tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}}
-		\end{axis}
-		\end{tikzpicture}
-	\end{tabular}
-	%		\end{subfigure}
-	
-	\caption{在测试集一上各个工具的平均占用时间}
-	\label{fig:average_time}
-\end{figure}
-
-\begin{figure}[h!]\centering
-	%	\begin{subfigure}\centering
-	\begin{tabular}{c}
-		\scriptsize
-		\begin{tikzpicture}[scale=0.7]
-		\begin{axis}[title={\small{CP}},legend pos=north west, 
-		%small, 
-		ymax=1000,
-		xlabel = {\normalsize Number of state variables},
-		ylabel = {\normalsize Memory [MB]}
-		]
-		\addplot [color=red, mark=x] coordinates
-		{
-			(12,7.845)
-			(24,22.328)
-			(36,42.184)     
-		};
-		\addplot [color=green, mark=triangle] coordinates
-		{
-			(12,10.111)
-			(24,16.547)
-			(36,73.946)
-		};
-		\addplot [color=blue, mark=o] coordinates
-		{
-			(12,322.020)
-			(24,468.169)
-			(36,581.011)
-		};
-		\addplot [color=black,mark=*] coordinates
-		{
-			(12,8.818)
-			(24,42.924)
-			(36,251.364)
-		};
-		\addplot [color=black,mark=square] coordinates
-		{
-			(12,21.013)
-			(24,55.179)
-			(36,256.058)
-		};
-		\legend{\sctl{},\tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}
-		\end{axis}
-		\end{tikzpicture}
-		
-	\end{tabular}
-	%	\end{subfigure}
-	%	\begin{subfigure}
-	%		\centering
-	\begin{tabular}{c}
-		\scriptsize
-		\begin{tikzpicture}[scale=0.7]
-		\begin{axis}[title={\small{CSP}},legend pos=north west, 
-		%small, 
-		ymax=1000,
-		xlabel = {\normalsize Number of state variables},
-		ylabel = {\normalsize Memory [MB]}
-		]
-		\addplot [color=red, mark=x] coordinates
-		{
-			(12,1.984)
-			(16,2.039)
-			(20,3.383)      
-		};
-		\addplot [color=green, mark=triangle] coordinates
-		{
-			(12,10.070)
-			(16,11.449)
-			(20,23.660)
-		};
-		\addplot [color=blue, mark=o] coordinates
-		{
-			(12,322.023)
-			(16,485.081)
-			(20,514.027)
-		};
-		\addplot [color=black,mark=*] coordinates
-		{
-			(12,7.051)
-			(16,29.151)
-			(20,144.974)
-		};
-		\addplot [color=black,mark=square] coordinates
-		{
-			(12,21.168)
-			(16,48.423)
-			(20,157.113)
-		};
-		{\legend{\sctl{},\tool{iProver Modulo}, \verds{}, \nusmv{}, \nuxmv{}}}
-		\end{axis}
-		\end{tikzpicture}
-	\end{tabular}
-	%	\end{subfigure}
-	
-	\caption{在测试集一上各个工具的平均占用内存}
-	\label{fig:average_memory}
-\end{figure}
-}
 
 \paragraph{测试集二的实验结果}
 由表\ref{tabl:solvable:extended}与表\ref{tabl:compare:extended}可知：在测试集二的5760个测试用例中，\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}、\sctlprov{}分别能验证2748（44.7\%）、2226（38.6\%）、728（12.6\%）、736（12.8\%）、4441（77.1\%）个测试用例；同时\sctlprov{}分别在4441（77.1\%）、4438（77.0\%）、4432（76.9\%）、4432（76.9\%）个测试用例上占用时间和空间少于\tool{iProver Modulo}、\verds{}、\nusmv{}、\nuxmv{}。各个工具的时间占用随着状态变量的个数的变化趋势如图\ref{fig:average_time:extended}所示；各个工具占用空间随着状态变量的个数的变化趋势如图\ref{fig:average_memory:extended}所示。
 
 \begin{table}[!h]\small
-	%	\begin{tabular}{c c}
-	%\renewcommand{\arraystretch}{1.0}
-	%		\begin{minipage}[b]{0.55\linewidth}
+\tabcaption{测试集二中5个工具能成功验证的测试用例个数}
+\label{tabl:solvable:extended}
 	\centering
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{| l | r | r | r | r | r |}
@@ -923,19 +721,15 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 		Sum & 2748(47.7\%) & 2226(38.6\%) & 728(12.6\%) & 736(12.8\%) & 4441(77.1\%)\\
 		\hline
 	\end{tabular}
-	\tabcaption{测试集二中5个工具能成功验证的测试用例个数}
-	\label{tabl:solvable:extended}
+	
 	\vspace{0.5cm}
 	%		\end{minipage}
 	%		&
 \end{table}
 
 \begin{table}[h!]\small
-	%\setlength{\tabcolsep}{3pt}
-	%\renewcommand{\arraystretch}{1.0}
-	%		\begin{minipage}[b]{0.45\linewidth}
-	%			\centering
-	%			\setlength{\tabcolsep}{3pt}
+	\tabcaption{测试集二中\sctl{}相比其他工具占用资源（时间和空间）少的测试用例个数}
+\label{tabl:compare:extended}
 	\centering
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{| l | r | r | r | r |}
@@ -969,15 +763,15 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 		Sum & 4441(77.1\%) & 4438(77.0\%) & 4432(76.9\%) & 4432(76.9\%)\\
 		\hline
 	\end{tabular}	
-	\tabcaption{测试集二中\sctl{}相比其他工具占用资源（时间和空间）少的测试用例个数}
-	\label{tabl:compare:extended}
+
 	%		\end{minipage}
 	%	\end{tabular}
 \end{table}
 
 
 \begin{figure}[h!]\centering
-	%	\begin{subfigure}\centering
+\caption{在测试集一、二上各个工具的平均占用时间}
+\label{fig:average_time:extended}
 	\begin{tabular}{c}			
 		\scriptsize
 		\begin{tikzpicture}[scale=0.7]
@@ -1092,15 +886,14 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 		\end{axis}
 		\end{tikzpicture}
 	\end{tabular}
-	%	\end{subfigure}
-	
-	\caption{在测试集一、二上各个工具的平均占用时间}
-	\label{fig:average_time:extended}
 \end{figure}
 
-\begin{figure}[h!]\centering
+\begin{figure}[h!]
+	\caption{在测试集一、二上各个工具的平均占用内存}
+	\label{fig:average_memory:extended}
+	\centering
 	\scriptsize
-	%	\begin{subfigure}\centering
+	
 	\begin{tabular}{c}
 		
 		\begin{tikzpicture}[scale=0.7]
@@ -1154,9 +947,6 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 		\end{tikzpicture}
 		
 	\end{tabular}
-	%	\end{subfigure}
-	%	\begin{subfigure}
-	%		\centering
 	\begin{tabular}{c}
 		\scriptsize
 		\begin{tikzpicture}[scale=0.7]
@@ -1215,47 +1005,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 		\end{axis}
 		\end{tikzpicture}
 	\end{tabular}
-	%	\end{subfigure}
-	
-	\caption{在测试集一、二上各个工具的平均占用内存}
-	\label{fig:average_memory:extended}
 \end{figure}
-
-\couic{
-	\paragraph{测试集三的实验结果}
-	由表\ref{tabl:solvable:larger}可知：在测试集三的2880个测试用例中，\tool{iProver Modulo}、\verds{}、\sctlprov{}分别能验证1146（39.8\%）、352（12.2\%）、1844（64.0\%）个测试用例，然而\nusmv{}与\nuxmv{}无法验证本测试集中的测试用例。
-	\couic{For 2880 test cases in this benchmark, \tool{iProver Modulo} can solve 1146 (39.8\%) cases, \verds{} can solve 352 (12.2\%) cases, \sctl{} can solve 1844 (64.0\%) cases, while neither \nusmv{} nor \nuxmv{} can solve any case.}
-	
-	
-	\begin{table}[h]\small
-		\setlength{\tabcolsep}{3pt}
-		%\renewcommand{\arraystretch}{1.0}
-		\begin{center}
-			\begin{tabular}{| l | r | r | r | r | r |}
-				\hline
-				\textbf{Programs} & \tool{iProver Modulo} & \verds{} &
-				\nusmv{} & \nuxmv{} & \sctl{} \\
-				\hline
-				\code{CP ($b=252$)} & 299(62.3\%) & 216(45.0\%) & 0 & 0 & 371(77.3\%) \\
-				\hline
-				\code{CP ($b=504$)} & 292(60.8\%) & 0 & 0 & 0 & 335(69.8\%)\\
-				\hline
-				\code{CP ($b=1008$)} & 271(56.5\%) & 0 & 0 & 0 & 278(57.9\%)\\
-				
-				\hline
-				\code{CSP ($b=252$)} & 114(23.6\%) & 136(28.3\%) & 0 & 0 & 312(65.0\%) \\
-				\hline
-				\code{CSP ($b=504$)} & 108(22.5\%) & 0 & 0 & 0 & 295(61.5\%) \\
-				\hline
-				\code{CSP ($b=1008$)} & 62(12.9\%) & 0 & 0 & 0 & 253(52.7\%)\\
-				\hline
-				Sum & 1146(39.8\%) & 352(12.2\%) & 0 & 0 & 1844(64.0\%)\\ \hline
-			\end{tabular}
-		\end{center}
-		\tabcaption{测试集三中5个工具能成功验证的测试用例个数}
-		\label{tabl:solvable:larger}
-	\end{table}
-}
 
 \subsubsection{连续 vs. 递归}
 传统的即时模型检测工具通常使用递归算法来进行公式的证明和状态空间的搜索。不同于递归算法，\sctlprov{}的验证算法是连续传递风格（Continuation-Passing Style，简称CPS），CPS的应用可以大大减少栈的操作，从而节省验证所需的时间。为了对比使用连续传递风格的算法和递归算法的效率，我们对比了\sctlprov{}和\sctlprovr{}分别在测试集一、二上的实验数据。其中\sctlprovr{}与\sctlprov{}的唯一不同是使用递归算法来证明公式和搜索状态空间。如表\ref{tabl:cont_vs_rec}所示，\sctlprov{}能成功验证的测试用例个数比\sctlprovr{}多10\%，而且\sctlprov{}在绝大多数能成功运行的测试用例中比\sctlprovr{}所用时间短。如图\ref{fig:average_time:recursive:vs:continuation}所示，随着状态变量数的增加，\sctlprovr{}的平均运行时间多于\sctlprov{}，而且时间的变化幅度更大。
@@ -1263,6 +1013,8 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 {
 	\begin{figure}[h!]\small
+		\tabcaption{在测试集一、二上\sctl{}和\sctlprovr{}的实验数据对比}
+		\label{tabl:cont_vs_rec}
 		\setlength{\tabcolsep}{1pt}
 		\begin{center}
 			\begin{tabular}{| l | r | r | r |}
@@ -1286,14 +1038,13 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 				\hline
 			\end{tabular}
 		\end{center}
-		\tabcaption{在测试集一、二上\sctl{}和\sctlprovr{}的实验数据对比}
-		\label{tabl:cont_vs_rec}
 	\end{figure}
 }
 
 
 \begin{figure}[h!]\centering
-	%	\begin{subfigure}\centering
+\caption{\sctl{}和\sctlprovr{}平均运行时间}
+\label{fig:average_time:recursive:vs:continuation}
 	\begin{tabular}{c}
 		\scriptsize
 		\begin{tikzpicture}[scale=0.7]
@@ -1366,8 +1117,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 	\end{tabular}
 	%	\end{subfigure}
 	
-	\caption{\sctl{}和\sctlprovr{}平均运行时间}
-	\label{fig:average_time:recursive:vs:continuation}
+	
 \end{figure}
 
 
@@ -1394,8 +1144,8 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 \begin{table}[h!]
 	\small
-	%\setlength{\tabcolsep}{3pt}
-	%\renewcommand{\arraystretch}{1.0}
+	\figcaption{互斥算法的性质}
+	\label{tabl:mutual:properties}
 	\begin{center}
 		\begin{tabular}{| l | l |}
 			\hline
@@ -1414,8 +1164,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 			\hline
 		\end{tabular}
 	\end{center}
-	\figcaption{互斥算法的性质}
-	\label{tabl:mutual:properties}
+
 \end{table}
 
 每个环算法包含$n$个进程，$n$个进程的调度方式如下：对于$1\le i\le n-1$，进程$i$的内部状态由进程$i-1$的输出决定，进程$0$的内部状态由进程$n-1$的输出决定；每个进程的输出取决于它的内部状态；每个进程的内部状态由5个布尔变量的值表示；每个进程的输出由1个布尔变量表示。
@@ -1425,8 +1174,8 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 \begin{table}[h!]
 	\small
-	%\setlength{\tabcolsep}{3pt}
-	%\renewcommand{\arraystretch}{1.0}
+	\figcaption{环算法的性质}
+	\label{tabl:ring:properties}
 	\begin{center}
 		\begin{tabular}{| l | l |}
 			\hline
@@ -1443,8 +1192,7 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 			\hline
 		\end{tabular}
 	\end{center}
-	\figcaption{环算法的性质}
-	\label{tabl:ring:properties}
+
 \end{table}
 
 %	The experimental results are shown in Table~\ref{tabl:solvable:mutual:ring}, \ref{tabl:compare:mutual:ring}, and \ref{tabl:data:mutual:ring}. 
@@ -1460,10 +1208,8 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 
 \begin{figure}[h!]
 	\small
-	%\setlength{\tabcolsep}{3pt}
-	%\renewcommand{\arraystretch}{1.0}
-	%	\begin{tabular}{c c}
-	%		\begin{minipage}[b]{0.45\linewidth}
+	\tabcaption{测试集三中各个工具能成功验证的测试用例的个数}
+	\label{tabl:solvable:mutual:ring}
 	\centering
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{| l | r | r | r | r |}
@@ -1477,15 +1223,13 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 		总和 & 152(58.0\%) & 71(27.1\%) & 71(27.1\%) & 211 (80.5\%)\\
 		\hline
 	\end{tabular}	
-	\tabcaption{测试集三中各个工具能成功验证的测试用例的个数}
-	\label{tabl:solvable:mutual:ring}
+	
 	\vspace{0.5cm}
 \end{figure}
 \begin{figure}[h!]
 	\small
-	%\scriptsize
-	%			\centering
-	%			\setlength{\tabcolsep}{3pt}
+\tabcaption{测试集三中\sctl{}占用资源更少的的测试用例的个数}
+\label{tabl:compare:mutual:ring}
 	\centering
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{| l | r | r | r |}
@@ -1499,10 +1243,6 @@ Such kinf of a input language can be used in the modeling of complex systems suc
 		总和 & 200(76.3\%) & 211(80.5\%) & 211(80.5\%) \\
 		\hline
 	\end{tabular}
-	\tabcaption{测试集三中\sctl{}占用资源更少的的测试用例的个数}
-	\label{tabl:compare:mutual:ring}
-	%		\end{minipage}
-	%	\end{tabular}
 \end{figure}
 
 \subsection{工业级测试用例的验证}	\label{subsc:vlts}
@@ -1566,6 +1306,8 @@ $$EF_x(EG_y(Q(y))(x))((s_0,\cdot))$$
 \begin{figure}[h!]
 	\small
 	\centering
+	\tabcaption{测试集四中\sctlprov{}相比\CADP{}用时短以及占用内存少的测试用例的个数}
+	\label{tabl:vlts}
 	\begin{tabular}{ | l | c | c | }
 		\hline
 		\textbf{性质} & t(\sctlprov) $<$ t(\CADP{}) & m(\sctlprov) $<$ m(\CADP{})\\\hline
@@ -1573,9 +1315,6 @@ $$EF_x(EG_y(Q(y))(x))((s_0,\cdot))$$
 		\code{活锁} & 22 (55.0\%) & 6 (15.0\%)\\\hline
 		%\hline
 	\end{tabular}
-	
-	\tabcaption{测试集四中\sctlprov{}相比\CADP{}用时短以及占用内存少的测试用例的个数}
-	\label{tabl:vlts}
 \end{figure}
 
 

@@ -1,6 +1,7 @@
 \chapter{预备知识}\label{chapt:preliminary}
 本章介绍的是本文中用到的一些相关的预备知识。
-\section{模型检测的一般流程}
+\section{模型检测}
+\subsection{模型检测的一般流程}
 如图\ref{modelchecking:overview}所示，利用模型检测方法来对计算机软硬件系统进行形式化验证的一般流程可总结为：
 \begin{enumerate}
 	\item 针对要验证的软硬件系统建立一个形式化模型；
@@ -11,9 +12,10 @@
 %在完成这两步之后，则需要利用计算机算法来判断所描述的性质在给出的形式化模型上是否可满足。
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=12cm]{Img/model_checking_overview.png}
 	\caption{模型检测流程}
 	\label{modelchecking:overview}
+	\includegraphics[width=12cm]{Img/model_checking_overview.png}
+	
 \end{figure}
 \subsection{形式化模型}
 在模型检测中，要验证软硬件系统的性质，首先必须针对该系统建立一个形式化模型。在这里，一个形式化模型通常指的是一个Kripke模型。模型检测中的经典的Kripke模型的定义如下：
@@ -130,6 +132,8 @@ Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要�
 \begin{figure}[!h]
 	\centering
 		\small
+		\caption{相继式演算的规则}
+		\label{preliminary:sequent:calculus}
 		\renewcommand\arraystretch{1.7}
 			\begin{tabular}{|ll|}
 			\hline
@@ -195,8 +199,7 @@ Kripke模型的性质通常用时序逻辑公式来表示，而根据所需要�
 			\\
 			\hline
 		\end{tabular}
-	\caption{相继式演算的规则}
-	\label{preliminary:sequent:calculus}
+	
 \end{figure}
 
 \section{信息可视化}

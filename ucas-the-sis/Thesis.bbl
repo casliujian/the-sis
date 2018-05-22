@@ -48,6 +48,14 @@ HENNESSY M, MILNER R.
 \newblock Algebraic laws for nondeterminism and concurrency\allowbreak[J].
 \newblock J. {ACM}, 1985, 32\penalty0 (1): 137--161.
 
+\bibitem[{De Nicola}\ et~al.(1990){De Nicola} and Vaandrager]{NicolaV90}
+{De Nicola} R, VAANDRAGER F~W.
+\newblock Action versus state based logics for transition
+  systems\allowbreak[C]//\allowbreak{}Semantics of Systems of Concurrent
+  Processes, {LITP} Spring School on Theoretical Computer Science, La Roche
+  Posay, France, April 23-27, 1990, Proceedings.
+\newblock [S.l.: s.n.], 1990: 407--419.
+
 \bibitem[Cimatti\ et~al.(1999)Cimatti, Clarke, Giunchiglia, and
   Roveri]{CimattiCGR99}
 CIMATTI A, CLARKE E~M, GIUNCHIGLIA F, et~al.
@@ -581,13 +589,5 @@ SPENCE R.
 \newblock Information visualization: Design for interaction (2nd
   edition)\allowbreak[M].
 \newblock [S.l.]: Prentice Hall, 2007.
-
-\bibitem[{De Nicola}\ et~al.(1990){De Nicola} and Vaandrager]{NicolaV90}
-{De Nicola} R, VAANDRAGER F~W.
-\newblock Action versus state based logics for transition
-  systems\allowbreak[C]//\allowbreak{}Semantics of Systems of Concurrent
-  Processes, {LITP} Spring School on Theoretical Computer Science, La Roche
-  Posay, France, April 23-27, 1990, Proceedings.
-\newblock [S.l.: s.n.], 1990: 407--419.
 
 \end{thebibliography}

@@ -87,8 +87,9 @@
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=10cm]{uv}
 		\caption{无人车可能的所在位置}\label{fig:uv}
+		\includegraphics[width=10cm]{uv}
+		
 	\end{figure}
 	
 \end{example}
@@ -197,6 +198,7 @@ on the left.
 \begin{figure}[h!]
 	\small
 	\centering
+	\caption{\sctlm{}}\label{sctl_rules} 
 	\noindent\framebox{\parbox{.98\textwidth}{\hspace*{-0.3cm}
 			$$
 			\infer[^{\mbox{atom-\textsf{R}}}_{\langle s_1,...,s_n\rangle \in P}]{\vdash P(s_1,...,s_n)}{}
@@ -254,7 +256,7 @@ on the left.
 			
 			
 	}}
-	\caption{\label{sctl_rules} \sctlm{}}
+
 \end{figure}
 \section{\SCTL{}的可靠性与完备性}\label{sound:complete}
 %\SCTL{}证明系统的可靠性与完备性是基于kripke模型的有穷性。具体证明如下：
@@ -509,6 +511,8 @@ on the left.
 	
 	\begin{figure}[h!]
 		\centering
+		\caption{一个重写\textsf{CPT}的例子}
+		\label{fig:cpt:rewriting}
 		\footnotesize
 		\noindent\framebox{\parbox{.90\textwidth}{\hspace*{-0.1cm}
 				
@@ -530,8 +534,7 @@ on the left.
 				$
 				
 		}}
-		\caption{一个重写\textsf{CPT}的例子}
-		\label{fig:cpt:rewriting}
+
 	\end{figure}
 	下边我们分别解释图\ref{fig:cpt:rewriting}中的每一步重写。
 	\begin{enumerate}
@@ -548,6 +551,7 @@ on the left.
 \begin{figure}[t]
 	\footnotesize
 	\centering
+	\caption{\textsf{CPT}的重写规则}\label{fig:rewriting}
 	\begin{tabular}{|ll|}
 		\hline
 		\multicolumn{2}{|l|}{$\textsf{cpt}(\vdash\top, c_1, c_2)\rsa c_1$ ~~~ $\textsf{cpt}(\vdash\bot, c_1, c_2)\rsa c_2$}
@@ -594,7 +598,7 @@ on the left.
 		\multicolumn{2}{|l|}{$ \textsf{cpt}(\vdash(s/y)\phi_2, c_1, \textsf{cpt}(\vdash(s/x)\phi_1,\textsf{cpt}(\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_1), c_1, \textsf{cpt}(...\textsf{cpt}(\Gamma'\vdash EU_{x,y}(\phi_1,\phi_2)(s_n),$}\\
 		\multicolumn{2}{|l|}{$ c_1, c_2)...)), c_2))~~~~\left[\{s_1,...,s_n\}=\textsf{Next}(s), EU_{x,y}(\phi_1,\phi_2)(s)\notin \Gamma, \textup{ and } \Gamma'=\Gamma, EU_{x,y}(\phi_1,\phi_2)(s)\right]$} \\ \hline
 	\end{tabular}
-	\caption{\textsf{CPT}的重写规则}\label{fig:rewriting}
+	
 \end{figure}
 
 \subsection{证明搜索策略的可终止性}
@@ -1045,7 +1049,8 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 		在该模型中，我们考虑公式$EG_x(P(x))(s_0)$的验证，为了验证该公式，我们需要重写\CPT{} $\textsf{cpt}(\vdash EG_x(P(x))(s_0), \mathfrak{t},\mathfrak{f})$。设在集合$\textsf{Next}(s_0)$中，对状态$s_{1,1}$的搜索在状态$s_{2,0}$之前；对于任意的$0\le i\le n-1$，在集合$\textsf{Next}(s_{2,i})$中，对状态$s_{1,1}$的搜索在状态$s_{2,i+1}$之前。重写步骤如图\ref{example:globalmerge:fig}所示，其中，令{$$\Gamma_0=\{EG_{x}(P(x))(s_0)\},$$} {$$ \Gamma_{1,i}=\{EG_x(P(x))(s_0), EG_x(P(x))(s_{1,1}),\ldots,EG_x(P(x))(s_{1,i})\},$$} 以及 {$$\Gamma_{2,i}=\{EG_x(P(x))(s_0), EG_x(P(x))(s_{2,0}),\ldots,\\EG_x(P(x))(s_{2,i})\}$$}
 		\begin{figure}[h!]
 			\centering
-			
+			\caption{$\textsf{cpt}(\vdash EG_x(P(x))(s_0),\mathfrak{t},\mathfrak{f})$的重写步骤}
+			\label{example:globalmerge:fig}
 			\begin{tabular}{|l|}
 				\hline
 				$
@@ -1067,8 +1072,7 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 				$\mathfrak{t}$\\
 				\hline
 			\end{tabular}
-			\caption{$\textsf{cpt}(\vdash EG_x(P(x))(s_0),\mathfrak{t},\mathfrak{f})$的重写步骤}
-			\label{example:globalmerge:fig}
+
 		\end{figure}
 		
 		在图\ref{example:globalmerge:fig}中，在重写$\textsf{cpt}(\Gamma_{2,0}\vdash EG_x(P(x))(s_{2,1}), \mathfrak{t},\mathfrak{f})$之前，路径$\pi = s_{1,1},s_{1,2},...,s_{1,n}$上的所有的状态都已被访问过一遍。而且，对于任意$0\le i\le n-1$，在每次重写$\textsf{cpt}(\Gamma_{2,i}\vdash EG_x(P(x))(s_{2,i+1}), \mathfrak{t},\mathfrak{f})$之前，$\pi$上的所有状态都会重新被访问一遍。
@@ -1090,6 +1094,8 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 \begin{figure}[h!]
 	\footnotesize
 	\centering
+		\caption{证明搜索策略的伪代码}
+	\label{appendix:algorithm:main}
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			%			\hspace{0.7cm}\textbf{Global variables:} \\
 			
@@ -1134,8 +1140,7 @@ repeatedly rewriting steps on \textsf{CPT}s. Thanks to an anonymous referee, we 
 				\EndFunction
 			\end{algorithmic}
 	}}
-	\caption{证明搜索策略的伪代码}
-	\label{appendix:algorithm:main}
+
 \end{figure}
 在解释该伪代码之前，我们需要介绍\textit{公式模式}的概念：
 对于以模态词$AF$、$EG$、$AR$、$EU$开头的公式$\phi$，用$\_$来代替$\phi$中的常量后得到即为$\phi$的公式模式$\phi^-$。比如，$EU_{x,y}(\phi_1,\phi_2)(s)$的模式为$EU_{x,y}(\phi_1,\phi_2)(\_)$；$AF_x(\phi')(s')$的模式为$AF_x(\phi')(\_)$。一个公式的模式可以看作是当前公式中状态常量的上下文。
@@ -1158,6 +1163,8 @@ $\mathsf{c}$是当前需要被重写的\textsf{CPT}；$\mathsf{pt}$和$\mathsf{c
 \subsubsection{$\mathsf{ProveAnd}$和$\mathsf{ProveOr}$}
 \begin{figure}[h!]\footnotesize
 	\centering
+		\caption{$\mathsf{ProveAnd (\vdash\phi_1\wedge\phi_2})$}
+	\label{algorithm:and}
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
 				\State let $\mathsf{A_{12}=A_1\cup\{\mathsf{ac}(pt, \vdash\phi_1\wedge\phi_2,\{\vdash\phi_1,\vdash\phi_2\})\})\}}$
@@ -1168,8 +1175,7 @@ $\mathsf{c}$是当前需要被重写的\textsf{CPT}；$\mathsf{pt}$和$\mathsf{c
 			\end{algorithmic}
 			
 	}}
-	\caption{$\mathsf{ProveAnd (\vdash\phi_1\wedge\phi_2})$}
-	\label{algorithm:and}
+
 \end{figure}
 该伪代码中合取公式的证明搜索如图\ref{algorithm:and}所示，其中$\mathsf{ac (t, parent, children)}$表示将$\mathsf{children}$的每个元素都作为证明树$\mathsf{t}$上$\mathsf{parent}$的子节点。$\mathsf{ProveAnd}$的解释如下：
 
@@ -1182,6 +1188,8 @@ $\mathsf{c}$是当前需要被重写的\textsf{CPT}；$\mathsf{pt}$和$\mathsf{c
 $\mathsf{ProveOr}$是$\mathsf{ProveAnd}$的对偶情况，伪代码细节如图\ref{algorithm:or}所示。
 \begin{figure}[h!]\footnotesize
 	\centering
+		\caption{$\mathsf{ProveOr (\vdash\phi_1\vee\phi_2)}$}
+	\label{algorithm:or}
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
 				\State let $\mathsf{A_{22}=A_2\cup\{\mathsf{ac}(ce, \vdash\phi_1\vee\phi_2,\{\vdash\phi_1,\vdash\phi_2\})\})\}}$
@@ -1192,8 +1200,7 @@ $\mathsf{ProveOr}$是$\mathsf{ProveAnd}$的对偶情况，伪代码细节如图\
 				
 			\end{algorithmic}
 	}}
-	\caption{$\mathsf{ProveOr (\vdash\phi_1\vee\phi_2)}$}
-	\label{algorithm:or}
+
 \end{figure}
 
 
@@ -1202,6 +1209,8 @@ $\mathsf{ProveOr}$是$\mathsf{ProveAnd}$的对偶情况，伪代码细节如图\
 
 \begin{figure}[h!]\footnotesize
 	\centering
+		\caption{$\mathsf{ProveEX (\vdash EX_x(\phi_1)(s))}$}
+	\label{algorithm:ex}
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
 				\State \textit{/* For notation purpose, here we refer ``k'' to $\mathit{EX_x(\phi_1)(\_)}$, and ``k(s)'' to $\mathit{EX_x(\phi_1)(s)}$.*/}
@@ -1213,8 +1222,7 @@ $\mathsf{ProveOr}$是$\mathsf{ProveAnd}$的对偶情况，伪代码细节如图\
 				
 			\end{algorithmic}
 	}}
-	\caption{$\mathsf{ProveEX (\vdash EX_x(\phi_1)(s))}$}
-	\label{algorithm:ex}
+
 \end{figure}
 $\mathsf{ProveEX}$的伪代码细节如图\ref{algorithm:ex}所示，其中令$\{s_1,...,s_n\}=\textsf{Next}(s)$。$\mathsf{ProveEX}$ 与 $\mathsf{ProveAnd}$的分析过程类似，不同点在于第4、5行，当$\mathsf{c'}$重写到第$i$个$\mathsf{c_1}$的时候，$\mathsf{\vdash (s_i/x)\phi_1}$应该作为$\mathsf{\vdash EX_x(\phi_1)(s)}$的子节点被加入到证明树中（第3行）；相反，当$\mathsf{c'}$重写到$\mathsf{c_2}$的时候，$\mathsf{\vdash (s_1/x)\phi_1}, ... , \mathsf{\vdash (s_n/x)\phi_1}$ 都应该作为$\mathsf{\vdash EX_x(\phi_1)(s)}$的子节点被加入到反例中（第2行）。
 
@@ -1223,6 +1231,8 @@ $\mathsf{ProveEX}$的伪代码细节如图\ref{algorithm:ex}所示，其中令$\
 $\mathsf{ProveAX}$是$\mathsf{ProveEX}$的对偶情况，伪代码细节如图\ref{algorithm:ax}所示。
 \begin{figure}[h!]\footnotesize
 	\centering
+		\caption{$\mathsf{ProveAX (\vdash AX_x(\phi_1)(s))}$}
+	\label{algorithm:ax}
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
 			\begin{algorithmic}[1]
 				\State /*\textit{For notation purpose, here we refer ``k'' to $\mathit{AX_x(\phi_1)(\_)}$, and ``k(s)'' to $\mathit{AX_x(\phi_1)(s)}$.*/}
@@ -1234,12 +1244,12 @@ $\mathsf{ProveAX}$是$\mathsf{ProveEX}$的对偶情况，伪代码细节如图\r
 				
 			\end{algorithmic}
 	}}
-	\caption{$\mathsf{ProveAX (\vdash AX_x(\phi_1)(s))}$}
-	\label{algorithm:ax}
+
 \end{figure}
 
-\subsubsection{$\mathsf{ProveEG}$ and $\mathsf{ProveAF}$}
+\subsubsection{$\mathsf{ProveEG}$ 和 $\mathsf{ProveAF}$}
 
+\couic{
 \begin{figure}[h!]\footnotesize
 	\centering
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
@@ -1276,7 +1286,41 @@ $\mathsf{ProveAX}$是$\mathsf{ProveEX}$的对偶情况，伪代码细节如图\r
 	\caption{$\mathsf{ProveEG (}\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s))}$ }
 	\label{algorithm:eg}
 \end{figure}
+}
 
+	\begin{figure}[h!]\footnotesize
+		\centering
+		\caption{$\mathsf{ProveEG (}\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s))}$}
+		\label{algorithm:eg}
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{EG_x(\phi_1)(\_)}$ and
+				\State \textit{``k(s)'' to $\mathit{EG_x(\phi_1)(s)}$.*/}
+				\If{$\mathsf{s\in M^f_k}$}
+				\State $\mathsf{c:=c_2^{A_2}}$
+				
+				\ElsIf{$\mathsf{s\in M^t_k}$ or $\mathsf{k(s)\in }\;\Gamma$}
+				\State $\mathsf{c:=c_1^{A_1}}$
+				\State $\mathsf{M^t_k := M^t_k \cup \mathsf{states}(}\Gamma\mathsf{)}$
+				\Else 
+				\State let $\mathsf{A_{20}=A_2\cup\{ac(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1\})\}}$
+				\State let $\mathsf{A_{2n}=A_2\cup\{ac(ce,}\;\Gamma\;\mathsf{\vdash k(s),\{}\Gamma'\;\mathsf{\vdash k(s_1),...,}\;\Gamma'\;\mathsf{\vdash k(s_n)\})\}}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$, let 
+				\State ~~~~$\mathsf{A_{1i}=A_1\cup\{ac(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1,}\; \Gamma'\;\mathsf{\vdash k(s_i)\})\}}$
+				\State $\mathsf{A_{20}:=A_{20} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$;
+				\State $\mathsf{A_{2n}:=A_{2n} \cup \{M^f_k:= M^f_k\cup \{s\}\}}$;
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1, \textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_1), c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}$
+				\State $~~~~\Gamma'\;\mathsf{\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}})}$
+				\State $\mathsf{c := c'}$
+				
+				\EndIf
+				
+			\end{algorithmic}
+	}}
+
+\end{figure}
+
+\couic{
 \begin{figure}[h!]\footnotesize
 	\centering
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
@@ -1311,7 +1355,41 @@ $\mathsf{ProveAX}$是$\mathsf{ProveEX}$的对偶情况，伪代码细节如图\r
 	\caption{$\mathsf{ProveAF (}\Gamma\;\mathsf{\vdash AF_x(\phi_1)(s))}$}
 	\label{algorithm:af}
 \end{figure}
+}
 
+\begin{figure}[h!]\footnotesize
+	\centering
+	\caption{$\mathsf{ProveAF (}\Gamma\;\mathsf{\vdash AF_x(\phi_1)(s))}$}
+	\label{algorithm:af}
+	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{AF_x(\phi_1)(\_)}$ and
+				\State \textit{``k(s)'' to $\mathit{AF_x(\phi_1)(s)}$.*/}
+				\If{$\mathsf{s\in M^t_k}$}
+				\State $\mathsf{c:=c_1^{A_1}}$
+				
+				\ElsIf{$\mathsf{s\in M^f_k}$ or $\mathsf{k(s)\in }\;\Gamma$}
+				\State $\mathsf{c:=c_2^{A_2}}$
+				\State $\mathsf{M^f_k := M^f_k \cup \mathsf{states}(}\Gamma\;\mathsf{)}$
+				\Else 
+				\State let $\mathsf{A_{10}=A_1\cup\{ac(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1\})\})\}}$
+				\State let $\mathsf{A_{1n}=A_1\cup\{ac(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{}\Gamma'\;\mathsf{\vdash k(s_1),...,}\;\Gamma'\;\mathsf{\vdash k(s_n)\})\}}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$, let
+				\State~~~~ $\mathsf{A_{2i}=A_2\cup\{ac(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1,}\; \Gamma'\;\mathsf{\vdash k(s_i)\})\}}$
+				\State $\mathsf{A_{10}:=A_{10} \cup \{M^t_k:= M^t_k\cup \{s\}\}}$
+				\State $\mathsf{A_{1n}:=A_{1n} \cup \{M^t_k:= M^t_k\cup  \{s\}\}}$;
+				\State let $\mathsf{c'= \textsf{cpt}^{\emptyset}(\vdash(s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^{\emptyset}(}\Gamma'\;\mathsf{\vdash k(s_1), \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}$
+				\State $~~~~\Gamma'\;\mathsf{\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}}))}$
+				\State $\mathsf{c := c'}$
+				
+				\EndIf
+				
+			\end{algorithmic}
+	}}
+	
+\end{figure}
+
+\couic{
 $\mathsf{ProveEG}$的伪代码细节如图\ref{algorithm:eg}所示，其中，$\mathsf{states(\Gamma)}$表示$\mathsf{\Gamma}$中出现的状态，并且令$\{s_1,...,s_n\}=\textsf{Next}(s)$。
 $\mathsf{ProveEG}$的解释如下：
 \begin{itemize}
@@ -1327,13 +1405,30 @@ $\mathsf{ProveEG}$的解释如下：
 	\end{enumerate}
 	\item 第22行：将$\mathsf{c}$重写到$\mathsf{c'}$。
 \end{itemize}
+}
 
+$\mathsf{ProveEG}$的伪代码细节如图\ref{algorithm:eg}所示，其中，$\mathsf{states(\Gamma)}$表示$\mathsf{\Gamma}$中出现的状态，并且令$\{s_1,...,s_n\}=\textsf{Next}(s)$，$\mathsf{\Gamma'=\Gamma,EG_x(\phi_1)(s)}$。
+$\mathsf{ProveEG}$的解释如下：
+
+\begin{itemize}
+	\item 第3、4行： 如果已知$\mathsf{EG_x(\phi_1)(s)}$是不可证的，那么将$\mathsf{c}$重写到$\mathsf{c_2}$。
+	\item 第5 -- 7行：如果已知$\mathsf{EG_x(\phi_1)(s)}$是可证的，或者可应用merge规则，那么将$\mathsf{c}$重写到$\mathsf{c_1}$，同时，由于${\Gamma}$中的每个公式都是可证的，因此将${\Gamma}$中出现的所有状态加入到$\mathsf{M_{EG_x(\phi_1)(\_)}^t}$中。
+	\item 第15--16行： \textsf{CPT} $\mathsf{c'}$的构造方式如下：
+	\begin{enumerate}
+		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash(s/x)\phi_1}$是不可证的，因此将$\mathsf{\vdash(s/x)\phi_1}$作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加到反例中（第9行）。同时，如果 $\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$ 是不可证的，那么不存在以$s$开头的无穷路径使得该路径上的所有状态都满足$\phi_1$，在这种情况下，我们将$s$加入到 $\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中（第13行）。
+		
+		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_1)}, ... , \Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_n)}$都是不可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加入到反例中（第10行）。同时，$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$是不可证的，因此将$s$加入到$\mathsf{M_{EG_x(\phi_1)(\_)}^f}$中（第14行）。
+		\item 如果$\mathsf{c'}$重写到第$i$个$\mathsf{c_1}$，那么$\mathsf{\vdash(s/x)\phi_1}$和$\Gamma'\;\mathsf{\vdash EG_x(\phi_1)(s_i)}$都是可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EG_x(\phi_1)(s)}$的子节点加入到证明树中（第11、12行）。 
+	\end{enumerate}
+	\item 第17行：将$\mathsf{c}$重写到$\mathsf{c'}$。
+\end{itemize}
 
 $\mathsf{ProveAF}$是$\mathsf{ProveEG}$的对偶情况，伪代码细节如图\ref{algorithm:af}所示。
 
 
 \subsubsection{$\mathsf{ProveEU}$和$\mathsf{ProveAR}$}
 
+\couic{
 \begin{figure}[h!]\footnotesize
 	\centering
 	\noindent\framebox{\parbox{.96\textwidth}{\hspace*{-0.3cm}
@@ -1430,6 +1525,108 @@ $\mathsf{ProveEU}$的伪代码细节要比$\mathsf{ProveEG}$更加复杂。原�
 		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash (s/x)\phi_1}$和$\mathsf{\vdash (s/y)\phi_2}$是不可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第12行）。
 		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_1)},...,\;\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_n)}$ 都是不可证的，因此将其全部作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第13行）。
 		\item 如果$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$是不可证的，那么将$s$加入到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中，并以此在对这个$EU$公式的证明搜索中避免重复访问$\mathsf{s}$（第24、25行）。值得注意的是$\mathsf{s}$可从$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$被移除（第11 -- 18行）。这种情况只当存在${\Gamma'}$和$\mathsf{s'}$使得$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s')}$是可证的，$\mathsf{s'}$, $\mathsf{\vdash (s'/y)\phi_2}$是可证的，以及$\mathsf{s\in reachable(states(}\Gamma'\mathsf{)\cup \{s'\})}$的时候发生。
+	\end{enumerate}
+	\item 第28行：将$\mathsf{c}$重写到$\mathsf{c'}$。
+\end{itemize}
+}
+
+
+\begin{figure}[h!]\footnotesize
+	\centering
+	\caption{$\mathsf{ProveEU (}\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s))}$}
+	\label{algorithm:eu}
+	\noindent\framebox{\parbox{.97\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{EU_{x,y}(\phi_1,\phi_2)(\_)}$ and
+				\State \textit{``k(s)'' to $\mathit{EU_{x,y}(\phi_1,\phi_2)(s)}$.*/}
+				\If{$\mathsf{s\in M^t_k}$}
+				\State $\mathsf{c:=c_1^{A_1}}$
+				\State $\mathsf{M_k^t := M_k^t\cup reachable(states(}\Gamma\mathsf{))}$
+				\State $\mathsf{M_k^f := M_k^f\setminus reachable(states(}\Gamma\mathsf{))}$
+				\ElsIf{$\mathsf{s\in M^f_k}$ or $\mathsf{k(s)\in }\;\Gamma$}
+				\State $\mathsf{c:=c_2^{A_2}}$
+				\State $\mathsf{M^f_k := M^f_k\cup states(}\Gamma\mathsf{)}$
+				\Else 
+				\State let $\mathsf{A_{10}=A_1\cup\{}$
+				\State~~~~$\mathsf{ac(pt,} \;\Gamma\;\mathsf{\vdash k(s),\{\vdash(s/y)\phi_2\}),}$
+				\State~~~~$\mathsf{M^t_k := M^t_k\cup \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup \{s\}),}$
+				\State ~~~~$\mathsf{M^f_k := M^f_k\setminus \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup \{s\})\}}$
+				\State let $\mathsf{A_{20}=A_2\cup\{}$
+				\State ~~~~$\mathsf{ac(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1, \vdash(s/y)\phi_2\}),}$
+				\State ~~~~$\mathsf{M^f_k:= M^f_k\cup states(}\Gamma\mathsf{)\cup\{s\}\}}$
+				\State let $\mathsf{A_{2n}=A_2\cup\{\mathsf{ac}(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{}\Gamma'\;\mathsf{\vdash k(s_1),...,}\;\Gamma'\;\mathsf{\vdash k(s_n)\})\}}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$ , let 
+				\State ~~~~$\mathsf{A_{1i}=A_1\cup\{ac(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1,}\; \Gamma'\;\mathsf{\vdash k(s_i)\})\}}$
+				\If{$\Gamma \;\mathsf{= \emptyset}$}	
+				\State $\mathsf{visited_k := \{s\}}$
+				\Else
+				\State $\mathsf{\mathsf{visited}_k := \mathsf{visited}_k\cup\{s\}}$
+				\EndIf
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/y)\phi_2, c_1^{A_{10}}, \textsf{cpt}^\emptyset(\vdash(s/x)\phi_1,\textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_1), }$
+				\State $~~~~\mathsf{c_1^{A_{11}}, \textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...)), c_2^{A_{20}}))}$
+				\State $\mathsf{c := c'}$
+				\EndIf
+			\end{algorithmic}
+	}}
+	
+\end{figure}
+
+
+\begin{figure}[h!]\footnotesize
+	\centering
+	\caption{$\mathsf{ProveAR (}\Gamma\;\mathsf{\vdash AR_{x,y}(\phi_1,\phi_2)(s))}$}
+	\label{algorithm:ar}
+	\noindent\framebox{\parbox{.97\textwidth}{\hspace*{-0.3cm}
+			\begin{algorithmic}[1]
+				\State \textit{/* For notation purpose, here we refer ``k'' to} $\mathit{AR_{x,y}(\phi_1,\phi_2)(\_)}$ and
+				\State \textit{``k(s)'' to $\mathit{AR_{x,y}(\phi_1,\phi_2)(s)}$.*/}
+				\If{$\mathsf{s\in M^f_k}$}
+				\State $\mathsf{c:=c_2^{A_2}}$
+				\State $\mathsf{M_k^f := M_k^f\cup reachable(states(}\Gamma\mathsf{))}$
+				\State $\mathsf{M_k^t := M_k^t\setminus reachable(states(}\Gamma\mathsf{))}$
+				\ElsIf{$\mathsf{s\in M^t_k}$ or $\mathsf{k(s)\in}\; \Gamma$}
+				\State $\mathsf{c:=c_1^{A_1}}$
+				\State $\mathsf{M_k^t := M_k^t\cup states(}\Gamma\mathsf{)}$
+				\Else 
+				\State let $\mathsf{A_{10}=A_1\cup\{}$
+				\State ~~~~$\mathsf{ac(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/x)\phi_1,\vdash(s/y)\phi_2\}),}$
+				\State ~~~~$\mathsf{M_k^t := M_k^t\cup states(}\Gamma\mathsf{)\cup\{s\}\}}$
+				\State let $\mathsf{A_{1n}=A_1\cup\{\mathsf{ac}(pt,}\; \Gamma\;\mathsf{\vdash k(s),\{}\Gamma'\;\mathsf{\vdash k(s_1),...,}\;\Gamma'\;\mathsf{\vdash k(s_n)\})\}}$
+				\State let $\mathsf{A_{20}=A_2\cup\{}$
+				\State~~~~$\mathsf{ac(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash(s/y)\phi_2\}),}$
+				\State ~~~~$\mathsf{M^f_k := M^f_k\cup \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup \{s\}),}$
+				\State ~~~~$\mathsf{M^t_k := M^t_k\setminus \mathsf{reachable}(\mathsf{states}(}\Gamma\mathsf{)\cup\{s\})}$
+				\State $\mathsf{\forall i\in\{1,...,n\}}$, let 
+				\State ~~~~$\mathsf{A_{2i}=A_2\cup\{\mathsf{ac}(ce,}\; \Gamma\;\mathsf{\vdash k(s),\{\vdash (s/x)\phi_1,}\; \Gamma'\;\mathsf{\vdash k(s_i)\})\}}$
+				\If{$\Gamma\;\mathsf{ = \emptyset}$}
+				\State $\mathsf{\mathsf{visited}_k := \{s\}}$
+				\Else
+				\State $\mathsf{\mathsf{visited}_k := \mathsf{visited}_k\cup\{s\}}$
+				\EndIf
+				\State let $\mathsf{c'= \textsf{cpt}^\emptyset(\vdash(s/y)\phi_2, \textsf{cpt}^\emptyset(\vdash (s/x)\phi_1, c_1^{A_{10}}, \textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_1), }$
+				\State ~~~~$\mathsf{\textsf{cpt}^\emptyset(...\textsf{cpt}^\emptyset(}\Gamma'\;\mathsf{\vdash k(s_n), c_1^{A_{1n}}, c_2^{A_{2n}})...), c_2^{A_{21}})), c_2^{A_{20}})}$
+				\State $\mathsf{c := c'}$
+				
+				\EndIf
+				
+			\end{algorithmic}
+	}}
+	
+\end{figure}
+$\mathsf{ProveEU}$的伪代码细节要比$\mathsf{ProveEG}$更加复杂。原因是，对于后者我们只需找到一个满足某个公式的环即可，而对于前者我们需要找到一条终点状态满足某公式的有穷路径，而且在找到这条路径之前可能已访问若干个环。$\mathsf{ProveEU}$的伪代码细节如图\ref{algorithm:eu}所示。
+在$\mathsf{ProveEU}$中，我们令$\{s_1,...,s_n\}=\textsf{Next}(s)$；
+令 $\mathsf{reachable(S)}$ 表示能经过有穷路径到达$\mathsf{S}$的某个状态的状态集合，其中$\mathsf{S}$表示某个有穷路径上状态的集合。$\mathsf{ProveEU}$的解释如下：
+
+\begin{itemize}
+	\item 第3 -- 6行： 如果$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s)}$是可证的，那么将$\mathsf{c}$重写到$\mathsf{c_1}$。同时，将$\mathsf{reachable(states(}\Gamma\mathsf{))}$中的所有状态加入到集合$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$中，并从集合$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中移除。 
+	\item 第7 -- 9行：如果状态$\mathsf{s}$已被访问，那么将$\mathsf{c}$ 重写到 $\mathsf{c_2}$。同时，将集合$\mathsf{states(}\Gamma\mathsf{)}$中的所有的状态加入到集合$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中以避免重复访问。
+	\item 第26、27行：\textsf{CPT} $\mathsf{c'}$的构造方式如下：
+	\begin{enumerate}
+		\item 如果$\mathsf{c'}$将来能重写到第一个$\mathsf{c_1}$，那么$\mathsf{\vdash(s/y)\phi_2}$是可证的，因此将其作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加到证明树中（第12行）。与此同时，如果$\mathsf{(s/y)\phi_2}$是可证的，那么对于任意访问过的状态$s'$，如果存在以$s'$为起点的有穷路径而$s$在这条路径上，则$\mathsf{EU_{x,y}(\phi_1,\phi_2)(s')}$是可证的。因此，可将状态集合$\mathsf{reachable(states(}\Gamma\mathsf{)\cup\{s\})}$中的所有状态加入到 $\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^t}$中并从集合$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$移除（第13、14行）。
+		\item 如果$\mathsf{c'}$能重写到第$i$个其他的$\mathsf{c_1}$，那么$\vdash(s/x)\phi_1$和 $\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_i)}$均是可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到证明树中（第19、20行）。
+		
+		\item 如果$\mathsf{c'}$重写到外层的$\mathsf{c_2}$，那么$\mathsf{\vdash (s/x)\phi_1}$和$\mathsf{\vdash (s/y)\phi_2}$是不可证的，因此将其都作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第16行）。同时，将集合$\mathsf{states(}\Gamma\mathsf{)\cup \{s\}}$中的所有状态加入到$\mathsf{M_{EU_{x,y}(\phi_1,\phi_2)(\_)}^f}$中以防止重复访问（第17行）。
+		\item 如果$\mathsf{c'}$重写到内层的$\mathsf{c_2}$，那么$\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_1)},...,\;\Gamma'\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s_n)}$ 都是不可证的，因此将其全部作为$\Gamma\;\mathsf{\vdash EU_{x,y}(\phi_1,\phi_2)(s)}$的子节点加入到反例中（第18行）。
 	\end{enumerate}
 	\item 第28行：将$\mathsf{c}$重写到$\mathsf{c'}$。
 \end{itemize}
